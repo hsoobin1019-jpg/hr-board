@@ -1056,6 +1056,7 @@ body{color:var(--ink)}
 .tkflat .kl{max-height:calc(100vh - 290px)}
 @media (max-width:900px){.tkhead .qadd{order:5;flex-basis:100%;margin:0}.tkhead .qprev{display:none}.tkf .fsearch{width:100px}}
 /* 묶음 메뉴 */
+.navtop{margin-bottom:10px}
 .nav-gh{margin:16px 12px 6px;font-size:11.5px;font-weight:700;color:#A3AEB4;letter-spacing:.4px}
 .nav a{height:42px;margin-bottom:1px}
 .nav a .ni{width:30px;height:30px}
@@ -1124,8 +1125,9 @@ input[type=checkbox]{accent-color:var(--pri);width:16px;height:16px;vertical-ali
   </header>
   <div class="shell">
     <aside class="side">
+      <nav class="nav navtop" id="navHome"></nav>
       <a class="nav-q" href="#tasks" data-quick="me"><span class="hi hi-sug nqi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4.5" width="15" height="15" rx="3.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><span class="nqt"><b>남은 업무</b><small id="nqMe">&nbsp;</small></span><span class="nqa">›</span></a>
-      <a class="nav-q" href="#routines"><span class="hi hi-stat nqi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="14.5" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg></span><span class="nqt"><b>년간·월별 일정</b><small id="nqRt">&nbsp;</small></span><span class="nqa">›</span></a>
+      <a class="nav-q" href="#calendar"><span class="hi hi-stat nqi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="14.5" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg></span><span class="nqt"><b>캘린더</b><small id="nqRt">&nbsp;</small></span><span class="nqa">›</span></a>
       <nav class="nav" id="nav"></nav>
     </aside>
     <main class="main" id="view"></main>
@@ -1694,7 +1696,7 @@ async function createTask(d,quiet){
    라우팅 · 렌더
    ===================================================================== */
 const VIEWS=[['home','홈'],['tasks','업무'],['calendar','캘린더'],['routines','정기업무'],['report','업무 분석'],['plan','인원계획'],['recruit','채용 관리'],['people','입퇴사 현황'],['staff','직원 명부'],['org','조직도'],['hrstat','인사 통계'],['onoff','온보딩 · 오프보딩'],['track','수습 · 계약'],['talk','면담'],['monthly','월간 리포트'],['ops','운영 점검'],['history','기록'],['settings','설정']];
-const NAV_GROUPS=[['',['home']],['업무',['tasks','calendar','routines','report']],['채용',['plan','recruit','people']],['인사관리',['staff','org','hrstat','onoff','track','talk','monthly']],['운영',['ops','history','settings']]];
+const NAV_GROUPS=[['업무',['tasks','calendar','routines','report']],['채용',['plan','recruit','people']],['인사관리',['staff','org','hrstat','onoff','track','talk','monthly']],['운영',['ops','history','settings']]];
 // 주소창은 항상 깨끗하게(#tasks 같은 꼬리 없이) — 화면 이동은 브라우저 기록에 담아 뒤로가기도 돼요
 const cleanUrl=()=>location.pathname+location.search;
 function goView(v,push=true){
@@ -1722,7 +1724,10 @@ function renderNav(){
   // 위쪽 바로가기 두 개에 지금 숫자 표시
   const td=today(),openN=live().filter(x=>x.status!=='done').length,ym=td.slice(0,7),rt=live().filter(x=>x.rid&&x.due&&x.due.startsWith(ym));
   if($('#nqMe'))$('#nqMe').textContent=openN?`${openN}건 남음${late?` · 지남 ${late}`:''}`:'모두 끝냈어요';
-  if($('#nqRt'))$('#nqRt').textContent=`${+td.slice(5,7)}월 ${rt.filter(x=>x.status==='done').length}/${rt.length} 완료`;
+  // 홈은 맨 위 · 캘린더 카드에는 오늘·이번 주 마감 건수
+  if($('#navHome'))$('#navHome').innerHTML=`<a href="#home" class="${st.view==='home'?'on':''}"><span class="ni">${ic('home',19)}</span><span class="nl">홈</span></a>`;
+  const wsd=weekStart(td),opn=live().filter(x=>x.status!=='done'&&x.due),dT=opn.filter(x=>x.due===td).length,dW=opn.filter(x=>x.due>=wsd&&x.due<=addD(wsd,6)).length;
+  if($('#nqRt'))$('#nqRt').textContent=`오늘 ${dT}건 · 이번 주 ${dW}건`;
   const mob=[['home','홈'],['tasks','업무'],['calendar','캘린더'],['routines','정기업무'],['more','더보기']];
   $('#bnav').innerHTML=mob.map(([k,l])=>`<a href="#${k==='more'?st.view:k}" ${k==='more'?'data-act="more"':''} class="${(st.view===k||(k==='more'&&!['home','tasks','calendar','routines'].includes(st.view)))?'on':''}">${ic(k,22)}${l}</a>`).join('');
 }
@@ -2297,7 +2302,7 @@ function openPerson(id,pre={}){
   <form id="fPerson" data-id="${id||''}">
    <div class="fld"><label>구분</label><div class="segs" id="pType"><button type="button" class="${!o?'on':''}" data-v="in">입사</button><button type="button" class="${o?'on':''}" data-v="out">퇴사</button></div></div>
    <div class="g2"><div class="fld"><label for="pName">이름</label><input class="inp" id="pName" value="${esc(p.name)}" required></div><div class="fld"><label for="pDate" id="pDateL">${o?'퇴사일':'입사일'}</label><input class="inp" type="date" id="pDate" value="${p.date||''}"></div></div>
-   <div class="g2"><div class="fld"><label for="pTeam">부서</label><input class="inp" id="pTeam" list="teamList2" value="${esc(p.team||'')}" placeholder="예) 기계3팀"><datalist id="teamList2">${ivTeams().map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div><div class="fld"><label for="pDept">직무</label><input class="inp" id="pDept" value="${esc(p.dept||'')}"></div></div>
+   <div class="g3"><div class="fld"><label for="pTeam">부서</label><input class="inp" id="pTeam" list="teamList2" value="${esc(p.team||'')}"><datalist id="teamList2">${ivTeams().concat(staffAll().map(x=>x.team)).filter((v,i,a)=>v&&a.indexOf(v)===i).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div><div class="fld"><label for="pRank">직급</label><input class="inp" id="pRank" list="rankList2" value="${esc(p.rank||'')}"><datalist id="rankList2">${RANKS.map(r=>`<option value="${r}">`).join('')}</datalist></div><div class="fld"><label for="pDept">직무</label><input class="inp" id="pDept" value="${esc(p.dept||'')}"></div></div>
    <div id="pInF" ${o?'hidden':''}><div class="g2"><div class="fld"><label>고용형태</label><div class="segs pick" id="pEtype">${ETYPES.map(x=>`<button type="button" class="${(p.etype||'정규')===x?'on':''}" data-v="${x}">${x}</button>`).join('')}</div></div><div class="fld"><label for="pCEnd">계약 종료일 (계약직)</label><input class="inp" type="date" id="pCEnd" value="${p.cEnd||''}"></div></div><div class="chkrow">${cb('pProb',p.prob!==false,'수습 적용 (3개월)')}${cb('pDocs',p.docs,'입사서류 안내 완료')}${cb('pDorm',p.dorm,'기숙사 이용')}</div></div>
    <div id="pOutF" ${o?'':'hidden'}>
     <div class="g2"><div class="fld"><label for="pJoin">입사일 (재직기간 계산용)</label><input class="inp" type="date" id="pJoin" value="${p.joinDate||''}"></div>
@@ -2314,7 +2319,7 @@ function tplDate(base,o){if(o==='M15'){const d=pD(base);return ymd(new Date(d.ge
 async function savePersonForm(){
   const id=$('#fPerson').dataset.id;
   const ty=$('#pType .on').dataset.v,old=id?st.people.get(id):{},ck=(k,el)=>{const v=!!$(el)?.checked;return {[k]:v,[k+'At']:v?(old[k]?old[k+'At']||'':today()):''}};
-  const d={type:ty,name:$('#pName').value.trim(),date:$('#pDate').value,dept:$('#pDept').value.trim(),team:$('#pTeam').value.trim(),owner:me(),memo:$('#pMemo').value,updatedAt:nowISO(),updatedBy:me(),
+  const d={type:ty,name:$('#pName').value.trim(),date:$('#pDate').value,dept:$('#pDept').value.trim(),team:$('#pTeam').value.trim(),rank:$('#pRank').value.trim(),owner:me(),memo:$('#pMemo').value,updatedAt:nowISO(),updatedBy:me(),
     ...(ty==='in'?{...ck('docs','#pDocs'),dorm:!!$('#pDorm').checked,etype:$('#pEtype .on')?.dataset.v||'정규',prob:!!$('#pProb')?.checked,cEnd:$('#pCEnd')?.value||''}:{joinDate:$('#pJoin').value,reason:$('#pReason').value,...ck('mtgLead','#pLead'),...ck('mtgHr','#pHr'),...ck('agreed','#pAgreed'),resign:$('#pResign').value})};
   if(ty==='out'&&!d.joinDate){const sm=staffAll().find(s=>s.name===d.name&&s.status!=='퇴사');if(sm?.joinDate)d.joinDate=sm.joinDate}
   if(!d.name||!d.date){toast('이름과 날짜를 적어주세요');return}
@@ -2775,9 +2780,9 @@ function vIvTable(){
 function vInTable(){
   const P=[...st.people.values()].filter(p=>p.type==='in'),L=recFilter(P,p=>p.date),td=today();
   return `<section class="card rec">${recBar(L.length,yearsOf(P.map(p=>p.date)))}
-   ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>입사일</th><th>이름</th><th>부서</th><th>직무</th><th class="c">입사서류 안내</th><th class="c">기숙사</th><th>메모</th></tr></thead><tbody>
+   ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>입사일</th><th>이름</th><th>부서</th><th>직급</th><th>직무</th><th class="c">입사서류 안내</th><th class="c">기숙사</th><th>메모</th></tr></thead><tbody>
    ${L.map(p=>`<tr class="${p.date>td?'up':''}"><td class="dt" data-person="${p.id}">${md(p.date)} <span>${dow(p.date)}</span>${p.date>td?`<em class="upb">D-${diffD(p.date,td)}</em>`:''}</td>
-     <td class="nm" data-person="${p.id}"><b>${esc(p.name)}</b>${p.career?`<small>${esc(p.career)}</small>`:''}</td><td>${esc(p.team||'—')}</td><td>${esc(p.dept||'—')}</td>
+     <td class="nm" data-person="${p.id}"><b>${esc(p.name)}</b>${p.career?`<small>${esc(p.career)}</small>`:''}</td><td>${esc(p.team||'—')}</td><td>${esc(p.rank||'—')}</td><td>${esc(p.dept||'—')}</td>
      <td class="c">${mkb('people',p.id,'docs',p.docs,p.docsAt,'안내')}</td><td class="c">${mkb('people',p.id,'dorm',p.dorm,'','이용')}</td>
      <td class="mm2">${esc(p.memo||'')}</td></tr>`).join('')}
    </tbody></table></div>`:`<div class="empty">${P.length?'조건에 맞는 입사 기록이 없어요.':'입사 기록이 없어요. 위의 + 입사 등록으로 추가하세요.'}</div>`}</section>`;
@@ -2785,9 +2790,9 @@ function vInTable(){
 function vOutTable(){
   const P=[...st.people.values()].filter(p=>p.type==='out'),L=recFilter(P,p=>p.date),td=today();
   return `<section class="card rec">${recBar(L.length,yearsOf(P.map(p=>p.date)))}
-   ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>퇴사일</th><th>퇴사자</th><th>부서</th><th>직무</th><th>재직기간</th><th class="c">팀장면담</th><th class="c">인사면담</th><th class="c">퇴사일 협의</th><th class="c">사직서</th><th>사유</th></tr></thead><tbody>
+   ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>퇴사일</th><th>퇴사자</th><th>부서</th><th>직급</th><th>직무</th><th>재직기간</th><th class="c">팀장면담</th><th class="c">인사면담</th><th class="c">퇴사일 협의</th><th class="c">사직서</th><th>사유</th></tr></thead><tbody>
    ${L.map(p=>`<tr class="${p.date>td?'up':''}"><td class="dt" data-person="${p.id}">${md(p.date)} <span>${dow(p.date)}</span>${p.date>td?`<em class="upb">D-${diffD(p.date,td)}</em>`:''}</td>
-     <td class="nm" data-person="${p.id}"><b>${esc(p.name)}</b></td><td>${esc(p.team||'—')}</td><td>${esc(p.dept||'—')}</td><td>${tenure(p.joinDate,p.date)||'—'}</td>
+     <td class="nm" data-person="${p.id}"><b>${esc(p.name)}</b></td><td>${esc(p.team||'—')}</td><td>${esc(p.rank||'—')}</td><td>${esc(p.dept||'—')}</td><td>${tenure(p.joinDate,p.date)||'—'}</td>
      <td class="c">${mkb('people',p.id,'mtgLead',p.mtgLead,p.mtgLeadAt)}</td><td class="c">${mkb('people',p.id,'mtgHr',p.mtgHr,p.mtgHrAt)}</td><td class="c">${mkb('people',p.id,'agreed',p.agreed,p.agreedAt,'협의')}</td>
      <td class="c">${cyb('people',p.id,'resign',p.resign,['상신','결재 완료'])}</td><td>${p.reason?`<span class="cc t-s">${esc(p.reason)}</span>`:'—'}</td></tr>`).join('')}
    </tbody></table></div>`:`<div class="empty">${P.length?'조건에 맞는 퇴사 기록이 없어요.':'퇴사 기록이 없어요. 위의 + 퇴사 등록으로 추가하세요.'}</div>`}</section>`;
@@ -2871,7 +2876,7 @@ function openCand(id,pre={}){
    <form id="fCand" data-id="${id||''}">
     <div class="g2"><div class="fld"><label for="cName">이름</label><input class="inp" id="cName" value="${esc(c.name)}" required></div>
      <div class="fld"><label>신입 / 경력</label>${seg('cCareer',['신입','경력'],c.career||'신입')}</div></div>
-    <div class="g2"><div class="fld"><label for="cTeam">부서</label><input class="inp" id="cTeam" list="teamList" value="${esc(c.team||'')}" placeholder="예) 기계3팀"><datalist id="teamList">${ivTeams().map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div>
+    <div class="g2"><div class="fld"><label for="cTeam">부서</label><input class="inp" id="cTeam" list="teamList" value="${esc(c.team||'')}"><datalist id="teamList">${ivTeams().map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div>
      <div class="fld"><label for="cPos">직무</label><input class="inp" id="cPos" value="${esc(c.position||'')}" placeholder="예) 기계설계"></div></div>
     <div class="g2"><div class="fld"><label for="cDate">면접 날짜 (1차)</label><input class="inp" type="date" id="cDate" value="${c.date||''}"></div>
      <div class="fld"><label for="cJoin">입사 날짜</label><input class="inp" type="date" id="cJoin" value="${c.joinDate||''}"></div></div>
@@ -3082,8 +3087,8 @@ async function staffPasteGo(){
 async function syncStaff(pid,d){
   const all=staffAll(),same=all.find(s=>s.pid===pid)||all.find(s=>s.name===d.name&&(!d.team||!s.team||s.team===d.team)&&(d.type==='in'||s.status!=='퇴사'));
   if(d.type==='in'){
-    const v={name:d.name,team:d.team||same?.team||'',job:d.dept||same?.job||'',etype:d.etype||'정규',joinDate:d.date,prob:d.prob!==false,cEnd:d.cEnd||'',pid,status:'재직',updatedAt:nowISO()};
-    await st.api.put('staff',same?.id||'s-'+uid(),same?v:{...v,rank:'',createdAt:nowISO()});
+    const v={name:d.name,team:d.team||same?.team||'',rank:d.rank||same?.rank||'',job:d.dept||same?.job||'',etype:d.etype||'정규',joinDate:d.date,prob:d.prob!==false,cEnd:d.cEnd||'',pid,status:'재직',updatedAt:nowISO()};
+    await st.api.put('staff',same?.id||'s-'+uid(),same?v:{...v,createdAt:nowISO()});
   }else if(same){await st.api.put('staff',same.id,{status:'퇴사',leaveDate:d.date,updatedAt:nowISO()})}
 }
 /* ---------------- 채용 요청 (포지션) ---------------- */
@@ -3326,7 +3331,7 @@ const ACT={
     await st.api.put('candidates',c.id,{steps:s,updatedAt:nowISO()});toast(`${c.name} · '${x.t}' 완료`)},
   candToHire:a=>{const c=st.cands.get(a.dataset.id);if(!c)return;closeLayer();st.pendingCand=c.id;openPerson(null,{type:'in',name:c.name,team:c.team||'',dept:c.position||'',date:c.joinDate||today(),career:c.career||'',memo:''})},
   csvIv:()=>{dl(`면접기록_${today()}.csv`,[['1차 면접일','이름','부서','직무','신입/경력','역량평가','처우협의','입사일','결과','메모'],...cands().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(c=>[c.date,c.name,c.team,c.position,c.career||'',c.assess?'실시':'',c.offer||'',c.joinDate||'',ivRes(c),c.memo||''])]);toast('면접 기록을 내려받았어요')},
-  csvHr:()=>{dl(`입퇴사기록_${today()}.csv`,[['구분','이름','부서','직무','입사일/퇴사일','입사서류 안내','기숙사','입사일(퇴사자)','재직기간','팀장면담','인사면담','퇴사일 협의','사직서','퇴사 사유','메모'],...[...st.people.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(p=>[p.type==='in'?'입사':'퇴사',p.name,p.team||'',p.dept||'',p.date,p.docs?'Y':'',p.dorm?'Y':'',p.joinDate||'',p.type==='out'?tenure(p.joinDate,p.date):'',p.mtgLead?'Y':'',p.mtgHr?'Y':'',p.agreed?'Y':'',p.resign||'',p.reason||'',p.memo||''])]);toast('입·퇴사 기록을 내려받았어요')},
+  csvHr:()=>{dl(`입퇴사기록_${today()}.csv`,[['구분','이름','부서','직급','직무','입사일/퇴사일','입사서류 안내','기숙사','입사일(퇴사자)','재직기간','팀장면담','인사면담','퇴사일 협의','사직서','퇴사 사유','메모'],...[...st.people.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(p=>[p.type==='in'?'입사':'퇴사',p.name,p.team||'',p.rank||'',p.dept||'',p.date,p.docs?'Y':'',p.dorm?'Y':'',p.joinDate||'',p.type==='out'?tenure(p.joinDate,p.date):'',p.mtgLead?'Y':'',p.mtgHr?'Y':'',p.agreed?'Y':'',p.resign||'',p.reason||'',p.memo||''])]);toast('입·퇴사 기록을 내려받았어요')},
   rtog:async a=>{const col=a.dataset.c,x=colMap(col).get(a.dataset.id),k=a.dataset.fld;if(!x)return;const v=!x[k];await st.api.put(col,x.id,{[k]:v,[k+'At']:v?today():'',updatedAt:nowISO()})},
   rcyc:async a=>{const col=a.dataset.c,x=colMap(col).get(a.dataset.id),k=a.dataset.fld,o=['',...a.dataset.opts.split('|')];if(!x)return;await st.api.put(col,x.id,{[k]:o[(o.indexOf(x[k]||'')+1)%o.length],updatedAt:nowISO()})},
   resPick:a=>{const c=st.cands.get(a.dataset.id);if(!c)return;const r=ivRes(c);openPop(a,`<div class="ph3">결과</div>${IV_RES.map(k=>`<button class="pi ${r===k?'on':''}" data-act="resSet" data-id="${c.id}" data-v="${k}"><span class="pill ${RES_CLS[k]}">${k}</span>${r===k?'<span class="ck2">✓</span>':''}</button>`).join('')}`,{type:'res',anchor:a})},

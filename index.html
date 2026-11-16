@@ -242,7 +242,10 @@ select.inp{padding-right:30px}
 .cal .dn{font-size:13px;font-weight:600;padding:2px 4px;display:flex;justify-content:space-between}
 .cal .d.today .dn span{background:var(--pri);color:#fff;border-radius:11px;padding:0 7px}
 .cal .d.off .dn span{color:var(--red)}
-.cal .d.today.off .dn span{color:#fff}
+.cal .d.sat .dn span,.cal .wd.sat{color:#3D5BD9}
+.cal .wd.sun{color:var(--red)}
+.cal .d.out.sat .dn span,.cal .d.out.off .dn span{opacity:.4}
+.cal .d.today.off .dn span,.cal .d.today.sat .dn span{color:#fff}
 .cal .hn{font-size:11px;color:var(--red);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70%}
 .ce{display:block;font-size:12px;border-radius:5px;padding:2px 6px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#f1f2f5;color:#3a3f48;border-left:3px solid var(--c,#9aa1ad)}
 .ce.done{opacity:.5;text-decoration:line-through}
@@ -982,6 +985,8 @@ body{color:var(--ink)}
 .dday.soon{background:#FFF3DF;color:#B86E00}.dday.over{background:#FFE8E8;color:#C42626}
 .trk{display:flex;gap:6px;justify-content:flex-start}
 .og-top{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}.og-top b{font-size:16px}
+.og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
+.og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
 .og-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .og-u{border:1px solid #E9EEF1;border-radius:16px;padding:12px;background:#fff;display:flex;flex-direction:column;gap:8px}
 .og-uh{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px dashed #E4E9EB}.og-uh b{font-size:15px}
@@ -1992,7 +1997,7 @@ function vCal(){
   const t=today();
   if(!st.cal){const d=pD(t);st.cal={y:d.getFullYear(),m:d.getMonth()+1,who:'all',sel:t}}
   const c=st.cal;
-  const first=new Date(c.y,c.m-1,1),start=addD(ymd(first),-((first.getDay()+6)%7));
+  const first=new Date(c.y,c.m-1,1),start=addD(ymd(first),-first.getDay());
   const L=live();
   const P=[...st.people.values()];
   let cells='';
@@ -2007,8 +2012,8 @@ function vCal(){
     L.filter(x=>x.due&&(x.start||x.due)<=d&&x.due>=d&&diffD(x.due,x.start||x.due)<=45).sort(byDue).forEach(x=>{
       const mid=x.start&&x.start!==x.due&&d!==x.start&&d!==x.due;
       evs.push(`<span class="ce ${x.status==='done'?'done':''} ${isLate(x)?'late':''} ${mid?'mid':''}" style="--c:${sideCol(x.side)}" data-open="${x.id}">${x.star?'★':''}${x.start&&x.start!==x.due&&d===x.start?'▸ ':''}${esc(x.title)}</span>`)});
-    const hn=holidays()[d];
-    cells+=`<div class="d ${d.slice(5,7)!==pad(c.m)?'out':''} ${d===t?'today':''} ${isOff(d)?'off':''} ${d===c.sel?'sel':''}" data-day="${d}"><div class="dn"><span>${+d.slice(8)}</span>${hn?`<em class="hn">${esc(hn)}</em>`:''}</div>${evs.slice(0,4).join('')}${evs.length>4?`<div class="more">+${evs.length-4}건</div>`:''}</div>`;
+    const hn=holidays()[d],gd=pD(d).getDay();
+    cells+=`<div class="d ${d.slice(5,7)!==pad(c.m)?'out':''} ${d===t?'today':''} ${hn||gd===0?'off':gd===6?'sat':''}${d===c.sel?'sel':''}" data-day="${d}"><div class="dn"><span>${+d.slice(8)}</span>${hn?`<em class="hn">${esc(hn)}</em>`:''}</div>${evs.slice(0,4).join('')}${evs.length>4?`<div class="more">+${evs.length-4}건</div>`:''}</div>`;
   }
   const dl=L.filter(x=>x.due&&(x.start||x.due)<=c.sel&&x.due>=c.sel).sort(byDue);
   const dp=P.filter(p=>p.date===c.sel);
@@ -2017,7 +2022,7 @@ function vCal(){
   <section class="card">
     <div class="calh"><button class="icon-btn" data-act="calMove" data-v="-1" aria-label="이전 달">‹</button><h2>${c.y}년 ${c.m}월</h2><button class="icon-btn" data-act="calMove" data-v="1" aria-label="다음 달">›</button><button class="btn sm" data-act="calToday">오늘</button><span style="flex:1"></span>
 </div>
-    <div class="cal">${['월','화','수','목','금','토','일'].map(w=>`<div class="wd">${w}</div>`).join('')}${cells}</div>
+    <div class="cal">${['일','월','화','수','목','금','토'].map((w,i)=>`<div class="wd ${i===0?'sun':i===6?'sat':''}">${w}</div>`).join('')}${cells}</div>
     <div class="legend"><span><i style="background:#e8f0ff;border-left:3px solid var(--blue)"></i>입사</span><span><i style="background:var(--orange-soft);border-left:3px solid var(--orange)"></i>퇴사</span><span><i style="background:var(--red-soft)"></i>기한 지남</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('인사')}"></i>인사</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('기타')}"></i>기타</span><span>▸ 기간 시작</span></div>
   </section>
   <section class="card"><div class="card-h"><h2>${md(c.sel)}(${dow(c.sel)}) 업무</h2></div>
@@ -2903,7 +2908,8 @@ async function saveCandForm(){
    인력: 직원 명부 · 조직도 · 수습·계약 · 인원계획 · 인사 통계
    ===================================================================== */
 const ETYPES=['정규','계약','파견·기타'];
-const RANKS=['사원','주임','대리','과장','차장','부장','이사'];
+const RANKS=['사원','주임','연구원','대리','선임','과장','책임','차장','부장','수석','수석부장','이사','상무','전무','부사장','사장','대표이사','회장'];
+const DIV_ORDER=['임원','로보틱스사업부','배터리사업부'];
 const PROB_RES=['통과','연장','미통과'];
 const CON_DEC=['갱신','정규 전환','종료'];
 const colMap=c=>({candidates:st.cands,people:st.people,staff:st.staff,reqs:st.reqs,talks:st.talks,faqs:st.faqs}[c]||new Map());
@@ -2955,11 +2961,16 @@ function vOrg(){
   if(!on.length)return '<section class="card"><div class="empty">직원 명부에 재직자가 없어요.</div></section>';
   const teams=[...new Set(on.map(teamOf))].sort((a,b)=>a==='부서 미정'?1:b==='부서 미정'?-1:a.localeCompare(b));
   const rk=s=>{const i=RANKS.indexOf(s.rank);return i<0?-1:i};
-  return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 팀장 표시는 직원 정보에서 정해요</span></div>
-   <div class="og-grid">${teams.map(t=>{const L=on.filter(s=>teamOf(s)===t).sort((a,b)=>(b.leader?1:0)-(a.leader?1:0)||rk(b)-rk(a)||(a.joinDate||'').localeCompare(b.joinDate||''));
+  const divOf=t=>on.find(s=>teamOf(s)===t&&s.div)?.div||'';
+  const divs=[...new Set(teams.map(divOf))].sort((a,b)=>{const i=x=>{const k=DIV_ORDER.indexOf(x);return x?(k<0?50:k):99};return i(a)-i(b)||a.localeCompare(b)});
+  const hasDiv=divs.some(Boolean);
+  const card=t=>{const L=on.filter(s=>teamOf(s)===t).sort((a,b)=>(b.leader?1:0)-(a.leader?1:0)||rk(b)-rk(a)||(a.joinDate||'').localeCompare(b.joinDate||''));
      return `<div class="og-u"><div class="og-uh"><b>${esc(t)}</b><span class="tc">${L.length}</span></div>
       ${L.filter(s=>s.leader).map(s=>`<div class="og-l" data-staff="${s.id}"><span class="og-av">${esc(s.name.slice(-2))}</span><div><b>${esc(s.name)}</b><small>${esc([s.rank,'팀장'].filter(Boolean).join(' · '))}</small></div></div>`).join('')}
-      <div class="og-m">${L.filter(s=>!s.leader).map(s=>`<button class="og-mc" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}</button>`).join('')||'<span class="note">팀원 없음</span>'}</div></div>`}).join('')}</div></section>`;
+      <div class="og-m">${L.filter(s=>!s.leader).map(s=>`<button class="og-mc" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}</button>`).join('')||'<span class="note">팀원 없음</span>'}</div></div>`};
+  const n=d=>on.filter(s=>divOf(teamOf(s))===d).length;
+  return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 팀장·사업부는 직원 정보에서 정해요</span></div>
+   ${hasDiv?divs.map(d=>{const ts=teams.filter(t=>divOf(t)===d);return `<div class="og-div"><div class="og-dh"><b>${esc(d||'사업부 미정')}</b><span class="tc">${n(d)}명</span><span class="note">${ts.length}개 부서</span></div><div class="og-grid">${ts.map(card).join('')}</div></div>`}).join(''):`<div class="og-grid">${teams.map(card).join('')}</div>`}</section>`;
 }
 function vTrack(){
   const td=today(),T=trackItems();
@@ -3044,6 +3055,7 @@ function openStaff(id,pre={}){
     <div class="g3"><div class="fld"><label for="sName">이름</label><input class="inp" id="sName" value="${esc(s.name)}"></div>
      <div class="fld"><label for="sTeam">부서</label><input class="inp" id="sTeam" list="teamList3" value="${esc(s.team||'')}"><datalist id="teamList3">${ivTeams().concat(staffAll().map(x=>x.team)).filter((v,i,a)=>v&&a.indexOf(v)===i).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div>
      <div class="fld"><label for="sRank">직급</label><input class="inp" id="sRank" list="rankList" value="${esc(s.rank||'')}"><datalist id="rankList">${RANKS.map(r=>`<option value="${r}">`).join('')}</datalist></div></div>
+    <div class="fld"><label for="sDiv">사업부</label><input class="inp" id="sDiv" list="divList" value="${esc(s.div||'')}"><datalist id="divList">${DIV_ORDER.concat(staffAll().map(x=>x.div)).filter((v,i,a)=>v&&a.indexOf(v)===i).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div>
     <div class="g3"><div class="fld"><label for="sJob">직무</label><input class="inp" id="sJob" value="${esc(s.job||'')}"></div>
      <div class="fld"><label for="sJoin">입사일</label><input class="inp" type="date" id="sJoin" value="${s.joinDate||''}"></div>
      <div class="fld"><label>&nbsp;</label><label class="chkl"><input type="checkbox" id="sLeader" ${s.leader?'checked':''}> 팀장</label></div></div>
@@ -3062,7 +3074,7 @@ function openStaff(id,pre={}){
 }
 async function saveStaffForm(){
   const id=$('#fStaff').dataset.id;
-  const d={name:$('#sName').value.trim(),team:$('#sTeam').value.trim(),rank:$('#sRank').value.trim(),job:$('#sJob').value.trim(),joinDate:$('#sJoin').value,leader:$('#sLeader').checked,etype:$('#sEtype .on')?.dataset.v||'정규',prob:$('#sProb').checked,probRes:$('#sProbRes').value,cEnd:$('#sCEnd').value,cDec:$('#sCDec').value,status:$('#sStatus .on')?.dataset.v||'재직',leaveDate:$('#sLeave').value,memo:$('#sMemo').value,updatedAt:nowISO()};
+  const d={name:$('#sName').value.trim(),team:$('#sTeam').value.trim(),div:$('#sDiv').value.trim(),rank:$('#sRank').value.trim(),job:$('#sJob').value.trim(),joinDate:$('#sJoin').value,leader:$('#sLeader').checked,etype:$('#sEtype .on')?.dataset.v||'정규',prob:$('#sProb').checked,probRes:$('#sProbRes').value,cEnd:$('#sCEnd').value,cDec:$('#sCDec').value,status:$('#sStatus .on')?.dataset.v||'재직',leaveDate:$('#sLeave').value,memo:$('#sMemo').value,updatedAt:nowISO()};
   if(!d.name){toast('이름을 적어 주세요');return}
   if(d.status==='퇴사'&&!d.leaveDate)d.leaveDate=today();
   await st.api.put('staff',id||'s-'+uid(),id?d:{...d,createdAt:nowISO()});
@@ -3070,7 +3082,7 @@ async function saveStaffForm(){
 }
 function openStaffPaste(){
   openLayer(`<div class="modal wide" role="dialog" aria-label="명부 붙여넣기"><h2>직원 명부 붙여넣기</h2>
-   <p class="note">엑셀에서 아래 순서대로 칸을 복사해 붙여넣으세요. 이름만 있어도 돼요. 같은 이름·부서가 이미 있으면 정보를 덮어써요.<br><b>이름 · 부서 · 직급 · 직무 · 고용형태(정규/계약) · 입사일 · 계약 종료일</b></p>
+   <p class="note">엑셀에서 아래 순서대로 칸을 복사해 붙여넣으세요. 이름만 있어도 돼요. 같은 이름·부서가 이미 있으면 정보를 덮어써요.<br><b>이름 · 부서 · 직급 · 직무 · 고용형태(정규/계약) · 입사일 · 계약 종료일</b><br>더 넣고 싶으면 뒤에 이어서: <b>상태(재직/휴직/퇴사) · 사업부 · 팀장(Y) · 수습(Y/N) · 퇴사일</b></p>
    <textarea class="inp" id="spTxt" rows="10" placeholder="예) 홍길동	기계3팀	대리	기계설계	정규	2021-03-02"></textarea>
    <div class="acts"><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="staffPasteGo">등록</button></div></div>`);
 }
@@ -3079,7 +3091,8 @@ async function staffPasteGo(){
   if(!rows.length){toast('붙여넣은 내용이 없어요');return}
   const ops=[],td=today();
   rows.forEach(c=>{const joinDate=parseDateLoose(c[5]),et=ETYPES.includes(c[4])?c[4]:(/계약/.test(c[4]||'')?'계약':'정규'),ex=staffAll().find(s=>s.name===c[0]&&(s.team||'')===(c[1]||''));
-    const d={name:c[0],team:c[1]||'',rank:c[2]||'',job:c[3]||'',etype:et,joinDate,cEnd:parseDateLoose(c[6]),status:ex?.status||'재직',prob:joinDate?diffD(td,joinDate)<92:false,updatedAt:nowISO()};
+    const d={name:c[0],team:c[1]||'',rank:c[2]||'',job:c[3]||'',etype:et,joinDate,cEnd:parseDateLoose(c[6]),status:['재직','휴직','퇴사'].includes(c[7])?c[7]:(ex?.status||'재직'),prob:/^[YN]$/i.test(c[10]||'')?/y/i.test(c[10]):(joinDate?diffD(td,joinDate)<92:false),updatedAt:nowISO()};
+    if(c[8])d.div=c[8];if(c[9]!=null&&c[9]!=='')d.leader=/^(y|o|팀장|1)$/i.test(c[9]);if(c[11])d.leaveDate=parseDateLoose(c[11]);
     ops.push({c:'staff',id:ex?.id||'s-'+uid(),d:ex?d:{...d,createdAt:nowISO()}})});
   await st.api.batch(ops);addLog(`직원 명부 붙여넣기 ${ops.length}명`,ops.length);closeLayer();toast(`${ops.length}명을 명부에 넣었어요`);
 }

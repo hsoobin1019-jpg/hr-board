@@ -1064,49 +1064,54 @@ body{color:var(--ink)}
 .ot-t summary b{font-size:14px}.ot-t summary small{margin-left:auto;font-size:12px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ot-ms{display:flex;flex-wrap:wrap;gap:6px;padding:2px 8px 10px}
 .og-mc.ld{border-color:#BFE6EC;background:#F3FBFC}
-/* 조직도(설정형) */
-.oc{display:flex;flex-direction:column;align-items:center;padding-top:8px}
+/* 조직도(설정형) — 보드 디자인 */
+.oc{display:flex;flex-direction:column;align-items:center;padding-top:6px;--ln:#D3DEE3}
 .oc-top{display:flex;justify-content:center}
-.oc-box{min-width:200px;padding:10px 22px;border-radius:14px;text-align:center;color:#fff;box-shadow:0 2px 6px rgba(22,33,110,.18)}
-.oc-box b{display:block;font-size:19px;letter-spacing:.3px}
-.oc-box.chair{background:#0F1A55}.oc-box.ceo{background:#16216E}
-.oc-pn{border:0;background:none;color:#DCE3FF;font:inherit;font-size:13px;cursor:pointer;padding:2px 6px;border-radius:6px}.oc-pn:hover{background:rgba(255,255,255,.12);color:#fff}
-.oc-vl{width:2px;height:22px;background:var(--ln)}
-.oc-stem{position:relative;width:100%;min-height:26px;box-sizing:border-box;padding:14px 0 22px calc(50% + 70px);display:flex}
+.oc-box{min-width:210px;padding:12px 22px 12px;border-radius:18px;text-align:center;background:#fff;border:1px solid var(--line);box-shadow:0 1px 2px rgba(16,40,60,.04)}
+.oc-box b{display:block;font-size:12px;font-weight:700;color:var(--mute);letter-spacing:.4px}
+.oc-box.chair{background:#F3FBFC;border-color:#CDEBF0}
+.oc-box.ceo{border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box}
+.oc-pn{display:block;margin:3px auto 0;border:0;background:none;color:var(--ink);font:inherit;font-size:17px;font-weight:800;cursor:pointer;padding:2px 8px;border-radius:8px}.oc-pn:hover{background:#EEF6F8}
+.oc-vl{width:2px;height:20px;background:var(--ln)}
+.oc-stem{position:relative;width:100%;min-height:24px;box-sizing:border-box;padding:12px 0 20px calc(50% + 64px);display:flex}
 .oc-stem::before{content:'';position:absolute;left:50%;top:0;bottom:0;border-left:2px solid var(--ln)}
 .oc-side{position:relative;z-index:2}
-.oc-side::before{content:'';position:absolute;left:-70px;top:26px;width:70px;border-top:2px solid var(--ln)}
-.oc-sbox{min-width:230px;background:#fff;border:2px solid #16216E;border-radius:14px;padding:8px 12px;text-align:center}
-.oc-sbox>b{display:block;font-size:16.5px;color:#16216E}
-.oc-sbox .oc-i{margin-top:6px;text-align:left}
+.oc-side::before{content:'';position:absolute;left:-64px;top:24px;width:64px;border-top:2px dashed var(--ln)}
+.oc-sbox{min-width:220px;background:#fff;border:1px solid var(--line);border-left:4px solid #00A1B9;border-radius:16px;padding:10px 12px;text-align:left}
+.oc-sbox>b{display:block;font-size:15.5px;margin:0 2px 6px}
+.oc-sbox .oc-who{margin:0 0 2px}
+.oc-sbox .oc-i{margin-top:6px}
 .oc-units{width:100%;justify-content:center;align-items:stretch}
 .otree ul.oc-units>li{flex:1 1 0;min-width:160px;align-items:stretch;padding-left:5px;padding-right:5px}
-.oc-u{background:#fff;border:1px solid #E1E8EB;border-radius:16px;overflow:hidden;height:100%;display:flex;flex-direction:column;text-align:left}
-.oc-uh{color:#fff;padding:12px 14px;text-align:center;position:relative}
-.oc-uh b{display:block;font-size:16px}.oc-uh small{display:block;font-size:12px;opacity:.85;margin-top:2px}
-.oc-n{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:700;background:rgba(255,255,255,.18);padding:1px 8px;border-radius:99px}
-.oc-head{padding:8px 12px 0;text-align:center}
-.oc-who{border:0;background:#F2F6FB;color:var(--ink);font:inherit;font-size:13px;font-weight:600;padding:5px 10px;border-radius:99px;cursor:pointer;display:inline-block}
-.oc-who em{font-style:normal;color:#1764c0;font-weight:700;margin-left:2px}
-button.oc-who:hover{background:#E4EEF9}
-.oc-b{padding:10px 12px 14px;display:flex;flex-direction:column;gap:6px}
-.oc-g{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
-.oc-g>span{font-weight:700;font-size:14.5px;color:#16216E;padding-left:8px;border-left:4px solid #1E9AD6;line-height:1.15}
-.oc-g .oc-who{font-size:12px;padding:3px 8px;margin-left:auto}
-.oc-is{display:flex;flex-direction:column;gap:6px;padding-left:10px}
-.oc-hr{border:0;border-top:1px solid #E4E9EB;margin:6px 0 2px}
-.oc-hr+.oc-is,.oc-hr0+.oc-is{padding-left:0}.oc-hr0{display:none}
-.oc-i{background:#F2F5F7;border-radius:10px}
-.oc-i summary,.oc-i.empty{list-style:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;cursor:pointer;font-size:14px;border-radius:10px}
-.oc-i.empty{cursor:default;color:var(--ink2)}.oc-i.empty b{font-weight:500}
+.oc-u{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;height:100%;display:flex;flex-direction:column;text-align:left;box-shadow:0 1px 2px rgba(16,40,60,.04)}
+.oc-uh{position:relative;padding:14px 14px 10px;border-top:4px solid var(--uc,#00A1B9)}
+.oc-uh b{display:block;font-size:15.5px;font-weight:800;color:var(--ink);padding-right:44px}
+.oc-uh small{display:block;font-size:12px;color:var(--mute);margin-top:2px}
+.oc-n{position:absolute;right:12px;top:14px;font-size:11.5px;font-weight:700;color:#008197;background:#E6F6F9;padding:1px 8px;border-radius:99px}
+.oc-head{padding:0 12px 6px}
+.oc-who{border:0;background:#F2F5F7;color:var(--ink);font:inherit;font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:99px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-who em{font-style:normal;color:#008197;font-weight:700}
+button.oc-who:hover{background:#E6F2F5}
+.oc-b{padding:6px 12px 14px;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line2)}
+.oc-g{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+.oc-g>span{font-weight:700;font-size:13.5px;color:var(--ink);padding-left:8px;border-left:3px solid var(--uc,#00A1B9);line-height:1.2}
+.oc-g .oc-who{font-size:11.5px;padding:3px 8px;margin-left:auto}
+.oc-is{display:flex;flex-direction:column;gap:5px}
+.oc-hr{border:0;border-top:1px dashed var(--line);margin:8px 0 2px}
+.oc-hr0{display:none}
+.oc-i{background:#fff;border:1px solid #E9EEF1;border-radius:12px}
+.oc-i summary,.oc-i.empty{list-style:none;display:flex;align-items:center;gap:6px;padding:8px 10px;cursor:pointer;font-size:13.5px;border-radius:12px}
+.oc-i summary b{font-weight:600;flex:1;min-width:0}
 .oc-i summary::-webkit-details-marker{display:none}
-.oc-i summary:hover{background:#E8EEF1}
-.oc-i summary b{font-weight:600}
-.oc-i[open]{background:#fff;box-shadow:0 0 0 1px #DCE4E8 inset}
-.oc-ms{padding:2px 6px 8px}.oc-sub small{display:block;font-size:12px;color:var(--ink2);margin:6px 4px 2px}
-.oc-none{text-align:center;padding:14px 0}
-.oc-left{margin-top:14px;align-self:flex-start}
-textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
+.oc-i summary::after{content:'';width:6px;height:6px;border-right:2px solid #A3AEB4;border-bottom:2px solid #A3AEB4;transform:rotate(45deg);margin:0 2px 3px 4px;transition:transform .15s}
+.oc-i[open] summary::after{transform:rotate(-135deg);margin-bottom:-2px}
+.oc-i summary:hover{background:#F5F9FA}
+.oc-i[open]{border-color:#CDEBF0;box-shadow:0 2px 8px rgba(0,129,151,.06)}
+.oc-i.empty{cursor:default;background:#FAFBFC;border-style:dashed;color:var(--mute)}.oc-i.empty b{font-weight:500}
+.oc-ms{padding:0 8px 8px}.oc-sub small{display:block;font-size:12px;color:var(--mute);margin:6px 2px 4px}
+.oc-ms .ot-ms{padding:2px 0 0}
+.oc-none{text-align:center;padding:16px 0;color:var(--mute)}
+.oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
 .og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
 .og-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
@@ -3142,9 +3147,9 @@ function orgChart(cfg,on,rk){
     const chip=s=>`<button class="og-mc ${s.leader?'ld':''}" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.leader?'팀장':s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}${s.status==='휴직'?'<i>휴직</i>':''}</button>`;
     return `<details class="oc-i"><summary><b>${esc(o.label)}</b><span class="tc">${L.length}</span></summary><div class="oc-ms">${multi.length>1?multi.map(t=>`<div class="oc-sub"><small>${esc(t)} · ${L.filter(s=>teamOf(s)===t).length}명</small><div class="ot-ms">${L.filter(s=>teamOf(s)===t).map(chip).join('')}</div></div>`).join(''):`<div class="ot-ms">${L.map(chip).join('')}</div>`}</div></details>`};
   const cnt=u=>{const ts=new Set();(u.head||[]).forEach(t=>ts.add(t));(u.groups||[]).forEach(g=>{(g.head||[]).forEach(t=>ts.add(t));(g.items||[]).forEach(it=>(typeof it==='string'?[it]:it.teams||[it.label]).forEach(t=>ts.add(t)))});return byTeam([...ts]).length};
-  const HC=['#1E9AD6','#1A80CF','#1868BF','#1650A3','#16216E','#2D3A8C'];
+  const HC=['#00A1B9','#3D5BD9','#eb6834','#eda100','#e87ba4','#7C8A91'];
   const units=(cfg.units||[]).map((u,i)=>{mark(u.head);const n=cnt(u);
-    return `<li><div class="oc-u"><div class="oc-uh" style="background:${HC[i%HC.length]}"><b>${esc(u.name)}</b>${u.sub?`<small>${esc(u.sub)}</small>`:''}${n?`<span class="oc-n">${n}명</span>`:''}</div>
+    return `<li><div class="oc-u" style="--uc:${HC[i%HC.length]}"><div class="oc-uh"><b>${esc(u.name)}</b>${u.sub?`<small>${esc(u.sub)}</small>`:''}${n?`<span class="oc-n">${n}명</span>`:''}</div>
       ${u.head||u.title||u.person?`<div class="oc-head">${who(u.head,u.title,u.person,u.rank)}</div>`:''}
       <div class="oc-b">${(u.groups||[]).map((g,gi)=>{mark(g.head);return `${g.name?`<div class="oc-g"><span>${esc(g.name)}</span>${g.head||g.person?who(g.head,'',g.person,g.rank):''}</div>`:gi?'<hr class="oc-hr">':'<span class="oc-hr0"></span>'}<div class="oc-is">${(g.items||[]).map(item).join('')}</div>`}).join('')||'<div class="note oc-none">하위 부서 없음</div>'}</div></div></li>`}).join('');
   const tops=(cfg.top||[]).map((t,i)=>{mark(t.teams);const p=top1(t.teams);return `<div class="oc-box ${i===0?'chair':'ceo'}"><b>${esc(t.label)}</b>${p?`<button class="oc-pn" data-staff="${p.id}">${esc(p.name)}</button>`:''}</div>`});

@@ -403,6 +403,34 @@ body{background:#fff;letter-spacing:-.2px}
 .rtab.ros td.ck,.rtab.ros th.ck{width:34px;padding-left:8px;padding-right:4px;text-align:center}
 .rtab.ros input[type=checkbox]{width:16px;height:16px;accent-color:#00A1B9;cursor:pointer}
 .rtab.ros tr.on td{background:#EEFAFC}
+.ros-top{gap:10px;flex-wrap:wrap}
+.ssearch{flex:1 1 280px;display:flex;align-items:center;gap:8px;height:42px;padding:0 14px;border-radius:12px;background:#F2F5F7;color:#8A979D}
+.ssearch input{flex:1;border:0;background:none;font:inherit;font-size:14.5px;color:var(--ink);outline:0;min-width:0}
+.ssearch:focus-within{background:#fff;box-shadow:0 0 0 2px #9FDCE6 inset}
+.schips{display:flex;gap:6px;flex-wrap:wrap}
+.schip{height:42px;padding:0 14px;border-radius:12px;border:1px solid #E1E8EB;background:#fff;font:inherit;font-size:14px;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.schip b{font-weight:700;color:var(--ink)}
+.schip:hover{border-color:#C7D3D8}
+.schip.on{border-color:#00A1B9;background:#F0FAFC;color:#008197;box-shadow:0 0 0 1px #00A1B9 inset}.schip.on b{color:#008197}
+.ros-top .fsel{height:42px;border-radius:12px}
+.schk{margin:14px 0 4px;padding:12px 14px;border-radius:16px;background:#FFFBF2;border:1px solid #F4E3BD}
+.schk-h{font-size:13px;font-weight:700;color:#9A6B0F;margin-bottom:6px}
+.schk-l{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px}
+.schk-i{display:flex;align-items:center;gap:8px;border:0;background:#fff;border-radius:12px;padding:9px 12px;font:inherit;text-align:left;cursor:pointer}
+.schk-i:hover{box-shadow:0 0 0 1px #EBD9AE inset}
+.schk-i span{flex:1;min-width:0}.schk-i b{font-size:14.5px;margin-right:6px}.schk-i em{font-style:normal;font-size:12.5px;font-weight:700;color:#D97706}.schk-i small{display:block;font-size:12.5px;color:var(--ink2);margin-top:2px}
+.schk-i i{font-style:normal;color:#B4BEC3;font-size:18px}
+.ros-sub{margin-top:14px;gap:8px;flex-wrap:wrap}
+.ros-cnt{font-size:14px;color:var(--ink2)}
+.segs.ssm button{font-size:13px;padding:0 12px}
+.rtab.ros tr.rg-d td{padding:16px 8px 6px;border-bottom:0;background:none}
+.rtab.ros tr.rg-d b{font-size:15px}.rtab.ros tr.rg-d span{margin-left:8px;font-size:12.5px;color:var(--ink2)}
+.rtab.ros tr.rg-t td{background:#F6F9FA;border-left:3px solid #00A1B9;padding:7px 10px}
+.rtab.ros tr.rg-t b{font-size:13.5px}.rtab.ros tr.rg-t span{margin-left:6px;font-size:12px;color:var(--ink2)}
+.rtab th.srt button{border:0;background:none;font:inherit;color:inherit;font-weight:inherit;padding:4px 6px;margin:-4px -6px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.rtab th.srt button:hover{background:#EEF3F5;color:var(--ink)}
+.rtab th.srt i{font-style:normal;font-size:10px;color:#C2CBD0}
+.rtab th.srt.on button{color:#008197}.rtab th.srt.on i{color:#00A1B9}
 .sdel{border:0;background:none;color:#B4BEC3;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;cursor:pointer;opacity:0}
 .rtab.ros tr:hover .sdel,.sdel:focus-visible{opacity:1}.sdel:hover{background:#FFF0F0;color:#D93A3A}
 .ssbar{display:flex;align-items:center;gap:6px}.ssbar b{font-size:13.5px;color:#008197;margin-right:4px}
@@ -1015,9 +1043,9 @@ body{color:var(--ink)}
 .ot-n.grp{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 10px 10px}
 .ot-lb{font-size:11.5px;font-weight:700;color:#8A979D;letter-spacing:.3px}
 .ot-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.ot-p{display:flex;align-items:center;gap:8px;border:0;background:none;font:inherit;text-align:left;cursor:pointer;padding:2px 6px 2px 2px;border-radius:12px}
+.ot-p{display:flex;align-items:center;gap:8px;border:0;background:none;font:inherit;text-align:center;cursor:pointer;padding:4px 12px;border-radius:12px;justify-content:center}
 .ot-p:hover{background:#EEF6F8}.ot-p b{display:block;font-size:14px}.ot-p small{display:block;font-size:12px;color:var(--ink2);white-space:nowrap}
-.ot-row .ot-p{border:1px solid #E9EEF1;background:#fff;padding:6px 10px 6px 6px}
+.ot-row .ot-p{border:1px solid #E9EEF1;background:#fff;padding:7px 14px}
 .ot-n.div{background:linear-gradient(90deg,#00A1B9,#1f8fe0);border:0;color:#fff;padding:10px 18px;text-align:center;min-width:170px}
 .ot-n.div b{display:block;font-size:15.5px}.ot-n.div small{opacity:.9;font-size:12px}
 .ot-fs{position:relative;margin-top:16px;width:100%;columns:220px;column-gap:10px;text-align:left}
@@ -1036,6 +1064,49 @@ body{color:var(--ink)}
 .ot-t summary b{font-size:14px}.ot-t summary small{margin-left:auto;font-size:12px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ot-ms{display:flex;flex-wrap:wrap;gap:6px;padding:2px 8px 10px}
 .og-mc.ld{border-color:#BFE6EC;background:#F3FBFC}
+/* 조직도(설정형) */
+.oc{display:flex;flex-direction:column;align-items:center;padding-top:8px}
+.oc-top{display:flex;justify-content:center}
+.oc-box{min-width:200px;padding:10px 22px;border-radius:14px;text-align:center;color:#fff;box-shadow:0 2px 6px rgba(22,33,110,.18)}
+.oc-box b{display:block;font-size:19px;letter-spacing:.3px}
+.oc-box.chair{background:#0F1A55}.oc-box.ceo{background:#16216E}
+.oc-pn{border:0;background:none;color:#DCE3FF;font:inherit;font-size:13px;cursor:pointer;padding:2px 6px;border-radius:6px}.oc-pn:hover{background:rgba(255,255,255,.12);color:#fff}
+.oc-vl{width:2px;height:22px;background:var(--ln)}
+.oc-stem{position:relative;width:100%;min-height:26px;box-sizing:border-box;padding:14px 0 22px calc(50% + 70px);display:flex}
+.oc-stem::before{content:'';position:absolute;left:50%;top:0;bottom:0;border-left:2px solid var(--ln)}
+.oc-side{position:relative;z-index:2}
+.oc-side::before{content:'';position:absolute;left:-70px;top:26px;width:70px;border-top:2px solid var(--ln)}
+.oc-sbox{min-width:230px;background:#fff;border:2px solid #16216E;border-radius:14px;padding:8px 12px;text-align:center}
+.oc-sbox>b{display:block;font-size:16.5px;color:#16216E}
+.oc-sbox .oc-i{margin-top:6px;text-align:left}
+.oc-units{width:100%;justify-content:center;align-items:stretch}
+.otree ul.oc-units>li{flex:1 1 0;min-width:160px;align-items:stretch;padding-left:5px;padding-right:5px}
+.oc-u{background:#fff;border:1px solid #E1E8EB;border-radius:16px;overflow:hidden;height:100%;display:flex;flex-direction:column;text-align:left}
+.oc-uh{color:#fff;padding:12px 14px;text-align:center;position:relative}
+.oc-uh b{display:block;font-size:16px}.oc-uh small{display:block;font-size:12px;opacity:.85;margin-top:2px}
+.oc-n{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:700;background:rgba(255,255,255,.18);padding:1px 8px;border-radius:99px}
+.oc-head{padding:8px 12px 0;text-align:center}
+.oc-who{border:0;background:#F2F6FB;color:var(--ink);font:inherit;font-size:13px;font-weight:600;padding:5px 10px;border-radius:99px;cursor:pointer;display:inline-block}
+.oc-who em{font-style:normal;color:#1764c0;font-weight:700;margin-left:2px}
+button.oc-who:hover{background:#E4EEF9}
+.oc-b{padding:10px 12px 14px;display:flex;flex-direction:column;gap:6px}
+.oc-g{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
+.oc-g>span{font-weight:700;font-size:14.5px;color:#16216E;padding-left:8px;border-left:4px solid #1E9AD6;line-height:1.15}
+.oc-g .oc-who{font-size:12px;padding:3px 8px;margin-left:auto}
+.oc-is{display:flex;flex-direction:column;gap:6px;padding-left:10px}
+.oc-hr{border:0;border-top:1px solid #E4E9EB;margin:6px 0 2px}
+.oc-hr+.oc-is,.oc-hr0+.oc-is{padding-left:0}.oc-hr0{display:none}
+.oc-i{background:#F2F5F7;border-radius:10px}
+.oc-i summary,.oc-i.empty{list-style:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;cursor:pointer;font-size:14px;border-radius:10px}
+.oc-i.empty{cursor:default;color:var(--ink2)}.oc-i.empty b{font-weight:500}
+.oc-i summary::-webkit-details-marker{display:none}
+.oc-i summary:hover{background:#E8EEF1}
+.oc-i summary b{font-weight:600}
+.oc-i[open]{background:#fff;box-shadow:0 0 0 1px #DCE4E8 inset}
+.oc-ms{padding:2px 6px 8px}.oc-sub small{display:block;font-size:12px;color:var(--ink2);margin:6px 4px 2px}
+.oc-none{text-align:center;padding:14px 0}
+.oc-left{margin-top:14px;align-self:flex-start}
+textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
 .og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
 .og-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
@@ -1339,6 +1410,7 @@ const ICONS={
  settings:'<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/>',
  spark:'<path d="M12 3.5l1.8 5.3 5.4 1.9-5.4 1.9L12 17.9l-1.8-5.3-5.4-1.9 5.4-1.9z"/><path d="M18.5 16.5l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z"/>',
  plus:'<path d="M12 5v14M5 12h14"/>',
+ search:'<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/>',
  trash:'<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l.8 12.5h9.4L17.5 7M10 11v5M14 11v5"/>',
  paste:'<rect x="5.5" y="4.5" width="13" height="16" rx="2.5"/><path d="M9 4.5h6v3H9zM9 12h6M9 15.5h4"/>',
  chart:'<path d="M4 20h16"/><path d="M7 16v-4M12 16V7M17 16v-7"/>',
@@ -2963,7 +3035,7 @@ async function saveCandForm(){
    ===================================================================== */
 const ETYPES=['정규','계약','파견·기타'];
 const RANKS=['사원','주임','연구원','대리','선임','과장','책임','차장','부장','수석','수석부장','이사','상무','전무','부사장','사장','대표이사','회장'];
-const DIV_ORDER=['임원','로보틱스사업부','배터리사업부'];
+const DIV_ORDER=['임원'];
 const PROB_RES=['통과','연장','미통과'];
 const CON_DEC=['갱신','정규 전환','종료'];
 const colMap=c=>({candidates:st.cands,people:st.people,staff:st.staff,reqs:st.reqs,talks:st.talks,faqs:st.faqs}[c]||new Map());
@@ -2993,20 +3065,44 @@ function vStaff(){
    <div class="segs ptabs">${[['list','직원 명부',staffOn().length],['org','조직도',null],['track','수습 · 계약',soon],['plan','인원계획',null],['stat','인사 통계',null]].map(([k,l,n])=>`<button class="${tab===k?'on':''}" data-act="stab" data-v="${k}">${l}${n!=null?`<span class="tc ${k==='track'&&n?'red':''}">${n}</span>`:''}</button>`).join('')}</div>
    ${tab==='org'?vOrg():tab==='track'?vTrack():tab==='plan'?vPlan():tab==='stat'?vStaffStat():vRoster()}`;
 }
+/* 직원 명부 정렬: 기본은 조직순(사업부 → 부서 → 팀장 → 직급 높은 순 → 입사 빠른 순) */
+const rkOf=s=>{const i=RANKS.indexOf(s.rank);return i<0?-1:i};
+const divRank=s=>{const k=DIV_ORDER.indexOf(s.div||'');return s.div?(k<0?50:k):99};
+const tordOf=s=>s.tord==null||s.tord===''?9999:+s.tord;
+const orgCmp=(a,b)=>tordOf(a)-tordOf(b)||divRank(a)-divRank(b)||teamOf(a).localeCompare(teamOf(b))||(b.leader?1:0)-(a.leader?1:0)||rkOf(b)-rkOf(a)||(a.joinDate||'').localeCompare(b.joinDate||'');
+const RS_COLS={name:['이름',s=>s.name||''],team:['부서',s=>teamOf(s)],rank:['직급',s=>rkOf(s)],job:['직무',s=>s.job||''],etype:['고용형태',s=>s.etype||'정규'],join:['입사일',s=>s.joinDate||''],ten:['근속',s=>s.joinDate?-new Date(s.joinDate).getTime():1],status:['상태',s=>['재직','휴직','퇴사'].indexOf(s.status||'재직')]};
+function rosterCmp(){const so=st.ssort;if(!so||!RS_COLS[so.k])return orgCmp;const f=RS_COLS[so.k][1],d=so.d==='desc'?-1:1;
+  return (a,b)=>{const x=f(a),y=f(b);const c=typeof x==='number'?x-y:String(x).localeCompare(String(y),'ko');return c*d||orgCmp(a,b)}}
+const rsTh=k=>{const so=st.ssort,on=so&&so.k===k;return `<th class="srt ${on?'on':''}"><button data-act="ssort" data-k="${k}" aria-label="${RS_COLS[k][0]} 정렬">${RS_COLS[k][0]}<i>${on?(so.d==='desc'?'▼':'▲'):'↕'}</i></button></th>`};
 function vRoster(){
-  const q=(st.sq||'').toLowerCase(),fs=st.sfs||'재직',ft=st.sft||'';
-  const teams=[...new Set(staffAll().map(teamOf))].sort();
+  const q=(st.sq||'').toLowerCase(),fs=['재직','수습','휴직','퇴사','전체'].includes(st.sfs)?st.sfs:'재직',ft=st.sft||'';
+  const A=staffAll(),td=today();
+  const inProb=s=>(s.status||'재직')==='재직'&&s.prob&&!s.probRes&&s.joinDate;
+  const SF={재직:s=>(s.status||'재직')==='재직',수습:inProb,휴직:s=>s.status==='휴직',퇴사:s=>s.status==='퇴사',전체:()=>true};
+  const tO=t=>Math.min(9999,...A.filter(s=>teamOf(s)===t).map(tordOf));
+  const teams=[...new Set(A.map(teamOf))].sort((a,b)=>tO(a)-tO(b)||a.localeCompare(b));
   const sel=st.ssel||(st.ssel=new Set());[...sel].forEach(id=>{if(!st.staff.has(id))sel.delete(id)});
-  const L=staffAll().filter(s=>(fs==='전체'||(fs==='재직'?s.status!=='퇴사':s.status==='퇴사'))&&(!ft||teamOf(s)===ft)&&(!q||[s.name,s.team,s.rank,s.job,s.memo].join(' ').toLowerCase().includes(q)))
-    .sort((a,b)=>teamOf(a).localeCompare(teamOf(b))||(b.leader?1:0)-(a.leader?1:0)||(a.joinDate||'').localeCompare(b.joinDate||''));
+  const L=A.filter(s=>SF[fs](s)&&(!ft||teamOf(s)===ft)&&(!q||[s.name,s.team,s.div,s.rank,s.job,s.memo,s.empNo].join(' ').toLowerCase().includes(q)))
+    .sort(rosterCmp());
+  const so=st.ssort,smode=!so?'org':so.k==='rank'&&so.d==='desc'?'rank':so.k==='name'&&so.d==='asc'?'name':so.k==='join'&&so.d==='asc'?'join':'';
+  const grouped=!so;
+  const chk=trackItems().filter(x=>diffD(x.d,td)<=14).sort((a,b)=>a.d.localeCompare(b.d));
+  const rows=[];let pd=null,pt=null;
+  L.forEach(s=>{if(grouped){const dv=s.div||'',t=teamOf(s);
+      if(dv!==pd){pd=dv;pt=null;if(dv)rows.push(`<tr class="rg-d"><td colspan="13"><b>${esc(dv)}</b><span>${L.filter(x=>(x.div||'')===dv).length}명</span></td></tr>`)}
+      if(t!==pt){pt=t;rows.push(`<tr class="rg-t"><td colspan="13"><b>${esc(t)}</b><span>${L.filter(x=>teamOf(x)===t&&(x.div||'')===dv).length}명</span></td></tr>`)}}
+    rows.push(s)});
   const chips=s=>{const c=[];if(s.prob&&!s.probRes)c.push(`<span class="cc t-a">수습 ~${md(probEnd(s))}</span>`);else if(s.prob&&s.probRes)c.push(`<span class="cc t-s">수습 ${esc(s.probRes)}</span>`);
     if(s.etype==='계약'&&s.cEnd)c.push(`<span class="cc ${s.cDec?'t-s':'t-c'}">계약 ~${md(s.cEnd)}${s.cDec?' · '+esc(s.cDec):''}</span>`);return c.join(' ')||'—'};
-  return `<section class="card rec"><div class="recbar"><input class="fsearch" id="sQ" placeholder="이름 · 부서 · 직급 검색" value="${esc(st.sq||'')}">
-    <div class="segs">${['재직','퇴사','전체'].map(x=>`<button class="${fs===x?'on':''}" data-act="sfs" data-v="${x}">${x}</button>`).join('')}</div>
-    <select class="fsel" id="sFt" aria-label="부서"><option value="">전체 부서</option>${teams.map(t=>`<option ${ft===t?'selected':''}>${esc(t)}</option>`).join('')}</select>
-    <span class="sp" style="flex:1"></span>${sel.size?`<span class="ssbar"><b>${sel.size}명 선택</b><button class="btn sm dan" data-act="ssDel">선택 삭제</button><button class="btn sm" data-act="ssClr">해제</button></span>`:`<span class="note">${L.length}명</span>`}<button class="btn sm" data-act="csvStaff">CSV</button></div>
-   ${L.length?`<div class="rtw"><table class="rtab ros"><thead><tr><th class="ck"><input type="checkbox" class="ssAll" aria-label="모두 선택" ${L.length&&L.every(s=>sel.has(s.id))?'checked':''}></th><th>이름</th><th>부서</th><th>직급</th><th>직무</th><th>고용형태</th><th>입사일</th><th>근속</th><th>수습 · 계약</th><th>상태</th><th>메모</th><th></th></tr></thead><tbody>
-   ${L.map(s=>`<tr class="${sel.has(s.id)?'on':''}"><td class="ck"><input type="checkbox" class="ssOne" data-id="${s.id}" aria-label="선택" ${sel.has(s.id)?'checked':''}></td><td class="nm" data-staff="${s.id}"><b>${esc(s.name)}</b>${s.leader?'<small>팀장</small>':''}</td><td>${esc(s.team||'—')}</td><td>${esc(s.rank||'—')}</td><td>${esc(s.job||'—')}</td><td>${esc(s.etype||'정규')}</td>
+  return `<section class="card rec"><div class="recbar ros-top"><label class="ssearch">${ic('search',18)}<input id="sQ" placeholder="이름, 부서, 직급, 사번으로 검색" value="${esc(st.sq||'')}"></label>
+    <div class="schips">${['재직','수습','휴직','퇴사','전체'].map(x=>`<button class="schip ${fs===x?'on':''}" data-act="sfs" data-v="${x}">${x}<b>${A.filter(SF[x]).length}</b></button>`).join('')}</div>
+    <select class="fsel" id="sFt" aria-label="부서"><option value="">부서 전체</option>${teams.map(t=>`<option ${ft===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+   ${chk.length?`<div class="schk"><div class="schk-h">확인이 필요해요</div><div class="schk-l">${chk.slice(0,4).map(x=>{const n=diffD(x.d,td);return `<button class="schk-i" data-act="goTrack"><span><b>${esc(x.s.name)}</b><em>${x.kind}${n<0?'됨 · 결과 필요':` ${dfmt(n)}`}</em><small>${esc([x.s.team,x.s.rank].filter(Boolean).join(' · '))}</small></span><i>›</i></button>`}).join('')}</div>${chk.length>4?`<button class="sgmore" data-act="goTrack">${chk.length-4}건 더 보기</button>`:''}</div>`:''}
+   <div class="recbar ros-sub"><b class="ros-cnt">${fs==='전체'?'전체':fs} ${L.length}명</b>${ft?`<span class="note">${esc(ft)}</span>`:''}<span class="sp" style="flex:1"></span>
+    ${sel.size?`<span class="ssbar"><b>${sel.size}명 선택</b><button class="btn sm dan" data-act="ssDel">선택 삭제</button><button class="btn sm" data-act="ssClr">해제</button></span>`:''}
+    <div class="segs ssm">${[['org','사업부·부서순'],['rank','직급순'],['name','가나다순'],['join','입사일순']].map(([k,l])=>`<button class="${smode===k?'on':''}" data-act="ssMode" data-v="${k}">${l}</button>`).join('')}</div><button class="btn sm" data-act="csvStaff">CSV</button></div>
+   ${L.length?`<div class="rtw"><table class="rtab ros"><thead><tr><th class="ck"><input type="checkbox" class="ssAll" aria-label="모두 선택" ${L.length&&L.every(s=>sel.has(s.id))?'checked':''}></th>${['name','team','rank','job','etype','join','ten'].map(rsTh).join('')}<th>수습 · 계약</th>${rsTh('status')}<th>메모</th><th></th></tr></thead><tbody>
+   ${rows.map(s=>typeof s==='string'?s:`<tr class="${sel.has(s.id)?'on':''}"><td class="ck"><input type="checkbox" class="ssOne" data-id="${s.id}" aria-label="선택" ${sel.has(s.id)?'checked':''}></td><td class="nm" data-staff="${s.id}"><b>${esc(s.name)}</b>${s.leader?'<small>팀장</small>':''}</td><td>${esc(s.team||'—')}</td><td>${esc(s.rank||'—')}</td><td>${esc(s.job||'—')}</td><td>${esc(s.etype||'정규')}</td>
      <td>${s.joinDate?s.joinDate.replace(/-/g,'.'):'—'}</td><td>${tenure(s.joinDate,s.status==='퇴사'?(s.leaveDate||today()):today())||'—'}</td><td>${chips(s)}</td>
      <td>${s.status==='퇴사'?`<span class="cc t-s">퇴사${s.leaveDate?' '+md(s.leaveDate):''}</span>`:s.status==='휴직'?'<span class="cc t-a">휴직</span>':'<span class="cc t-g">재직</span>'}</td><td class="mm2">${esc(s.memo||'')}</td><td class="ck"><button class="sdel" data-act="ssDelOne" data-id="${s.id}" title="삭제" aria-label="${esc(s.name)} 삭제">${ic('trash',16)}</button></td></tr>`).join('')}
    </tbody></table></div>`:`<div class="empty">${staffAll().length?'조건에 맞는 직원이 없어요.':'직원 명부가 비어 있어요. + 직원 추가나 붙여넣기 일괄 등록(엑셀 복사)으로 시작하세요.'}</div>`}</section>`;
@@ -3014,26 +3110,64 @@ function vRoster(){
 function vOrg(){
   const on=staffOn();
   if(!on.length)return '<section class="card"><div class="empty">직원 명부에 재직자가 없어요.</div></section>';
-  const teams=[...new Set(on.map(teamOf))].sort((a,b)=>a==='부서 미정'?1:b==='부서 미정'?-1:a.localeCompare(b));
+  const tO=t=>Math.min(9999,...on.filter(s=>teamOf(s)===t).map(tordOf));
+  const teams=[...new Set(on.map(teamOf))].sort((a,b)=>a==='부서 미정'?1:b==='부서 미정'?-1:tO(a)-tO(b)||a.localeCompare(b));
   const rk=s=>{const i=RANKS.indexOf(s.rank);return i<0?-1:i};
   const divOf=t=>on.find(s=>teamOf(s)===t&&s.div)?.div||'';
   const divs=[...new Set(teams.map(divOf))].sort((a,b)=>{const i=x=>{const k=DIV_ORDER.indexOf(x);return x?(k<0?50:k):99};return i(a)-i(b)||a.localeCompare(b)});
   const hasDiv=divs.some(Boolean);
   const card=t=>{const L=on.filter(s=>teamOf(s)===t).sort((a,b)=>(b.leader?1:0)-(a.leader?1:0)||rk(b)-rk(a)||(a.joinDate||'').localeCompare(b.joinDate||''));
      return `<div class="og-u"><div class="og-uh"><b>${esc(t)}</b><span class="tc">${L.length}</span></div>
-      ${L.filter(s=>s.leader).map(s=>`<div class="og-l" data-staff="${s.id}"><span class="og-av">${esc(s.name.slice(-2))}</span><div><b>${esc(s.name)}</b><small>${esc([s.rank,'팀장'].filter(Boolean).join(' · '))}</small></div></div>`).join('')}
+      ${L.filter(s=>s.leader).map(s=>`<div class="og-l" data-staff="${s.id}"><div><b>${esc(s.name)}</b><small>${esc([s.rank,'팀장'].filter(Boolean).join(' · '))}</small></div></div>`).join('')}
       <div class="og-m">${L.filter(s=>!s.leader).map(s=>`<button class="og-mc" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}</button>`).join('')||'<span class="note">팀원 없음</span>'}</div></div>`};
   const n=d=>on.filter(s=>divOf(teamOf(s))===d).length;
   const mode=st.ogv||'tree';
   const sw=`<div class="segs og-sw">${[['tree','트리'],['card','부서 카드']].map(([k,l])=>`<button class="${mode===k?'on':''}" data-act="ogv" data-v="${k}">${l}</button>`).join('')}</div>`;
-  if(mode==='tree')return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 부서를 누르면 팀원이 펼쳐져요</span><span style="flex:1"></span>${sw}</div>${orgTree(on,teams,divOf,rk)}</section>`;
+  const cfg=S().orgTree,edBtn=`<button class="btn sm" data-act="orgEdit">조직 구조 ${cfg?'편집':'설정'}</button>`;
+  if(mode==='tree')return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 부서를 누르면 팀원이 펼쳐져요</span><span style="flex:1"></span>${edBtn}${sw}</div>${cfg?orgChart(cfg,on,rk):orgTree(on,teams,divOf,rk)}</section>`;
   return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 팀장·사업부는 직원 정보에서 정해요</span><span style="flex:1"></span>${sw}</div>
    ${hasDiv?divs.map(d=>{const ts=teams.filter(t=>divOf(t)===d);return `<div class="og-div"><div class="og-dh"><b>${esc(d||'사업부 미정')}</b><span class="tc">${n(d)}명</span><span class="note">${ts.length}개 부서</span></div><div class="og-grid">${ts.map(card).join('')}</div></div>`}).join(''):`<div class="og-grid">${teams.map(card).join('')}</div>`}</section>`;
 }
+/* 조직도(설정형): 조직 구조는 비공개 자료(settings.main.orgTree)에만 저장 — 사이트 파일에는 회사 구조를 넣지 않아요
+   {top:[{label,teams}], side:{label,title,teams}, units:[{name,title,head:[팀],sub,groups:[{name,head:[팀],items:[팀 | {label,teams}]}]}]} */
+function orgChart(cfg,on,rk){
+  const byTeam=ts=>on.filter(s=>(ts||[]).includes(teamOf(s)));
+  const top1=ts=>byTeam(ts).sort((a,b)=>rk(b)-rk(a)||(b.leader?1:0)-(a.leader?1:0))[0];
+  const used=new Set();const mark=ts=>(ts||[]).forEach(t=>used.add(t));
+  const who=(ts,title,person,rank)=>{const p=(person&&on.find(s=>s.name===person))||top1(ts);return p?`<button class="oc-who" data-staff="${p.id}">${esc(p.name)} ${esc(rank!=null?rank:(p.rank||''))}${title?` <em>${esc(title)}</em>`:''}</button>`:(title?`<span class="oc-who"><em>${esc(title)}</em></span>`:'')};
+  const item=it=>{const o=typeof it==='string'?{label:it,teams:[it]}:{label:it.label,teams:it.teams||[it.label]};mark(o.teams);
+    const L=byTeam(o.teams).sort((a,b)=>tordOf(a)-tordOf(b)||(b.leader?1:0)-(a.leader?1:0)||rk(b)-rk(a)||(a.joinDate||'').localeCompare(b.joinDate||''));
+    if(!L.length)return `<div class="oc-i empty"><b>${esc(o.label)}</b></div>`;
+    const multi=o.teams.filter(t=>L.some(s=>teamOf(s)===t));
+    const chip=s=>`<button class="og-mc ${s.leader?'ld':''}" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.leader?'팀장':s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}${s.status==='휴직'?'<i>휴직</i>':''}</button>`;
+    return `<details class="oc-i"><summary><b>${esc(o.label)}</b><span class="tc">${L.length}</span></summary><div class="oc-ms">${multi.length>1?multi.map(t=>`<div class="oc-sub"><small>${esc(t)} · ${L.filter(s=>teamOf(s)===t).length}명</small><div class="ot-ms">${L.filter(s=>teamOf(s)===t).map(chip).join('')}</div></div>`).join(''):`<div class="ot-ms">${L.map(chip).join('')}</div>`}</div></details>`};
+  const cnt=u=>{const ts=new Set();(u.head||[]).forEach(t=>ts.add(t));(u.groups||[]).forEach(g=>{(g.head||[]).forEach(t=>ts.add(t));(g.items||[]).forEach(it=>(typeof it==='string'?[it]:it.teams||[it.label]).forEach(t=>ts.add(t)))});return byTeam([...ts]).length};
+  const HC=['#1E9AD6','#1A80CF','#1868BF','#1650A3','#16216E','#2D3A8C'];
+  const units=(cfg.units||[]).map((u,i)=>{mark(u.head);const n=cnt(u);
+    return `<li><div class="oc-u"><div class="oc-uh" style="background:${HC[i%HC.length]}"><b>${esc(u.name)}</b>${u.sub?`<small>${esc(u.sub)}</small>`:''}${n?`<span class="oc-n">${n}명</span>`:''}</div>
+      ${u.head||u.title||u.person?`<div class="oc-head">${who(u.head,u.title,u.person,u.rank)}</div>`:''}
+      <div class="oc-b">${(u.groups||[]).map((g,gi)=>{mark(g.head);return `${g.name?`<div class="oc-g"><span>${esc(g.name)}</span>${g.head||g.person?who(g.head,'',g.person,g.rank):''}</div>`:gi?'<hr class="oc-hr">':'<span class="oc-hr0"></span>'}<div class="oc-is">${(g.items||[]).map(item).join('')}</div>`}).join('')||'<div class="note oc-none">하위 부서 없음</div>'}</div></div></li>`}).join('');
+  const tops=(cfg.top||[]).map((t,i)=>{mark(t.teams);const p=top1(t.teams);return `<div class="oc-box ${i===0?'chair':'ceo'}"><b>${esc(t.label)}</b>${p?`<button class="oc-pn" data-staff="${p.id}">${esc(p.name)}</button>`:''}</div>`});
+  const sd=cfg.side;if(sd)mark(sd.teams);
+  const sideHtml=sd?`<div class="oc-side"><div class="oc-sbox"><b>${esc(sd.label)}</b>${who(sd.teams,sd.title,sd.person,sd.rank)}${byTeam(sd.teams).length?item({label:'구성원',teams:sd.teams}):''}</div></div>`:'';
+  const left=[...new Set(on.map(teamOf))].filter(t=>!used.has(t));
+  return `<div class="otree oc">${tops.map((b,i)=>`<div class="oc-top">${b}</div>${i<tops.length-1?'<div class="oc-vl"></div>':''}`).join('')}
+    <div class="oc-stem">${sideHtml}</div>
+    <ul class="oc-units">${units}</ul>
+    ${left.length?`<p class="note oc-left">조직도에 넣지 않은 부서: ${left.map(t=>`${esc(t)}(${on.filter(s=>teamOf(s)===t).length})`).join(', ')} · '조직 구조 편집'에서 넣을 수 있어요</p>`:''}</div>`;
+}
+function openOrgEdit(){
+  const cur=S().orgTree;
+  openLayer(`<div class="modal wide" role="dialog" aria-label="조직 구조"><h2>조직 구조 ${cur?'편집':'설정'}</h2>
+   <p class="note">조직도 모양(본부 · 그룹 · 부서 묶음 · 총괄자)을 정해요. 부서 이름은 직원 명부의 부서와 같게 적어 주세요. 이 내용은 비공개 자료에만 저장돼요.<br>받은 '조직 구조' 파일 내용을 그대로 붙여넣으면 돼요.</p>
+   <textarea class="inp mono" id="ocTxt" rows="16" spellcheck="false">${esc(cur?JSON.stringify(cur,null,1):'')}</textarea>
+   <div class="acts">${cur?'<button class="btn dan" data-act="orgReset" style="margin-right:auto">자동 조직도로 되돌리기</button>':''}<button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="orgSave">저장</button></div></div>`);
+}
 /* 조직도 트리: 최고 임원 → 다음 임원 → 경영진 → 사업부 → 부서군 → 부서 */
 function orgTree(on,teams,divOf,rk){
-  const pc=s=>`<button class="ot-p" data-staff="${s.id}"><span class="og-av">${esc(s.name.slice(-2))}</span><span><b>${esc(s.name)}</b><small>${esc([...new Set([s.team||s.job,s.rank].filter(Boolean))].join(' · '))}</small></span></button>`;
-  const ex=on.filter(s=>(s.div||divOf(teamOf(s)))==='임원').sort((a,b)=>rk(b)-rk(a));
+  const pc=s=>`<button class="ot-p" data-staff="${s.id}"><span><b>${esc(s.name)}</b><small>${esc([...new Set([s.team||s.job,s.rank].filter(Boolean))].join(' · '))}</small></span></button>`;
+  const ex=on.filter(s=>(s.div||divOf(teamOf(s)))==='임원').sort((a,b)=>rk(b)-rk(a)||tordOf(a)-tordOf(b));
+  const exOrd=(a,b)=>tordOf(a)-tordOf(b)||rk(b)-rk(a);
   const chain=[];let rest=[...ex];
   while(rest.length>1&&chain.length<2&&rk(rest[0])>rk(rest[1])){chain.push(rest.shift())}
   if(rest.length===1&&chain.length<2){chain.push(rest.shift())}
@@ -3047,7 +3181,7 @@ function orgTree(on,teams,divOf,rk){
     return `<li style="flex:${Math.max(1,fs.length)} 1 0"><div class="ot-n div"><b>${esc(d||'사업부 미정')}</b><small>${cnt}명 · ${ts.length}개 부서</small></div><div class="ot-fs">${body}</div></li>`};
   const lvl=(arr,inner)=>arr.length?`<ul><li>${arr[0]}${lvl(arr.slice(1),inner)}</li></ul>`:inner;
   const nodes=chain.map(s=>`<div class="ot-n top">${pc(s)}</div>`);
-  if(rest.length)nodes.push(`<div class="ot-n grp"><small class="ot-lb">경영진</small><div class="ot-row">${rest.map(pc).join('')}</div></div>`);
+  if(rest.length)nodes.push(`<div class="ot-n grp"><small class="ot-lb">경영진</small><div class="ot-row">${rest.sort(exOrd).map(pc).join('')}</div></div>`);
   return `<div class="otree">${lvl(nodes,divs.length?`<ul class="ot-divs">${divs.map(divCol).join('')}</ul>`:'')}</div>`;
 }
 function vTrack(){
@@ -3154,13 +3288,14 @@ async function saveStaffForm(){
   const id=$('#fStaff').dataset.id;
   const d={name:$('#sName').value.trim(),team:$('#sTeam').value.trim(),div:$('#sDiv').value.trim(),rank:$('#sRank').value.trim(),job:$('#sJob').value.trim(),joinDate:$('#sJoin').value,leader:$('#sLeader').checked,etype:$('#sEtype .on')?.dataset.v||'정규',prob:$('#sProb').checked,probRes:$('#sProbRes').value,cEnd:$('#sCEnd').value,cDec:$('#sCDec').value,status:$('#sStatus .on')?.dataset.v||'재직',leaveDate:$('#sLeave').value,memo:$('#sMemo').value,updatedAt:nowISO()};
   if(!d.name){toast('이름을 적어 주세요');return}
+  {const mate=staffAll().find(s=>s.id!==id&&s.team===d.team&&s.tord!=null);d.tord=mate?mate.tord:(id?st.staff.get(id)?.tord??null:null)}
   if(d.status==='퇴사'&&!d.leaveDate)d.leaveDate=today();
   await st.api.put('staff',id||'s-'+uid(),id?d:{...d,createdAt:nowISO()});
   addLog(`직원 명부 ${id?'수정':'추가'} · ${d.name}`);closeLayer();toast('저장했어요');
 }
 function openStaffPaste(){
   openLayer(`<div class="modal wide" role="dialog" aria-label="명부 붙여넣기"><h2>직원 명부 붙여넣기</h2>
-   <p class="note">엑셀에서 아래 순서대로 칸을 복사해 붙여넣으세요. 이름만 있어도 돼요. 같은 이름·부서가 이미 있으면 정보를 덮어써요.<br><b>이름 · 부서 · 직급 · 직무 · 고용형태(정규/계약) · 입사일 · 계약 종료일</b><br>더 넣고 싶으면 뒤에 이어서: <b>상태(재직/휴직/퇴사) · 사업부 · 팀장(Y) · 수습(Y/N) · 퇴사일 · 사번</b></p>
+   <p class="note">엑셀에서 아래 순서대로 칸을 복사해 붙여넣으세요. 이름만 있어도 돼요. 같은 이름·부서가 이미 있으면 정보를 덮어써요.<br><b>이름 · 부서 · 직급 · 직무 · 고용형태(정규/계약) · 입사일 · 계약 종료일</b><br>더 넣고 싶으면 뒤에 이어서: <b>상태(재직/휴직/퇴사) · 사업부 · 팀장(Y) · 수습(Y/N) · 퇴사일 · 사번 · 부서 순서(숫자)</b></p>
    <textarea class="inp" id="spTxt" rows="10" placeholder="예) 홍길동	기계3팀	대리	기계설계	정규	2021-03-02"></textarea>
    <label class="chkl" style="margin-top:10px"><input type="checkbox" id="spReplace"> 전체 명부로 바꾸기 — 붙여넣은 명단에 없는 기존 직원은 지워요 (휴직·메모·수습 결과는 그대로 둬요)</label>
    <div class="acts"><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="staffPasteGo">등록</button></div></div>`);
@@ -3176,7 +3311,7 @@ async function staffPasteGo(){
   rows.forEach(c=>{const joinDate=parseDateLoose(c[5]),et=ETYPES.includes(c[4])?c[4]:(/계약/.test(c[4]||'')?'계약':'정규'),ex=findEx(c);if(ex)used.add(ex.id);
     let status=['재직','휴직','퇴사'].includes(c[7])?c[7]:(ex?.status||'재직');if(status==='재직'&&ex?.status==='휴직')status='휴직';
     const d={name:c[0],team:c[1]||'',rank:c[2]||'',job:c[3]||'',etype:et,joinDate,cEnd:parseDateLoose(c[6]),status,prob:/^[YN]$/i.test(c[10]||'')?/y/i.test(c[10]):(ex&&ex.joinDate===joinDate?!!ex.prob:(joinDate?diffD(td,joinDate)<92:false)),updatedAt:nowISO()};
-    if(c[8])d.div=c[8];if(c[9]!=null&&c[9]!=='')d.leader=/^(y|o|팀장|1)$/i.test(c[9]);if(c[11])d.leaveDate=parseDateLoose(c[11]);if(c[12])d.empNo=c[12];
+    if(c[8])d.div=c[8];if(c[9]!=null&&c[9]!=='')d.leader=/^(y|o|팀장|1)$/i.test(c[9]);if(c[11])d.leaveDate=parseDateLoose(c[11]);if(c[12])d.empNo=c[12];if(c[13]!=null&&c[13]!==''&&!isNaN(+c[13]))d.tord=+c[13];
     ops.push({c:'staff',id:ex?.id||'s-'+uid(),d:ex?d:{...d,createdAt:nowISO()}})});
   const gone=replace?all.filter(s=>!used.has(s.id)):[];gone.forEach(s=>ops.push({c:'staff',id:s.id,del:true}));
   await st.api.batch(ops);addLog(`직원 명부 붙여넣기 ${rows.length}명${gone.length?` · 명단에 없던 ${gone.length}명 정리`:''}`,rows.length);closeLayer();toast(`${rows.length}명을 명부에 넣었어요${gone.length?` · 명단에 없던 ${gone.length}명은 지웠어요`:''}`);
@@ -3185,7 +3320,8 @@ async function staffPasteGo(){
 async function syncStaff(pid,d){
   const all=staffAll(),same=all.find(s=>s.pid===pid)||all.find(s=>s.name===d.name&&(!d.team||!s.team||s.team===d.team)&&(d.type==='in'||s.status!=='퇴사'));
   if(d.type==='in'){
-    const v={name:d.name,team:d.team||same?.team||'',rank:d.rank||same?.rank||'',job:d.dept||same?.job||'',etype:d.etype||'정규',joinDate:d.date,prob:d.prob!==false,cEnd:d.cEnd||'',pid,status:'재직',updatedAt:nowISO()};
+    const tm=d.team||same?.team||'',mate=all.find(s=>s.team===tm&&s.tord!=null);
+    const v={tord:mate?mate.tord:(same?.tord??null),name:d.name,team:d.team||same?.team||'',rank:d.rank||same?.rank||'',job:d.dept||same?.job||'',etype:d.etype||'정규',joinDate:d.date,prob:d.prob!==false,cEnd:d.cEnd||'',pid,status:'재직',updatedAt:nowISO()};
     await st.api.put('staff',same?.id||'s-'+uid(),same?v:{...v,createdAt:nowISO()});
   }else if(same){await st.api.put('staff',same.id,{status:'퇴사',leaveDate:d.date,updatedAt:nowISO()})}
 }
@@ -3464,6 +3600,14 @@ const ACT={
   sgAll:()=>{st.sgAll=!st.sgAll;render()},
   ssClr:()=>{st.ssel?.clear();render()},
   ogv:a=>{st.ogv=a.dataset.v;render()},
+  orgEdit:()=>openOrgEdit(),
+  orgSave:async()=>{const v=$('#ocTxt').value.trim();let o;try{o=JSON.parse(v);if(!o||!Array.isArray(o.units))throw 0}catch(e){toast('형식이 맞지 않아요. 받은 파일 내용을 그대로 붙여넣어 주세요');return}
+    await st.api.put('settings','main',{orgTree:o});addLog('조직 구조 저장');closeLayer();toast('조직도를 저장했어요')},
+  orgReset:async()=>{await st.api.put('settings','main',{orgTree:null});closeLayer();toast('자동 조직도로 되돌렸어요')},
+  ssort:a=>{const k=a.dataset.k,so=st.ssort;st.ssort=!so||so.k!==k?{k,d:k==='rank'||k==='ten'?'desc':'asc'}:so.d==='asc'?{k,d:'desc'}:so.d==='desc'&&(k==='rank'||k==='ten')?{k,d:'asc'}:null;
+    if(st.ssort&&(k==='rank'||k==='ten')&&so&&so.k===k&&so.d==='asc')st.ssort=null;render()},
+  ssortReset:()=>{st.ssort=null;render()},
+  ssMode:a=>{st.ssort={org:null,rank:{k:'rank',d:'desc'},name:{k:'name',d:'asc'},join:{k:'join',d:'asc'}}[a.dataset.v]||null;render()},
   ssDel:()=>{const ids=[...(st.ssel||[])];if(!ids.length)return;openConfirm(`선택한 ${ids.length}명을 명부에서 삭제할까요? 입사·퇴사 기록과 업무는 남아 있어요.`,async()=>{await st.api.batch(ids.map(id=>({c:'staff',id,del:true})));st.ssel.clear();addLog(`직원 명부 삭제 ${ids.length}명`,ids.length);toast(`${ids.length}명을 삭제했어요`)})},
   ssDelOne:a=>{const s=st.staff.get(a.dataset.id);if(!s)return;openConfirm(`'${esc(s.name)}' 님을 명부에서 삭제할까요? 입사·퇴사 기록과 업무는 남아 있어요.`,async()=>{await st.api.remove('staff',s.id);st.ssel?.delete(s.id);addLog(`직원 명부 삭제 · ${s.name}`);toast('삭제했어요')})},
   hst:a=>{st.hst=a.dataset.v;render()},

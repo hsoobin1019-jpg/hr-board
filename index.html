@@ -1100,6 +1100,7 @@ body{color:var(--ink)}
 .mtc .tx small{display:block;font-size:12px;color:var(--mute);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mtc .lg{flex:none;font-size:11px;font-weight:700;color:#008197;background:#E6F6F9;border-radius:99px;padding:1px 7px;margin-top:2px}
 .mtc.off{opacity:.45}
+.rstar{font-style:normal;color:#D4A64A;margin-right:4px}
 .mtadd{height:40px;border:1px dashed #CFD8DD;border-radius:12px;background:none;color:var(--mute);font:inherit;font-size:13px;cursor:pointer;padding:0 14px}
 .mtadd:hover{border-color:#00A1B9;color:#008197}
 .mtnote{margin-top:12px}
@@ -1321,7 +1322,7 @@ const STORE_KEY = NS+'local.v1';
 const DEFAULT_NAMES = {'me@local':['나','#1f6fe5']};
 const PALETTE = ['#2563eb','#16a34a','#7c3aed','#ea7a2a','#0ea5e9','#db2777','#0d9488','#a16207','#64748b'];
 const CATS = ['급여','4대보험','세무신고','근태','연차','입·퇴사','평가·보상','교육','계약·갱신','노사','기타'];
-const DATA_VER = 6; // 2: HR 기본 자료로 새로 시작 · 3: 정기업무 체크리스트 · 4: 입·퇴사 후속 업무를 한 업무로 합침 · 5: 급여(10일)·기안·원천세 정기업무 · 6: 법정 업무 보강·정밀검진·송년회
+const DATA_VER = 7; // 2: HR 기본 자료로 새로 시작 · 3: 정기업무 체크리스트 · 4: 입·퇴사 후속 업무를 한 업무로 합침 · 5: 급여(10일)·기안·원천세 정기업무 · 6: 법정 업무 보강·정밀검진·송년회 · 7: 정기업무 중요 표시
 const HOLIDAYS = {
  '2026-01-01':'신정','2026-02-16':'설날','2026-02-17':'설날','2026-02-18':'설날','2026-03-01':'삼일절','2026-03-02':'대체공휴일','2026-05-01':'노동절','2026-05-05':'어린이날','2026-05-24':'부처님오신날','2026-05-25':'대체공휴일','2026-06-03':'지방선거','2026-06-06':'현충일','2026-08-15':'광복절','2026-08-17':'대체공휴일','2026-09-24':'추석','2026-09-25':'추석','2026-09-26':'추석','2026-10-03':'개천절','2026-10-05':'대체공휴일','2026-10-09':'한글날','2026-12-25':'성탄절',
  '2027-01-01':'신정','2027-02-06':'설날','2027-02-07':'설날','2027-02-08':'설날','2027-02-09':'대체공휴일','2027-03-01':'삼일절','2027-05-01':'노동절','2027-05-05':'어린이날','2027-05-13':'부처님오신날','2027-06-06':'현충일','2027-08-15':'광복절','2027-08-16':'대체공휴일','2027-09-14':'추석','2027-09-15':'추석','2027-09-16':'추석','2027-10-03':'개천절','2027-10-04':'대체공휴일','2027-10-09':'한글날','2027-10-11':'대체공휴일','2027-12-25':'성탄절','2027-12-27':'대체공휴일'
@@ -1417,7 +1418,7 @@ function guessCat(t){
 function shiftFor(t){ return /정밀검진/.test(t)?'none':/기안|품의/.test(t)?'before':/신고|납부|제출|통보|지급명세서/.test(t)?'after':'before'; }
 function buildSeed(){
   const out=[]; let n=0; const id=p=>p+String(++n).padStart(3,'0');
-  const base=(t,side,memo)=>({title:t,side,cat:guessCat(t),owner:'',helpers:[],shift:shiftFor(t),memo:memo||'',active:true,src:'기본',chk:[...(SEED_CHK[t]||[])]});
+  const base=(t,side,memo)=>({title:t,side,cat:guessCat(t),owner:'',helpers:[],shift:shiftFor(t),memo:memo||'',active:true,src:'기본',star:STAR_RT.test(t),chk:[...(SEED_CHK[t]||[])]});
   SEED_YEARLY.forEach(([gm,side,t,m,d,memo,sM,sD])=>out.push({id:id('hy'),...base(t,side,memo),freq:'yearly',gm,month:m,day:d,sM:sM||null,sD:sD||null,lead:30}));
   SEED_EVERY.forEach(([side,t,d,memo,act])=>out.push({id:id('hm'),...base(t,side,memo),freq:'monthly',day:d,lead:/^급여/.test(t)?21:14,active:act!==false}));
   SEED_QUARTERLY.forEach(([side,t,months,d,memo])=>out.push({id:id('hq'),...base(t,side,memo),freq:'quarterly',months,day:d,lead:30}));
@@ -1747,7 +1748,7 @@ async function onUser(u){
   $('#app').hidden=false;ghBadge();
   const A=st.api;
   unsubs.push(A.watch('meta',docs=>{const a=docs.find(d=>d.id==='access');if(a){st.emails=(a.emails||[]).map(x=>x.toLowerCase());st.admins=(a.admins||[]).map(x=>x.toLowerCase())}render()}));
-  unsubs.push(A.watch('settings',docs=>{const m=docs.find(d=>d.id==='main');st.settings=m||null;st.ready.settings=1;if(!m)seedOnce();else if((m.dataVer||1)<2)migrate();else if(m.dataVer<3)migrate3();else if(m.dataVer<4)migrate4();else if(m.dataVer<5)migrate5();else if(m.dataVer<DATA_VER)migrate6();else{maybeGen();} render();}));
+  unsubs.push(A.watch('settings',docs=>{const m=docs.find(d=>d.id==='main');st.settings=m||null;st.ready.settings=1;if(!m)seedOnce();else if((m.dataVer||1)<2)migrate();else if(m.dataVer<3)migrate3();else if(m.dataVer<4)migrate4();else if(m.dataVer<5)migrate5();else if(m.dataVer<6)migrate6();else if(m.dataVer<DATA_VER)migrate7();else{maybeGen();} render();}));
   unsubs.push(A.watch('tasks',docs=>{st.tasks=new Map(docs.map(d=>[d.id,d]));st.ready.tasks=1;[...st.sel].forEach(id=>{if(!st.tasks.has(id))st.sel.delete(id)});maybeGen();render()}));
   unsubs.push(A.watch('routines',docs=>{st.routines=new Map(docs.map(d=>[d.id,d]));st.ready.routines=1;maybeGen();render()}));
   unsubs.push(A.watch('people',docs=>{st.people=new Map(docs.map(d=>[d.id,d]));st.ready.people=1;render()}));
@@ -2175,7 +2176,7 @@ function renderBulk(){
   if(!el){el=document.createElement('div');el.id='bulkBar';el.className='bulk';document.body.appendChild(el)}
   el.innerHTML=st.view==='tasks'
    ?`<b>${n}건 선택</b><button data-bulk="status">상태</button><button data-bulk="period">기간</button><button data-bulk="cat">분류</button><button data-bulk="done">완료 처리</button><button data-bulk="del">삭제</button><button class="x" data-bulk="clear">선택 해제</button>`
-   :`<b>정기업무 ${n}건 선택</b><button data-rbulk="shift">휴일 처리</button><button data-rbulk="lead">미리 만들기</button><button data-rbulk="cat">분류</button><button data-rbulk="on">사용</button><button data-rbulk="off">사용 안 함</button><button data-rbulk="del">삭제</button><button class="x" data-rbulk="clear">선택 해제</button>`;
+   :`<b>정기업무 ${n}건 선택</b><button data-rbulk="shift">휴일 처리</button><button data-rbulk="lead">미리 만들기</button><button data-rbulk="cat">분류</button><button data-rbulk="star">★ 중요</button><button data-rbulk="unstar">중요 해제</button><button data-rbulk="on">사용</button><button data-rbulk="off">사용 안 함</button><button data-rbulk="del">삭제</button><button class="x" data-rbulk="clear">선택 해제</button>`;
 }
 
 /* ---------------- 캘린더 ---------------- */
@@ -2195,13 +2196,13 @@ function vCal(){
     cands().filter(c=>c.date===d&&ivRes(c)!=='불참').forEach(c=>evs.push(`<span class="ce iv" data-cand="${c.id}">면접 ${esc(c.time||'')} ${esc(c.name)}</span>`));
     staffOn().forEach(s=>{if(s.prob&&!s.probRes&&s.joinDate&&probEnd(s)===d)evs.push(`<span class="ce tk" data-staff="${s.id}">수습 종료 ${esc(s.name)}</span>`);if(s.etype==='계약'&&!s.cDec&&s.cEnd===d)evs.push(`<span class="ce tk" data-staff="${s.id}">계약 만료 ${esc(s.name)}</span>`)});
     [...st.talks.values()].filter(k=>k.date===d).forEach(k=>evs.push(`<span class="ce tl" data-talk="${k.id}">면담 ${esc(k.name)}</span>`));
-    L.filter(x=>x.due&&(x.start||x.due)<=d&&x.due>=d&&diffD(x.due,x.start||x.due)<=45).sort(byDue).forEach(x=>{
+    L.filter(x=>calOn(x,d)).sort((a,b)=>(b.star?1:0)-(a.star?1:0)||byDue(a,b)).forEach(x=>{
       const mid=x.start&&x.start!==x.due&&d!==x.start&&d!==x.due;
       evs.push(`<span class="ce ${x.status==='done'?'done':''} ${isLate(x)?'late':''} ${mid?'mid':''}" style="--c:${sideCol(x.side)}" data-open="${x.id}">${x.star?'★':''}${x.start&&x.start!==x.due&&d===x.start?'▸ ':''}${esc(x.title)}</span>`)});
     const hn=holidays()[d],gd=pD(d).getDay();
     cells+=`<div class="d ${d.slice(5,7)!==pad(c.m)?'out':''} ${d===t?'today':''} ${hn||gd===0?'off':gd===6?'sat':''}${d===c.sel?'sel':''}" data-day="${d}"><div class="dn"><span>${+d.slice(8)}</span>${hn?`<em class="hn">${esc(hn)}</em>`:''}</div>${evs.slice(0,4).join('')}${evs.length>4?`<div class="more">+${evs.length-4}건</div>`:''}</div>`;
   }
-  const dl=L.filter(x=>x.due&&(x.start||x.due)<=c.sel&&x.due>=c.sel).sort(byDue);
+  const dl=L.filter(x=>calOn(x,c.sel)).sort(byDue);
   const dp=P.filter(p=>p.date===c.sel);
   return `
   <div class="ph"><h1>캘린더</h1><span class="sp"></span><button class="btn pri" data-act="newTask" data-due="${c.sel}">+ ${md(c.sel)} 업무 추가</button></div>
@@ -2215,6 +2216,8 @@ function vCal(){
     <div class="rows">${dp.map(p=>`<div class="row" data-person="${p.id}"><span class="pill ${p.type==='in'?'s-doing':'s-hold'}">${p.type==='in'?'입사':'퇴사'}</span><div class="tt"><b>${esc(p.name)}</b><small>${esc(p.dept||'')}</small></div></div>`).join('')}${dl.map(rowHtml).join('')}${!dl.length&&!dp.length?'<div class="empty">이날 업무가 없어요.</div>':''}</div></section>`;
 }
 
+/* 캘린더 표시: 정기업무·마감 업무는 마감일에만, 직접 만든 기간 업무(시작일~마감일)만 기간 내내 보여요 */
+function calOn(x,d){if(!x.due)return false;if(x.rid||!x.start||x.start===x.due)return x.due===d;return x.start<=d&&x.due>=d&&diffD(x.due,x.start)<=45}
 /* ---------------- 정기업무 ---------------- */
 function rDue(r){
   if(r.freq==='yearly')return (r.sM&&r.sD?`${r.sM}/${r.sD}~`:'')+`${r.month}/${r.day==='last'?'말일':r.day}`;
@@ -2275,13 +2278,13 @@ function vRoutines(){
     const dd=today().slice(8)*1;
     const days=[...new Set(M.map(r=>r.day==='last'?'last':+r.day))].sort((a,b)=>(a==='last'?99:a)-(b==='last'?99:b));
     body=`<div class="mtl">${days.map(d=>{const list=M.filter(r=>(r.day==='last'?'last':+r.day)===d).sort((a,b)=>(a.active===false)-(b.active===false)||a.title.localeCompare(b.title));
-      return `<div class="mtr ${d===dd?'today':''} ${d==='last'?'lastd':''}"><div class="mtd">${d==='last'?'말일':d+'일'}</div><div class="mti">${list.map(r=>`<div class="mtc ${r.active===false?'off':''}" data-rt="${r.id}" style="--c:${sideCol(r.side)}" title="${esc(r.title+(r.memo?' · '+r.memo:''))}"><span class="dot"></span><span class="tx"><b>${esc(r.title)}</b>${r.memo||r.active===false?`<small>${r.active===false?'사용 안 함 · ':''}${esc(r.memo||'')}</small>`:''}</span>${isLegal(r)?'<span class="lg">법정</span>':''}</div>`).join('')}</div></div>`}).join('')||'<div class="empty">매월 반복하는 정기업무가 없어요.</div>'}</div>
+      return `<div class="mtr ${d===dd?'today':''} ${d==='last'?'lastd':''}"><div class="mtd">${d==='last'?'말일':d+'일'}</div><div class="mti">${list.map(r=>`<div class="mtc ${r.active===false?'off':''}" data-rt="${r.id}" style="--c:${sideCol(r.side)}" title="${esc(r.title+(r.memo?' · '+r.memo:''))}"><span class="dot"></span><span class="tx"><b>${r.star?'<i class="rstar">★</i>':''}${esc(r.title)}</b>${r.memo||r.active===false?`<small>${r.active===false?'사용 안 함 · ':''}${esc(r.memo||'')}</small>`:''}</span>${isLegal(r)?'<span class="lg">법정</span>':''}</div>`).join('')}</div></div>`}).join('')||'<div class="empty">매월 반복하는 정기업무가 없어요.</div>'}</div>
     <div class="mtnote"><button class="mtadd" data-act="newRt" data-freq="monthly">+ 매월 정기업무 추가</button></div>`;
   }else{
     const L=R.sort((a,b)=>(a.freq+a.side).localeCompare(b.freq+b.side)||String(a.month||0).padStart(2,'0').localeCompare(String(b.month||0).padStart(2,'0'))||(a.day==='last'?32:+a.day)-(b.day==='last'?32:+b.day));
     const all=L.length&&L.every(r=>st.rsel.has(r.id));
     body=`<table class="tbl"><thead><tr><th class="ck"><input type="checkbox" data-act="rckAll" ${all?'checked':''} aria-label="전체 선택"></th><th>업무</th><th>구분</th><th>주기</th><th>휴일이면</th><th>미리 만들기</th><th>사용</th></tr></thead><tbody>
-    ${L.map(r=>`<tr class="${st.rsel.has(r.id)?'sel':''}"><td class="ck"><input type="checkbox" data-act="rck" data-id="${r.id}" ${st.rsel.has(r.id)?'checked':''} aria-label="선택"></td><td class="c-ttl"><div class="ttl" data-rt="${r.id}">${esc(r.title)}</div><div class="sub">${catChip(r.cat)}${isLegal(r)?'<span class="cc t-c">법정 기한</span>':''}${r.chk?.length?`<span>☑ ${r.chk.length}단계</span>`:''}</div></td><td>${esc(r.side||'')}</td><td style="white-space:nowrap">${rDue(r)}</td><td style="white-space:nowrap">${{before:'앞당김',after:'미룸',none:'그대로'}[r.shift||'none']}</td><td>${r.lead||14}일 전</td><td>${r.active===false?'<span class="tag">안 함</span>':'<span class="tag" style="color:var(--green)">사용</span>'}</td></tr>`).join('')}</tbody></table>`;
+    ${L.map(r=>`<tr class="${st.rsel.has(r.id)?'sel':''}"><td class="ck"><input type="checkbox" data-act="rck" data-id="${r.id}" ${st.rsel.has(r.id)?'checked':''} aria-label="선택"></td><td class="c-ttl"><div class="ttl" data-rt="${r.id}">${r.star?'<i class="rstar">★</i>':''}${esc(r.title)}</div><div class="sub">${catChip(r.cat)}${isLegal(r)?'<span class="cc t-c">법정 기한</span>':''}${r.chk?.length?`<span>☑ ${r.chk.length}단계</span>`:''}</div></td><td>${esc(r.side||'')}</td><td style="white-space:nowrap">${rDue(r)}</td><td style="white-space:nowrap">${{before:'앞당김',after:'미룸',none:'그대로'}[r.shift||'none']}</td><td>${r.lead||14}일 전</td><td>${r.active===false?'<span class="tag">안 함</span>':'<span class="tag" style="color:var(--green)">사용</span>'}</td></tr>`).join('')}</tbody></table>`;
   }
   return `<div class="ph"><h1>정기업무</h1><span class="sp"></span><button class="btn" data-act="genNow">지금 업무 만들기</button><button class="btn pri" data-act="newRt" data-freq="monthly">+ 정기업무 추가</button>
    <div class="desc">정기업무는 마감 ${S().lead||14}일 전쯤(업무마다 설정) 업무 목록에 자동으로 만들어져요. 마감일이 주말·공휴일이면 앞당기거나 미뤄요. 정기업무에 체크리스트를 넣어 두면 만들어지는 업무에 그대로 들어가요.</div></div>
@@ -2468,6 +2471,7 @@ function openRoutine(id,pre={}){
      <div class="fld"><label for="rLead">업무 목록에 미리 만들기</label><select class="inp" id="rLead">${[3,7,10,14,21,30,45,60].map(n=>`<option value="${n}" ${+r.lead===n?'selected':''}>마감 ${n}일 전</option>`).join('')}</select></div></div>
     <div class="fld"><label for="rMemo">메모</label><input class="inp" id="rMemo" value="${esc(r.memo||'')}"></div>
     <div class="fld"><label for="rChk">체크리스트 · 한 줄에 한 단계 (만들어지는 업무에 그대로 들어가요)</label><textarea class="inp" id="rChk" rows="3" placeholder="예) 급여대장 확인 / 신고서 작성 / 홈택스 제출">${esc((r.chk||[]).join('\n'))}</textarea></div>
+    <div class="fld"><label><input type="checkbox" id="rStar" ${r.star?'checked':''}> ★ 중요 업무 (만들어지는 업무가 업무 보드 '중요' 칸에 들어가요)</label></div>
     <div class="fld"><label><input type="checkbox" id="rActive" ${r.active!==false?'checked':''}> 사용 (끄면 업무가 더 만들어지지 않아요)</label></div>
     ${id?`<div class="fld"><label><input type="checkbox" id="rApply" checked> 이미 만들어진 미완료 업무에도 업무명·분류 반영</label></div>`:''}
    </form>
@@ -2476,14 +2480,15 @@ function openRoutine(id,pre={}){
 }
 async function saveRtForm(){
   const id=$('#fRt').dataset.id,old=id?st.routines.get(id):null;
-  const d={title:$('#rTitle').value.trim(),side:$('#rSide').value,cat:$('#rCat').value,freq:$('#rFreq').value,month:+$('#rMonth').value,day:$('#rDay').value==='last'?'last':+$('#rDay').value,sD:$('#rSD').value?+$('#rSD').value:null,shift:$('#rShift').value,lead:+$('#rLead').value,owner:'',memo:$('#rMemo').value,chk:$('#rChk').value.split('\n').map(s=>s.trim()).filter(Boolean),active:$('#rActive').checked,updatedAt:nowISO(),updatedBy:me()};
+  const d={title:$('#rTitle').value.trim(),side:$('#rSide').value,cat:$('#rCat').value,freq:$('#rFreq').value,month:+$('#rMonth').value,day:$('#rDay').value==='last'?'last':+$('#rDay').value,sD:$('#rSD').value?+$('#rSD').value:null,shift:$('#rShift').value,lead:+$('#rLead').value,owner:'',memo:$('#rMemo').value,chk:$('#rChk').value.split('\n').map(s=>s.trim()).filter(Boolean),active:$('#rActive').checked,star:$('#rStar').checked,updatedAt:nowISO(),updatedBy:me()};
   if(!d.title){toast('업무명을 적어주세요');return}
   if(d.freq==='yearly'){d.gm=old?.gm&&old.month===d.month?old.gm:d.month;if(d.sD&&!old?.sM)d.sM=d.month;if(!d.sD)d.sM=null}
   if(d.freq==='quarterly')d.months=old?.months||[3,6,9,12];
   const rid=id||'u'+uid();
   if(!id){d.createdAt=nowISO();d.createdBy=me();d.helpers=[];d.src='직접 추가'}
   await st.api.put('routines',rid,d);
-  if(id&&$('#rApply')?.checked){const ids=live().filter(t=>t.rid===id&&t.status!=='done').map(t=>t.id);if(ids.length)await updateTasks(ids,{title:d.title,cat:d.cat},'정기업무 변경 반영',{quiet:true})}
+  if(id&&$('#rApply')?.checked){const ids=live().filter(t=>t.rid===id&&t.status!=='done').map(t=>t.id);if(ids.length)await updateTasks(ids,{title:d.title,cat:d.cat,star:d.star},'정기업무 변경 반영',{quiet:true})}
+  else if(id&&!!old?.star!==d.star){const ids=live().filter(t=>t.rid===id&&t.status!=='done').map(t=>t.id);if(ids.length)await updateTasks(ids,{star:d.star},'정기업무 중요 반영',{quiet:true})}
   addLog(`정기업무 ${id?'수정':'추가'} · ${d.title}`);
   closeLayer();toast(id?'정기업무를 저장했어요':'정기업무를 추가했어요');maybeGen();
 }
@@ -2628,6 +2633,7 @@ document.addEventListener('click',async e=>{
   if(rb){const ids=[...st.rsel],k=rb.dataset.rbulk;
     if(k==='clear'){st.rsel.clear();render();return}
     if(k==='on'||k==='off'){await rBatch(ids,{active:k==='on'},k==='on'?'정기업무 사용':'정기업무 사용 안 함');return}
+    if(k==='star'||k==='unstar'){await rBatch(ids,{star:k==='star'},k==='star'?'정기업무 중요 표시':'정기업무 중요 해제');return}
     if(k==='del'){openConfirm(`정기업무 ${ids.length}건을 삭제할까요? 이미 만들어진 업무는 남아 있어요.`,async()=>{await st.api.batch(ids.map(id=>({c:'routines',id,del:true})));addLog(`정기업무 ${ids.length}건 삭제`,ids.length);st.rsel.clear();toast('삭제했어요')});return}
     if(k==='owner')openPop(rb,popOwner(null),{type:'rOwner',ids,anchor:rb});
     if(k==='shift')openPop(rb,[['before','앞 평일로 당김'],['after','다음 평일로 미룸'],['none','그대로']].map(([v,l])=>`<button class="pi" data-pv="${v}">${l}</button>`).join(''),{type:'rShift',ids,anchor:rb});
@@ -2730,6 +2736,7 @@ document.addEventListener('change',e=>{
 });
 async function rBatch(ids,d,label,applyTasks){
   await st.api.batch(ids.map(id=>({c:'routines',id,d:{...d,updatedAt:nowISO(),updatedBy:me()}})));
+  if('star' in d){const tids=live().filter(t=>ids.includes(t.rid)&&t.status!=='done').map(t=>t.id);if(tids.length)await updateTasks(tids,{star:d.star},'정기업무 중요 반영',{quiet:true})}
   if(applyTasks&&'owner' in d){const tids=live().filter(t=>ids.includes(t.rid)&&t.status!=='done').map(t=>t.id);if(tids.length)await updateTasks(tids,{owner:d.owner},'정기업무 담당자 반영',{quiet:true})}
   addLog(`${label} (${ids.length}건)`,ids.length);toast(`${label} · ${ids.length}건`);maybeGen();
 }
@@ -2750,7 +2757,7 @@ function doSearch(v){
 }
 
 /* ---------------- 체크리스트 (업무 안 세부 단계) ---------------- */
-function routineTaskData(r,o){return {title:r.title,cat:r.cat||'',side:r.side||'',owner:r.owner||'',helpers:r.helpers||[],start:o.start,due:o.due,status:'todo',star:false,remind:3,memo:r.memo||'',rid:r.id,src:'정기업무',chk:(r.chk||[]).map(t=>({t,done:false})),createdAt:nowISO(),createdBy:'자동',hist:[{at:nowISO(),by:'',t:'정기업무에서 자동 생성'}]}}
+function routineTaskData(r,o){return {title:r.title,cat:r.cat||'',side:r.side||'',owner:r.owner||'',helpers:r.helpers||[],start:o.start,due:o.due,status:'todo',star:!!r.star,remind:3,memo:r.memo||'',rid:r.id,src:'정기업무',chk:(r.chk||[]).map(t=>({t,done:false})),createdAt:nowISO(),createdBy:'자동',hist:[{at:nowISO(),by:'',t:'정기업무에서 자동 생성'}]}}
 function chkHtml(t){const c=t.chk||[],d=c.filter(x=>x.done).length;
   return `<h4>체크리스트 ${c.length?`<span class="note">${d}/${c.length}</span>`:''}</h4>${c.length?`<div class="prog" style="margin:0 0 8px"><i style="width:${Math.round(d/c.length*100)}%"></i></div>`:''}
   ${c.map((x,i)=>`<div class="ckl ${x.done?'done':''}"><button type="button" class="ckc ${x.done?'on':''}" data-act="chkToggle" data-id="${t.id}" data-i="${i}" aria-label="완료">${x.done?'✓':''}</button><span>${esc(x.t)}</span>${chkDue(x)}<button type="button" class="icon-btn" data-act="chkDel" data-id="${t.id}" data-i="${i}" aria-label="삭제">✕</button></div>`).join('')}
@@ -2849,8 +2856,22 @@ async function migrate6(){
     // 송년회 (2026-12-18, 한 번만)
     if(!all.tasks?.['ev-2026-yearend'])ops.push({c:'tasks',id:'ev-2026-yearend',d:{title:'사내 행사 · 송년회',cat:'기타',side:'기타',owner:'',helpers:[],start:'',due:'2026-12-18',status:'todo',star:false,remind:3,memo:'',src:'행사',
       chk:['예산 기안(품의)','장소·식사 예약','참석 인원 파악','전 직원 공지','진행·경품 준비','비용 정산'].map(x=>({t:x,done:false})),createdAt:nowISO(),createdBy:me(),hist:[{at:nowISO(),by:'',t:'행사 등록'}],cmts:[]}});
-    ops.push({c:'settings',id:'main',d:{dataVer:DATA_VER}});
+    ops.push({c:'settings',id:'main',d:{dataVer:6}});
     await st.api.batch(ops);addLog('정기업무 보강: 법정 업무 · 정밀검진 · 송년회');
+  }catch(e){console.error(e)}
+  st.migrating=false;
+  if((S().dataVer||0)<DATA_VER)migrate7();else maybeGen();
+}
+// v7: 돈·가산세가 걸린 정기업무는 기본으로 '중요' (만들어진 미완료 업무에도 반영)
+const STAR_RT=/^(급여 기안|급여 지급|원천세|4대보험료 납부|사업·기타소득 간이지급명세서|연차 사용촉진|근로·퇴직·사업소득 지급명세서|근로소득 연말정산)/;
+async function migrate7(){
+  if(st.migrating)return;st.migrating=true;
+  try{
+    const all=st.api.exportAll().data,ops=[],ids=[];
+    for(const [rid,r] of Object.entries(all.routines||{}))if(r.star==null&&STAR_RT.test(r.title||'')){ops.push({c:'routines',id:rid,d:{star:true}});ids.push(rid)}
+    for(const [tid,t] of Object.entries(all.tasks||{}))if(ids.includes(t.rid)&&!t.deleted&&t.status!=='done'&&!t.star)ops.push({c:'tasks',id:tid,d:{star:true}});
+    ops.push({c:'settings',id:'main',d:{dataVer:DATA_VER}});
+    await st.api.batch(ops);if(ids.length)addLog(`정기업무 ${ids.length}건 중요 표시`);
   }catch(e){console.error(e)}
   st.migrating=false;maybeGen();
 }

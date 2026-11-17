@@ -3082,19 +3082,26 @@ async function saveStaffForm(){
 }
 function openStaffPaste(){
   openLayer(`<div class="modal wide" role="dialog" aria-label="명부 붙여넣기"><h2>직원 명부 붙여넣기</h2>
-   <p class="note">엑셀에서 아래 순서대로 칸을 복사해 붙여넣으세요. 이름만 있어도 돼요. 같은 이름·부서가 이미 있으면 정보를 덮어써요.<br><b>이름 · 부서 · 직급 · 직무 · 고용형태(정규/계약) · 입사일 · 계약 종료일</b><br>더 넣고 싶으면 뒤에 이어서: <b>상태(재직/휴직/퇴사) · 사업부 · 팀장(Y) · 수습(Y/N) · 퇴사일</b></p>
+   <p class="note">엑셀에서 아래 순서대로 칸을 복사해 붙여넣으세요. 이름만 있어도 돼요. 같은 이름·부서가 이미 있으면 정보를 덮어써요.<br><b>이름 · 부서 · 직급 · 직무 · 고용형태(정규/계약) · 입사일 · 계약 종료일</b><br>더 넣고 싶으면 뒤에 이어서: <b>상태(재직/휴직/퇴사) · 사업부 · 팀장(Y) · 수습(Y/N) · 퇴사일 · 사번</b></p>
    <textarea class="inp" id="spTxt" rows="10" placeholder="예) 홍길동	기계3팀	대리	기계설계	정규	2021-03-02"></textarea>
+   <label class="chkl" style="margin-top:10px"><input type="checkbox" id="spReplace"> 전체 명부로 바꾸기 — 붙여넣은 명단에 없는 기존 직원은 지워요 (휴직·메모·수습 결과는 그대로 둬요)</label>
    <div class="acts"><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="staffPasteGo">등록</button></div></div>`);
 }
 async function staffPasteGo(){
   const rows=$('#spTxt').value.split(/\r?\n/).map(l=>l.split('\t').map(x=>x.trim())).filter(c=>c[0]);
   if(!rows.length){toast('붙여넣은 내용이 없어요');return}
   const ops=[],td=today();
-  rows.forEach(c=>{const joinDate=parseDateLoose(c[5]),et=ETYPES.includes(c[4])?c[4]:(/계약/.test(c[4]||'')?'계약':'정규'),ex=staffAll().find(s=>s.name===c[0]&&(s.team||'')===(c[1]||''));
-    const d={name:c[0],team:c[1]||'',rank:c[2]||'',job:c[3]||'',etype:et,joinDate,cEnd:parseDateLoose(c[6]),status:['재직','휴직','퇴사'].includes(c[7])?c[7]:(ex?.status||'재직'),prob:/^[YN]$/i.test(c[10]||'')?/y/i.test(c[10]):(joinDate?diffD(td,joinDate)<92:false),updatedAt:nowISO()};
-    if(c[8])d.div=c[8];if(c[9]!=null&&c[9]!=='')d.leader=/^(y|o|팀장|1)$/i.test(c[9]);if(c[11])d.leaveDate=parseDateLoose(c[11]);
+  const replace=$('#spReplace')?.checked,all=staffAll(),used=new Set();
+  /* 같은 사람 찾기: 사번 → 이름+부서 → 이름이 하나뿐일 때 이름 (한 번 짝지은 기록은 다시 안 씀) */
+  const findEx=c=>{const free=all.filter(s=>!used.has(s.id));return (c[12]&&free.find(s=>s.empNo===c[12]))||free.find(s=>s.name===c[0]&&(s.team||'')===(c[1]||''))||(replace?(x=>x.length===1?x[0]:null)(free.filter(s=>s.name===c[0]&&!s.empNo)):null)};
+  rows.sort((a,b)=>(a[7]==='퇴사')-(b[7]==='퇴사'));
+  rows.forEach(c=>{const joinDate=parseDateLoose(c[5]),et=ETYPES.includes(c[4])?c[4]:(/계약/.test(c[4]||'')?'계약':'정규'),ex=findEx(c);if(ex)used.add(ex.id);
+    let status=['재직','휴직','퇴사'].includes(c[7])?c[7]:(ex?.status||'재직');if(status==='재직'&&ex?.status==='휴직')status='휴직';
+    const d={name:c[0],team:c[1]||'',rank:c[2]||'',job:c[3]||'',etype:et,joinDate,cEnd:parseDateLoose(c[6]),status,prob:/^[YN]$/i.test(c[10]||'')?/y/i.test(c[10]):(ex&&ex.joinDate===joinDate?!!ex.prob:(joinDate?diffD(td,joinDate)<92:false)),updatedAt:nowISO()};
+    if(c[8])d.div=c[8];if(c[9]!=null&&c[9]!=='')d.leader=/^(y|o|팀장|1)$/i.test(c[9]);if(c[11])d.leaveDate=parseDateLoose(c[11]);if(c[12])d.empNo=c[12];
     ops.push({c:'staff',id:ex?.id||'s-'+uid(),d:ex?d:{...d,createdAt:nowISO()}})});
-  await st.api.batch(ops);addLog(`직원 명부 붙여넣기 ${ops.length}명`,ops.length);closeLayer();toast(`${ops.length}명을 명부에 넣었어요`);
+  const gone=replace?all.filter(s=>!used.has(s.id)):[];gone.forEach(s=>ops.push({c:'staff',id:s.id,del:true}));
+  await st.api.batch(ops);addLog(`직원 명부 붙여넣기 ${rows.length}명${gone.length?` · 명단에 없던 ${gone.length}명 정리`:''}`,rows.length);closeLayer();toast(`${rows.length}명을 명부에 넣었어요${gone.length?` · 명단에 없던 ${gone.length}명은 지웠어요`:''}`);
 }
 // 입사·퇴사 기록 → 명부
 async function syncStaff(pid,d){

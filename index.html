@@ -1065,7 +1065,45 @@ body{color:var(--ink)}
 .ot-ms{display:flex;flex-wrap:wrap;gap:6px;padding:2px 8px 10px}
 .og-mc.ld{border-color:#BFE6EC;background:#F3FBFC}
 /* 조직도(설정형) — 보드 디자인 */
-.oc{display:flex;flex-direction:column;align-items:center;padding-top:6px;--ln:#D3DEE3}
+.orgc{display:flex;flex-direction:column;align-items:center;padding-top:6px;--ln:#D3DEE3}
+/* 정기업무 · 이번 달 (일정형) */
+.agenda{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.ag{grid-template-columns:64px 1fr;gap:12px;padding:0;border:0}
+.agd{padding:12px 0 0;border-radius:14px}
+.agd b{font-size:22px}.agd span{display:block;margin-top:2px}
+.agd.today{background:#EBF8FB}
+.agl{gap:6px}
+.ag .oc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 14px;gap:12px;align-items:center}
+.ag .oc:hover{background:#fff;border-color:#C7DDE3;box-shadow:0 2px 8px rgba(16,40,60,.05)}
+.ag .oc .lt b{font-size:14.5px}
+.ag .oc .lm{flex-wrap:nowrap;overflow:hidden;margin-top:4px}
+.ag .oc .lm .cc{flex:none}
+.ag .oc .lm{justify-content:flex-start}
+.ag .oc .mm{max-width:none;flex:0 1 auto;min-width:0;text-align:left;margin:0}
+.ag .oc .btn.sm{flex:none}
+.ag .oc.miss{opacity:1;background:#FAFBFC}.ag .oc.miss .lt b{color:var(--mute)}
+.ag .oc.done{background:#FAFCFB}
+.agenda.dim .oc{background:#FAFBFC}
+.rsum{border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:6px;background:#fff}
+/* 정기업무 · 매월 날짜별 (타임라인) */
+.mtl{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.mtr{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:start}
+.mtd{height:40px;border-radius:12px;background:#F2F5F7;display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--ink)}
+.mtr.today .mtd{background:#00A1B9;color:#fff}
+.mtr.lastd .mtd{background:#EBF8FB;color:#008197;font-size:13.5px}
+.mti{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px}
+.mtc{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;min-width:0}
+.mtc:hover{border-color:#C7DDE3;box-shadow:0 2px 8px rgba(16,40,60,.05)}
+.mtc .dot{width:8px;height:8px;border-radius:50%;background:var(--c,#c5c9d1);margin-top:7px;flex:none}
+.mtc .tx{flex:1;min-width:0}
+.mtc .tx b{display:block;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mtc .tx small{display:block;font-size:12px;color:var(--mute);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mtc .lg{flex:none;font-size:11px;font-weight:700;color:#008197;background:#E6F6F9;border-radius:99px;padding:1px 7px;margin-top:2px}
+.mtc.off{opacity:.45}
+.mtadd{height:40px;border:1px dashed #CFD8DD;border-radius:12px;background:none;color:var(--mute);font:inherit;font-size:13px;cursor:pointer;padding:0 14px}
+.mtadd:hover{border-color:#00A1B9;color:#008197}
+.mtnote{margin-top:12px}
+@media(max-width:900px){.mtr{grid-template-columns:48px 1fr;gap:8px}.mti{grid-template-columns:1fr}}
 .oc-top{display:flex;justify-content:center}
 .oc-box{min-width:210px;padding:12px 22px 12px;border-radius:18px;text-align:center;background:#fff;border:1px solid var(--line);box-shadow:0 1px 2px rgba(16,40,60,.04)}
 .oc-box b{display:block;font-size:12px;font-weight:700;color:var(--mute);letter-spacing:.4px}
@@ -2218,23 +2256,27 @@ function vRoutines(){
     body=`<div class="rsum"><div><b>${curM}월 정기업무</b><span class="note">${A.length}건</span></div><div class="prog"><i style="width:${A.length?Math.round(done/A.length*100):0}%"></i></div>
       <div class="rchips"><span class="cc t-g">완료 ${done}</span>${late?`<span class="cc t-r">지남 ${late}</span>`:''}<span class="cc t-b">남음 ${A.length-done-late-cnt('miss')}</span></div></div>
      <div class="agenda">${agendaHtml(A)}</div>
-     <div class="lgh"><button data-act="gfold" data-k="rnext">${st.gfold?.rnext?'▸':'▾'} 다음 달 · ${nx.getMonth()+1}월 미리 보기</button><span class="tc">${B.length}</span></div>
-     ${st.gfold?.rnext?'':`<div class="agenda dim">${agendaHtml(B)}</div>`}
+     <div class="lgh"><button data-act="gfold" data-k="rnextOpen">${st.gfold?.rnextOpen?'▾':'▸'} 다음 달 · ${nx.getMonth()+1}월 미리 보기</button><span class="tc">${B.length}</span></div>
+     ${st.gfold?.rnextOpen?`<div class="agenda dim">${agendaHtml(B)}</div>`:''}
      <p class="note" style="margin-top:14px">동그라미를 누르면 완료돼요. 점선 동그라미는 아직 업무 목록에 만들어지지 않은 것(마감 ${S().lead||14}일 전쯤 자동 생성)이에요. '지금 만들기'로 미리 꺼낼 수 있어요.</p>`;
   }else if(st.rtab==='year'){
     const Y=R.filter(r=>r.freq==='yearly'),Q=R.filter(r=>r.freq==='quarterly'),M=R.filter(r=>r.freq==='monthly');
     const dk=r=>(r.day==='last'?32:+r.day);
     body=`<div class="ygrid">${Array.from({length:12},(_,i)=>i+1).map(m=>{
-      const items=[...Y.filter(r=>+(r.gm||r.month)===m).sort((a,b)=>(+a.month*40+dk(a))-(+b.month*40+dk(b))),...Q.filter(r=>(r.months||[3,6,9,12]).includes(m))];
+      const items=Y.filter(r=>+(r.gm||r.month)===m).sort((a,b)=>(+a.month*40+dk(a))-(+b.month*40+dk(b)));
       return `<div class="ym ${m===curM?'cur':''} ${m<curM?'past':''}"><div class="ymh"><b>${m}월</b>${m===curM?'<span class="cc t-b">이번 달</span>':''}<span class="note">${items.length}</span><button class="addln" data-act="newRt" data-freq="yearly" data-m="${m}" aria-label="${m}월에 추가">+</button></div>${items.map(r=>yItem(r,m)).join('')||'<div class="note" style="padding:4px 2px">없음</div>'}</div>`}).join('')}</div>
      <div class="ymon"><div class="ymh"><b>매월 반복</b><span class="note">${M.length}</span><button class="addln" data-act="newRt" data-freq="monthly" aria-label="매월 업무 추가">+</button></div>
       <div class="mstrip">${M.sort((a,b)=>dk(a)-dk(b)).map(r=>`<button class="mchip ${r.active===false?'off':''}" data-rt="${r.id}"><span class="md">${r.day==='last'?'말일':r.day+'일'}</span>${esc(r.title)}${r.active===false?' (안 함)':''}</button>`).join('')}</div></div>
+     ${Q.length?`<div class="ymon"><div class="ymh"><b>분기 · 반기 반복</b><span class="note">${Q.length}</span><button class="addln" data-act="newRt" data-freq="quarterly" aria-label="분기 업무 추가">+</button></div>
+      <div class="mstrip">${Q.map(r=>`<button class="mchip ${r.active===false?'off':''}" data-rt="${r.id}"><span class="md">${(r.months||[3,6,9,12]).join('·')}월 ${r.day==='last'?'말일':r.day+'일'}</span>${esc(r.title)}${r.active===false?' (안 함)':''}</button>`).join('')}</div></div>`:''}
      <p class="note" style="margin-top:12px"><span class="lg-dot">●</span> 신고·납부·제출처럼 법정 기한이 있는 업무 · 지난 달은 흐리게, 이번 달은 그라데이션 테두리로 보여요.</p>`;
   }else if(st.rtab==='month'){
     const M=R.filter(r=>r.freq==='monthly');
     const dd=today().slice(8)*1;
-    body=`<div class="mgrid">${[...Array.from({length:30},(_,i)=>i+1),'last'].map(d=>{const list=M.filter(r=>String(r.day)===String(d)||(d===30&&r.day===31));return `<div class="c ${d===dd?'today':''} ${d==='last'?'last':''}"><div class="dn"><span>${d==='last'?'말일':d}</span><button class="addln" data-act="newRt" data-freq="monthly" data-day="${d}" aria-label="추가">+</button></div><div class="lst">${list.map(r=>riHtml(r,false)).join('')}</div></div>`}).join('')}</div>
-    <div class="legend"><span><i style="background:${sideCol('인사')};border-radius:50%"></i>인사</span><span><i style="background:${sideCol('기타')};border-radius:50%"></i>기타</span></div>`;
+    const days=[...new Set(M.map(r=>r.day==='last'?'last':+r.day))].sort((a,b)=>(a==='last'?99:a)-(b==='last'?99:b));
+    body=`<div class="mtl">${days.map(d=>{const list=M.filter(r=>(r.day==='last'?'last':+r.day)===d).sort((a,b)=>(a.active===false)-(b.active===false)||a.title.localeCompare(b.title));
+      return `<div class="mtr ${d===dd?'today':''} ${d==='last'?'lastd':''}"><div class="mtd">${d==='last'?'말일':d+'일'}</div><div class="mti">${list.map(r=>`<div class="mtc ${r.active===false?'off':''}" data-rt="${r.id}" style="--c:${sideCol(r.side)}" title="${esc(r.title+(r.memo?' · '+r.memo:''))}"><span class="dot"></span><span class="tx"><b>${esc(r.title)}</b>${r.memo||r.active===false?`<small>${r.active===false?'사용 안 함 · ':''}${esc(r.memo||'')}</small>`:''}</span>${isLegal(r)?'<span class="lg">법정</span>':''}</div>`).join('')}</div></div>`}).join('')||'<div class="empty">매월 반복하는 정기업무가 없어요.</div>'}</div>
+    <div class="mtnote"><button class="mtadd" data-act="newRt" data-freq="monthly">+ 매월 정기업무 추가</button></div>`;
   }else{
     const L=R.sort((a,b)=>(a.freq+a.side).localeCompare(b.freq+b.side)||String(a.month||0).padStart(2,'0').localeCompare(String(b.month||0).padStart(2,'0'))||(a.day==='last'?32:+a.day)-(b.day==='last'?32:+b.day));
     const all=L.length&&L.every(r=>st.rsel.has(r.id));
@@ -3228,7 +3270,7 @@ function orgChart(cfg,on,rk){
   const sd=cfg.side;if(sd)mark(sd.teams);
   const sideHtml=sd?`<div class="oc-side"><div class="oc-sbox"><b>${esc(sd.label)}</b>${who(sd.teams,sd.title,sd.person,sd.rank)}${byTeam(sd.teams).length?item({label:'구성원',teams:sd.teams}):''}</div></div>`:'';
   const left=[...new Set(on.map(teamOf))].filter(t=>!used.has(t));
-  return `<div class="otree oc">${tops.map((b,i)=>`<div class="oc-top">${b}</div>${i<tops.length-1?'<div class="oc-vl"></div>':''}`).join('')}
+  return `<div class="otree orgc">${tops.map((b,i)=>`<div class="oc-top">${b}</div>${i<tops.length-1?'<div class="oc-vl"></div>':''}`).join('')}
     <div class="oc-stem">${sideHtml}</div>
     <ul class="oc-units">${units}</ul>
     ${left.length?`<p class="note oc-left">조직도에 넣지 않은 부서: ${left.map(t=>`${esc(t)}(${on.filter(s=>teamOf(s)===t).length})`).join(', ')} · '조직 구조 편집'에서 넣을 수 있어요</p>`:''}</div>`;

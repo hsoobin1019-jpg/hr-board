@@ -1101,6 +1101,20 @@ body{color:var(--ink)}
 .mtc .lg{flex:none;font-size:11px;font-weight:700;color:#008197;background:#E6F6F9;border-radius:99px;padding:1px 7px;margin-top:2px}
 .mtc.off{opacity:.45}
 .rstar{font-style:normal;color:#D4A64A;margin-right:4px}
+/* 업무 보드: 순서 바꾸기 · 나중에 보기 · 완료 숨기기 */
+.kph{height:4px;border-radius:4px;background:#00A1B9;margin:2px 4px;flex:none;box-shadow:0 0 0 3px rgba(0,161,185,.15)}
+.kc{position:relative}
+.ksnz{position:absolute;top:8px;right:38px;width:26px;height:26px;border-radius:8px;border:0;background:#fff;color:#8A979D;display:grid;place-items:center;cursor:pointer;opacity:0;transition:opacity .12s;z-index:2}
+.kc:hover .ksnz,.ksnz:focus-visible{opacity:1}.ksnz:hover{background:#EEF3F5;color:var(--ink)}
+.ksnz.on{position:static;opacity:1;width:auto;height:auto;padding:3px 9px;margin:0 0 6px;border-radius:99px;background:#F2F5F7;color:var(--ink2);font:inherit;font-size:12px;font-weight:600;display:inline-flex}
+.ksnz.on:hover{background:#E6F6F9;color:#008197}
+.snzb{border:0;background:#F2F5F7;color:var(--ink2);font:inherit;font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;cursor:pointer;white-space:nowrap}.snzb:hover{background:#E6F6F9;color:#008197}
+.hdone{margin-left:auto;border:0;background:none;font:inherit;font-size:12.5px;color:var(--mute);cursor:pointer;padding:3px 8px;border-radius:8px}
+.hdone:hover{background:#fff;color:var(--ink)}
+.kdone-hid{width:100%;border:1px dashed #CFD8DD;background:none;border-radius:14px;padding:11px 12px;font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;margin-bottom:10px;text-align:left}
+.kdone-hid:hover{border-color:#00A1B9;color:#008197;background:#F3FBFC}
+.snzc{display:flex;gap:6px;padding:8px 8px 4px;border-top:1px solid var(--line2);margin-top:4px}.snzc .inp{height:34px;flex:1;min-width:0}
+@media(hover:none){.ksnz{opacity:1}}
 .mtadd{height:40px;border:1px dashed #CFD8DD;border-radius:12px;background:none;color:var(--mute);font:inherit;font-size:13px;cursor:pointer;padding:0 14px}
 .mtadd:hover{border-color:#00A1B9;color:#008197}
 .mtnote{margin-top:12px}
@@ -1683,7 +1697,7 @@ const st={
   view:'home',
   filt:{who:'all',status:'open',period:'all',from:'',to:'',cat:'',side:'',q:'',star:false},
   sel:new Set(),lastCk:null,
-  cal:null,rp:'all',ptab:'sum',ivw:0,hrp:'year',rtab:'now',gfold:{},tview:lsGet(NS+'tview')||'board',rside:'',rsel:new Set(),
+  cal:null,rp:'all',ptab:'sum',ivw:0,hrp:'year',rtab:'now',gfold:{},hideDone:!!lsGet(NS+'hideDone'),tview:lsGet(NS+'tview')||'board',rside:'',rsel:new Set(),
   homeWho:'me',hTab:'done',
   fold:JSON.parse(lsGet(NS+'fold')||'{}'),
   undo:null,genBusy:false
@@ -1706,6 +1720,8 @@ const isOff=s=>{const g=pD(s).getDay();return g===0||g===6||!!holidays()[s]};
 function shiftDay(s,mode){if(!mode||mode==='none')return s;const step=mode==='after'?1:-1;let i=0;while(isOff(s)&&i++<10)s=addD(s,step);return s}
 const sideCol=sd=>sd==='인사'?'#00A1B9':sd==='기타'?'#A8B4BA':'#c5c9d1';
 const live=()=>[...st.tasks.values()].filter(t=>!t.deleted);
+/* 나중에 보기: snz 날짜 전까지 업무 화면에서 숨겨요 (그날이 되면 자동으로 다시 보여요) */
+const isSnz=t=>!!t.snz&&t.snz>today()&&t.status!=='done';
 const isLate=t=>t.status!=='done'&&t.due&&t.due<today();
 const mine=()=>true; // 개인용 — 모든 업무가 내 업무
 // 입·퇴사: 한 사람의 후속 단계 (합쳐진 업무의 체크리스트 + 예전 방식의 개별 업무)
@@ -2044,6 +2060,7 @@ function filtered(f=st.filt){
   let L=live();
   if(f.who==='me')L=L.filter(mine);else if(f.who==='none')L=L.filter(x=>!x.owner);else if(f.who!=='all')L=L.filter(x=>x.owner===f.who||(x.helpers||[]).includes(f.who));
   if(f.status==='open')L=L.filter(x=>x.status!=='done');else if(f.status!=='all')L=L.filter(x=>x.status===f.status);
+  L=f.snz?L.filter(isSnz):L.filter(x=>!isSnz(x));
   if(f.cat)L=L.filter(x=>x.cat===f.cat);
   if(f.star)L=L.filter(x=>x.star);
   if(f.side)L=L.filter(x=>x.side===f.side);
@@ -2059,7 +2076,7 @@ const catChip=c=>c?`<span class="cc t-${CAT_TONE[c]||'s'}">${esc(c)}</span>`:'';
 const chkN=t=>{const c=t.chk||[];return c.length?`<span class="mm chkn ${c.every(x=>x.done)?'all':''}">☑ ${c.filter(x=>x.done).length}/${c.length}</span>`:''};
 const GROUPS=[['late','기한 지남'],['today','오늘'],['tmr','내일'],['week','이번 주'],['next','다음 주'],['later','이후'],['none','기한 없음']];
 function dueGroup(t){const td=today();if(!t.due)return 'none';const n=diffD(t.due,td);if(n<0)return 'late';if(n===0)return 'today';if(n===1)return 'tmr';const we=addD(weekStart(td),6);if(t.due<=we)return 'week';if(t.due<=addD(we,7))return 'next';return 'later'}
-function curTab(){const f=st.filt;if(f.status==='done')return 'done';if(f.star)return 'star';if(f.status==='open'&&['today','week','late','all'].includes(f.period))return f.period==='all'?'open':f.period;return ''}
+function curTab(){const f=st.filt;if(f.snz)return 'snz';if(f.status==='done')return 'done';if(f.star)return 'star';if(f.status==='open'&&['today','week','late','all'].includes(f.period))return f.period==='all'?'open':f.period;return ''}
 // 빠른 추가: "원천세 신고 12/10 #세무신고 !" → 업무명·마감일·분류·중요
 function parseQuick(s){
   const td=today(),y=+td.slice(0,4);let x=' '+s+' ',due='',start='',cat='',star=false,m;
@@ -2091,7 +2108,7 @@ function liHtml(t){
    <button class="ckc ${done?'on':''}" data-act="toggleDone" data-id="${t.id}" title="${done?'완료 취소':'완료로 바꾸기'}" aria-label="${done?'완료 취소':'완료'}">${done?'✓':''}</button>
    <div class="lt" data-open="${t.id}"><b>${t.star?'<span class="st">★</span>':''}${esc(t.title)}</b>
     <div class="lm">${catChip(t.cat)}${t.rid?'<span class="tag r">정기</span>':''}${chkN(t)}${t.cmts?.length?`<span class="mm">💬 ${t.cmts.length}</span>`:''}${t.memo?`<span class="mm">${esc(t.memo.slice(0,50))}</span>`:''}</div></div>
-   ${done?'':`<div class="la"><button class="qa" data-act="postpone" data-id="${t.id}" data-d="1" title="마감을 하루 미뤄요">+1일</button><button class="qa" data-act="postpone" data-id="${t.id}" data-d="7" title="마감을 일주일 미뤄요">+1주</button></div>`}
+   ${done?'':isSnz(t)?`<button class="snzb" data-act="unsnz" data-id="${t.id}" title="지금 다시 보이기">${md(t.snz)}까지 숨김 · 보이기</button>`:`<div class="la"><button class="qa" data-act="postpone" data-id="${t.id}" data-d="1" title="마감을 하루 미뤄요">+1일</button><button class="qa" data-act="postpone" data-id="${t.id}" data-d="7" title="마감을 일주일 미뤄요">+1주</button><button class="qa" data-act="snz" data-id="${t.id}" title="정한 날까지 숨겨요">나중에</button></div>`}
    ${dueLabel(t)}
    <button class="pill s-${t.status}" data-cell="status" data-id="${t.id}">${SL[t.status]} ▾</button>
   </div>`;
@@ -2100,6 +2117,7 @@ function liHtml(t){
 function kcard(t){
   const c=t.chk||[],open=st.kopen?.has(t.id);
   return `<div class="kc ${isLate(t)?'late':''} ${t.status==='done'?'done':''} ${open?'open':''}" draggable="true" data-drag="${t.id}" data-open="${t.id}">
+   ${t.status==='done'?'':isSnz(t)?`<button class="ksnz on" data-act="unsnz" data-id="${t.id}" draggable="false" title="지금 다시 보이기">${md(t.snz)}까지 숨김 · 보이기</button>`:`<button class="ksnz" data-act="snz" data-id="${t.id}" draggable="false" title="나중에 보기 (정한 날까지 숨김)" aria-label="나중에 보기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-6 9-6 9 6 9 6"/><path d="M3 3l18 18"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>`}
    <button class="kexp" data-act="kexp" data-id="${t.id}" draggable="false" aria-expanded="${open?'true':'false'}" title="${open?'체크리스트 접기':'체크리스트 펼치기'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
    ${t.cat?`<div class="kbar t-${CAT_TONE[t.cat]||'s'}"></div>`:''}
    <div class="ktt"><button class="ckc ${t.status==='done'?'on':''}" data-act="toggleDone" data-id="${t.id}" draggable="false" title="${t.status==='done'?'완료 취소':'완료로 바꾸기'}" aria-label="${t.status==='done'?'완료 취소':'완료'}">${t.status==='done'?'✓':''}</button><b>${t.star?'<span class="st">★</span>':''}${esc(t.title)}</b></div>
@@ -2117,19 +2135,20 @@ const BCOL={star:'중요',todo:'할 일',doing:'진행중',done:'완료',hold:'�
 const colOf=t=>t.status==='done'?'done':t.status==='hold'?'hold':t.star?'star':t.status;
 function boardHtml(L){
   const col=s=>{
-    let items=L.filter(x=>colOf(x)===s).sort(byDue);
+    /* 손으로 옮긴 순서(ord)가 있으면 그대로, 순서가 없는 새 업무는 위에 마감순으로 */
+    let items=L.filter(x=>colOf(x)===s).sort((a,b)=>(a.ord==null?-1:a.ord)-(b.ord==null?-1:b.ord)||byDue(a,b));
     if(s==='done')items=items.filter(x=>!x.doneAt||diffD(today(),x.doneAt)<=14).sort((a,b)=>(b.doneAt||'').localeCompare(a.doneAt||''));
-    return `<div class="kcol k-${s}" data-drop="${s}"><div class="kh"><span class="kdot s-${s}"></span><b>${BCOL[s]}</b><span class="note">${items.length}</span></div>
+    return `<div class="kcol k-${s}" data-drop="${s}"><div class="kh"><span class="kdot s-${s}"></span><b>${BCOL[s]}</b><span class="note">${items.length}</span>${s==='done'?'<button class="hdone" data-act="hideDone" title="완료 칸을 접어 숨겨요">숨기기</button>':''}</div>
      <div class="kl">${items.map(kcard).join('')||`<div class="kempty">${s==='star'?'★ 중요 업무를 여기로 끌어다 놓으세요':'여기로 끌어다 놓으세요'}</div>`}</div>
      ${s==='done'?'':`<button class="kaddb" data-act="newTask" ${s==='star'?'data-star="1"':`data-st="${s}"`}>+ 업무 추가</button>`}
      ${s==='done'?'<div class="note" style="padding:6px 4px 0">최근 2주 완료만 보여요</div>':''}</div>`};
-  return `<div class="kb">${col('star')}${col('todo')}${col('doing')}<div class="kstack">${col('done')}${col('hold')}</div></div>`;
+  return `<div class="kb">${col('star')}${col('todo')}${col('doing')}<div class="kstack">${st.hideDone&&!st.filt.snz?`<button class="kdone-hid" data-drop="done" data-act="hideDone" title="완료 칸 다시 보이기">✓ 완료 ${L.filter(x=>x.status==='done'&&(!x.doneAt||diffD(today(),x.doneAt)<=14)).length}건 숨김 · 보이기</button>`:col('done')}${col('hold')}</div></div>`;
 }
 function vTasks(){
   const f=st.filt,v=st.tview||'list';
   const L=v==='board'?filtered({...f,status:'all'}):filtered();
-  const open=live().filter(x=>x.status!=='done'),td=today(),ws=weekStart(td);
-  const TABS=[['open','남은 일',open.length],['today','오늘',open.filter(x=>inPeriod(x,td,td)).length],['week','이번 주',open.filter(x=>inPeriod(x,ws,addD(ws,6))).length],['late','기한 지남',open.filter(isLate).length],['star','중요',open.filter(x=>x.star).length],['done','완료함',null]];
+  const open=live().filter(x=>x.status!=='done'&&!isSnz(x)),td=today(),ws=weekStart(td),nSnz=live().filter(isSnz).length;
+  const TABS=[['open','남은 일',open.length],['today','오늘',open.filter(x=>inPeriod(x,td,td)).length],['week','이번 주',open.filter(x=>inPeriod(x,ws,addD(ws,6))).length],['late','기한 지남',open.filter(isLate).length],['star','중요',open.filter(x=>x.star).length],['done','완료함',null],...(nSnz||f.snz?[['snz','숨김',nSnz]]:[])];
   const ct=curTab(), allSel=L.length&&L.every(x=>st.sel.has(x.id));
   const dirty=f.period!=='all'||f.cat||f.side||f.q||f.star||f.status!=='open';
   let body;
@@ -2429,7 +2448,8 @@ function openTask(id,pre={}){
      <div class="g2"><div class="fld"><label for="tSide">구분</label><select class="inp" id="tSide"><option value="">-</option>${['인사','기타'].map(x=>`<option ${t.side===x?'selected':''}>${x}</option>`).join('')}</select></div>
      <div class="fld"><label for="tCat">분류</label><select class="inp" id="tCat"><option value="">-</option>${cats.map(c=>`<option ${t.cat===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div></div>
      <div class="g2"><div class="fld"><label for="tRemind">미리 알림</label><select class="inp" id="tRemind">${[0,1,2,3,5,7,14].map(n=>`<option value="${n}" ${+(t.remind??3)===n?'selected':''}>${n?'D-'+n+'부터 강조':'당일만'}</option>`).join('')}</select></div></div>
-     <div class="fld"><label><input type="checkbox" id="tStar" ${t.star?'checked':''}> 중요 업무</label></div>
+     <div class="g2"><div class="fld"><label><input type="checkbox" id="tStar" ${t.star?'checked':''}> 중요 업무</label></div>
+     <div class="fld"><label for="tSnz">나중에 보기 · 이날까지 숨김</label><input class="inp" type="date" id="tSnz" value="${t.snz&&t.snz>today()?t.snz:''}" min="${addD(today(),1)}"></div></div>
      <div class="fld"><label for="tMemo">메모</label><textarea class="inp" id="tMemo" rows="3">${esc(t.memo||'')}</textarea></div>
      <div class="sec" id="chkBox">${chkHtml(id?t:(st.draftChk=[],{id:'',chk:st.draftChk}))}</div>
      ${id?`<div class="sec"><h4>진행사항 · 댓글</h4>${(t.cmts||[]).map((c,i)=>`<div class="cmt"><div class="cm">${fmtAt(c.at)}${c.by===me()?` · <a href="#" data-act="delCmt" data-i="${i}" data-id="${id}">삭제</a>`:''}</div>${esc(c.t)}</div>`).join('')}
@@ -2441,7 +2461,7 @@ function openTask(id,pre={}){
   setTimeout(()=>{if(!id)$('#tTitle')?.focus()},30);
 }
 function readTaskForm(){
-  return {title:$('#tTitle').value.trim(),status:$('#tStatus .on')?.dataset.v||'todo',owner:me(),helpers:[],start:$('#tStart').value,due:$('#tDue').value,side:$('#tSide').value,cat:$('#tCat').value,remind:+$('#tRemind').value,star:$('#tStar').checked,memo:$('#tMemo').value};
+  return {title:$('#tTitle').value.trim(),status:$('#tStatus .on')?.dataset.v||'todo',owner:me(),helpers:[],start:$('#tStart').value,due:$('#tDue').value,side:$('#tSide').value,cat:$('#tCat').value,remind:+$('#tRemind').value,star:$('#tStar').checked,snz:$('#tSnz')?.value||'',memo:$('#tMemo').value};
 }
 async function saveTaskForm(){
   const id=$('#fTask').dataset.id,d=readTaskForm();
@@ -2567,6 +2587,11 @@ function openPop(anchor,html,ctx){
   el.querySelector('input')?.focus();
 }
 function closePop(){$('#popRoot').innerHTML='';popCtx=null}
+async function snzSet(ids,v){
+  await st.api.batch(ids.map(id=>({c:'tasks',id,d:{snz:v||'',updatedAt:nowISO()}})));
+  const t=st.tasks.get(ids[0]);addLog(v?`나중에 보기 · ${t?.title||''} (${md(v)}까지)`:`숨김 풀기 · ${t?.title||''}`);
+  toast(v?`${md(v)}(${dow(v)})에 다시 보여 드릴게요`:'다시 보이게 했어요');
+}
 function popOwner(cur,withNone=true){return `<div class="ph3">담당자</div>${withNone?`<button class="pi" data-pv="">${av('')}미지정${cur===''?'<span class="ck2">✓</span>':''}</button>`:''}${team().map(m=>`<button class="pi ${cur===m.email?'on':''}" data-pv="${m.email}">${av(m.email)}${esc(m.name)}${cur===m.email?'<span class="ck2">✓</span>':''}</button>`).join('')}`}
 function popStatus(cur){return SO.map(s=>`<button class="pi" data-pv="${s}"><span class="pill s-${s}">${SL[s]}</span>${cur===s?'<span class="ck2">✓</span>':''}</button>`).join('')}
 function popCat(cur){return `<button class="pi" data-pv="">없음</button>`+(S().cats||CATS).map(c=>`<button class="pi" data-pv="${esc(c)}">${esc(c)}${cur===c?'<span class="ck2">✓</span>':''}</button>`).join('')}
@@ -2646,6 +2671,7 @@ document.addEventListener('click',async e=>{
   if(pv&&popCtx){const v=pv.dataset.pv,c=popCtx;closePop();
     if(c.type==='owner')await updateTasks(c.ids,t=>({owner:v,helpers:(t.helpers||[]).filter(h=>h!==v)}),'담당자 변경');
     if(c.type==='status')await updateTasks(c.ids,{status:v},'상태 변경');
+    if(c.type==='snz')await snzSet(c.ids,v);
     if(c.type==='cat')await updateTasks(c.ids,{cat:v},'분류 변경');
     if(c.type==='helpersAdd')await updateTasks(c.ids,t=>t.owner===v?null:({helpers:[...new Set([...(t.helpers||[]),v])]}),'부담당 추가');
     if(c.type==='rOwner')await rBatch(c.ids,{owner:v},'정기업무 담당자 변경',true);
@@ -2878,14 +2904,26 @@ async function migrate7(){
 /* ---------------- 보드 끌어놓기 · 단축키 ---------------- */
 // 카드 안 펼치기·체크리스트는 카드 상세를 열지 않고 그 자리에서 처리
 async function kchkEdit(id,fn){const t=st.tasks.get(id);if(!t)return;const c=structuredClone(t.chk||[]);if(fn(c)===false)return;await saveChk(t,c)}
-document.addEventListener('click',e=>{const k=e.target.closest?.('.kchl,.kexp');if(!k)return;e.stopPropagation();const b=e.target.closest('[data-act]');if(b){e.preventDefault();ACT[b.dataset.act]?.(b)}},true);
+document.addEventListener('click',e=>{const k=e.target.closest?.('.kchl,.kexp,.ksnz,.snzb');if(!k)return;e.stopPropagation();const b=e.target.closest('[data-act]');if(b){e.preventDefault();ACT[b.dataset.act]?.(b)}},true);
 // 완료 체크는 카드를 열지 않고 바로 처리 (카드 전체가 '열기'라서 먼저 가로채요)
 document.addEventListener('click',e=>{const b=e.target.closest?.('[data-act="toggleDone"]');if(!b)return;e.preventDefault();e.stopPropagation();ACT.toggleDone(b)},true);
 document.addEventListener('dragstart',e=>{const c=e.target.closest?.('[data-drag]');if(!c)return;e.dataTransfer.setData('text/plain',c.dataset.drag);e.dataTransfer.effectAllowed='move';setTimeout(()=>c.classList.add('dragging'),0)});
-document.addEventListener('dragend',()=>$$('.dragging,.kcol.over').forEach(x=>x.classList.remove('dragging','over')));
-document.addEventListener('dragover',e=>{const col=e.target.closest?.('[data-drop]');if(!col)return;e.preventDefault();e.dataTransfer.dropEffect='move';$$('.kcol.over').forEach(x=>x!==col&&x.classList.remove('over'));col.classList.add('over')});
-document.addEventListener('drop',e=>{const col=e.target.closest?.('[data-drop]');if(!col)return;e.preventDefault();col.classList.remove('over');
-  const id=e.dataTransfer.getData('text/plain'),t=st.tasks.get(id),s=col.dataset.drop;if(!t||colOf(t)===s)return;
+document.addEventListener('dragend',()=>{$$('.dragging,.kcol.over').forEach(x=>x.classList.remove('dragging','over'));$$('.kph').forEach(x=>x.remove())});
+// 끌고 있는 위치에 자리 표시(얇은 선)를 넣어 어디에 놓일지 보여 줘요
+document.addEventListener('dragover',e=>{const col=e.target.closest?.('[data-drop]');if(!col)return;e.preventDefault();e.dataTransfer.dropEffect='move';$$('.kcol.over').forEach(x=>x!==col&&x.classList.remove('over'));col.classList.add('over');
+  const kl=col.querySelector('.kl');if(!kl||col.dataset.drop==='done')return;
+  let ph=$('.kph');if(!ph){ph=document.createElement('div');ph.className='kph'}
+  const after=[...kl.querySelectorAll('.kc:not(.dragging)')].find(c=>{const r=c.getBoundingClientRect();return e.clientY<r.top+r.height/2});
+  if(after){if(ph.nextSibling!==after)kl.insertBefore(ph,after)}else if(ph.parentNode!==kl||ph.nextSibling)kl.appendChild(ph)});
+document.addEventListener('drop',async e=>{const col=e.target.closest?.('[data-drop]');if(!col)return;e.preventDefault();col.classList.remove('over');
+  const id=e.dataTransfer.getData('text/plain'),t=st.tasks.get(id),s=col.dataset.drop;if(!t){$$('.kph').forEach(x=>x.remove());return}
+  // 칸 안 순서 저장 (완료 칸은 완료일 순이라 제외)
+  const kl=col.querySelector('.kl'),ph=kl?.querySelector('.kph');let ordOps=[];
+  if(kl&&s!=='done'){const seq=[...kl.children].filter(x=>x.classList.contains('kph')||(x.classList.contains('kc')&&x.dataset.drag!==id)).map(x=>x.classList.contains('kph')?id:x.dataset.drag);
+    if(!ph)seq.push(id);seq.forEach((x,i)=>{const o=st.tasks.get(x);if(o&&o.ord!==i*10)ordOps.push({c:'tasks',id:x,d:{ord:i*10}})})}
+  $$('.kph').forEach(x=>x.remove());
+  if(colOf(t)===s){if(ordOps.length)await st.api.batch(ordOps);return}
+  if(ordOps.length)await st.api.batch(ordOps);
   // 중요 칸: ★ 표시 (완료·보류였으면 할 일로) / 할 일·진행중 칸: ★ 해제 + 상태 / 완료·보류 칸: 상태만
   const ch=s==='star'?{star:true,...(['done','hold'].includes(t.status)?{status:'todo'}:{})}:['todo','doing'].includes(s)?{status:s,star:false}:{status:s};
   if(ch.status==='done'&&t.ptask&&t.chk?.length)ch.chk=t.chk.map(x=>({...x,done:true}));
@@ -3671,7 +3709,14 @@ const ACT={
   delNotice:a=>st.api.remove('notices',a.dataset.id),
   calMove:a=>{const c=st.cal;const d=new Date(c.y,c.m-1+(+a.dataset.v),1);c.y=d.getFullYear();c.m=d.getMonth()+1;render()},
   calToday:()=>{const d=new Date();st.cal={...st.cal,y:d.getFullYear(),m:d.getMonth()+1,sel:today()};render()},
-  ttab:a=>{const f=st.filt,v=a.dataset.v;Object.assign(f,{status:'open',period:'all',from:'',to:'',star:false});if(['today','week','late'].includes(v))f.period=v;else if(v==='star')f.star=true;else if(v==='done')f.status='done';st.sel.clear();render()},
+  ttab:a=>{const f=st.filt,v=a.dataset.v;Object.assign(f,{status:'open',period:'all',from:'',to:'',star:false,snz:false});if(['today','week','late'].includes(v))f.period=v;else if(v==='star')f.star=true;else if(v==='done')f.status='done';else if(v==='snz')f.snz=true;st.sel.clear();render()},
+  hideDone:()=>{st.hideDone=!st.hideDone;lsSet(NS+'hideDone',st.hideDone?'1':'');render()},
+  snz:a=>{const t=st.tasks.get(a.dataset.id);if(!t)return;const td=today(),dt=pD(td),nm=ymd(new Date(dt.getFullYear(),dt.getMonth()+1,1)),mon=addD(weekStart(td),7);
+    const ch=[['내일',addD(td,1)],['3일 뒤',addD(td,3)],['다음 주 월요일',mon],['다음 달 1일',nm],...(t.due&&diffD(t.due,td)>3?[['마감 3일 전',addD(t.due,-3)]]:[])];
+    openPop(a,`<div class="ph3">나중에 보기 · 이날 다시 나타나요</div>${ch.map(([l,d])=>`<button class="pi" data-pv="${d}">${l}<span class="note" style="margin-left:auto">${md(d)}(${dow(d)})</span></button>`).join('')}
+      <div class="snzc"><input type="date" class="inp" id="snzD" min="${addD(td,1)}" aria-label="날짜 지정"><button class="btn sm pri" data-act="snzPick">지정</button></div>${t.snz?'<button class="pi" data-pv="">숨김 풀기 (지금 보이기)</button>':''}`,{type:'snz',ids:[t.id],anchor:a})},
+  snzPick:async()=>{const c=popCtx,v=$('#snzD')?.value;if(!c||!v)return;closePop();await snzSet(c.ids,v)},
+  unsnz:a=>snzSet([a.dataset.id],''),
   tview:a=>{st.tview=a.dataset.v;lsSet(NS+'tview',st.tview);st.sel.clear();render()},
   gfold:a=>{st.gfold??={};st.gfold[a.dataset.k]=!st.gfold[a.dataset.k];render()},
   toggleDone:a=>{const t=st.tasks.get(a.dataset.id);if(!t)return;const nd=t.status!=='done',ch={status:nd?'done':'todo'};

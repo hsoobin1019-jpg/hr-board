@@ -399,8 +399,18 @@ body{background:#fff;letter-spacing:-.2px}
 .ai{width:48px;height:48px;border-radius:14px;display:grid;place-items:center}
 .t-b{background:#eaf2fe;color:#1f6fe5}.t-c{background:#e2f6fb;color:#0e9fc0}.t-g{background:#e6f6ec;color:#169c55}.t-s{background:#eef1f5;color:#475569}.t-a{background:#fff3df;color:#d48300}.t-r{background:#fdecec;color:#e5484d}
 .sgs{display:flex;flex-direction:column;gap:10px}
+.sgs:not(.all) .sgx{display:none}
+.rtab.ros td.ck,.rtab.ros th.ck{width:34px;padding-left:8px;padding-right:4px;text-align:center}
+.rtab.ros input[type=checkbox]{width:16px;height:16px;accent-color:#00A1B9;cursor:pointer}
+.rtab.ros tr.on td{background:#EEFAFC}
+.sdel{border:0;background:none;color:#B4BEC3;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;cursor:pointer;opacity:0}
+.rtab.ros tr:hover .sdel,.sdel:focus-visible{opacity:1}.sdel:hover{background:#FFF0F0;color:#D93A3A}
+.ssbar{display:flex;align-items:center;gap:6px}.ssbar b{font-size:13.5px;color:#008197;margin-right:4px}
+@media(hover:none){.sdel{opacity:1}}
+.sgmore{align-self:center;border:0;background:none;color:var(--ink2);font:inherit;font-size:13.5px;font-weight:600;padding:4px 14px;border-radius:99px;cursor:pointer}
+.sgmore:hover{background:#EEF3F5;color:var(--ink)}
 .sg{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:16px;border:1.5px solid var(--line2);cursor:default}
-.sg.top{border-color:transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#3ad0e8,#1f6fe5) border-box}
+.sg.hot{border-color:transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#3ad0e8,#1f6fe5) border-box}
 .sgi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none}
 .sg .tt{flex:1;min-width:0}
 .sg .tt b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -570,7 +580,7 @@ body{color:var(--ink)}
 .hero h1 b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .prog i,.wkc i{background:var(--grad)}
 .wkc.on .d{color:var(--pri)}
-.sg.top{background:linear-gradient(#fff,#fff) padding-box,var(--grad-line) border-box}
+.sg.hot{background:linear-gradient(#fff,#fff) padding-box,var(--grad-line) border-box}
 .mini button:hover,.app:hover{border-color:var(--cyan);box-shadow:0 0 0 4px var(--pri-soft),var(--hover-sh)}
 .app{border-radius:20px}
 .ai{border-radius:16px;box-shadow:inset 0 0 12px rgba(255,255,255,.6),0 0 14px rgba(16,40,60,.08)}
@@ -656,7 +666,7 @@ body{color:var(--ink)}
 .mini button{border:1px solid #E4E9EB}
 .mini button:hover{border-color:var(--cyan);box-shadow:0 0 0 3px var(--pri-soft)}
 .sg{border:1px solid #E9EEF1}
-.sg.top{border:1.5px solid transparent}
+.sg.hot{border:1.5px solid transparent}
 .sgi{box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),0 0 0 1px rgba(16,35,42,.05)}
 .kc{border:1px solid #E6EBEE;box-shadow:0 1px 2px rgba(22,35,42,.06)}
 .kc:hover{border-color:var(--cyan);box-shadow:0 0 0 3px var(--pri-soft)}
@@ -985,6 +995,47 @@ body{color:var(--ink)}
 .dday.soon{background:#FFF3DF;color:#B86E00}.dday.over{background:#FFE8E8;color:#C42626}
 .trk{display:flex;gap:6px;justify-content:flex-start}
 .og-top{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}.og-top b{font-size:16px}
+/* 조직도 트리 */
+.og-top{display:flex;align-items:center;flex-wrap:wrap}
+.otree{overflow-x:auto;padding:6px 2px 4px;--ln:#C9D6DC}
+.otree ul{position:relative;display:flex;justify-content:center;padding:22px 0 0;margin:0}
+.otree li{list-style:none;position:relative;padding:22px 8px 0;display:flex;flex-direction:column;align-items:center;min-width:0}
+.otree li::before,.otree li::after{content:'';position:absolute;top:0;right:50%;width:50%;height:22px;border-top:2px solid var(--ln)}
+.otree li::after{right:auto;left:50%;border-left:2px solid var(--ln)}
+.otree li:only-child{padding-top:0}.otree li:only-child::before,.otree li:only-child::after{display:none}
+.otree li:first-child::before,.otree li:last-child::after{border:0}
+.otree li:last-child::before{border-right:2px solid var(--ln);border-radius:0 10px 0 0}
+.otree li:first-child::after{border-radius:10px 0 0 0}
+.otree ul ul::before{content:'';position:absolute;top:0;left:50%;height:22px;border-left:2px solid var(--ln)}
+.otree>ul{padding-top:0}
+.otree>ul,.otree li:only-child,.otree li:only-child>ul,.otree ul.ot-divs{width:100%;box-sizing:border-box}
+.otree ul.ot-divs>li{align-items:stretch}.otree ul.ot-divs>li>.ot-n{align-self:center}
+.ot-n{background:#fff;border:1px solid #E1E8EB;border-radius:16px;padding:8px 10px;box-shadow:0 1px 2px rgba(16,40,60,.04)}
+.ot-n.top{border-color:#BFE6EC;background:#F3FBFC}
+.ot-n.grp{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 10px 10px}
+.ot-lb{font-size:11.5px;font-weight:700;color:#8A979D;letter-spacing:.3px}
+.ot-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.ot-p{display:flex;align-items:center;gap:8px;border:0;background:none;font:inherit;text-align:left;cursor:pointer;padding:2px 6px 2px 2px;border-radius:12px}
+.ot-p:hover{background:#EEF6F8}.ot-p b{display:block;font-size:14px}.ot-p small{display:block;font-size:12px;color:var(--ink2);white-space:nowrap}
+.ot-row .ot-p{border:1px solid #E9EEF1;background:#fff;padding:6px 10px 6px 6px}
+.ot-n.div{background:linear-gradient(90deg,#00A1B9,#1f8fe0);border:0;color:#fff;padding:10px 18px;text-align:center;min-width:170px}
+.ot-n.div b{display:block;font-size:15.5px}.ot-n.div small{opacity:.9;font-size:12px}
+.ot-fs{position:relative;margin-top:16px;width:100%;columns:220px;column-gap:10px;text-align:left}
+.ot-fs>.ot-f{break-inside:avoid;margin-bottom:10px}
+.otree ul.ot-divs>li{min-width:250px}
+.ot-fs::before{content:'';position:absolute;top:-16px;left:50%;height:16px;border-left:2px solid var(--ln)}
+.ot-f{border:1px solid #E9EEF1;border-radius:14px;background:#FAFCFD;padding:8px;display:flex;flex-direction:column;gap:6px}
+.ot-f.solo{background:none;border:0;padding:0}
+.ot-fh{display:flex;align-items:baseline;gap:6px;padding:2px 4px}.ot-fh b{font-size:14.5px}.ot-fh small{color:var(--ink2);font-size:12px;margin-left:auto}
+.ot-t{border:1px solid #E1E8EB;border-radius:12px;background:#fff}
+.ot-t summary{list-style:none;display:flex;align-items:center;gap:6px;padding:8px 10px;cursor:pointer;border-radius:12px}
+.ot-t summary::-webkit-details-marker{display:none}
+.ot-t summary::after{content:'';width:7px;height:7px;border-right:2px solid #A3AEB4;border-bottom:2px solid #A3AEB4;transform:rotate(45deg);margin-left:6px;transition:transform .15s}
+.ot-t[open] summary::after{transform:rotate(-135deg)}
+.ot-t summary:hover{background:#F3F8FA}
+.ot-t summary b{font-size:14px}.ot-t summary small{margin-left:auto;font-size:12px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ot-ms{display:flex;flex-wrap:wrap;gap:6px;padding:2px 8px 10px}
+.og-mc.ld{border-color:#BFE6EC;background:#F3FBFC}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
 .og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
 .og-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
@@ -1288,6 +1339,7 @@ const ICONS={
  settings:'<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/>',
  spark:'<path d="M12 3.5l1.8 5.3 5.4 1.9-5.4 1.9L12 17.9l-1.8-5.3-5.4-1.9 5.4-1.9z"/><path d="M18.5 16.5l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z"/>',
  plus:'<path d="M12 5v14M5 12h14"/>',
+ trash:'<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l.8 12.5h9.4L17.5 7M10 11v5M14 11v5"/>',
  paste:'<rect x="5.5" y="4.5" width="13" height="16" rx="2.5"/><path d="M9 4.5h6v3H9zM9 12h6M9 15.5h4"/>',
  chart:'<path d="M4 20h16"/><path d="M7 16v-4M12 16V7M17 16v-7"/>',
  apps:'<rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/>',
@@ -1810,7 +1862,7 @@ function vHome(){
   ${homeBrief()}
   <div class="hg hg3">
    ${hcard('sug','spark','추천','', '지금 챙기면 좋은 일을 자료에서 골라 드려요.',
-     sg.length?`<div class="sgs">${sg.map((x,i)=>`<div class="sg ${i===0?'top':''}"><span class="sgi t-${x.tone}">${ic(x.ic,20)}</span><div class="tt"><b>${x.t}</b><small>${x.s}</small></div><button class="btn sm" ${x.a}>${x.b}</button></div>`).join('')}</div>`:'<div class="empty">지금 챙길 일이 없어요. 여유 있게 시작하세요.</div>',
+     sg.length?`<div class="sgs ${st.sgAll?'all':''}">${sg.map((x,i)=>`<div class="sg ${i===0?'hot':''} ${i>=3?'sgx':''}"><span class="sgi t-${x.tone}">${ic(x.ic,20)}</span><div class="tt"><b>${x.t}</b><small>${x.s}</small></div><button class="btn sm" ${x.a}>${x.b}</button></div>`).join('')}${sg.length>3?`<button class="sgmore" data-act="sgAll">${st.sgAll?'접기':`더보기 ${sg.length-3}건`}</button>`:''}</div>`:'<div class="empty">지금 챙길 일이 없어요. 여유 있게 시작하세요.</div>',
      {cls:'span2',extra:sg.length?`<span class="note">${sg.length}건</span>`:''})}
    ${hcard('apps','apps','바로가기','','자주 쓰는 기능을 바로 열어요.',
      `<div class="apps">${APPS.map(([i,l,a,c])=>`<button class="app" ${a}><span class="ai t-${c}">${ic(i,24)}</span><span>${l}</span></button>`).join('')}</div>`,{bare:1})}
@@ -2480,6 +2532,8 @@ document.addEventListener('change',e=>{
   if(T.matches('[data-fs]')){st.filt[T.dataset.fs]=T.value;st.sel.clear();render();return}
   if(T.id==='fFrom'||T.id==='fTo'){st.filt[T.id==='fFrom'?'from':'to']=T.value;render();return}
   if(T.matches('[data-team-name],[data-team-color]')){const e2=T.dataset.teamName||T.dataset.teamColor;const cur=(S().team||{})[e2]||{name:nm(e2),color:col(e2)};const nv={...cur,[T.dataset.teamName?'name':'color']:T.value.trim()||cur.name};st.api.put('settings','main',{team:{...(S().team||{}),[e2]:nv}}).then(()=>toast('저장했어요'));return}
+  if(T.classList.contains('ssOne')){const S=st.ssel||(st.ssel=new Set());T.checked?S.add(T.dataset.id):S.delete(T.dataset.id);render();return}
+  if(T.classList.contains('ssAll')){const S=st.ssel||(st.ssel=new Set());[...document.querySelectorAll('.ssOne')].forEach(x=>T.checked?S.add(x.dataset.id):S.delete(x.dataset.id));render();return}
   if(T.id==='ooAll'){st.ooAll=T.checked;render();return}
   if(T.id==='sFt'){st.sft=T.value;render();return}
   if(T.matches('[data-plan]')){savePlanCell(T);return}
@@ -2942,6 +2996,7 @@ function vStaff(){
 function vRoster(){
   const q=(st.sq||'').toLowerCase(),fs=st.sfs||'재직',ft=st.sft||'';
   const teams=[...new Set(staffAll().map(teamOf))].sort();
+  const sel=st.ssel||(st.ssel=new Set());[...sel].forEach(id=>{if(!st.staff.has(id))sel.delete(id)});
   const L=staffAll().filter(s=>(fs==='전체'||(fs==='재직'?s.status!=='퇴사':s.status==='퇴사'))&&(!ft||teamOf(s)===ft)&&(!q||[s.name,s.team,s.rank,s.job,s.memo].join(' ').toLowerCase().includes(q)))
     .sort((a,b)=>teamOf(a).localeCompare(teamOf(b))||(b.leader?1:0)-(a.leader?1:0)||(a.joinDate||'').localeCompare(b.joinDate||''));
   const chips=s=>{const c=[];if(s.prob&&!s.probRes)c.push(`<span class="cc t-a">수습 ~${md(probEnd(s))}</span>`);else if(s.prob&&s.probRes)c.push(`<span class="cc t-s">수습 ${esc(s.probRes)}</span>`);
@@ -2949,11 +3004,11 @@ function vRoster(){
   return `<section class="card rec"><div class="recbar"><input class="fsearch" id="sQ" placeholder="이름 · 부서 · 직급 검색" value="${esc(st.sq||'')}">
     <div class="segs">${['재직','퇴사','전체'].map(x=>`<button class="${fs===x?'on':''}" data-act="sfs" data-v="${x}">${x}</button>`).join('')}</div>
     <select class="fsel" id="sFt" aria-label="부서"><option value="">전체 부서</option>${teams.map(t=>`<option ${ft===t?'selected':''}>${esc(t)}</option>`).join('')}</select>
-    <span class="sp" style="flex:1"></span><span class="note">${L.length}명</span><button class="btn sm" data-act="csvStaff">CSV</button></div>
-   ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>이름</th><th>부서</th><th>직급</th><th>직무</th><th>고용형태</th><th>입사일</th><th>근속</th><th>수습 · 계약</th><th>상태</th><th>메모</th></tr></thead><tbody>
-   ${L.map(s=>`<tr><td class="nm" data-staff="${s.id}"><b>${esc(s.name)}</b>${s.leader?'<small>팀장</small>':''}</td><td>${esc(s.team||'—')}</td><td>${esc(s.rank||'—')}</td><td>${esc(s.job||'—')}</td><td>${esc(s.etype||'정규')}</td>
+    <span class="sp" style="flex:1"></span>${sel.size?`<span class="ssbar"><b>${sel.size}명 선택</b><button class="btn sm dan" data-act="ssDel">선택 삭제</button><button class="btn sm" data-act="ssClr">해제</button></span>`:`<span class="note">${L.length}명</span>`}<button class="btn sm" data-act="csvStaff">CSV</button></div>
+   ${L.length?`<div class="rtw"><table class="rtab ros"><thead><tr><th class="ck"><input type="checkbox" class="ssAll" aria-label="모두 선택" ${L.length&&L.every(s=>sel.has(s.id))?'checked':''}></th><th>이름</th><th>부서</th><th>직급</th><th>직무</th><th>고용형태</th><th>입사일</th><th>근속</th><th>수습 · 계약</th><th>상태</th><th>메모</th><th></th></tr></thead><tbody>
+   ${L.map(s=>`<tr class="${sel.has(s.id)?'on':''}"><td class="ck"><input type="checkbox" class="ssOne" data-id="${s.id}" aria-label="선택" ${sel.has(s.id)?'checked':''}></td><td class="nm" data-staff="${s.id}"><b>${esc(s.name)}</b>${s.leader?'<small>팀장</small>':''}</td><td>${esc(s.team||'—')}</td><td>${esc(s.rank||'—')}</td><td>${esc(s.job||'—')}</td><td>${esc(s.etype||'정규')}</td>
      <td>${s.joinDate?s.joinDate.replace(/-/g,'.'):'—'}</td><td>${tenure(s.joinDate,s.status==='퇴사'?(s.leaveDate||today()):today())||'—'}</td><td>${chips(s)}</td>
-     <td>${s.status==='퇴사'?`<span class="cc t-s">퇴사${s.leaveDate?' '+md(s.leaveDate):''}</span>`:s.status==='휴직'?'<span class="cc t-a">휴직</span>':'<span class="cc t-g">재직</span>'}</td><td class="mm2">${esc(s.memo||'')}</td></tr>`).join('')}
+     <td>${s.status==='퇴사'?`<span class="cc t-s">퇴사${s.leaveDate?' '+md(s.leaveDate):''}</span>`:s.status==='휴직'?'<span class="cc t-a">휴직</span>':'<span class="cc t-g">재직</span>'}</td><td class="mm2">${esc(s.memo||'')}</td><td class="ck"><button class="sdel" data-act="ssDelOne" data-id="${s.id}" title="삭제" aria-label="${esc(s.name)} 삭제">${ic('trash',16)}</button></td></tr>`).join('')}
    </tbody></table></div>`:`<div class="empty">${staffAll().length?'조건에 맞는 직원이 없어요.':'직원 명부가 비어 있어요. + 직원 추가나 붙여넣기 일괄 등록(엑셀 복사)으로 시작하세요.'}</div>`}</section>`;
 }
 function vOrg(){
@@ -2969,8 +3024,31 @@ function vOrg(){
       ${L.filter(s=>s.leader).map(s=>`<div class="og-l" data-staff="${s.id}"><span class="og-av">${esc(s.name.slice(-2))}</span><div><b>${esc(s.name)}</b><small>${esc([s.rank,'팀장'].filter(Boolean).join(' · '))}</small></div></div>`).join('')}
       <div class="og-m">${L.filter(s=>!s.leader).map(s=>`<button class="og-mc" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}</button>`).join('')||'<span class="note">팀원 없음</span>'}</div></div>`};
   const n=d=>on.filter(s=>divOf(teamOf(s))===d).length;
-  return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 팀장·사업부는 직원 정보에서 정해요</span></div>
+  const mode=st.ogv||'tree';
+  const sw=`<div class="segs og-sw">${[['tree','트리'],['card','부서 카드']].map(([k,l])=>`<button class="${mode===k?'on':''}" data-act="ogv" data-v="${k}">${l}</button>`).join('')}</div>`;
+  if(mode==='tree')return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 부서를 누르면 팀원이 펼쳐져요</span><span style="flex:1"></span>${sw}</div>${orgTree(on,teams,divOf,rk)}</section>`;
+  return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 팀장·사업부는 직원 정보에서 정해요</span><span style="flex:1"></span>${sw}</div>
    ${hasDiv?divs.map(d=>{const ts=teams.filter(t=>divOf(t)===d);return `<div class="og-div"><div class="og-dh"><b>${esc(d||'사업부 미정')}</b><span class="tc">${n(d)}명</span><span class="note">${ts.length}개 부서</span></div><div class="og-grid">${ts.map(card).join('')}</div></div>`}).join(''):`<div class="og-grid">${teams.map(card).join('')}</div>`}</section>`;
+}
+/* 조직도 트리: 최고 임원 → 다음 임원 → 경영진 → 사업부 → 부서군 → 부서 */
+function orgTree(on,teams,divOf,rk){
+  const pc=s=>`<button class="ot-p" data-staff="${s.id}"><span class="og-av">${esc(s.name.slice(-2))}</span><span><b>${esc(s.name)}</b><small>${esc([...new Set([s.team||s.job,s.rank].filter(Boolean))].join(' · '))}</small></span></button>`;
+  const ex=on.filter(s=>(s.div||divOf(teamOf(s)))==='임원').sort((a,b)=>rk(b)-rk(a));
+  const chain=[];let rest=[...ex];
+  while(rest.length>1&&chain.length<2&&rk(rest[0])>rk(rest[1])){chain.push(rest.shift())}
+  if(rest.length===1&&chain.length<2){chain.push(rest.shift())}
+  const divs=[...new Set(teams.map(divOf))].filter(d=>d!=='임원').sort((a,b)=>{const i=x=>{const k=DIV_ORDER.indexOf(x);return x?(k<0?50:k):99};return i(a)-i(b)||a.localeCompare(b)});
+  const fam=t=>t.replace(/\s*\d+\s*팀$/,'팀');
+  const teamBox=t=>{const L=on.filter(s=>teamOf(s)===t).sort((a,b)=>(b.leader?1:0)-(a.leader?1:0)||rk(b)-rk(a)||(a.joinDate||'').localeCompare(b.joinDate||''));const ld=L.find(s=>s.leader);
+    return `<details class="ot-t"><summary><b>${esc(t)}</b><span class="tc">${L.length}</span>${ld?`<small>${esc(ld.name)} ${esc(ld.rank||'')}</small>`:''}</summary><div class="ot-ms">${L.map(s=>`<button class="og-mc ${s.leader?'ld':''}" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.leader?'팀장':s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}${s.status==='휴직'?'<i>휴직</i>':''}</button>`).join('')}</div></details>`};
+  const divCol=d=>{const ts=teams.filter(t=>divOf(t)===d),fs=[...new Set(ts.map(fam))],cnt=on.filter(s=>ts.includes(teamOf(s))).length;
+    const body=fs.map(f=>{const sub=ts.filter(t=>fam(t)===f);if(sub.length===1)return `<div class="ot-f solo">${teamBox(sub[0])}</div>`;
+      const c=on.filter(s=>sub.includes(teamOf(s))).length;return `<div class="ot-f"><div class="ot-fh"><b>${esc(f.replace(/팀$/,''))}</b><span class="tc">${c}</span><small>${sub.length}개 팀</small></div>${sub.map(teamBox).join('')}</div>`}).join('');
+    return `<li style="flex:${Math.max(1,fs.length)} 1 0"><div class="ot-n div"><b>${esc(d||'사업부 미정')}</b><small>${cnt}명 · ${ts.length}개 부서</small></div><div class="ot-fs">${body}</div></li>`};
+  const lvl=(arr,inner)=>arr.length?`<ul><li>${arr[0]}${lvl(arr.slice(1),inner)}</li></ul>`:inner;
+  const nodes=chain.map(s=>`<div class="ot-n top">${pc(s)}</div>`);
+  if(rest.length)nodes.push(`<div class="ot-n grp"><small class="ot-lb">경영진</small><div class="ot-row">${rest.map(pc).join('')}</div></div>`);
+  return `<div class="otree">${lvl(nodes,divs.length?`<ul class="ot-divs">${divs.map(divCol).join('')}</ul>`:'')}</div>`;
 }
 function vTrack(){
   const td=today(),T=trackItems();
@@ -3383,6 +3461,11 @@ const ACT={
   mro:a=>{st.mro=+a.dataset.v===0?0:(st.mro||0)+(+a.dataset.v);render()},
   printRep:()=>window.print(),
   rct:a=>{st.rct=a.dataset.v;render()},
+  sgAll:()=>{st.sgAll=!st.sgAll;render()},
+  ssClr:()=>{st.ssel?.clear();render()},
+  ogv:a=>{st.ogv=a.dataset.v;render()},
+  ssDel:()=>{const ids=[...(st.ssel||[])];if(!ids.length)return;openConfirm(`선택한 ${ids.length}명을 명부에서 삭제할까요? 입사·퇴사 기록과 업무는 남아 있어요.`,async()=>{await st.api.batch(ids.map(id=>({c:'staff',id,del:true})));st.ssel.clear();addLog(`직원 명부 삭제 ${ids.length}명`,ids.length);toast(`${ids.length}명을 삭제했어요`)})},
+  ssDelOne:a=>{const s=st.staff.get(a.dataset.id);if(!s)return;openConfirm(`'${esc(s.name)}' 님을 명부에서 삭제할까요? 입사·퇴사 기록과 업무는 남아 있어요.`,async()=>{await st.api.remove('staff',s.id);st.ssel?.delete(s.id);addLog(`직원 명부 삭제 · ${s.name}`);toast('삭제했어요')})},
   hst:a=>{st.hst=a.dataset.v;render()},
   oot:a=>{st.oot=a.dataset.v;render()},
   ooStep:a=>kchkEdit(a.dataset.id,c=>{const x=c[+a.dataset.i];if(!x)return false;x.done=!x.done;x.at=x.done?today():''}),

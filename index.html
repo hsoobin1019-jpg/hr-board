@@ -1115,6 +1115,49 @@ body{color:var(--ink)}
 .kdone-hid:hover{border-color:#00A1B9;color:#008197;background:#F3FBFC}
 .snzc{display:flex;gap:6px;padding:8px 8px 4px;border-top:1px solid var(--line2);margin-top:4px}.snzc .inp{height:34px;flex:1;min-width:0}
 @media(hover:none){.ksnz{opacity:1}}
+.ksnz.hidon{opacity:1;color:#008197;background:#E6F6F9}
+.kc.done.hid0{opacity:.55}
+.kdnote{display:flex;align-items:center;gap:6px;padding:6px 4px 0;flex-wrap:wrap}
+/* 캘린더 보완 */
+.calwrap{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;align-items:start}
+.calwrap>.card{margin-bottom:0}
+.calday{position:sticky;top:90px;max-height:calc(100vh - 110px);overflow:auto;padding:20px 18px}
+@media(max-width:1280px){.calwrap{grid-template-columns:1fr}.calday{position:static;max-height:none}}
+.calh{margin-bottom:10px}
+.calf{display:flex;flex-wrap:wrap;gap:6px}
+.cfk{height:32px;padding:0 12px;border-radius:99px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;color:var(--mute);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.cfk::before{content:'';width:8px;height:8px;border-radius:50%;background:#C7D0D4}
+.cfk.on{color:var(--ink);border-color:#C7D3D8;font-weight:600}
+.cfk.on.k-task::before{background:#00A1B9}.cfk.on.k-event::before{background:#7B61FF}.cfk.on.k-person::before{background:#4CB8C4}.cfk.on.k-iv::before{background:#3D5BD9}.cfk.on.k-track::before{background:#F59E0B}.cfk.on.k-talk::before{background:#7C8A91}
+.cfk.star::before{display:none}.cfk.star.on{background:#FFF8E6;border-color:#F2D58C;color:#9A6B0F}
+.calf2{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--line2)}
+.calf2 .fsel{height:32px}.cfd{font-size:13px;color:var(--ink2);margin-left:4px}
+.cal .dn{align-items:center}
+.cadd{margin-left:auto;width:22px;height:22px;border-radius:7px;border:0;background:none;color:var(--mute);font-size:16px;line-height:1;cursor:pointer;opacity:0;display:grid;place-items:center;padding:0}
+.cal .d:hover .cadd,.cadd:focus-visible{opacity:1}.cadd:hover{background:#E6F6F9;color:#008197}
+@media(hover:none){.cadd{opacity:.6}}
+.cal .more{font-size:11.5px;color:var(--mute);padding:2px 6px;font-weight:600}
+.ce.ev{background:#F1EEFF;border-left-color:#7B61FF;color:#3B2E8C}
+.ce .tm{font-style:normal;font-weight:700;margin-right:4px;color:#5B47D6}
+.lg-ev{background:#F1EEFF;border-left:3px solid #7B61FF}
+.cdh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px}
+.cdh b{font-size:18px}.cdh small{margin-left:8px;font-size:12px;font-weight:700}.cdh .hn2{color:var(--red)}.cdh .tdy{color:#008197}
+.cdq{display:flex;gap:6px;margin-bottom:14px}.cdq .btn{flex:1}
+.cdg{margin-bottom:14px}.cdgh{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--mute);margin:0 2px 6px}
+.calday .rows{display:flex;flex-direction:column;gap:6px}
+.calday .row,.cdr{border:1px solid var(--line);border-radius:12px;padding:9px 11px;background:#fff;display:flex;align-items:center;gap:10px;cursor:pointer}
+.calday .row:hover,.cdr:hover{border-color:#C7DDE3}
+.cdr .tt{min-width:0;flex:1}.cdr .tt b{display:block;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cdr .tt small{display:block;font-size:12px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cdk{flex:none;font-size:11.5px;font-weight:700;border-radius:99px;padding:2px 8px;background:#F2F5F7;color:var(--ink2)}
+.cdk.k-ev{background:#F1EEFF;color:#5B47D6}.cdk.k-in{background:var(--pri-soft);color:#008197}.cdk.k-out{background:#F2F5F7;color:var(--ink2)}.cdk.k-iv{background:#E6F0FF;color:#3D5BD9}.cdk.k-tk{background:#FFF8E6;color:#9A6B0F}
+.evonly{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2);margin-right:auto;cursor:pointer}
+.probw{display:inline-flex;align-items:center;gap:6px}
+.probw select.probm{height:32px;width:auto;padding:0 28px 0 10px;font-size:13px;border-radius:10px}
+.cmpb.on{background:#E6F6F9;border-color:#BFE6EC;color:#008197}
+/* 간략히 보기: 메모 숨김 · 카드 여백 줄임 */
+.tkbody.compact .kmemo,.tkbody.compact .mmemo{display:none}
+.tkbody.compact .kc{padding-top:10px;padding-bottom:10px}
+.tkbody.compact .kmeta{margin-top:4px}
 .mtadd{height:40px;border:1px dashed #CFD8DD;border-radius:12px;background:none;color:var(--mute);font:inherit;font-size:13px;cursor:pointer;padding:0 14px}
 .mtadd:hover{border-color:#00A1B9;color:#008197}
 .mtnote{margin-top:12px}
@@ -1697,7 +1740,7 @@ const st={
   view:'home',
   filt:{who:'all',status:'open',period:'all',from:'',to:'',cat:'',side:'',q:'',star:false},
   sel:new Set(),lastCk:null,
-  cal:null,rp:'all',ptab:'sum',ivw:0,hrp:'year',rtab:'now',gfold:{},hideDone:!!lsGet(NS+'hideDone'),tview:lsGet(NS+'tview')||'board',rside:'',rsel:new Set(),
+  cal:null,rp:'all',ptab:'sum',ivw:0,hrp:'year',rtab:'now',gfold:{},hideDone:!!lsGet(NS+'hideDone'),compact:!!lsGet(NS+'compact'),tview:lsGet(NS+'tview')||'board',rside:'',rsel:new Set(),
   homeWho:'me',hTab:'done',
   fold:JSON.parse(lsGet(NS+'fold')||'{}'),
   undo:null,genBusy:false
@@ -1769,7 +1812,7 @@ async function onUser(u){
   unsubs.push(A.watch('routines',docs=>{st.routines=new Map(docs.map(d=>[d.id,d]));st.ready.routines=1;maybeGen();render()}));
   unsubs.push(A.watch('people',docs=>{st.people=new Map(docs.map(d=>[d.id,d]));st.ready.people=1;render()}));
   unsubs.push(A.watch('candidates',docs=>{st.cands=new Map(docs.map(d=>[d.id,d]));render()}));
-  for(const [c,k] of [['staff','staff'],['reqs','reqs'],['plans','plans'],['talks','talks']])unsubs.push(A.watch(c,docs=>{st[k]=new Map(docs.map(d=>[d.id,d]));render()}));
+  for(const [c,k] of [['staff','staff'],['reqs','reqs'],['plans','plans'],['talks','talks'],['events','events']])unsubs.push(A.watch(c,docs=>{st[k]=new Map(docs.map(d=>[d.id,d]));render()}));
   unsubs.push(A.watch('notices',docs=>{st.notices=docs;render()},{order:'at',desc:true,limit:30}));
   unsubs.push(A.watch('logs',docs=>{st.logs=docs;if(st.view==='history')render()},{order:'at',desc:true,limit:150}));
   route();
@@ -2107,7 +2150,7 @@ function liHtml(t){
   return `<div class="li ${done?'done':''} ${isLate(t)?'late':''}">
    <button class="ckc ${done?'on':''}" data-act="toggleDone" data-id="${t.id}" title="${done?'완료 취소':'완료로 바꾸기'}" aria-label="${done?'완료 취소':'완료'}">${done?'✓':''}</button>
    <div class="lt" data-open="${t.id}"><b>${t.star?'<span class="st">★</span>':''}${esc(t.title)}</b>
-    <div class="lm">${catChip(t.cat)}${t.rid?'<span class="tag r">정기</span>':''}${chkN(t)}${t.cmts?.length?`<span class="mm">💬 ${t.cmts.length}</span>`:''}${t.memo?`<span class="mm">${esc(t.memo.slice(0,50))}</span>`:''}</div></div>
+    <div class="lm">${catChip(t.cat)}${t.rid?'<span class="tag r">정기</span>':''}${chkN(t)}${t.cmts?.length?`<span class="mm">💬 ${t.cmts.length}</span>`:''}${t.memo?`<span class="mm mmemo">${esc(t.memo.slice(0,50))}</span>`:''}</div></div>
    ${done?'':isSnz(t)?`<button class="snzb" data-act="unsnz" data-id="${t.id}" title="지금 다시 보이기">${md(t.snz)}까지 숨김 · 보이기</button>`:`<div class="la"><button class="qa" data-act="postpone" data-id="${t.id}" data-d="1" title="마감을 하루 미뤄요">+1일</button><button class="qa" data-act="postpone" data-id="${t.id}" data-d="7" title="마감을 일주일 미뤄요">+1주</button><button class="qa" data-act="snz" data-id="${t.id}" title="정한 날까지 숨겨요">나중에</button></div>`}
    ${dueLabel(t)}
    <button class="pill s-${t.status}" data-cell="status" data-id="${t.id}">${SL[t.status]} ▾</button>
@@ -2116,8 +2159,8 @@ function liHtml(t){
 // 보드 (트렐로식): 상태별 칸, 끌어서 옮기기, 칸 아래 바로 추가
 function kcard(t){
   const c=t.chk||[],open=st.kopen?.has(t.id);
-  return `<div class="kc ${isLate(t)?'late':''} ${t.status==='done'?'done':''} ${open?'open':''}" draggable="true" data-drag="${t.id}" data-open="${t.id}">
-   ${t.status==='done'?'':isSnz(t)?`<button class="ksnz on" data-act="unsnz" data-id="${t.id}" draggable="false" title="지금 다시 보이기">${md(t.snz)}까지 숨김 · 보이기</button>`:`<button class="ksnz" data-act="snz" data-id="${t.id}" draggable="false" title="나중에 보기 (정한 날까지 숨김)" aria-label="나중에 보기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-6 9-6 9 6 9 6"/><path d="M3 3l18 18"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>`}
+  return `<div class="kc ${isLate(t)?'late':''} ${t.status==='done'?'done':''} ${t.hid&&t.status==='done'?'hid0':''} ${open?'open':''}" draggable="true" data-drag="${t.id}" data-open="${t.id}">
+   ${t.status==='done'?`<button class="ksnz ${t.hid?'hidon':''}" data-act="hideOne" data-id="${t.id}" draggable="false" title="${t.hid?'다시 보이기':'이 완료 카드 숨기기'}" aria-label="${t.hid?'다시 보이기':'숨기기'}">${t.hid?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-6 9-6 9 6 9 6"/><path d="M3 3l18 18"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>'}</button>`:isSnz(t)?`<button class="ksnz on" data-act="unsnz" data-id="${t.id}" draggable="false" title="지금 다시 보이기">${md(t.snz)}까지 숨김 · 보이기</button>`:`<button class="ksnz" data-act="snz" data-id="${t.id}" draggable="false" title="나중에 보기 (정한 날까지 숨김)" aria-label="나중에 보기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-6 9-6 9 6 9 6"/><path d="M3 3l18 18"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>`}
    <button class="kexp" data-act="kexp" data-id="${t.id}" draggable="false" aria-expanded="${open?'true':'false'}" title="${open?'체크리스트 접기':'체크리스트 펼치기'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
    ${t.cat?`<div class="kbar t-${CAT_TONE[t.cat]||'s'}"></div>`:''}
    <div class="ktt"><button class="ckc ${t.status==='done'?'on':''}" data-act="toggleDone" data-id="${t.id}" draggable="false" title="${t.status==='done'?'완료 취소':'완료로 바꾸기'}" aria-label="${t.status==='done'?'완료 취소':'완료'}">${t.status==='done'?'✓':''}</button><b>${t.star?'<span class="st">★</span>':''}${esc(t.title)}</b></div>
@@ -2137,11 +2180,12 @@ function boardHtml(L){
   const col=s=>{
     /* 손으로 옮긴 순서(ord)가 있으면 그대로, 순서가 없는 새 업무는 위에 마감순으로 */
     let items=L.filter(x=>colOf(x)===s).sort((a,b)=>(a.ord==null?-1:a.ord)-(b.ord==null?-1:b.ord)||byDue(a,b));
-    if(s==='done')items=items.filter(x=>!x.doneAt||diffD(today(),x.doneAt)<=14).sort((a,b)=>(b.doneAt||'').localeCompare(a.doneAt||''));
+    let nHid=0;
+    if(s==='done'){items=items.filter(x=>!x.doneAt||diffD(today(),x.doneAt)<=14).sort((a,b)=>(b.doneAt||'').localeCompare(a.doneAt||''));nHid=items.filter(x=>x.hid).length;if(!st.showHidDone)items=items.filter(x=>!x.hid)}
     return `<div class="kcol k-${s}" data-drop="${s}"><div class="kh"><span class="kdot s-${s}"></span><b>${BCOL[s]}</b><span class="note">${items.length}</span>${s==='done'?'<button class="hdone" data-act="hideDone" title="완료 칸을 접어 숨겨요">숨기기</button>':''}</div>
      <div class="kl">${items.map(kcard).join('')||`<div class="kempty">${s==='star'?'★ 중요 업무를 여기로 끌어다 놓으세요':'여기로 끌어다 놓으세요'}</div>`}</div>
      ${s==='done'?'':`<button class="kaddb" data-act="newTask" ${s==='star'?'data-star="1"':`data-st="${s}"`}>+ 업무 추가</button>`}
-     ${s==='done'?'<div class="note" style="padding:6px 4px 0">최근 2주 완료만 보여요</div>':''}</div>`};
+     ${s==='done'?`<div class="kdnote"><span class="note">최근 2주 완료만 보여요</span>${nHid?`<button class="hdone" data-act="showHidDone">${st.showHidDone?'숨긴 카드 다시 감추기':`숨긴 카드 ${nHid}건 보기`}</button>`:''}</div>`:''}</div>`};
   return `<div class="kb">${col('star')}${col('todo')}${col('doing')}<div class="kstack">${st.hideDone&&!st.filt.snz?`<button class="kdone-hid" data-drop="done" data-act="hideDone" title="완료 칸 다시 보이기">✓ 완료 ${L.filter(x=>x.status==='done'&&(!x.doneAt||diffD(today(),x.doneAt)<=14)).length}건 숨김 · 보이기</button>`:col('done')}${col('hold')}</div></div>`;
 }
 function vTasks(){
@@ -2164,7 +2208,7 @@ function vTasks(){
   return `
   <div class="tkhead"><h1>업무</h1><span class="cntb">${L.length}건</span>
     <form id="fQuick" class="qadd"><span class="qplus">+</span><input id="qa" autocomplete="off" placeholder="빠른 추가 · 예) 원천세 신고 12/10 #세무신고 !"><span id="qaPrev" class="qprev">날짜 · #분류 · ! 중요</span><button class="btn pri sm">추가</button></form>
-    <button class="btn" data-act="paste">붙여넣기</button><button class="btn pri" data-act="newTask">+ 업무 추가</button></div>
+    <button class="btn cmpb ${st.compact?'on':''}" data-act="compact" aria-pressed="${st.compact?'true':'false'}" title="카드·목록에서 메모를 숨겨 간략하게 봐요">${st.compact?'자세히 보기':'간략히 보기'}</button><button class="btn" data-act="paste">붙여넣기</button><button class="btn pri" data-act="newTask">+ 업무 추가</button></div>
   <div class="tkbar"><div class="segs tabs">${TABS.map(([k,l,n])=>`<button class="${ct===k?'on':''}" data-act="ttab" data-v="${k}">${l}${n!=null?`<span class="tc ${k==='late'&&n?'red':''}">${n}</span>`:''}</button>`).join('')}</div>
     <div class="tkf">
       <select class="fsel" data-fs="period" aria-label="기간"><option value="all">전체 기간</option><option value="late">기한 지남</option><option value="today">오늘</option><option value="week">이번 주</option><option value="month">이번 달</option><option value="next">다음 달</option><option value="range">기간 지정</option><option value="none">기한 없음</option></select>
@@ -2175,13 +2219,13 @@ function vTasks(){
       ${dirty?'<button class="btn sm" data-act="resetF">초기화</button>':''}</div>
     <span class="sp" style="flex:1"></span>
     <div class="segs vsw" title="${v==='board'?'카드를 끌어서 상태를 바꿔요':v==='table'?'여러 건을 체크해 한 번에 바꿔요':'동그라미를 누르면 완료돼요 · N 키로 빠른 추가'}">${[['list','목록'],['board','보드'],['table','표']].map(([k,l])=>`<button class="${v===k?'on':''}" data-act="tview" data-v="${k}">${l}</button>`).join('')}</div></div>
-  <section class="card tkbody ${v==='board'?'tkflat':''}">${body}</section>`;
+  <section class="card tkbody ${v==='board'?'tkflat':''} ${st.compact?'compact':''}">${body}</section>`;
 }
 function trHtml(t){
   const late=isLate(t);
   return `<tr class="${st.sel.has(t.id)?'sel':''}" data-id="${t.id}">
    <td class="ck"><input type="checkbox" data-act="ck" data-id="${t.id}" ${st.sel.has(t.id)?'checked':''} aria-label="선택"></td>
-   <td class="c-ttl"><div class="ttl" data-open="${t.id}">${esc(t.title)}</div><div class="sub">${t.side?`<span class="tag">${esc(t.side)}</span>`:''}${t.rid?'<span class="tag r">정기</span>':''}${t.cmts?.length?`<span>💬 ${t.cmts.length}</span>`:''}${t.memo?`<span>${esc(t.memo.slice(0,40))}</span>`:''}</div></td>
+   <td class="c-ttl"><div class="ttl" data-open="${t.id}">${esc(t.title)}</div><div class="sub">${t.side?`<span class="tag">${esc(t.side)}</span>`:''}${t.rid?'<span class="tag r">정기</span>':''}${t.cmts?.length?`<span>💬 ${t.cmts.length}</span>`:''}${t.memo?`<span class="mmemo">${esc(t.memo.slice(0,40))}</span>`:''}</div></td>
    <td class="c-cat"><button class="cellbtn" data-cell="cat" data-id="${t.id}">${t.cat?esc(t.cat):'<span class="ph2">분류</span>'}</button></td>
    <td class="c-per"><button class="cellbtn ${late?'late-t':''}" data-cell="period" data-id="${t.id}">${t.due?`${t.start&&t.start!==t.due?md(t.start)+' ~ ':''}${md(t.due)}(${dow(t.due)})${late?` · ${-diffD(t.due,today())}일 지남`:''}`:'<span class="ph2">기간 설정</span>'}</button></td>
    <td class="c-st"><button class="pill s-${t.status}" data-cell="status" data-id="${t.id}">${SL[t.status]} ▾</button></td>
@@ -2199,43 +2243,82 @@ function renderBulk(){
 }
 
 /* ---------------- 캘린더 ---------------- */
+/* ---------------- 캘린더 ----------------
+   종류: 업무(task) · 일정(event, 캘린더 전용) · 입·퇴사 · 면접 · 수습·계약 · 면담
+   거르기는 브라우저에 기억해요 */
+const CAL_KINDS=[['task','업무'],['event','일정'],['person','입·퇴사'],['iv','면접'],['track','수습·계약'],['talk','면담']];
+function calF(){if(!st.calf){let v=null;try{v=JSON.parse(lsGet(NS+'calf')||'null')}catch(e){}st.calf={kinds:CAL_KINDS.map(k=>k[0]),star:false,side:'',cat:'',done:true,...(v||{})}}return st.calf}
+const calSave=()=>lsSet(NS+'calf',JSON.stringify(st.calf));
+const evOn=(e,d)=>e.end&&e.end>e.start?(e.start<=d&&e.end>=d&&diffD(e.end,e.start)<=62):e.start===d;
+function calItems(d){
+  const F=calF(),K=new Set(F.kinds),out=[];
+  if(K.has('event'))[...(st.events?.values()||[])].filter(e=>evOn(e,d)&&(!F.star||e.star)).sort((a,b)=>(a.time||'').localeCompare(b.time||'')).forEach(e=>out.push({k:'event',star:e.star,html:`<span class="ce ev" data-ev="${e.id}">${e.star?'★':''}${e.time?`<i class="tm">${esc(e.time)}</i>`:''}${esc(e.title)}</span>`,row:`<div class="cdr" data-ev="${e.id}"><span class="cdk k-ev">일정</span><div class="tt"><b>${e.star?'★ ':''}${esc(e.title)}</b><small>${[e.time,e.end&&e.end!==e.start?`${md(e.start)}~${md(e.end)}`:'',e.memo].filter(Boolean).map(esc).join(' · ')}</small></div></div>`}));
+  if(K.has('task'))live().filter(x=>calOn(x,d)&&(F.done||x.status!=='done')&&(!F.star||x.star)&&(!F.side||x.side===F.side)&&(!F.cat||x.cat===F.cat)).sort((a,b)=>(b.star?1:0)-(a.star?1:0)||byDue(a,b)).forEach(x=>{const mid=x.start&&x.start!==x.due&&d!==x.start&&d!==x.due;
+    out.push({k:'task',star:x.star,html:`<span class="ce ${x.status==='done'?'done':''} ${isLate(x)?'late':''} ${mid?'mid':''}" style="--c:${sideCol(x.side)}" data-open="${x.id}">${x.star?'★':''}${x.start&&x.start!==x.due&&d===x.start?'▸ ':''}${esc(x.title)}</span>`,row:rowHtml(x)})});
+  if(F.star)return out;
+  if(K.has('person'))[...st.people.values()].filter(p=>p.date===d).forEach(p=>out.push({k:'person',html:`<span class="ce ${p.type}" data-person="${p.id}">${p.type==='in'?'입사':'퇴사'} ${esc(p.name)}</span>`,row:`<div class="cdr" data-person="${p.id}"><span class="cdk k-${p.type}">${p.type==='in'?'입사':'퇴사'}</span><div class="tt"><b>${esc(p.name)}</b><small>${esc([p.team,p.rank].filter(Boolean).join(' · '))}</small></div></div>`}));
+  if(K.has('iv'))cands().filter(c=>c.date===d&&ivRes(c)!=='불참').forEach(c=>out.push({k:'iv',html:`<span class="ce iv" data-cand="${c.id}">면접 ${esc(c.time||'')} ${esc(c.name)}</span>`,row:`<div class="cdr" data-cand="${c.id}"><span class="cdk k-iv">면접</span><div class="tt"><b>${esc(c.name)}</b><small>${esc([c.time,c.team,c.position].filter(Boolean).join(' · '))}</small></div></div>`}));
+  if(K.has('track'))staffOn().forEach(s=>{const it=(lb)=>out.push({k:'track',html:`<span class="ce tk" data-staff="${s.id}">${lb} ${esc(s.name)}</span>`,row:`<div class="cdr" data-staff="${s.id}"><span class="cdk k-tk">${lb}</span><div class="tt"><b>${esc(s.name)}</b><small>${esc([s.team,s.rank].filter(Boolean).join(' · '))}</small></div></div>`});
+    if(s.prob&&!s.probRes&&s.joinDate&&probEnd(s)===d)it('수습 종료');if(s.etype==='계약'&&!s.cDec&&s.cEnd===d)it('계약 만료')});
+  if(K.has('talk'))[...st.talks.values()].filter(k=>k.date===d).forEach(k=>out.push({k:'talk',html:`<span class="ce tl" data-talk="${k.id}">면담 ${esc(k.name)}</span>`,row:`<div class="cdr" data-talk="${k.id}"><span class="cdk k-tl">면담</span><div class="tt"><b>${esc(k.name)}</b><small>${esc(k.kind||'')}</small></div></div>`}));
+  return out;
+}
 function vCal(){
   const t=today();
   if(!st.cal){const d=pD(t);st.cal={y:d.getFullYear(),m:d.getMonth()+1,who:'all',sel:t}}
-  const c=st.cal;
+  const c=st.cal,F=calF();
   const first=new Date(c.y,c.m-1,1),start=addD(ymd(first),-first.getDay());
-  const L=live();
-  const P=[...st.people.values()];
   let cells='';
   for(let i=0;i<42;i++){
     const d=addD(start,i);
     if(i>=35&&d.slice(5,7)!==pad(c.m))break;
-    const evs=[];
-    P.filter(p=>p.date===d).forEach(p=>evs.push(`<span class="ce ${p.type}" data-person="${p.id}">${p.type==='in'?'입사':'퇴사'} ${esc(p.name)}</span>`));
-    cands().filter(c=>c.date===d&&ivRes(c)!=='불참').forEach(c=>evs.push(`<span class="ce iv" data-cand="${c.id}">면접 ${esc(c.time||'')} ${esc(c.name)}</span>`));
-    staffOn().forEach(s=>{if(s.prob&&!s.probRes&&s.joinDate&&probEnd(s)===d)evs.push(`<span class="ce tk" data-staff="${s.id}">수습 종료 ${esc(s.name)}</span>`);if(s.etype==='계약'&&!s.cDec&&s.cEnd===d)evs.push(`<span class="ce tk" data-staff="${s.id}">계약 만료 ${esc(s.name)}</span>`)});
-    [...st.talks.values()].filter(k=>k.date===d).forEach(k=>evs.push(`<span class="ce tl" data-talk="${k.id}">면담 ${esc(k.name)}</span>`));
-    L.filter(x=>calOn(x,d)).sort((a,b)=>(b.star?1:0)-(a.star?1:0)||byDue(a,b)).forEach(x=>{
-      const mid=x.start&&x.start!==x.due&&d!==x.start&&d!==x.due;
-      evs.push(`<span class="ce ${x.status==='done'?'done':''} ${isLate(x)?'late':''} ${mid?'mid':''}" style="--c:${sideCol(x.side)}" data-open="${x.id}">${x.star?'★':''}${x.start&&x.start!==x.due&&d===x.start?'▸ ':''}${esc(x.title)}</span>`)});
+    const evs=calItems(d);
     const hn=holidays()[d],gd=pD(d).getDay();
-    cells+=`<div class="d ${d.slice(5,7)!==pad(c.m)?'out':''} ${d===t?'today':''} ${hn||gd===0?'off':gd===6?'sat':''}${d===c.sel?'sel':''}" data-day="${d}"><div class="dn"><span>${+d.slice(8)}</span>${hn?`<em class="hn">${esc(hn)}</em>`:''}</div>${evs.slice(0,4).join('')}${evs.length>4?`<div class="more">+${evs.length-4}건</div>`:''}</div>`;
+    cells+=`<div class="d ${d.slice(5,7)!==pad(c.m)?'out':''} ${d===t?'today':''} ${hn||gd===0?'off':gd===6?'sat':''} ${d===c.sel?'sel':''}" data-day="${d}"><div class="dn"><span>${+d.slice(8)}</span>${hn?`<em class="hn">${esc(hn)}</em>`:''}<button class="cadd" data-act="calAdd" data-d="${d}" aria-label="${md(d)}에 추가" title="일정·업무 추가">+</button></div>${evs.slice(0,4).map(x=>x.html).join('')}${evs.length>4?`<div class="more">+${evs.length-4}건 더</div>`:''}</div>`;
   }
-  const dl=L.filter(x=>calOn(x,c.sel)).sort(byDue);
-  const dp=P.filter(p=>p.date===c.sel);
+  const sel=calItems(c.sel),grp=CAL_KINDS.map(([k,l])=>[l,sel.filter(x=>x.k===k)]).filter(([,L])=>L.length);
+  const cats=S().cats||CATS,dirty=F.kinds.length!==CAL_KINDS.length||F.star||F.side||F.cat||!F.done;
   return `
-  <div class="ph"><h1>캘린더</h1><span class="sp"></span><button class="btn pri" data-act="newTask" data-due="${c.sel}">+ ${md(c.sel)} 업무 추가</button></div>
-  <section class="card">
+  <div class="ph"><h1>캘린더</h1><span class="sp"></span><button class="btn" data-act="newEvent" data-d="${c.sel}">+ 일정</button><button class="btn pri" data-act="newTask" data-due="${c.sel}">+ 업무</button></div>
+  <div class="calwrap"><section class="card calmain">
     <div class="calh"><button class="icon-btn" data-act="calMove" data-v="-1" aria-label="이전 달">‹</button><h2>${c.y}년 ${c.m}월</h2><button class="icon-btn" data-act="calMove" data-v="1" aria-label="다음 달">›</button><button class="btn sm" data-act="calToday">오늘</button><span style="flex:1"></span>
-</div>
+      <div class="calf">${CAL_KINDS.map(([k,l])=>`<button class="cfk k-${k} ${F.kinds.includes(k)?'on':''}" data-act="calKind" data-v="${k}" aria-pressed="${F.kinds.includes(k)}">${l}</button>`).join('')}</div></div>
+    <div class="calf2"><button class="cfk star ${F.star?'on':''}" data-act="calStar" aria-pressed="${F.star}">★ 중요만</button>
+      <select class="fsel" id="calSide" aria-label="구분"><option value="">구분 전체</option>${['인사','기타'].map(x=>`<option ${F.side===x?'selected':''}>${x}</option>`).join('')}</select>
+      <select class="fsel" id="calCat" aria-label="분류"><option value="">분류 전체</option>${cats.map(x=>`<option ${F.cat===x?'selected':''}>${esc(x)}</option>`).join('')}</select>
+      <label class="chkl cfd"><input type="checkbox" id="calDone" ${F.done?'checked':''}> 완료한 업무도 보기</label>
+      ${dirty?'<button class="btn sm" data-act="calReset">거르기 초기화</button>':''}</div>
     <div class="cal">${['일','월','화','수','목','금','토'].map((w,i)=>`<div class="wd ${i===0?'sun':i===6?'sat':''}">${w}</div>`).join('')}${cells}</div>
-    <div class="legend"><span><i style="background:#e8f0ff;border-left:3px solid var(--blue)"></i>입사</span><span><i style="background:var(--orange-soft);border-left:3px solid var(--orange)"></i>퇴사</span><span><i style="background:var(--red-soft)"></i>기한 지남</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('인사')}"></i>인사</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('기타')}"></i>기타</span><span>▸ 기간 시작</span></div>
+    <div class="legend"><span><i class="lg-ev"></i>일정</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('인사')}"></i>업무 · 인사</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('기타')}"></i>업무 · 기타</span><span><i style="background:var(--red-soft)"></i>기한 지남</span><span><i style="background:var(--pri-soft);border-left:3px solid var(--cyan)"></i>입사</span><span><i style="background:#E6F0FF;border-left:3px solid #3D5BD9"></i>면접</span><span><i style="background:#FFF8E6;border-left:3px solid #F59E0B"></i>수습·계약</span><span>▸ 기간 업무 시작</span></div>
   </section>
-  <section class="card"><div class="card-h"><h2>${md(c.sel)}(${dow(c.sel)}) 업무</h2></div>
-    <div class="rows">${dp.map(p=>`<div class="row" data-person="${p.id}"><span class="pill ${p.type==='in'?'s-doing':'s-hold'}">${p.type==='in'?'입사':'퇴사'}</span><div class="tt"><b>${esc(p.name)}</b><small>${esc(p.dept||'')}</small></div></div>`).join('')}${dl.map(rowHtml).join('')}${!dl.length&&!dp.length?'<div class="empty">이날 업무가 없어요.</div>':''}</div></section>`;
+  <aside class="card calday"><div class="cdh"><div><b>${+c.sel.slice(5,7)}월 ${+c.sel.slice(8)}일 (${dow(c.sel)})</b>${holidays()[c.sel]?`<small class="hn2">${esc(holidays()[c.sel])}</small>`:''}${c.sel===t?'<small class="tdy">오늘</small>':''}</div><span class="note">${sel.length}건</span></div>
+    <div class="cdq"><button class="btn sm" data-act="newEvent" data-d="${c.sel}">+ 일정</button><button class="btn sm" data-act="newTask" data-due="${c.sel}">+ 업무</button></div>
+    ${grp.length?grp.map(([l,L])=>`<div class="cdg"><div class="cdgh">${l}<span class="tc">${L.length}</span></div><div class="rows">${L.map(x=>x.row).join('')}</div></div>`).join(''):'<div class="empty">이날은 비어 있어요.<br><small>날짜 칸의 + 로 일정이나 업무를 넣을 수 있어요.</small></div>'}
+  </aside></div>`;
 }
-
-/* 캘린더 표시: 정기업무·마감 업무는 마감일에만, 직접 만든 기간 업무(시작일~마감일)만 기간 내내 보여요 */
+/* 일정 (캘린더 전용) */
+function openEvent(id,pre={}){
+  const e=id?st.events?.get(id):{title:'',start:pre.d||today(),end:'',time:'',memo:'',star:false};if(!e)return;
+  openLayer(`<div class="modal" role="dialog" aria-label="일정"><h2>${id?'일정':'일정 추가'}</h2><p class="note" style="margin:-8px 0 14px">캘린더에만 보이고 업무 목록·보드에는 나오지 않아요.</p>
+   <form id="fEv" data-id="${id||''}">
+    <div class="fld"><label for="eTitle">제목</label><input class="inp" id="eTitle" value="${esc(e.title)}" placeholder="예) 동아대 교수 방문 (실습 면담)"></div>
+    <div class="g3"><div class="fld"><label for="eStart">날짜</label><input class="inp" type="date" id="eStart" value="${e.start||''}"></div>
+     <div class="fld"><label for="eEnd">끝나는 날 (여러 날일 때)</label><input class="inp" type="date" id="eEnd" value="${e.end||''}"></div>
+     <div class="fld"><label for="eTime">시간</label><input class="inp" id="eTime" value="${esc(e.time||'')}" placeholder="예) 14:00"></div></div>
+    <div class="fld"><label for="eMemo">메모</label><input class="inp" id="eMemo" value="${esc(e.memo||'')}"></div>
+    <div class="fld"><label class="chkl"><input type="checkbox" id="eStar" ${e.star?'checked':''}> ★ 중요 일정</label></div>
+   </form>
+   <div class="acts">${id?`<button class="btn dan" data-act="delEvent" data-id="${id}" style="margin-right:auto">삭제</button><button class="btn" data-act="evToTask" data-id="${id}">업무로 바꾸기</button>`:''}<button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="saveEvent">${id?'저장':'추가'}</button></div></div>`);
+  setTimeout(()=>{if(!id)$('#eTitle')?.focus()},30);
+}
+async function saveEvent(){
+  const id=$('#fEv').dataset.id,d={title:$('#eTitle').value.trim(),start:$('#eStart').value,end:$('#eEnd').value,time:$('#eTime').value.trim(),memo:$('#eMemo').value,star:$('#eStar').checked,updatedAt:nowISO()};
+  if(!d.title){toast('제목을 적어 주세요');$('#eTitle').focus();return}
+  if(!d.start){toast('날짜를 정해 주세요');return}
+  if(d.end&&d.end<d.start){toast('끝나는 날이 시작보다 빨라요');return}
+  if(d.end===d.start)d.end='';
+  await st.api.put('events',id||'e-'+uid(),id?d:{...d,createdAt:nowISO()});addLog(`일정 ${id?'수정':'등록'} · ${d.title}`);closeLayer();toast(id?'일정을 저장했어요':'캘린더에 일정을 넣었어요');
+}/* 캘린더 표시: 정기업무·마감 업무는 마감일에만, 직접 만든 기간 업무(시작일~마감일)만 기간 내내 보여요 */
 function calOn(x,d){if(!x.due)return false;if(x.rid||!x.start||x.start===x.due)return x.due===d;return x.start<=d&&x.due>=d&&diffD(x.due,x.start)<=45}
 /* ---------------- 정기업무 ---------------- */
 function rDue(r){
@@ -2456,7 +2539,7 @@ function openTask(id,pre={}){
        <div style="display:flex;gap:8px"><input class="inp" id="tCmt" placeholder="진행 상황을 남겨주세요" style="height:42px"><button type="button" class="btn" data-act="addCmt" data-id="${id}">남기기</button></div></div>
        <div class="sec"><h4>변경 기록</h4><div class="hist">${(t.hist||[]).map(h=>`<div class="h1"><time>${fmtAt(h.at)}</time><span>${esc(h.t)}</span></div>`).join('')||'<span class="note">기록이 없어요.</span>'}</div></div>`:''}
    </form>
-   <div class="df">${id?`<button class="btn dan" data-act="delTask" data-id="${id}" style="margin-right:auto">삭제</button>`:''}<button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="saveTask">${id?'저장':'등록'}</button></div>
+   <div class="df">${id?`<button class="btn dan" data-act="delTask" data-id="${id}" style="margin-right:auto">삭제</button>`:`<label class="evonly" title="업무 목록·보드에는 안 나오고 캘린더에만 표시돼요"><input type="checkbox" id="tEvOnly" ${pre.evOnly?'checked':''}> 캘린더 일정으로만 등록</label>`}<button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="saveTask">${id?'저장':'등록'}</button></div>
   </aside>`);
   setTimeout(()=>{if(!id)$('#tTitle')?.focus()},30);
 }
@@ -2468,6 +2551,7 @@ async function saveTaskForm(){
   if(!d.title){$('#tTitle').focus();toast('업무명을 적어주세요');return}
   if(d.start&&d.due&&d.start>d.due){toast('시작일이 마감일보다 늦어요');return}
   if(d.start&&!d.due)d.due=d.start;
+  if(!id&&$('#tEvOnly')?.checked){const s=d.start||d.due||today();await st.api.put('events','e-'+uid(),{title:d.title,start:s,end:d.start&&d.due&&d.due!==d.start?d.due:'',time:'',memo:d.memo,star:d.star,createdAt:nowISO()});addLog(`일정 등록 · ${d.title}`);closeLayer();toast('캘린더에 일정을 넣었어요');return}
   if(id)await updateTasks([id],d,'업무 수정');else await createTask({...d,src:'직접 등록',chk:st.draftChk||[],...(d.status==='done'?{doneAt:today()}:{})});
   closeLayer();
 }
@@ -2523,7 +2607,7 @@ function openPerson(id,pre={}){
    <div class="fld"><label>구분</label><div class="segs" id="pType"><button type="button" class="${!o?'on':''}" data-v="in">입사</button><button type="button" class="${o?'on':''}" data-v="out">퇴사</button></div></div>
    <div class="g2"><div class="fld"><label for="pName">이름</label><input class="inp" id="pName" value="${esc(p.name)}" required></div><div class="fld"><label for="pDate" id="pDateL">${o?'퇴사일':'입사일'}</label><input class="inp" type="date" id="pDate" value="${p.date||''}"></div></div>
    <div class="g3"><div class="fld"><label for="pTeam">부서</label><input class="inp" id="pTeam" list="teamList2" value="${esc(p.team||'')}"><datalist id="teamList2">${ivTeams().concat(staffAll().map(x=>x.team)).filter((v,i,a)=>v&&a.indexOf(v)===i).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div><div class="fld"><label for="pRank">직급</label><input class="inp" id="pRank" list="rankList2" value="${esc(p.rank||'')}"><datalist id="rankList2">${RANKS.map(r=>`<option value="${r}">`).join('')}</datalist></div><div class="fld"><label for="pDept">직무</label><input class="inp" id="pDept" value="${esc(p.dept||'')}"></div></div>
-   <div id="pInF" ${o?'hidden':''}><div class="g2"><div class="fld"><label>고용형태</label><div class="segs pick" id="pEtype">${ETYPES.map(x=>`<button type="button" class="${(p.etype||'정규')===x?'on':''}" data-v="${x}">${x}</button>`).join('')}</div></div><div class="fld"><label for="pCEnd">계약 종료일 (계약직)</label><input class="inp" type="date" id="pCEnd" value="${p.cEnd||''}"></div></div><div class="chkrow">${cb('pProb',p.prob!==false,'수습 적용 (3개월)')}${cb('pDocs',p.docs,'입사서류 안내 완료')}${cb('pDorm',p.dorm,'기숙사 이용')}</div></div>
+   <div id="pInF" ${o?'hidden':''}><div class="g2"><div class="fld"><label>고용형태</label><div class="segs pick" id="pEtype">${ETYPES.map(x=>`<button type="button" class="${(p.etype||'정규')===x?'on':''}" data-v="${x}">${x}</button>`).join('')}</div></div><div class="fld"><label for="pCEnd">계약 종료일 (계약직)</label><input class="inp" type="date" id="pCEnd" value="${p.cEnd||''}"></div></div><div class="chkrow"><span class="probw">${cb('pProb',p.prob!==false,'수습 적용')}${probSel('pProbM',p.probM)}</span>${cb('pDocs',p.docs,'입사서류 안내 완료')}${cb('pDorm',p.dorm,'기숙사 이용')}${cb('pBus',p.bus,'통근 이용')}</div></div>
    <div id="pOutF" ${o?'':'hidden'}>
     <div class="g2"><div class="fld"><label for="pJoin">입사일 (재직기간 계산용)</label><input class="inp" type="date" id="pJoin" value="${p.joinDate||''}"></div>
      <div class="fld"><label for="pReason">퇴사 사유</label><select class="inp" id="pReason"><option value="">-</option>${OUT_REASON.map(r=>`<option ${p.reason===r?'selected':''}>${r}</option>`).join('')}</select></div></div>
@@ -2540,7 +2624,7 @@ async function savePersonForm(){
   const id=$('#fPerson').dataset.id;
   const ty=$('#pType .on').dataset.v,old=id?st.people.get(id):{},ck=(k,el)=>{const v=!!$(el)?.checked;return {[k]:v,[k+'At']:v?(old[k]?old[k+'At']||'':today()):''}};
   const d={type:ty,name:$('#pName').value.trim(),date:$('#pDate').value,dept:$('#pDept').value.trim(),team:$('#pTeam').value.trim(),rank:$('#pRank').value.trim(),owner:me(),memo:$('#pMemo').value,updatedAt:nowISO(),updatedBy:me(),
-    ...(ty==='in'?{...ck('docs','#pDocs'),dorm:!!$('#pDorm').checked,etype:$('#pEtype .on')?.dataset.v||'정규',prob:!!$('#pProb')?.checked,cEnd:$('#pCEnd')?.value||''}:{joinDate:$('#pJoin').value,reason:$('#pReason').value,...ck('mtgLead','#pLead'),...ck('mtgHr','#pHr'),...ck('agreed','#pAgreed'),resign:$('#pResign').value})};
+    ...(ty==='in'?{...ck('docs','#pDocs'),dorm:!!$('#pDorm').checked,bus:!!$('#pBus')?.checked,etype:$('#pEtype .on')?.dataset.v||'정규',prob:!!$('#pProb')?.checked,probM:+($('#pProbM')?.value||3),cEnd:$('#pCEnd')?.value||''}:{joinDate:$('#pJoin').value,reason:$('#pReason').value,...ck('mtgLead','#pLead'),...ck('mtgHr','#pHr'),...ck('agreed','#pAgreed'),resign:$('#pResign').value})};
   if(ty==='out'&&!d.joinDate){const sm=staffAll().find(s=>s.name===d.name&&s.status!=='퇴사');if(sm?.joinDate)d.joinDate=sm.joinDate}
   if(!d.name||!d.date){toast('이름과 날짜를 적어주세요');return}
   const pid=id||'p-'+uid();
@@ -2626,7 +2710,8 @@ document.addEventListener('click',async e=>{
   const tkd=T.closest('[data-talk]');if(tkd){openTalk(tkd.dataset.talk);return}
   const rqd=T.closest('[data-req]');if(rqd){openReq(rqd.dataset.req);return}
   const rt=T.closest('[data-rt]');if(rt){openRoutine(rt.dataset.rt);return}
-  const day=T.closest('[data-day]');if(day&&!T.closest('[data-open],[data-person]')){st.cal.sel=day.dataset.day;render();return}
+  const evd=T.closest('[data-ev]');if(evd){openEvent(evd.dataset.ev);return}
+  const day=T.closest('[data-day]');if(day&&!T.closest('[data-open],[data-person],[data-act]')){st.cal.sel=day.dataset.day;render();return}
 
   // 필터 칩
   const fc=T.closest('[data-f]');if(fc){st.filt[fc.dataset.f]=fc.dataset.v;st.sel.clear();render();return}
@@ -2702,6 +2787,7 @@ document.addEventListener('change',e=>{
   if(T.matches('[data-fs]')){st.filt[T.dataset.fs]=T.value;st.sel.clear();render();return}
   if(T.id==='fFrom'||T.id==='fTo'){st.filt[T.id==='fFrom'?'from':'to']=T.value;render();return}
   if(T.matches('[data-team-name],[data-team-color]')){const e2=T.dataset.teamName||T.dataset.teamColor;const cur=(S().team||{})[e2]||{name:nm(e2),color:col(e2)};const nv={...cur,[T.dataset.teamName?'name':'color']:T.value.trim()||cur.name};st.api.put('settings','main',{team:{...(S().team||{}),[e2]:nv}}).then(()=>toast('저장했어요'));return}
+  if(T.id==='calSide'||T.id==='calCat'||T.id==='calDone'){const F=calF();if(T.id==='calDone')F.done=T.checked;else F[T.id==='calSide'?'side':'cat']=T.value;calSave();render();return}
   if(T.classList.contains('ssOne')){const S=st.ssel||(st.ssel=new Set());T.checked?S.add(T.dataset.id):S.delete(T.dataset.id);render();return}
   if(T.classList.contains('ssAll')){const S=st.ssel||(st.ssel=new Set());[...document.querySelectorAll('.ssOne')].forEach(x=>T.checked?S.add(x.dataset.id):S.delete(x.dataset.id));render();return}
   if(T.id==='ooAll'){st.ooAll=T.checked;render();return}
@@ -2928,6 +3014,16 @@ document.addEventListener('drop',async e=>{const col=e.target.closest?.('[data-d
   const ch=s==='star'?{star:true,...(['done','hold'].includes(t.status)?{status:'todo'}:{})}:['todo','doing'].includes(s)?{status:s,star:false}:{status:s};
   if(ch.status==='done'&&t.ptask&&t.chk?.length)ch.chk=t.chk.map(x=>({...x,done:true}));
   updateTasks([id],ch,`${BCOL[s]}(으)로 옮김`)});
+/* 날짜 칸에 숫자를 이어서 치면 알아서 맞춰요: 20261102 → 2026-11-02 · 261102 → 2026-11-02 · 1102 → 올해 11-02 */
+document.addEventListener('keydown',e=>{const el=e.target;if(!(el instanceof HTMLInputElement)||el.type!=='date'||e.ctrlKey||e.metaKey||e.altKey)return;
+  if(/^\d$/.test(e.key)){e.preventDefault();const now=Date.now();if(!el._dbT||now-el._dbT>1500)el._db='';el._dbT=now;el._db+=e.key;clearTimeout(el._dbTo);
+    const fin=strict=>{const b=el._db||'';let y,m,d;if(b.length===8){y=b.slice(0,4);m=b.slice(4,6);d=b.slice(6)}else if(b.length===6){y='20'+b.slice(0,2);m=b.slice(2,4);d=b.slice(4)}else if(b.length===4){y=today().slice(0,4);m=b.slice(0,2);d=b.slice(2)}else return false;
+      const dt=new Date(+y,+m-1,+d);if(+m<1||+m>12||dt.getMonth()!==+m-1||dt.getDate()!==+d){if(strict){toast('날짜를 확인해 주세요');el._db=''}return false}
+      el.value=`${y}-${m}-${d}`;el._db='';el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));return true};
+    if(el._db.length>=8)fin(true);else el._dbTo=setTimeout(()=>fin(false),900);
+  }else if(['-','.','/',' '].includes(e.key)&&el._db)e.preventDefault();
+  else if(e.key==='Backspace'||e.key==='Delete')el._db='';
+},true);
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.id==='tChk'){e.preventDefault();const b=$('[data-act="chkAdd"]');if(b)ACT.chkAdd(b);return}
   const a=document.activeElement;if(/^(INPUT|TEXTAREA|SELECT)$/.test(a?.tagName||'')||e.ctrlKey||e.metaKey||e.altKey||$('#layer').innerHTML)return;
@@ -3089,10 +3185,10 @@ function vIvTable(){
 function vInTable(){
   const P=[...st.people.values()].filter(p=>p.type==='in'),L=recFilter(P,p=>p.date),td=today();
   return `<section class="card rec">${recBar(L.length,yearsOf(P.map(p=>p.date)))}
-   ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>입사일</th><th>이름</th><th>부서</th><th>직급</th><th>직무</th><th class="c">입사서류 안내</th><th class="c">기숙사</th><th>메모</th></tr></thead><tbody>
+   ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>입사일</th><th>이름</th><th>부서</th><th>직급</th><th>직무</th><th class="c">입사서류 안내</th><th class="c">기숙사</th><th class="c">통근</th><th>메모</th></tr></thead><tbody>
    ${L.map(p=>`<tr class="${p.date>td?'up':''}"><td class="dt" data-person="${p.id}">${md(p.date)} <span>${dow(p.date)}</span>${p.date>td?`<em class="upb">D-${diffD(p.date,td)}</em>`:''}</td>
      <td class="nm" data-person="${p.id}"><b>${esc(p.name)}</b>${p.career?`<small>${esc(p.career)}</small>`:''}</td><td>${esc(p.team||'—')}</td><td>${esc(p.rank||'—')}</td><td>${esc(p.dept||'—')}</td>
-     <td class="c">${mkb('people',p.id,'docs',p.docs,p.docsAt,'안내')}</td><td class="c">${mkb('people',p.id,'dorm',p.dorm,'','이용')}</td>
+     <td class="c">${mkb('people',p.id,'docs',p.docs,p.docsAt,'안내')}</td><td class="c">${mkb('people',p.id,'dorm',p.dorm,'','이용')}</td><td class="c">${mkb('people',p.id,'bus',p.bus,'','이용')}</td>
      <td class="mm2">${esc(p.memo||'')}</td></tr>`).join('')}
    </tbody></table></div>`:`<div class="empty">${P.length?'조건에 맞는 입사 기록이 없어요.':'입사 기록이 없어요. 위의 + 입사 등록으로 추가하세요.'}</div>`}</section>`;
 }
@@ -3152,7 +3248,7 @@ function vHrSum(){
     {k:'iv',l:'면접',u:'건',get:ym=>C.filter(c=>(c.date||'').startsWith(ym)&&ivRes(c)!=='불참').sort(by),attr:'cand',
      sub:L=>{const o=L.filter(c=>ivRes(c)==='합격').length,n=L.filter(c=>ivRes(c)==='불합격').length;return `합격 ${o} · 불합격 ${n}`},tag:c=>ivRes(c)},
     {k:'in',l:'입사',u:'명',get:ym=>P.filter(p=>p.type==='in'&&(p.date||'').startsWith(ym)).sort(by),attr:'person',
-     sub:L=>L.length?`서류 안내 ${L.filter(p=>p.docs).length}/${L.length}`:'',tag:p=>p.dorm?'기숙사':''},
+     sub:L=>L.length?`서류 안내 ${L.filter(p=>p.docs).length}/${L.length}`:'',tag:p=>[p.dorm?'기숙사':'',p.bus?'통근':''].filter(Boolean).join(' · ')},
     {k:'out',l:'퇴사',u:'명',get:ym=>P.filter(p=>p.type==='out'&&(p.date||'').startsWith(ym)).sort(by),attr:'person',
      sub:L=>L.length?`사직서 결재 ${L.filter(p=>p.resign==='결재 완료').length}/${L.length}`:'',tag:p=>p.reason||''}
   ];
@@ -3220,7 +3316,9 @@ const colMap=c=>({candidates:st.cands,people:st.people,staff:st.staff,reqs:st.re
 const staffAll=()=>[...st.staff.values()];
 const staffOn=()=>staffAll().filter(s=>s.status!=='퇴사');
 const addMonths=(d,n)=>{const x=pD(d);return ymd(new Date(x.getFullYear(),x.getMonth()+n,x.getDate()))};
-const probEnd=s=>s.joinDate?addD(addMonths(s.joinDate,3),-1):'';
+const probM=s=>Math.min(12,Math.max(1,+s.probM||3));
+const probEnd=s=>s.joinDate?addD(addMonths(s.joinDate,probM(s)),-1):'';
+const probSel=(id,v)=>`<select class="inp probm" id="${id}" aria-label="수습 기간">${[1,2,3,4,5,6].map(n=>`<option value="${n}" ${(+v||3)===n?'selected':''}>${n}개월</option>`).join('')}</select>`;
 const dfmt=n=>n<0?`D+${-n}`:n===0?'D-DAY':`D-${n}`;
 const tenureY=(a,b)=>a?Math.max(0,diffD(b||today(),a))/365.25:null;
 const teamOf=s=>s.team||'부서 미정';
@@ -3366,7 +3464,7 @@ function vTrack(){
   const td=today(),T=trackItems();
   const doneL=staffAll().flatMap(s=>[...(s.probRes?[{s,kind:'수습',d:probEnd(s),v:s.probRes}]:[]),...(s.cDec?[{s,kind:'계약',d:s.cEnd,v:s.cDec}]:[])]).sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,20);
   return `<section class="card rec"><div class="card-h"><h2>다가오는 수습 종료 · 계약 만료</h2><span class="tc">${T.length}</span></div>
-   <p class="note" style="margin:-6px 0 12px">수습은 입사일부터 3개월이에요. 종료 전에 평가하고 결과를 정해 주세요. 계약직은 만료 30일 전까지 갱신·전환·종료를 정해 알려 주는 게 좋아요.</p>
+   <p class="note" style="margin:-6px 0 12px">수습은 입사일부터 정한 기간(기본 3개월)이에요. 종료 전에 평가하고 결과를 정해 주세요. 계약직은 만료 30일 전까지 갱신·전환·종료를 정해 알려 주는 게 좋아요.</p>
    ${T.length?`<div class="rtw"><table class="rtab"><thead><tr><th>D-day</th><th>구분</th><th>이름</th><th>부서 · 직급</th><th>기준일</th><th>결과 정하기</th></tr></thead><tbody>
    ${T.map(x=>{const n=diffD(x.d,td);return `<tr><td><span class="dday ${n<0?'over':n<=30?'soon':''}">${dfmt(n)}</span></td><td><span class="cc ${x.kind==='수습 종료'?'t-a':'t-c'}">${x.kind}</span></td>
      <td class="nm" data-staff="${x.s.id}"><b>${esc(x.s.name)}</b></td><td>${esc([x.s.team,x.s.rank].filter(Boolean).join(' · ')||'—')}</td><td>${x.d.replace(/-/g,'.')}</td>
@@ -3450,7 +3548,7 @@ function openStaff(id,pre={}){
      <div class="fld"><label for="sJoin">입사일</label><input class="inp" type="date" id="sJoin" value="${s.joinDate||''}"></div>
      <div class="fld"><label>&nbsp;</label><label class="chkl"><input type="checkbox" id="sLeader" ${s.leader?'checked':''}> 팀장</label></div></div>
     <div class="fld"><label>고용형태</label>${seg('sEtype',ETYPES,s.etype||'정규')}</div>
-    <div class="g3"><div class="fld"><label>&nbsp;</label><label class="chkl"><input type="checkbox" id="sProb" ${s.prob?'checked':''}> 수습 적용 (3개월)</label></div>
+    <div class="g3"><div class="fld"><label>&nbsp;</label><span class="probw"><label class="chkl"><input type="checkbox" id="sProb" ${s.prob?'checked':''}> 수습 적용</label>${probSel('sProbM',s.probM)}</span></div>
      <div class="fld"><label for="sProbRes">수습 결과</label>${sel('sProbRes',PROB_RES,s.probRes||'','미정')}</div>
      <div class="fld"><label>수습 종료일</label><div class="inp ro">${s.joinDate&&s.prob?probEnd(s).replace(/-/g,'.'):'—'}</div></div></div>
     <div class="g2"><div class="fld"><label for="sCEnd">계약 종료일 (계약직)</label><input class="inp" type="date" id="sCEnd" value="${s.cEnd||''}"></div>
@@ -3464,7 +3562,7 @@ function openStaff(id,pre={}){
 }
 async function saveStaffForm(){
   const id=$('#fStaff').dataset.id;
-  const d={name:$('#sName').value.trim(),team:$('#sTeam').value.trim(),div:$('#sDiv').value.trim(),rank:$('#sRank').value.trim(),job:$('#sJob').value.trim(),joinDate:$('#sJoin').value,leader:$('#sLeader').checked,etype:$('#sEtype .on')?.dataset.v||'정규',prob:$('#sProb').checked,probRes:$('#sProbRes').value,cEnd:$('#sCEnd').value,cDec:$('#sCDec').value,status:$('#sStatus .on')?.dataset.v||'재직',leaveDate:$('#sLeave').value,memo:$('#sMemo').value,updatedAt:nowISO()};
+  const d={name:$('#sName').value.trim(),team:$('#sTeam').value.trim(),div:$('#sDiv').value.trim(),rank:$('#sRank').value.trim(),job:$('#sJob').value.trim(),joinDate:$('#sJoin').value,leader:$('#sLeader').checked,etype:$('#sEtype .on')?.dataset.v||'정규',prob:$('#sProb').checked,probM:+($('#sProbM')?.value||3),probRes:$('#sProbRes').value,cEnd:$('#sCEnd').value,cDec:$('#sCDec').value,status:$('#sStatus .on')?.dataset.v||'재직',leaveDate:$('#sLeave').value,memo:$('#sMemo').value,updatedAt:nowISO()};
   if(!d.name){toast('이름을 적어 주세요');return}
   {const mate=staffAll().find(s=>s.id!==id&&s.team===d.team&&s.tord!=null);d.tord=mate?mate.tord:(id?st.staff.get(id)?.tord??null:null)}
   if(d.status==='퇴사'&&!d.leaveDate)d.leaveDate=today();
@@ -3499,7 +3597,7 @@ async function syncStaff(pid,d){
   const all=staffAll(),same=all.find(s=>s.pid===pid)||all.find(s=>s.name===d.name&&(!d.team||!s.team||s.team===d.team)&&(d.type==='in'||s.status!=='퇴사'));
   if(d.type==='in'){
     const tm=d.team||same?.team||'',mate=all.find(s=>s.team===tm&&s.tord!=null);
-    const v={tord:mate?mate.tord:(same?.tord??null),name:d.name,team:d.team||same?.team||'',rank:d.rank||same?.rank||'',job:d.dept||same?.job||'',etype:d.etype||'정규',joinDate:d.date,prob:d.prob!==false,cEnd:d.cEnd||'',pid,status:'재직',updatedAt:nowISO()};
+    const v={tord:mate?mate.tord:(same?.tord??null),name:d.name,team:d.team||same?.team||'',rank:d.rank||same?.rank||'',job:d.dept||same?.job||'',etype:d.etype||'정규',joinDate:d.date,prob:d.prob!==false,probM:d.probM||same?.probM||3,cEnd:d.cEnd||'',pid,status:'재직',updatedAt:nowISO()};
     await st.api.put('staff',same?.id||'s-'+uid(),same?v:{...v,createdAt:nowISO()});
   }else if(same){await st.api.put('staff',same.id,{status:'퇴사',leaveDate:d.date,updatedAt:nowISO()})}
 }
@@ -3648,7 +3746,7 @@ const vph=(t,desc,btn='')=>`<div class="ph"><h1>${t}</h1><span class="sp"></span
 const vtabs=(act,cur,list)=>`<div class="segs ptabs">${list.map(([k,l,n])=>`<button class="${cur===k?'on':''}" data-act="${act}" data-v="${k}">${l}${n!=null?`<span class="tc">${n}</span>`:''}</button>`).join('')}</div>`;
 function vStaffList(){return vph('직원 명부','재직자 명부예요. 채용·입퇴사에서 입사·퇴사를 저장하면 자동으로 반영돼요. 엑셀에서 복사해 한 번에 넣을 수 있어요.','<button class="btn" data-act="staffPaste">붙여넣기 일괄 등록</button><button class="btn pri" data-act="newStaff">+ 직원 추가</button>')+vRoster()}
 function vOrgView(){return vph('조직도','직원 명부를 부서별로 묶어 보여 줘요. 팀장은 직원 정보에서 정해요.','<button class="btn pri" data-act="newStaff">+ 직원 추가</button>')+vOrg()}
-function vTrackView(){return vph('수습 · 계약','수습 종료(입사일 + 3개월)와 계약 만료를 D-day로 챙겨요. 결과를 누르면 목록에서 빠지고 기록으로 남아요.')+vTrack()}
+function vTrackView(){return vph('수습 · 계약','수습 종료(입사일 + 수습 기간)와 계약 만료를 D-day로 챙겨요. 결과를 누르면 목록에서 빠지고 기록으로 남아요.')+vTrack()}
 function vPlanView(){return vph('인원계획','부서별 연초 인원·연말 목표와 월별 채용·퇴사 계획을 세우고 실제와 비교해요. 연초·현 인원은 직원 명부로 자동 계산돼요.')+vPlan()}
 function vRecruit(){
   const tab=st.rct==='iv'?'iv':'req';
@@ -3688,7 +3786,7 @@ const ACT={
   ghBadgeClick:()=>{const i=st.api.gh.info();if(i.stat==='err'){goView('settings')}st.api.gh.syncNow()},
   ghOff:()=>openConfirm('GitHub 연결을 끊을까요? 이 PC 자료와 GitHub 파일은 그대로 남고, 이 PC에 보관한 토큰만 지워져요.',()=>{st.api.gh.disconnect();toast('GitHub 연결을 끊었어요');render()}),
   fold:a=>{st.fold[a.dataset.id]=!st.fold[a.dataset.id];lsSet(NS+'fold',JSON.stringify(st.fold));render()},
-  newTask:a=>openTask(null,{...(a.dataset.due?{due:a.dataset.due}:{}),...(a.dataset.st?{status:a.dataset.st}:{}),...(a.dataset.star?{star:true}:{})}),
+  newTask:a=>closePop()||openTask(null,{...(a.dataset.due?{due:a.dataset.due}:{}),...(a.dataset.st?{status:a.dataset.st}:{}),...(a.dataset.star?{star:true}:{})}),
   saveTask:()=>saveTaskForm(),
   closeLayer:()=>closeLayer(),
   closePop:()=>closePop(),
@@ -3708,9 +3806,20 @@ const ACT={
   delCmt:async a=>{const id=a.dataset.id,t=st.tasks.get(id);const c=[...(t.cmts||[])];c.splice(+a.dataset.i,1);await st.api.put('tasks',id,{cmts:c});openTask(id)},
   delNotice:a=>st.api.remove('notices',a.dataset.id),
   calMove:a=>{const c=st.cal;const d=new Date(c.y,c.m-1+(+a.dataset.v),1);c.y=d.getFullYear();c.m=d.getMonth()+1;render()},
+  newEvent:a=>{closePop();openEvent(null,{d:a.dataset.d})},
+  saveEvent:()=>saveEvent(),
+  delEvent:a=>openConfirm('이 일정을 지울까요?',async()=>{await st.api.remove('events',a.dataset.id);closeLayer();toast('일정을 지웠어요')}),
+  evToTask:async a=>{const e=st.events?.get(a.dataset.id);if(!e)return;closeLayer();await createTask({title:e.title,status:'todo',owner:me(),helpers:[],start:e.end?e.start:'',due:e.end||e.start,side:'',cat:'',remind:3,star:!!e.star,memo:e.memo||'',src:'일정에서 바꿈',chk:[]});await st.api.remove('events',e.id);toast('업무로 바꿨어요')},
+  calAdd:a=>{const d=a.dataset.d;st.cal.sel=d;openPop(a,`<div class="ph3">${md(d)}(${dow(d)})에 추가</div><button class="pi" data-act="newEvent" data-d="${d}">일정 <span class="note" style="margin-left:auto">캘린더에만</span></button><button class="pi" data-act="newTask" data-due="${d}">업무 <span class="note" style="margin-left:auto">업무 보드에도</span></button>`,{type:'calAdd',anchor:a})},
+  calKind:a=>{const F=calF(),k=a.dataset.v;F.kinds=F.kinds.includes(k)?F.kinds.filter(x=>x!==k):[...F.kinds,k];if(!F.kinds.length)F.kinds=[k];calSave();render()},
+  calStar:()=>{const F=calF();F.star=!F.star;calSave();render()},
+  calReset:()=>{st.calf=null;lsSet(NS+'calf','');render()},
   calToday:()=>{const d=new Date();st.cal={...st.cal,y:d.getFullYear(),m:d.getMonth()+1,sel:today()};render()},
   ttab:a=>{const f=st.filt,v=a.dataset.v;Object.assign(f,{status:'open',period:'all',from:'',to:'',star:false,snz:false});if(['today','week','late'].includes(v))f.period=v;else if(v==='star')f.star=true;else if(v==='done')f.status='done';else if(v==='snz')f.snz=true;st.sel.clear();render()},
   hideDone:()=>{st.hideDone=!st.hideDone;lsSet(NS+'hideDone',st.hideDone?'1':'');render()},
+  hideOne:async a=>{const t=st.tasks.get(a.dataset.id);if(!t)return;await st.api.put('tasks',t.id,{hid:!t.hid});toast(t.hid?'다시 보이게 했어요':'완료 카드를 숨겼어요')},
+  showHidDone:()=>{st.showHidDone=!st.showHidDone;render()},
+  compact:()=>{st.compact=!st.compact;lsSet(NS+'compact',st.compact?'1':'');render()},
   snz:a=>{const t=st.tasks.get(a.dataset.id);if(!t)return;const td=today(),dt=pD(td),nm=ymd(new Date(dt.getFullYear(),dt.getMonth()+1,1)),mon=addD(weekStart(td),7);
     const ch=[['내일',addD(td,1)],['3일 뒤',addD(td,3)],['다음 주 월요일',mon],['다음 달 1일',nm],...(t.due&&diffD(t.due,td)>3?[['마감 3일 전',addD(t.due,-3)]]:[])];
     openPop(a,`<div class="ph3">나중에 보기 · 이날 다시 나타나요</div>${ch.map(([l,d])=>`<button class="pi" data-pv="${d}">${l}<span class="note" style="margin-left:auto">${md(d)}(${dow(d)})</span></button>`).join('')}
@@ -3750,7 +3859,7 @@ const ACT={
     await st.api.put('candidates',c.id,{steps:s,updatedAt:nowISO()});toast(`${c.name} · '${x.t}' 완료`)},
   candToHire:a=>{const c=st.cands.get(a.dataset.id);if(!c)return;closeLayer();st.pendingCand=c.id;openPerson(null,{type:'in',name:c.name,team:c.team||'',dept:c.position||'',date:c.joinDate||today(),career:c.career||'',memo:''})},
   csvIv:()=>{dl(`면접기록_${today()}.csv`,[['1차 면접일','이름','부서','직무','신입/경력','역량평가','처우협의','입사일','결과','메모'],...cands().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(c=>[c.date,c.name,c.team,c.position,c.career||'',c.assess?'실시':'',c.offer||'',c.joinDate||'',ivRes(c),c.memo||''])]);toast('면접 기록을 내려받았어요')},
-  csvHr:()=>{dl(`입퇴사기록_${today()}.csv`,[['구분','이름','부서','직급','직무','입사일/퇴사일','입사서류 안내','기숙사','입사일(퇴사자)','재직기간','팀장면담','인사면담','퇴사일 협의','사직서','퇴사 사유','메모'],...[...st.people.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(p=>[p.type==='in'?'입사':'퇴사',p.name,p.team||'',p.rank||'',p.dept||'',p.date,p.docs?'Y':'',p.dorm?'Y':'',p.joinDate||'',p.type==='out'?tenure(p.joinDate,p.date):'',p.mtgLead?'Y':'',p.mtgHr?'Y':'',p.agreed?'Y':'',p.resign||'',p.reason||'',p.memo||''])]);toast('입·퇴사 기록을 내려받았어요')},
+  csvHr:()=>{dl(`입퇴사기록_${today()}.csv`,[['구분','이름','부서','직급','직무','입사일/퇴사일','입사서류 안내','기숙사','통근','입사일(퇴사자)','재직기간','팀장면담','인사면담','퇴사일 협의','사직서','퇴사 사유','메모'],...[...st.people.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(p=>[p.type==='in'?'입사':'퇴사',p.name,p.team||'',p.rank||'',p.dept||'',p.date,p.docs?'Y':'',p.dorm?'Y':'',p.bus?'Y':'',p.joinDate||'',p.type==='out'?tenure(p.joinDate,p.date):'',p.mtgLead?'Y':'',p.mtgHr?'Y':'',p.agreed?'Y':'',p.resign||'',p.reason||'',p.memo||''])]);toast('입·퇴사 기록을 내려받았어요')},
   rtog:async a=>{const col=a.dataset.c,x=colMap(col).get(a.dataset.id),k=a.dataset.fld;if(!x)return;const v=!x[k];await st.api.put(col,x.id,{[k]:v,[k+'At']:v?today():'',updatedAt:nowISO()})},
   rcyc:async a=>{const col=a.dataset.c,x=colMap(col).get(a.dataset.id),k=a.dataset.fld,o=['',...a.dataset.opts.split('|')];if(!x)return;await st.api.put(col,x.id,{[k]:o[(o.indexOf(x[k]||'')+1)%o.length],updatedAt:nowISO()})},
   resPick:a=>{const c=st.cands.get(a.dataset.id);if(!c)return;const r=ivRes(c);openPop(a,`<div class="ph3">결과</div>${IV_RES.map(k=>`<button class="pi ${r===k?'on':''}" data-act="resSet" data-id="${c.id}" data-v="${k}"><span class="pill ${RES_CLS[k]}">${k}</span>${r===k?'<span class="ck2">✓</span>':''}</button>`).join('')}`,{type:'res',anchor:a})},
@@ -3762,7 +3871,7 @@ const ACT={
   delStaff:a=>{const id=a.dataset.id;openConfirm('이 직원을 명부에서 삭제할까요? 입사·퇴사 기록은 남아 있어요.',async()=>{await st.api.remove('staff',id);toast('삭제했어요')})},
   staffPaste:()=>openStaffPaste(),
   staffPasteGo:()=>staffPasteGo(),
-  csvStaff:()=>{dl(`직원명부_${today()}.csv`,[['이름','부서','직급','직무','고용형태','입사일','근속','수습','수습 종료일','수습 결과','계약 종료일','계약 결정','팀장','상태','퇴사일','메모'],...staffAll().sort((a,b)=>teamOf(a).localeCompare(teamOf(b))).map(s=>[s.name,s.team||'',s.rank||'',s.job||'',s.etype||'정규',s.joinDate||'',tenure(s.joinDate,s.status==='퇴사'?(s.leaveDate||today()):today()),s.prob?'Y':'',s.prob?probEnd(s):'',s.probRes||'',s.cEnd||'',s.cDec||'',s.leader?'Y':'',s.status||'재직',s.leaveDate||'',s.memo||''])]);toast('직원 명부를 내려받았어요')},
+  csvStaff:()=>{dl(`직원명부_${today()}.csv`,[['이름','부서','직급','직무','고용형태','입사일','근속','수습','수습 기간','수습 종료일','수습 결과','계약 종료일','계약 결정','팀장','상태','퇴사일','메모'],...staffAll().sort((a,b)=>teamOf(a).localeCompare(teamOf(b))).map(s=>[s.name,s.team||'',s.rank||'',s.job||'',s.etype||'정규',s.joinDate||'',tenure(s.joinDate,s.status==='퇴사'?(s.leaveDate||today()):today()),s.prob?'Y':'',s.prob?probM(s)+'개월':'',s.prob?probEnd(s):'',s.probRes||'',s.cEnd||'',s.cDec||'',s.leader?'Y':'',s.status||'재직',s.leaveDate||'',s.memo||''])]);toast('직원 명부를 내려받았어요')},
   trkSet:async a=>{const s=st.staff.get(a.dataset.id);if(!s)return;await st.api.put('staff',s.id,{[a.dataset.fld]:a.dataset.v,updatedAt:nowISO()});addLog(`${s.name} ${a.dataset.fld==='probRes'?'수습':'계약'} 결과 · ${a.dataset.v}`);toast(`${s.name} · ${a.dataset.v}`)},
   goTrack:()=>goView('track'),
   goPeople:a=>{st.ptab=a.dataset.v;goView('people');render()},

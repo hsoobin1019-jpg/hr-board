@@ -702,7 +702,7 @@ body{color:var(--ink)}
 /* 보드 카드: 완료 체크 · 메모 · 업무 추가 버튼 */
 .ktt{display:flex;align-items:flex-start;gap:9px;padding-right:26px}
 /* 카드 펼치기 (체크리스트) */
-.kc{position:relative}
+.kc{position:relative}.kc .ktt{padding-right:46px}
 .kexp{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;border:1px solid transparent;background:none;color:var(--mute);display:grid;place-items:center;padding:0;transition:transform .15s,background .15s}
 .kexp:hover{background:var(--field);border-color:#E4E9EB;color:var(--ink)}
 .kc.open .kexp{transform:rotate(180deg);background:var(--pri-soft);color:var(--mint-700)}
@@ -1103,7 +1103,7 @@ body{color:var(--ink)}
 .rstar{font-style:normal;color:#D4A64A;margin-right:4px}
 /* 업무 보드: 순서 바꾸기 · 나중에 보기 · 완료 숨기기 */
 .kph{height:4px;border-radius:4px;background:#00A1B9;margin:2px 4px;flex:none;box-shadow:0 0 0 3px rgba(0,161,185,.15)}
-.kc{position:relative}
+.kc{position:relative}.kc .ktt{padding-right:46px}
 .ksnz{position:absolute;top:8px;right:38px;width:26px;height:26px;border-radius:8px;border:0;background:#fff;color:#8A979D;display:grid;place-items:center;cursor:pointer;opacity:0;transition:opacity .12s;z-index:2}
 .kc:hover .ksnz,.ksnz:focus-visible{opacity:1}.ksnz:hover{background:#EEF3F5;color:var(--ink)}
 .ksnz.on{position:static;opacity:1;width:auto;height:auto;padding:3px 9px;margin:0 0 6px;border-radius:99px;background:#F2F5F7;color:var(--ink2);font:inherit;font-size:12px;font-weight:600;display:inline-flex}
@@ -1150,6 +1150,36 @@ body{color:var(--ink)}
 .cdr .tt{min-width:0;flex:1}.cdr .tt b{display:block;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cdr .tt small{display:block;font-size:12px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cdk{flex:none;font-size:11.5px;font-weight:700;border-radius:99px;padding:2px 8px;background:#F2F5F7;color:var(--ink2)}
 .cdk.k-ev{background:#F1EEFF;color:#5B47D6}.cdk.k-in{background:var(--pri-soft);color:#008197}.cdk.k-out{background:#F2F5F7;color:var(--ink2)}.cdk.k-iv{background:#E6F0FF;color:#3D5BD9}.cdk.k-tk{background:#FFF8E6;color:#9A6B0F}
+/* 홈 업무 현황 */
+.hst-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.hst-m button{font-size:12.5px;padding:0 12px;height:30px}
+.hst-nav{display:flex;align-items:center;gap:4px}.hst-nav b{font-size:14px;min-width:74px;text-align:center}.hst-nav .icon-btn{width:28px;height:28px}
+.hst-k{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:6px}
+.hst-k div{background:#F6F8F9;border-radius:12px;padding:8px 10px}.hst-k span{display:block;font-size:11.5px;color:var(--mute)}.hst-k b{font-size:19px}.hst-k b.g{color:#008197}.hst-k small{font-size:12px;margin-left:1px}
+.hst-ch{display:grid!important;height:auto;align-items:end;gap:4px}.hst-ch .stk i[style*="height:0px"]{display:none}
+.hst-ch .stk{display:flex;flex-direction:column-reverse;align-items:center;width:100%;min-height:4px}
+.hst-ch .stk i{display:block;width:60%;max-width:26px;border-radius:0}
+.hst-ch .stk i.bd{background:#00A1B9;border-radius:0 0 4px 4px}.hst-ch .stk i.bo{background:#3D5BD9;border-radius:4px 4px 0 0}
+.hst-ch .stk i.bo[style*="height:0px"]+i.bd{border-radius:4px}
+.hst-lg{display:flex;gap:12px;font-size:11.5px;color:var(--mute);margin:2px 0 10px}.hst-lg i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}.hst-lg i.d{background:#00A1B9}.hst-lg i.o{background:#3D5BD9}
+.hst-late{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+.hl-h{font-size:12.5px;font-weight:700;color:var(--red);margin-bottom:6px}
+.hl-r{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:10px;background:#FFF6F6;margin-bottom:5px;cursor:pointer}
+.hl-r:hover{background:#FFECEC}.hl-r b{flex:1;min-width:0;font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hl-r span{flex:none;font-size:12px;color:#C42626;font-weight:600}
+/* 추가 창: 업무 / 일정 */
+.tmode{margin:12px 22px 0;display:flex}.tmode button{flex:1}.tmode small{font-size:11px;color:var(--mute);margin-left:4px;font-weight:500}
+.db:not(.mode-ev) .eonly{display:none!important}.db.mode-ev .tonly{display:none!important}
+/* 체크리스트 글자 고치기 */
+.ckt{cursor:text;border-radius:6px;padding:1px 4px;margin:-1px -4px}.ckt:hover{background:#F2F5F7}
+.ckin{width:100%;font:inherit;font-size:inherit;border:1px solid #9FDCE6;border-radius:8px;padding:3px 8px;outline:0;background:#fff}
+/* 보드 일정 칸 */
+.kdot.s-ev{background:#7B61FF}
+.kevl{gap:6px}
+.kev{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-left:3px solid #7B61FF;border-radius:12px;padding:8px 10px;cursor:pointer}
+.kev:hover{border-color:#CFC6FF;border-left-color:#7B61FF}
+.kevd{flex:none;width:36px;text-align:center;line-height:1.1}.kevd b{display:block;font-size:16px}.kevd small{font-size:11px;color:var(--mute)}
+.kevd.now b,.kevd.now small{color:#5B47D6;font-weight:700}
+.kevt{min-width:0}.kevt b{display:block;font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.kevt small{display:block;font-size:12px;color:var(--mute)}
 .evonly{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2);margin-right:auto;cursor:pointer}
 .probw{display:inline-flex;align-items:center;gap:6px}
 .probw select.probm{height:32px;width:auto;padding:0 28px 0 10px;font-size:13px;border-radius:10px}
@@ -2037,6 +2067,23 @@ function suggest(){
   if(out.filter(x=>!x.low).length<3&&nn.length)out.push({ic:'calendar',tone:'b',t:`다음 주 마감 ${nn.length}건 미리 보기`,s:more(nn,x=>esc(x.title)),b:'보기',a:'data-quick="nextweek"',low:1});
   return out.sort((x,y)=>(x.low||0)-(y.low||0)).slice(0,6);
 }
+/* 홈 · 업무 현황: 주간(요일별) / 월간(주차별) · ‹ › 로 앞뒤 기간 · 완료/남음 쌓은 막대 · 기한 지난 업무 목록 */
+function homeStat(L,late,dueToday,doing){
+  const t=today(),mode=st.hsp||'w',off=st.hso||0;let from,to,bins,title;
+  if(mode==='w'){from=addD(weekStart(t),off*7);to=addD(from,6);bins=[0,1,2,3,4,5,6].map(i=>{const d=addD(from,i);return {l:'월화수목금토일'[i],a:d,b:d,on:d===t}});title=off===0?'이번 주':off===-1?'지난주':off===1?'다음 주':`${md(from)} 주`}
+  else{const d0=pD(t),y=d0.getFullYear(),m=d0.getMonth()+off,f=new Date(y,m,1),l=new Date(y,m+1,0);from=ymd(f);to=ymd(l);title=off===0?'이번 달':`${f.getFullYear()}년 ${f.getMonth()+1}월`;
+    bins=[];let s=from,k=1;while(s<=to){const wsS=addD(s,-pD(s).getDay()),e0=addD(wsS,6),e=e0<to?e0:to;bins.push({l:`${k}주`,a:s,b:e,on:t>=s&&t<=e});s=addD(e,1);k++}}
+  const inR=x=>x.due&&x.due>=from&&x.due<=to,P=L.filter(inR),done=P.filter(x=>x.status==='done').length,left=P.length-done;
+  const B=bins.map(b=>{const X=L.filter(x=>x.due&&x.due>=b.a&&x.due<=b.b);return {...b,d:X.filter(x=>x.status==='done').length,o:X.filter(x=>x.status!=='done').length}}),mx=Math.max(1,...B.map(b=>b.d+b.o));
+  const lt=[...late].sort(byDue);
+  return `<div class="hst-bar"><div class="segs hst-m"><button class="${mode==='w'?'on':''}" data-act="hsp" data-v="w">주간</button><button class="${mode==='m'?'on':''}" data-act="hsp" data-v="m">월간</button></div>
+     <div class="hst-nav"><button class="icon-btn" data-act="hso" data-v="-1" aria-label="이전">‹</button><b>${title}</b><button class="icon-btn" data-act="hso" data-v="1" aria-label="다음">›</button>${off?'<button class="btn sm" data-act="hso" data-v="0">오늘</button>':''}</div></div>
+    <div class="hst-k"><div><span>마감</span><b>${P.length}</b></div><div><span>완료</span><b class="g">${done}</b></div><div><span>남음</span><b>${left}</b></div><div><span>완료율</span><b>${P.length?Math.round(done/P.length*100):0}<small>%</small></b></div></div>
+    <div class="wk hst-ch" style="grid-template-columns:repeat(${B.length},minmax(0,1fr))">${B.map(b=>`<div class="wkc ${b.on?'on':''}" title="${md(b.a)}${b.a!==b.b?'~'+md(b.b):''} · 완료 ${b.d} · 남음 ${b.o}"><span class="n">${b.d+b.o||''}</span><span class="stk"><i class="bo" style="height:${Math.round(b.o/mx*64)}px"></i><i class="bd" style="height:${Math.round(b.d/mx*64)}px"></i></span><span class="d">${b.l}</span></div>`).join('')}</div>
+    <div class="hst-lg"><span><i class="d"></i>완료</span><span><i class="o"></i>남음</span></div>
+    <div class="mini"><button class="${late.length?'hot':''}" data-quick="late"><b>${late.length}</b>기한 지남</button><button data-quick="today"><b>${dueToday.length}</b>오늘 마감</button><button data-quick="doing"><b>${doing.length}</b>진행중</button></div>
+    ${lt.length?`<div class="hst-late"><div class="hl-h">기한 지난 업무</div>${lt.slice(0,4).map(x=>`<div class="hl-r" data-open="${x.id}"><b>${x.star?'★ ':''}${esc(x.title)}</b><span>${-diffD(x.due,t)}일 지남 · ${md(x.due)}</span></div>`).join('')}${lt.length>4?`<button class="sgmore" data-quick="late">${lt.length-4}건 더 보기</button>`:''}</div>`:''}`;
+}
 function vHome(){
   const t=today(),ws=weekStart(t),we=addD(ws,6),L=live();
   const open=L.filter(x=>x.status!=='done');
@@ -2062,10 +2109,7 @@ function vHome(){
      `<div class="apps">${APPS.map(([i,l,a,c])=>`<button class="app" ${a}><span class="ai t-${c}">${ic(i,24)}</span><span>${l}</span></button>`).join('')}</div>`,{bare:1})}
   </div>
   <div class="hg hg3">
-   ${hcard('stat','chart','업무 현황','tasks','이번 주 마감 흐름을 한눈에 봐요.',
-     `<div class="kpi"><span>이번 주 남은 업무</span><b>${myWeek.length}<small>건</small></b></div>
-      <div class="mini"><button class="${late.length?'hot':''}" data-quick="late"><b>${late.length}</b>기한 지남</button><button data-quick="today"><b>${dueToday.length}</b>오늘 마감</button><button data-quick="doing"><b>${doing.length}</b>진행중</button></div>
-      <div class="wk">${days.map((d,i)=>`<div class="wkc ${d===t?'on':''}"><span class="n">${cnt[i]||''}</span><i style="height:${Math.round(cnt[i]/mx*70)}px"></i><span class="d">${'월화수목금'[i]}</span></div>`).join('')}</div>`)}
+   ${hcard('stat','chart','업무 현황','tasks','주별 · 월별로 마감 흐름을 봐요.',homeStat(L,late,dueToday,doing))}
    ${hcard('rt','routines','정기업무','routines',`${m}월 정기업무가 어디까지 왔는지 보여 줘요.`,
      `<div class="kpi"><span>${m}월 정기업무</span><b>${rtd}<small>/ ${rt.length} 완료</small></b></div>
       <div class="prog"><i style="width:${rt.length?Math.round(rtd/rt.length*100):0}%"></i></div>
@@ -2168,7 +2212,7 @@ function kcard(t){
    <div class="kmeta">${catChip(t.cat)}${t.rid?'<span class="tag r">정기</span>':''}${t.star&&t.status==='doing'?'<span class="cc t-c">진행중</span>':''}</div>
    <div class="kfoot">${t.due?`<span class="kdue ${isLate(t)?'late':diffD(t.due,today())<=(t.remind??3)&&t.status!=='done'?'soon':''}">◷ ${md(t.due)}(${dow(t.due)})</span>`:''}${c.length?`<span class="kchk ${c.every(x=>x.done)?'all':''}">☑ ${c.filter(x=>x.done).length}/${c.length}</span>`:''}${t.cmts?.length?`<span>💬 ${t.cmts.length}</span>`:''}</div>
    ${open?`<div class="kchl">${c.length?`<div class="prog"><i style="width:${Math.round(c.filter(x=>x.done).length/c.length*100)}%"></i></div>`:''}
-     ${c.map((x,i)=>`<div class="kci ${x.done?'done':''}"><button class="ckc ${x.done?'on':''}" data-act="kchk" data-id="${t.id}" data-i="${i}" draggable="false" aria-label="${esc(x.t)} ${x.done?'완료 취소':'완료'}">${x.done?'✓':''}</button><span>${esc(x.t)}</span>${chkDue(x)}<button class="kcdel" data-act="kchkDel" data-id="${t.id}" data-i="${i}" draggable="false" aria-label="삭제">✕</button></div>`).join('')||'<div class="note" style="padding:2px 0 4px">아직 체크리스트가 없어요.</div>'}
+     ${c.map((x,i)=>`<div class="kci ${x.done?'done':''}"><button class="ckc ${x.done?'on':''}" data-act="kchk" data-id="${t.id}" data-i="${i}" draggable="false" aria-label="${esc(x.t)} ${x.done?'완료 취소':'완료'}">${x.done?'✓':''}</button><span class="ckt" data-act="chkTxt" data-k="k" data-id="${t.id}" data-i="${i}" title="눌러서 고치기">${esc(x.t)}</span>${chkDue(x)}<button class="kcdel" data-act="kchkDel" data-id="${t.id}" data-i="${i}" draggable="false" aria-label="삭제">✕</button></div>`).join('')||'<div class="note" style="padding:2px 0 4px">아직 체크리스트가 없어요.</div>'}
      <form class="kchadd" data-id="${t.id}"><input id="kchin-${t.id}" placeholder="+ 단계 추가 (Enter)" autocomplete="off" draggable="false"></form></div>`:''}
   </div>`;
 }
@@ -2186,7 +2230,12 @@ function boardHtml(L){
      <div class="kl">${items.map(kcard).join('')||`<div class="kempty">${s==='star'?'★ 중요 업무를 여기로 끌어다 놓으세요':'여기로 끌어다 놓으세요'}</div>`}</div>
      ${s==='done'?'':`<button class="kaddb" data-act="newTask" ${s==='star'?'data-star="1"':`data-st="${s}"`}>+ 업무 추가</button>`}
      ${s==='done'?`<div class="kdnote"><span class="note">최근 2주 완료만 보여요</span>${nHid?`<button class="hdone" data-act="showHidDone">${st.showHidDone?'숨긴 카드 다시 감추기':`숨긴 카드 ${nHid}건 보기`}</button>`:''}</div>`:''}</div>`};
-  return `<div class="kb">${col('star')}${col('todo')}${col('doing')}<div class="kstack">${st.hideDone&&!st.filt.snz?`<button class="kdone-hid" data-drop="done" data-act="hideDone" title="완료 칸 다시 보이기">✓ 완료 ${L.filter(x=>x.status==='done'&&(!x.doneAt||diffD(today(),x.doneAt)<=14)).length}건 숨김 · 보이기</button>`:col('done')}${col('hold')}</div></div>`;
+  // 일정 칸: 오늘부터 2주 안의 캘린더 일정 (업무가 아니라 끌어 옮기지는 않아요)
+  const td=today(),EV=[...(st.events?.values()||[])].filter(e=>(e.end||e.start)>=td&&e.start<=addD(td,14)).sort((a,b)=>(a.start+(a.time||'')).localeCompare(b.start+(b.time||'')));
+  const evCol=`<div class="kcol k-ev"><div class="kh"><span class="kdot s-ev"></span><b>일정</b><span class="note">${EV.length}</span><span class="note" style="margin-left:auto">2주 안</span></div>
+    <div class="kl kevl">${EV.map(e=>{const n=diffD(e.start,td);return `<div class="kev" data-ev="${e.id}"><span class="kevd ${e.start<=td?'now':''}"><b>${+e.start.slice(8)}</b><small>${e.start<=td?'오늘':dow(e.start)}</small></span><span class="kevt"><b>${e.star?'★ ':''}${esc(e.title)}</b><small>${[e.time,e.end&&e.end!==e.start?`~${md(e.end)}`:'',n>0?`${n}일 뒤`:''].filter(Boolean).map(esc).join(' · ')}</small></span></div>`}).join('')||'<div class="kempty">2주 안에 일정이 없어요</div>'}</div>
+    <button class="kaddb" data-act="newTask" data-mode="event">+ 일정 추가</button></div>`;
+  return `<div class="kb">${col('star')}${col('todo')}${col('doing')}<div class="kstack">${evCol}${st.hideDone&&!st.filt.snz?`<button class="kdone-hid" data-drop="done" data-act="hideDone" title="완료 칸 다시 보이기">✓ 완료 ${L.filter(x=>x.status==='done'&&(!x.doneAt||diffD(today(),x.doneAt)<=14)).length}건 숨김 · 보이기</button>`:col('done')}${col('hold')}</div></div>`;
 }
 function vTasks(){
   const f=st.filt,v=st.tview||'list';
@@ -2274,12 +2323,12 @@ function vCal(){
     if(i>=35&&d.slice(5,7)!==pad(c.m))break;
     const evs=calItems(d);
     const hn=holidays()[d],gd=pD(d).getDay();
-    cells+=`<div class="d ${d.slice(5,7)!==pad(c.m)?'out':''} ${d===t?'today':''} ${hn||gd===0?'off':gd===6?'sat':''} ${d===c.sel?'sel':''}" data-day="${d}"><div class="dn"><span>${+d.slice(8)}</span>${hn?`<em class="hn">${esc(hn)}</em>`:''}<button class="cadd" data-act="calAdd" data-d="${d}" aria-label="${md(d)}에 추가" title="일정·업무 추가">+</button></div>${evs.slice(0,4).map(x=>x.html).join('')}${evs.length>4?`<div class="more">+${evs.length-4}건 더</div>`:''}</div>`;
+    cells+=`<div class="d ${d.slice(5,7)!==pad(c.m)?'out':''} ${d===t?'today':''} ${hn||gd===0?'off':gd===6?'sat':''} ${d===c.sel?'sel':''}" data-day="${d}"><div class="dn"><span>${+d.slice(8)}</span>${hn?`<em class="hn">${esc(hn)}</em>`:''}<button class="cadd" data-act="newTask" data-due="${d}" data-mode="event" aria-label="${md(d)}에 추가" title="일정·업무 추가">+</button></div>${evs.slice(0,4).map(x=>x.html).join('')}${evs.length>4?`<div class="more">+${evs.length-4}건 더</div>`:''}</div>`;
   }
   const sel=calItems(c.sel),grp=CAL_KINDS.map(([k,l])=>[l,sel.filter(x=>x.k===k)]).filter(([,L])=>L.length);
   const cats=S().cats||CATS,dirty=F.kinds.length!==CAL_KINDS.length||F.star||F.side||F.cat||!F.done;
   return `
-  <div class="ph"><h1>캘린더</h1><span class="sp"></span><button class="btn" data-act="newEvent" data-d="${c.sel}">+ 일정</button><button class="btn pri" data-act="newTask" data-due="${c.sel}">+ 업무</button></div>
+  <div class="ph"><h1>캘린더</h1><span class="sp"></span><button class="btn pri" data-act="newTask" data-due="${c.sel}" data-mode="event">+ 일정 · 업무 추가</button></div>
   <div class="calwrap"><section class="card calmain">
     <div class="calh"><button class="icon-btn" data-act="calMove" data-v="-1" aria-label="이전 달">‹</button><h2>${c.y}년 ${c.m}월</h2><button class="icon-btn" data-act="calMove" data-v="1" aria-label="다음 달">›</button><button class="btn sm" data-act="calToday">오늘</button><span style="flex:1"></span>
       <div class="calf">${CAL_KINDS.map(([k,l])=>`<button class="cfk k-${k} ${F.kinds.includes(k)?'on':''}" data-act="calKind" data-v="${k}" aria-pressed="${F.kinds.includes(k)}">${l}</button>`).join('')}</div></div>
@@ -2292,7 +2341,7 @@ function vCal(){
     <div class="legend"><span><i class="lg-ev"></i>일정</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('인사')}"></i>업무 · 인사</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('기타')}"></i>업무 · 기타</span><span><i style="background:var(--red-soft)"></i>기한 지남</span><span><i style="background:var(--pri-soft);border-left:3px solid var(--cyan)"></i>입사</span><span><i style="background:#E6F0FF;border-left:3px solid #3D5BD9"></i>면접</span><span><i style="background:#FFF8E6;border-left:3px solid #F59E0B"></i>수습·계약</span><span>▸ 기간 업무 시작</span></div>
   </section>
   <aside class="card calday"><div class="cdh"><div><b>${+c.sel.slice(5,7)}월 ${+c.sel.slice(8)}일 (${dow(c.sel)})</b>${holidays()[c.sel]?`<small class="hn2">${esc(holidays()[c.sel])}</small>`:''}${c.sel===t?'<small class="tdy">오늘</small>':''}</div><span class="note">${sel.length}건</span></div>
-    <div class="cdq"><button class="btn sm" data-act="newEvent" data-d="${c.sel}">+ 일정</button><button class="btn sm" data-act="newTask" data-due="${c.sel}">+ 업무</button></div>
+    <div class="cdq"><button class="btn sm" data-act="newTask" data-due="${c.sel}" data-mode="event">+ 이날에 추가 (일정 · 업무)</button></div>
     ${grp.length?grp.map(([l,L])=>`<div class="cdg"><div class="cdgh">${l}<span class="tc">${L.length}</span></div><div class="rows">${L.map(x=>x.row).join('')}</div></div>`).join(''):'<div class="empty">이날은 비어 있어요.<br><small>날짜 칸의 + 로 일정이나 업무를 넣을 수 있어요.</small></div>'}
   </aside></div>`;
 }
@@ -2522,24 +2571,26 @@ function openTask(id,pre={}){
   if(!t)return;
   const cats=S().cats||CATS;
   openLayer(`<aside class="drawer" role="dialog" aria-label="업무 상세">
-   <div class="dh"><h2>${id?'업무 상세':'새 업무'}</h2>${id&&t.rid?'<span class="tag r">정기업무</span>':''}<button class="icon-btn" data-act="closeLayer" aria-label="닫기">✕</button></div>
-   <form class="db" id="fTask" data-id="${id||''}">
-     <div class="fld"><label for="tTitle">업무명</label><input class="inp" id="tTitle" value="${esc(t.title)}" required></div>
-     <div class="fld"><label>상태</label><div class="stbtns" id="tStatus">${SO.map(s=>`<button type="button" class="pill s-${s} ${t.status===s?'on':''}" data-v="${s}">${SL[s]}</button>`).join('')}</div></div>
-     <div class="g2"><div class="fld"><label for="tStart">시작일 (기간 업무일 때)</label><input class="inp" type="date" id="tStart" value="${t.start||''}"></div><div class="fld"><label for="tDue">마감일</label><input class="inp" type="date" id="tDue" value="${t.due||''}"></div></div>
+   <div class="dh"><h2>${id?'업무 상세':pre.mode==='event'?'새 일정':'새 업무'}</h2>${id&&t.rid?'<span class="tag r">정기업무</span>':''}<button class="icon-btn" data-act="closeLayer" aria-label="닫기">✕</button></div>
+   ${id?'':`<div class="segs tmode" id="tMode"><button type="button" class="${pre.mode==='event'?'':'on'}" data-act="tMode" data-v="task">업무</button><button type="button" class="${pre.mode==='event'?'on':''}" data-act="tMode" data-v="event">일정 <small>캘린더에만</small></button></div>`}
+   <form class="db ${!id&&pre.mode==='event'?'mode-ev':''}" id="fTask" data-id="${id||''}">
+     <div class="fld"><label for="tTitle">${!id&&pre.mode==='event'?'일정 제목':'업무명'}</label><input class="inp" id="tTitle" value="${esc(t.title)}" required></div>
+     <div class="fld tonly"><label>상태</label><div class="stbtns" id="tStatus">${SO.map(s=>`<button type="button" class="pill s-${s} ${t.status===s?'on':''}" data-v="${s}">${SL[s]}</button>`).join('')}</div></div>
+     <div class="g2"><div class="fld"><label for="tStart"><span class="tonly">시작일 (기간 업무일 때)</span><span class="eonly">시작일 (여러 날일 때)</span></label><input class="inp" type="date" id="tStart" value="${t.start||''}"></div><div class="fld"><label for="tDue"><span class="tonly">마감일</span><span class="eonly">날짜 (여러 날이면 끝나는 날)</span></label><input class="inp" type="date" id="tDue" value="${t.due||''}"></div></div>
+     <div class="fld eonly"><label for="tTime">시간 (선택)</label><input class="inp" id="tTime" placeholder="예) 14:00" style="max-width:200px"></div>
      <div class="fld"><label>빠른 기간</label><div class="hchips"><button type="button" class="chip" data-qp="today">오늘</button><button type="button" class="chip" data-qp="tomorrow">내일</button><button type="button" class="chip" data-qp="fri">이번 주 금요일</button><button type="button" class="chip" data-qp="eom">이번 달 말일</button><button type="button" class="chip" data-qp="w1">1주일 기간</button><button type="button" class="chip" data-qp="clear">기간 없음</button></div></div>
-     <div class="g2"><div class="fld"><label for="tSide">구분</label><select class="inp" id="tSide"><option value="">-</option>${['인사','기타'].map(x=>`<option ${t.side===x?'selected':''}>${x}</option>`).join('')}</select></div>
+     <div class="g2 tonly"><div class="fld"><label for="tSide">구분</label><select class="inp" id="tSide"><option value="">-</option>${['인사','기타'].map(x=>`<option ${t.side===x?'selected':''}>${x}</option>`).join('')}</select></div>
      <div class="fld"><label for="tCat">분류</label><select class="inp" id="tCat"><option value="">-</option>${cats.map(c=>`<option ${t.cat===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div></div>
-     <div class="g2"><div class="fld"><label for="tRemind">미리 알림</label><select class="inp" id="tRemind">${[0,1,2,3,5,7,14].map(n=>`<option value="${n}" ${+(t.remind??3)===n?'selected':''}>${n?'D-'+n+'부터 강조':'당일만'}</option>`).join('')}</select></div></div>
-     <div class="g2"><div class="fld"><label><input type="checkbox" id="tStar" ${t.star?'checked':''}> 중요 업무</label></div>
-     <div class="fld"><label for="tSnz">나중에 보기 · 이날까지 숨김</label><input class="inp" type="date" id="tSnz" value="${t.snz&&t.snz>today()?t.snz:''}" min="${addD(today(),1)}"></div></div>
+     <div class="g2 tonly"><div class="fld"><label for="tRemind">미리 알림</label><select class="inp" id="tRemind">${[0,1,2,3,5,7,14].map(n=>`<option value="${n}" ${+(t.remind??3)===n?'selected':''}>${n?'D-'+n+'부터 강조':'당일만'}</option>`).join('')}</select></div></div>
+     <div class="g2"><div class="fld"><label><input type="checkbox" id="tStar" ${t.star?'checked':''}> <span class="tonly">중요 업무</span><span class="eonly">★ 중요 일정</span></label></div>
+     <div class="fld tonly"><label for="tSnz">나중에 보기 · 이날까지 숨김</label><input class="inp" type="date" id="tSnz" value="${t.snz&&t.snz>today()?t.snz:''}" min="${addD(today(),1)}"></div></div>
      <div class="fld"><label for="tMemo">메모</label><textarea class="inp" id="tMemo" rows="3">${esc(t.memo||'')}</textarea></div>
-     <div class="sec" id="chkBox">${chkHtml(id?t:(st.draftChk=[],{id:'',chk:st.draftChk}))}</div>
+     <div class="sec tonly" id="chkBox">${chkHtml(id?t:(st.draftChk=[],{id:'',chk:st.draftChk}))}</div>
      ${id?`<div class="sec"><h4>진행사항 · 댓글</h4>${(t.cmts||[]).map((c,i)=>`<div class="cmt"><div class="cm">${fmtAt(c.at)}${c.by===me()?` · <a href="#" data-act="delCmt" data-i="${i}" data-id="${id}">삭제</a>`:''}</div>${esc(c.t)}</div>`).join('')}
        <div style="display:flex;gap:8px"><input class="inp" id="tCmt" placeholder="진행 상황을 남겨주세요" style="height:42px"><button type="button" class="btn" data-act="addCmt" data-id="${id}">남기기</button></div></div>
        <div class="sec"><h4>변경 기록</h4><div class="hist">${(t.hist||[]).map(h=>`<div class="h1"><time>${fmtAt(h.at)}</time><span>${esc(h.t)}</span></div>`).join('')||'<span class="note">기록이 없어요.</span>'}</div></div>`:''}
    </form>
-   <div class="df">${id?`<button class="btn dan" data-act="delTask" data-id="${id}" style="margin-right:auto">삭제</button>`:`<label class="evonly" title="업무 목록·보드에는 안 나오고 캘린더에만 표시돼요"><input type="checkbox" id="tEvOnly" ${pre.evOnly?'checked':''}> 캘린더 일정으로만 등록</label>`}<button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="saveTask">${id?'저장':'등록'}</button></div>
+   <div class="df">${id?`<button class="btn dan" data-act="delTask" data-id="${id}" style="margin-right:auto">삭제</button>`:'<span style="margin-right:auto"></span>'}<button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="saveTask">${id?'저장':'등록'}</button></div>
   </aside>`);
   setTimeout(()=>{if(!id)$('#tTitle')?.focus()},30);
 }
@@ -2551,7 +2602,7 @@ async function saveTaskForm(){
   if(!d.title){$('#tTitle').focus();toast('업무명을 적어주세요');return}
   if(d.start&&d.due&&d.start>d.due){toast('시작일이 마감일보다 늦어요');return}
   if(d.start&&!d.due)d.due=d.start;
-  if(!id&&$('#tEvOnly')?.checked){const s=d.start||d.due||today();await st.api.put('events','e-'+uid(),{title:d.title,start:s,end:d.start&&d.due&&d.due!==d.start?d.due:'',time:'',memo:d.memo,star:d.star,createdAt:nowISO()});addLog(`일정 등록 · ${d.title}`);closeLayer();toast('캘린더에 일정을 넣었어요');return}
+  if(!id&&$('#fTask').classList.contains('mode-ev')){const s=d.start||d.due||today();await st.api.put('events','e-'+uid(),{title:d.title,start:s,end:d.start&&d.due&&d.due!==d.start?d.due:'',time:($('#tTime')?.value||'').trim(),memo:d.memo,star:d.star,createdAt:nowISO()});addLog(`일정 등록 · ${d.title}`);closeLayer();toast('캘린더에 일정을 넣었어요');return}
   if(id)await updateTasks([id],d,'업무 수정');else await createTask({...d,src:'직접 등록',chk:st.draftChk||[],...(d.status==='done'?{doneAt:today()}:{})});
   closeLayer();
 }
@@ -2872,7 +2923,7 @@ function doSearch(v){
 function routineTaskData(r,o){return {title:r.title,cat:r.cat||'',side:r.side||'',owner:r.owner||'',helpers:r.helpers||[],start:o.start,due:o.due,status:'todo',star:!!r.star,remind:3,memo:r.memo||'',rid:r.id,src:'정기업무',chk:(r.chk||[]).map(t=>({t,done:false})),createdAt:nowISO(),createdBy:'자동',hist:[{at:nowISO(),by:'',t:'정기업무에서 자동 생성'}]}}
 function chkHtml(t){const c=t.chk||[],d=c.filter(x=>x.done).length;
   return `<h4>체크리스트 ${c.length?`<span class="note">${d}/${c.length}</span>`:''}</h4>${c.length?`<div class="prog" style="margin:0 0 8px"><i style="width:${Math.round(d/c.length*100)}%"></i></div>`:''}
-  ${c.map((x,i)=>`<div class="ckl ${x.done?'done':''}"><button type="button" class="ckc ${x.done?'on':''}" data-act="chkToggle" data-id="${t.id}" data-i="${i}" aria-label="완료">${x.done?'✓':''}</button><span>${esc(x.t)}</span>${chkDue(x)}<button type="button" class="icon-btn" data-act="chkDel" data-id="${t.id}" data-i="${i}" aria-label="삭제">✕</button></div>`).join('')}
+  ${c.map((x,i)=>`<div class="ckl ${x.done?'done':''}"><button type="button" class="ckc ${x.done?'on':''}" data-act="chkToggle" data-id="${t.id}" data-i="${i}" aria-label="완료">${x.done?'✓':''}</button><span class="ckt" data-act="chkTxt" data-k="d" data-id="${t.id}" data-i="${i}" title="눌러서 고치기">${esc(x.t)}</span>${chkDue(x)}<button type="button" class="icon-btn" data-act="chkDel" data-id="${t.id}" data-i="${i}" aria-label="삭제">✕</button></div>`).join('')}
   <div style="display:flex;gap:8px;margin-top:6px"><input class="inp" id="tChk" placeholder="세부 단계 추가 (Enter)" style="height:40px"><button type="button" class="btn" data-act="chkAdd" data-id="${t.id}">추가</button></div>`}
 function renderChk(id){const b=$('#chkBox'),t=id?st.tasks.get(id):{id:'',chk:st.draftChk||[]};if(b&&t)b.innerHTML=chkHtml(t);$('#tChk')?.focus()}
 async function chkEdit(id,fn){
@@ -3786,7 +3837,7 @@ const ACT={
   ghBadgeClick:()=>{const i=st.api.gh.info();if(i.stat==='err'){goView('settings')}st.api.gh.syncNow()},
   ghOff:()=>openConfirm('GitHub 연결을 끊을까요? 이 PC 자료와 GitHub 파일은 그대로 남고, 이 PC에 보관한 토큰만 지워져요.',()=>{st.api.gh.disconnect();toast('GitHub 연결을 끊었어요');render()}),
   fold:a=>{st.fold[a.dataset.id]=!st.fold[a.dataset.id];lsSet(NS+'fold',JSON.stringify(st.fold));render()},
-  newTask:a=>closePop()||openTask(null,{...(a.dataset.due?{due:a.dataset.due}:{}),...(a.dataset.st?{status:a.dataset.st}:{}),...(a.dataset.star?{star:true}:{})}),
+  newTask:a=>{closePop();if(a.dataset.mode&&a.dataset.due&&st.cal&&st.view==='calendar'){st.cal.sel=a.dataset.due}return openTask(null,{...(a.dataset.due?{due:a.dataset.due}:{}),...(a.dataset.st?{status:a.dataset.st}:{}),...(a.dataset.star?{star:true}:{}),...(a.dataset.mode?{mode:a.dataset.mode}:{})})},
   saveTask:()=>saveTaskForm(),
   closeLayer:()=>closeLayer(),
   closePop:()=>closePop(),
@@ -3836,6 +3887,16 @@ const ACT={
   genOne:async a=>{const r=st.routines.get(a.dataset.rid),o=r&&occurrences(r).find(o=>o.key===a.dataset.key);if(!o)return;
     if(await st.api.createIfMissing('tasks','r-'+r.id+'-'+o.key,routineTaskData(r,o)))toast(`'${r.title}' 업무를 만들었어요`)},
   chkAdd:a=>chkEdit(a.dataset.id,c=>{const v=$('#tChk')?.value.trim();if(!v)return false;c.push({t:v,done:false})}),
+  // 체크리스트 글자 고치기: 누르면 그 자리에서 입력칸으로 바뀌어요 (Enter 저장 · Esc 취소)
+  hsp:a=>{st.hsp=a.dataset.v;st.hso=0;render()},
+  hso:a=>{const v=+a.dataset.v;st.hso=v===0?0:(st.hso||0)+v;render()},
+  tMode:a=>{const ev=a.dataset.v==='event';$$('#tMode button').forEach(b=>b.classList.toggle('on',b===a));$('#fTask')?.classList.toggle('mode-ev',ev);const h=$('.drawer .dh h2');if(h)h.textContent=ev?'새 일정':'새 업무';const lb=$('label[for="tTitle"]');if(lb)lb.textContent=ev?'일정 제목':'업무명'},
+  chkTxt:a=>{if(a.querySelector('input'))return;const id=a.dataset.id,i=+a.dataset.i,k=a.dataset.k,src=id?st.tasks.get(id)?.chk:st.draftChk,old=src?.[i]?.t;if(old==null)return;
+    a.innerHTML=`<input class="ckin" value="${esc(old)}" aria-label="단계 이름 고치기">`;const inp=a.querySelector('input');inp.focus();inp.select();let done=false;
+    const fin=async ok=>{if(done)return;done=true;const v=inp.value.trim();if(!ok||!v||v===old){a.textContent=old;return}
+      const fn=c=>{if(!c[i])return false;c[i].t=v};if(k==='k')await kchkEdit(id,fn);else await chkEdit(id,fn)};
+    inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();fin(true)}else if(e.key==='Escape'){e.preventDefault();fin(false)}});
+    inp.addEventListener('blur',()=>fin(true));inp.addEventListener('click',e=>e.stopPropagation())},
   chkToggle:a=>chkEdit(a.dataset.id,c=>{const x=c[+a.dataset.i];if(x)x.done=!x.done}),
   chkDel:a=>chkEdit(a.dataset.id,c=>{c.splice(+a.dataset.i,1)}),
   kexp:a=>{st.kopen??=new Set();const id=a.dataset.id;st.kopen.has(id)?st.kopen.delete(id):st.kopen.add(id);render()},

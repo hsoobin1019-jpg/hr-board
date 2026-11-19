@@ -1195,28 +1195,28 @@ body{color:var(--ink)}
 .oc-top{display:flex;justify-content:center}
 .oc-box{min-width:210px;padding:12px 22px 12px;border-radius:18px;text-align:center;background:#fff;border:1px solid var(--line);box-shadow:0 1px 2px rgba(16,40,60,.04)}
 .oc-box b{display:block;font-size:12px;font-weight:700;color:var(--mute);letter-spacing:.4px}
-.oc-box.chair{background:#F3FBFC;border-color:#CDEBF0}
-.oc-box.ceo{border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box}
+.oc-box.chair{background:#0B4F5C;border-color:#0B4F5C}.oc-box.chair b,.oc-box.ceo b{color:rgba(255,255,255,.8)}.oc-box.chair .oc-pn,.oc-box.ceo .oc-pn{color:#fff}.oc-box.chair .oc-pn:hover,.oc-box.ceo .oc-pn:hover{background:rgba(255,255,255,.14)}
+.oc-box.ceo{border:0;background:linear-gradient(90deg,#08879A,#1F74D1)}
 .oc-pn{display:block;margin:3px auto 0;border:0;background:none;color:var(--ink);font:inherit;font-size:17px;font-weight:800;cursor:pointer;padding:2px 8px;border-radius:8px}.oc-pn:hover{background:#EEF6F8}
 .oc-vl{width:2px;height:20px;background:var(--ln)}
 .oc-stem{position:relative;width:100%;min-height:24px;box-sizing:border-box;padding:12px 0 20px calc(50% + 64px);display:flex}
 .oc-stem::before{content:'';position:absolute;left:50%;top:0;bottom:0;border-left:2px solid var(--ln)}
 .oc-side{position:relative;z-index:2}
 .oc-side::before{content:'';position:absolute;left:-64px;top:24px;width:64px;border-top:2px dashed var(--ln)}
-.oc-sbox{min-width:220px;background:#fff;border:1px solid var(--line);border-left:4px solid #00A1B9;border-radius:16px;padding:10px 12px;text-align:left}
+.oc-sbox{min-width:220px;background:#fff;border:1px solid var(--line);border-left:4px solid #08879A;border-radius:16px;padding:10px 12px;text-align:left}
 .oc-sbox>b{display:block;font-size:15.5px;margin:0 2px 6px}
 .oc-sbox .oc-who{margin:0 0 2px}
 .oc-sbox .oc-i{margin-top:6px}
 .oc-units{width:100%;justify-content:center;align-items:stretch}
 .otree ul.oc-units>li{flex:1 1 0;min-width:160px;align-items:stretch;padding-left:5px;padding-right:5px}
 .oc-u{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;height:100%;display:flex;flex-direction:column;text-align:left;box-shadow:0 1px 2px rgba(16,40,60,.04)}
-.oc-uh{position:relative;padding:14px 14px 10px;border-top:4px solid var(--uc,#00A1B9)}
-.oc-uh b{display:block;font-size:15.5px;font-weight:800;color:var(--ink);padding-right:44px}
-.oc-uh small{display:block;font-size:12px;color:var(--mute);margin-top:2px}
-.oc-n{position:absolute;right:12px;top:14px;font-size:11.5px;font-weight:700;color:#008197;background:#E6F6F9;padding:1px 8px;border-radius:99px}
-.oc-head{padding:0 12px 6px}
+.oc-uh{position:relative;padding:14px 14px 12px;background:var(--uc,#08879A);color:#fff}
+.oc-uh b{display:block;font-size:15.5px;font-weight:800;color:#fff;padding-right:44px}
+.oc-uh small{display:block;font-size:12px;color:rgba(255,255,255,.85);margin-top:2px}
+.oc-n{position:absolute;right:12px;top:14px;font-size:11.5px;font-weight:700;color:#fff;background:rgba(255,255,255,.22);padding:1px 8px;border-radius:99px}
+.oc-head{padding:10px 12px 4px}
 .oc-who{border:0;background:#F2F5F7;color:var(--ink);font:inherit;font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:99px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.oc-who em{font-style:normal;color:#008197;font-weight:700}
+.oc-who em{font-style:normal;color:#008197;font-weight:700}.oc-u .oc-who em{color:var(--uc,#008197)}
 button.oc-who:hover{background:#E6F2F5}
 .oc-b{padding:6px 12px 14px;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line2)}
 .oc-g{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -3469,7 +3469,7 @@ function orgChart(cfg,on,rk){
     const chip=s=>`<button class="og-mc ${s.leader?'ld':''}" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.leader?'팀장':s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}${s.status==='휴직'?'<i>휴직</i>':''}</button>`;
     return `<details class="oc-i"><summary><b>${esc(o.label)}</b><span class="tc">${L.length}</span></summary><div class="oc-ms">${multi.length>1?multi.map(t=>`<div class="oc-sub"><small>${esc(t)} · ${L.filter(s=>teamOf(s)===t).length}명</small><div class="ot-ms">${L.filter(s=>teamOf(s)===t).map(chip).join('')}</div></div>`).join(''):`<div class="ot-ms">${L.map(chip).join('')}</div>`}</div></details>`};
   const cnt=u=>{const ts=new Set();(u.head||[]).forEach(t=>ts.add(t));(u.groups||[]).forEach(g=>{(g.head||[]).forEach(t=>ts.add(t));(g.items||[]).forEach(it=>(typeof it==='string'?[it]:it.teams||[it.label]).forEach(t=>ts.add(t)))});return byTeam([...ts]).length};
-  const HC=['#00A1B9','#3D5BD9','#eb6834','#eda100','#e87ba4','#7C8A91'];
+  const HC=['#08879A','#1F74D1','#3D5BD9','#6450D2','#1E8C7E','#56656D'];
   const units=(cfg.units||[]).map((u,i)=>{mark(u.head);const n=cnt(u);
     return `<li><div class="oc-u" style="--uc:${HC[i%HC.length]}"><div class="oc-uh"><b>${esc(u.name)}</b>${u.sub?`<small>${esc(u.sub)}</small>`:''}${n?`<span class="oc-n">${n}명</span>`:''}</div>
       ${u.head||u.title||u.person?`<div class="oc-head">${who(u.head,u.title,u.person,u.rank)}</div>`:''}

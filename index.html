@@ -1241,7 +1241,18 @@ button.oc-who:hover{background:#E5EAF4}
 .oc-ms{padding:0 8px 8px}.oc-sub small{display:block;font-size:12px;color:var(--mute);margin:6px 2px 4px}
 .oc-ms .ot-ms{padding:2px 0 0}
 .oc-none{text-align:center;padding:16px 0;color:var(--mute)}
-.oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
+.rtab.trn td{vertical-align:middle}.rtab.trn td small.sub,.rtab.trn td.nm small{display:block;font-size:11.5px;color:var(--mute);font-weight:500;margin-top:1px}
+.rtab.trn .na{color:#B5BFC5;font-size:12px}.rtab.trn tr.hl td{background:#FFFBF0}
+.rtab.trn .trnp{white-space:nowrap;font-variant-numeric:tabular-nums;font-size:12.5px}
+.pbar{height:4px;border-radius:99px;background:#EEF1F4;margin-top:5px;overflow:hidden;max-width:150px}.pbar i{display:block;height:100%;background:#00A1B9;border-radius:99px}
+#fTrn .onlyintern{display:none}#fTrn.is-intern .onlyintern{display:block}#fTrn.is-intern .nointern{display:none}.rtab.sch td{vertical-align:top}.rtab.sch tr.off td{opacity:.55}
+.sct{line-height:1.35}.sct+.sct{margin-top:6px;padding-top:6px;border-top:1px dashed var(--line2)}.sct b{font-weight:700;font-size:13px}.sct span{font-size:12px;color:var(--ink2);margin-left:5px}.sct small{display:block;font-size:11.5px;color:var(--mute)}
+.rtab.sch td.slog,.rtab.sch td.mm2,.rtab.sch td.sctw{white-space:normal}.rtab.sch td.mm2{min-width:110px;word-break:keep-all}.slog{min-width:170px;max-width:260px;word-break:keep-all;font-size:13px;line-height:1.4}.slog em{display:block;font-style:normal;font-size:12px;font-weight:700;color:var(--ink2)}.slog>em+*{}.slog small.sub{display:block;font-size:11.5px;color:var(--mute);margin-top:2px}.slog small.warn{display:block;font-size:11.5px;color:#B86E00;font-weight:600;margin-top:3px}
+.slog .dday+em{display:inline;margin-left:4px}
+.hsc-tp{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}button.cc{border:0;cursor:pointer;font:inherit;font-size:11.5px;font-weight:600}
+.hsc-ct,.hsc-lg{display:grid;gap:6px;margin-bottom:6px;align-items:center}.hsc-ct{grid-template-columns:1.1fr 1.3fr 1fr 1.3fr 32px}.hsc-lg{grid-template-columns:150px 1fr 32px}
+@media(max-width:700px){.hsc-ct{grid-template-columns:1fr 1fr}.hsc-ct .icon-btn{grid-column:2;justify-self:end}}
+.fld>label .btn.sm{margin-left:8px;height:24px;padding:0 9px;font-size:12px}.oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
 .og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
 .og-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
@@ -1558,6 +1569,7 @@ const ICONS={
  monthly:'<path d="M7 3.5h7l4.5 4.5v12.5H7z"/><path d="M14 3.5V8h4.5M10 17v-3M13 17v-5M16 17v-2"/>',
  ops:'<path d="M12 3.5l7 2.5v5.5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
  staff:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 20a5 5 0 0 1 6-4.8"/>',
+ intern:'<path d="M2.5 9 12 4.5 21.5 9 12 13.5z"/><path d="M6.5 11v4.5c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3V11M21.5 9v5"/>',
  talk:'<path d="M4 5.5h16v10H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',
  history:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
  report:'<path d="M4 20h16"/><path d="M7 16v-4M12 16V7M17 16v-7"/>',
@@ -1769,7 +1781,7 @@ function localApi(){
    ===================================================================== */
 const st={
   api:null,user:null,emails:[],admins:[],
-  tasks:new Map(),routines:new Map(),people:new Map(),cands:new Map(),staff:new Map(),reqs:new Map(),plans:new Map(),talks:new Map(),notices:[],logs:[],settings:null,
+  tasks:new Map(),routines:new Map(),people:new Map(),cands:new Map(),staff:new Map(),reqs:new Map(),plans:new Map(),talks:new Map(),trainees:new Map(),schools:new Map(),notices:[],logs:[],settings:null,
   ready:{tasks:0,routines:0,people:0,settings:0},
   view:'home',
   filt:{who:'all',status:'open',period:'all',from:'',to:'',cat:'',side:'',q:'',star:false},
@@ -1846,7 +1858,7 @@ async function onUser(u){
   unsubs.push(A.watch('routines',docs=>{st.routines=new Map(docs.map(d=>[d.id,d]));st.ready.routines=1;maybeGen();render()}));
   unsubs.push(A.watch('people',docs=>{st.people=new Map(docs.map(d=>[d.id,d]));st.ready.people=1;render()}));
   unsubs.push(A.watch('candidates',docs=>{st.cands=new Map(docs.map(d=>[d.id,d]));render()}));
-  for(const [c,k] of [['staff','staff'],['reqs','reqs'],['plans','plans'],['talks','talks'],['events','events']])unsubs.push(A.watch(c,docs=>{st[k]=new Map(docs.map(d=>[d.id,d]));render()}));
+  for(const [c,k] of [['staff','staff'],['reqs','reqs'],['plans','plans'],['talks','talks'],['events','events'],['trainees','trainees'],['schools','schools']])unsubs.push(A.watch(c,docs=>{st[k]=new Map(docs.map(d=>[d.id,d]));render()}));
   unsubs.push(A.watch('notices',docs=>{st.notices=docs;render()},{order:'at',desc:true,limit:30}));
   unsubs.push(A.watch('logs',docs=>{st.logs=docs;if(st.view==='history')render()},{order:'at',desc:true,limit:150}));
   route();
@@ -1980,8 +1992,8 @@ async function createTask(d,quiet){
 /* =====================================================================
    라우팅 · 렌더
    ===================================================================== */
-const VIEWS=[['home','홈'],['tasks','업무'],['calendar','캘린더'],['routines','정기업무'],['report','업무 분석'],['plan','인원계획'],['recruit','채용 관리'],['people','입퇴사 현황'],['staff','직원 명부'],['org','조직도'],['hrstat','인사 통계'],['onoff','온보딩 · 오프보딩'],['track','수습 · 계약'],['talk','면담'],['monthly','월간 리포트'],['ops','운영 점검'],['history','기록'],['settings','설정']];
-const NAV_GROUPS=[['업무',['tasks','calendar','routines','report']],['채용',['plan','recruit','people']],['인사관리',['staff','org','hrstat','onoff','track','talk','monthly']],['운영',['ops','history','settings']]];
+const VIEWS=[['home','홈'],['tasks','업무'],['calendar','캘린더'],['routines','정기업무'],['report','업무 분석'],['plan','인원계획'],['recruit','채용 관리'],['people','입퇴사 현황'],['staff','직원 명부'],['org','조직도'],['hrstat','인사 통계'],['onoff','온보딩 · 오프보딩'],['track','수습 · 계약'],['intern','산학 협력'],['talk','면담'],['monthly','월간 리포트'],['ops','운영 점검'],['history','기록'],['settings','설정']];
+const NAV_GROUPS=[['업무',['tasks','calendar','routines','report']],['채용',['plan','recruit','people']],['인사관리',['staff','org','hrstat','onoff','track','intern','talk','monthly']],['운영',['ops','history','settings']]];
 // 주소창은 항상 깨끗하게(#tasks 같은 꼬리 없이) — 화면 이동은 브라우저 기록에 담아 뒤로가기도 돼요
 const cleanUrl=()=>location.pathname+location.search;
 function goView(v,push=true){
@@ -2004,8 +2016,8 @@ function route(){
 }
 function renderNav(){
   const late=live().filter(t=>isLate(t)&&mine(t)).length;
-  const VL=Object.fromEntries(VIEWS),tkn=trackItems().filter(x=>diffD(x.d,today())<=30).length,badge={tasks:[late,'기한 지난 업무'],track:[tkn,'30일 안 수습 종료·계약 만료']};
-  $('#nav').innerHTML=NAV_GROUPS.map(([g,ks])=>`${g?`<div class="nav-gh">${g}</div>`:''}${ks.map(k=>`<a href="#${k}" class="${st.view===k?'on':''}"><span class="ni">${ic(k,19)}</span><span class="nl">${VL[k]}</span>${badge[k]?.[0]?`<span class="cnt ${k==='track'?'amb':''}" title="${badge[k][1]}">${badge[k][0]}</span>`:''}</a>`).join('')}`).join('');
+  const VL=Object.fromEntries(VIEWS),tkn=trackItems().filter(x=>diffD(x.d,today())<=30).length,badge={tasks:[late,'기한 지난 업무'],track:[tkn,'30일 안 수습 종료·계약 만료'],intern:[trnAll().filter(trnNeedDec).length,'채용 여부를 정할 대학생인턴']};
+  $('#nav').innerHTML=NAV_GROUPS.map(([g,ks])=>`${g?`<div class="nav-gh">${g}</div>`:''}${ks.map(k=>`<a href="#${k}" class="${st.view===k?'on':''}"><span class="ni">${ic(k,19)}</span><span class="nl">${VL[k]}</span>${badge[k]?.[0]?`<span class="cnt ${k==='track'||k==='intern'?'amb':''}" title="${badge[k][1]}">${badge[k][0]}</span>`:''}</a>`).join('')}`).join('');
   // 위쪽 바로가기 두 개에 지금 숫자 표시
   const td=today(),openN=live().filter(x=>x.status!=='done').length,ym=td.slice(0,7),rt=live().filter(x=>x.rid&&x.due&&x.due.startsWith(ym));
   if($('#nqMe'))$('#nqMe').textContent=openN?`${openN}건 남음${late?` · 지남 ${late}`:''}`:'모두 끝냈어요';
@@ -2023,7 +2035,7 @@ function renderNow(){
   renderNav();
   if(!st.ready.settings||!st.ready.tasks){$('#view').innerHTML='<div class="loading">불러오는 중…</div>';return}
   const keepFocus=document.activeElement?.id; const pos=document.activeElement?.selectionStart;
-  const f={home:vHome,tasks:vTasks,calendar:vCal,routines:vRoutines,people:vPeople,staff:vStaffList,talk:vTalk,plan:vPlanView,recruit:vRecruit,org:vOrgView,hrstat:vHrStat,onoff:vOnoff,track:vTrackView,monthly:vMonthlyView,ops:vOpsView,history:vHistory,report:vReport,settings:vSettings}[st.view];
+  const f={home:vHome,tasks:vTasks,calendar:vCal,routines:vRoutines,people:vPeople,staff:vStaffList,talk:vTalk,plan:vPlanView,recruit:vRecruit,org:vOrgView,hrstat:vHrStat,onoff:vOnoff,track:vTrackView,intern:vIntern,monthly:vMonthlyView,ops:vOpsView,history:vHistory,report:vReport,settings:vSettings}[st.view];
   // 다시 그려도 보드 칸·가로 스크롤 위치는 그대로 (체크할 때 목록이 위로 튀지 않게)
   const keepY=Object.fromEntries($$('#view .kcol').map(c=>[c.dataset.drop,c.querySelector('.kl')?.scrollTop||0])),keepX=$('#view .kb')?.scrollLeft||0;
   $('#view').innerHTML=f();
@@ -2354,7 +2366,7 @@ function openEvent(id,pre={}){
   const e=id?st.events?.get(id):{title:'',start:pre.d||today(),end:'',time:'',memo:'',star:false};if(!e)return;
   openLayer(`<div class="modal" role="dialog" aria-label="일정"><h2>${id?'일정':'일정 추가'}</h2><p class="note" style="margin:-8px 0 14px">캘린더에만 보이고 업무 목록·보드에는 나오지 않아요.</p>
    <form id="fEv" data-id="${id||''}">
-    <div class="fld"><label for="eTitle">제목</label><input class="inp" id="eTitle" value="${esc(e.title)}" placeholder="예) 동아대 교수 방문 (실습 면담)"></div>
+    <div class="fld"><label for="eTitle">제목</label><input class="inp" id="eTitle" value="${esc(e.title)}" placeholder="예) 학교 교수 방문 (실습 면담)"></div>
     <div class="g3"><div class="fld"><label for="eStart">날짜</label><input class="inp" type="date" id="eStart" value="${e.start||''}"></div>
      <div class="fld"><label for="eEnd">끝나는 날 (여러 날일 때)</label><input class="inp" type="date" id="eEnd" value="${e.end||''}"></div>
      <div class="fld"><label for="eTime">시간</label><input class="inp" id="eTime" value="${esc(e.time||'')}" placeholder="예) 14:00"></div></div>
@@ -2763,6 +2775,10 @@ document.addEventListener('click',async e=>{
   const cd=T.closest('[data-cand]');if(cd){openCand(cd.dataset.cand);return}
   const sfd=T.closest('[data-staff]');if(sfd){openStaff(sfd.dataset.staff);return}
   const tkd=T.closest('[data-talk]');if(tkd){openTalk(tkd.dataset.talk);return}
+  const trd=T.closest('[data-trn]');if(trd){openTrn(trd.dataset.trn);return}
+  const shd=T.closest('[data-sch]');if(shd){openSch(shd.dataset.sch);return}
+  const sad=T.closest('[data-sadd]');if(sad){const w=sad.dataset.sadd==='ct'?$('#hCts'):$('#hLogs');w.insertAdjacentHTML('beforeend',sad.dataset.sadd==='ct'?schCtRow():schLgRow({date:today()}));w.lastElementChild.querySelector('input:not([type=date])')?.focus();return}
+  const sxx=T.closest('[data-sx]');if(sxx){sxx.parentElement.remove();return}
   const rqd=T.closest('[data-req]');if(rqd){openReq(rqd.dataset.req);return}
   const rt=T.closest('[data-rt]');if(rt){openRoutine(rt.dataset.rt);return}
   const evd=T.closest('[data-ev]');if(evd){openEvent(evd.dataset.ev);return}
@@ -2828,6 +2844,8 @@ document.addEventListener('click',async e=>{
   const sb=T.closest('#tStatus .pill');if(sb){$$('#tStatus .pill').forEach(b=>b.classList.toggle('on',b===sb));return}
   const hb=T.closest('#tHelpers .chip');if(hb){hb.classList.toggle('on');return}
   const ptb=T.closest('#pType button');if(ptb){$$('#pType button').forEach(b=>b.classList.toggle('on',b===ptb));const o2=ptb.dataset.v==='out';if($('#pInF'))$('#pInF').hidden=o2;if($('#pOutF'))$('#pOutF').hidden=!o2;if($('#pDateL'))$('#pDateL').textContent=o2?'퇴사일':'입사일';return}
+  const np=T.closest('#nProg button');if(np){$$('#nProg button').forEach(b=>b.classList.toggle('on',b===np));$('#fTrn').classList.toggle('is-intern',np.dataset.v==='대학생인턴');return}
+  const nsb=T.closest('#nStatus button,#nDec button,#hKind button,#hSt button');if(nsb){$$('#'+nsb.parentElement.id+' button').forEach(b=>b.classList.toggle('on',b===nsb));return}
   const kt=T.closest('#kType button');if(kt){$$('#kType button').forEach(b=>b.classList.toggle('on',b===kt));$('#kQs').innerHTML=(TALK_GUIDE[kt.dataset.v]?.q||[]).map(x=>`<button type="button" class="chip" data-tq="${esc(x)}">${esc(x)}</button>`).join('');return}
   const tqb=T.closest('[data-tq]');if(tqb){const ta=$('#kSum');ta.value=(ta.value.trim()?ta.value.replace(/\s*$/,'')+'\n':'')+'Q. '+tqb.dataset.tq+'\nA. ';ta.focus();return}
   const pk=T.closest('.segs.pick button');if(pk){$$('button',pk.parentElement).forEach(b=>b.classList.toggle('on',b===pk));return}
@@ -2856,6 +2874,8 @@ document.addEventListener('input',e=>{
   if(e.target.id==='q')doSearch(e.target.value);
   if(e.target.id==='qa')qaPreview();
   if(e.target.id==='sQ'){st.sq=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
+  if(e.target.id==='schQ'){st.schQ=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
+  if(e.target.id==='trnQ'){st.trnQ=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
   if(e.target.id==='tkQ'){st.tq=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
   if(e.target.id==='recQ'){st.recQ=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
 });
@@ -3740,6 +3760,175 @@ async function saveTalkForm(){
   await st.api.put('talks',id||'k-'+uid(),id?d:{...d,createdAt:nowISO()});addLog(`면담 기록 · ${d.name} (${d.type})`);closeLayer();toast('저장했어요');
 }
 
+/* ---------------- 일학습 · 인턴 (P-TECH · 도제 · 대학생인턴) ---------------- */
+const TRN_PROGS=['P-TECH','도제','대학생인턴','기타'];
+const isIntern=t=>t.prog==='대학생인턴';
+const trnCls=p=>({'P-TECH':'t-b','도제':'t-g','대학생인턴':'t-a'}[p]||'t-s');
+/* 상태: 수료·중도 종료는 직접 정하고, 나머지는 기간으로 계산 (예정 → 진행 중 → 기간 끝남) */
+const trnState=t=>{if(t.status==='수료'||t.status==='중도 종료')return t.status;const td=today();if(t.start&&td<t.start)return '예정';if(t.end&&td>t.end)return '기간 끝남';return '진행 중'};
+const trnOpen=t=>['예정','진행 중','기간 끝남'].includes(trnState(t))||(isIntern(t)&&!t.dec&&t.status!=='중도 종료');
+/* 대학생인턴: 끝나기 14일 전부터 채용 여부를 정하라고 띄워요 */
+const trnNeedDec=t=>isIntern(t)&&!t.dec&&t.status!=='중도 종료'&&!!t.end&&diffD(t.end,today())<=14;
+const trnAll=()=>[...(st.trainees?.values()||[])];
+const trnSpan=t=>t.start||t.end?`${(t.start||'').replace(/-/g,'.')} ~ ${(t.end||'').replace(/-/g,'.')}`:'—';
+const trnPct=t=>{if(!t.start||!t.end)return null;const a=diffD(today(),t.start),n=diffD(t.end,t.start);return n>0?Math.max(0,Math.min(100,Math.round(a/n*100))):null};
+function vTrnList(){
+  const td=today(),A=trnAll(),fp=st.trnP||'',fs=st.trnS||'open',q=(st.trnQ||'').toLowerCase();
+  const L=A.filter(t=>(!fp||t.prog===fp)&&(fs==='all'||(fs==='open'?trnOpen(t):!trnOpen(t)))&&(!q||[t.name,t.team,t.school,t.major,t.prof,t.fieldProf,t.hrd,t.memo].join(' ').toLowerCase().includes(q)))
+    .sort((a,b)=>(trnNeedDec(b)-trnNeedDec(a))||TRN_PROGS.indexOf(a.prog)-TRN_PROGS.indexOf(b.prog)||(a.end||'9').localeCompare(b.end||'9')||(a.name||'').localeCompare(b.name||''));
+  const on=A.filter(t=>trnState(t)==='진행 중'),dec=A.filter(trnNeedDec),soon=A.filter(t=>trnState(t)==='진행 중'&&t.end&&diffD(t.end,td)<=30);
+  const hired=A.filter(t=>isIntern(t)&&t.dec==='채용').length,decided=A.filter(t=>isIntern(t)&&t.dec).length;
+  const KP=[['진행 중',on.length+'명',`예정 ${A.filter(t=>trnState(t)==='예정').length}명`],['P-TECH',on.filter(t=>t.prog==='P-TECH').length+'명','일학습병행 진행 중'],['도제',on.filter(t=>t.prog==='도제').length+'명','진행 중'],['대학생인턴',on.filter(t=>isIntern(t)).length+'명',`채용 전환 ${hired}/${decided||0}`],['30일 안 종료',soon.length+'명','수료 · 평가 준비'],['채용 결정 대기',dec.length+'명','대학생인턴 종료 14일 전부터']];
+  const cell=v=>v?esc(v):'<span class="na">—</span>';
+  const stCell=t=>{const s=trnState(t);
+    if(isIntern(t)){if(t.dec)return `<span class="cc ${t.dec==='채용'?'t-g':'t-s'}">${t.dec==='채용'?'채용 전환':'미채용'}</span>`;
+      if(trnNeedDec(t))return `<div class="trk">${['채용','미채용'].map(o=>`<button class="mkb" data-act="trnDec" data-id="${t.id}" data-v="${o}">${o}</button>`).join('')}</div>`}
+    return `<span class="cc ${s==='진행 중'?'t-c':s==='예정'?'t-b':s==='기간 끝남'?'t-a':s==='수료'?'t-g':'t-r'}">${s}</span>`};
+  const dd=t=>{if(!t.end||!trnOpen(t))return '<span class="na">—</span>';const n=diffD(t.end,td);return `<span class="dday ${n<0?'over':n<=30?'soon':''}">${dfmt(n)}</span>`};
+  return `
+   <div class="kpis">${KP.map(([l,v,s])=>`<div class="kp"><span>${l}</span><b>${v}</b><small>${s}</small></div>`).join('')}</div>
+   <section class="card rec"><div class="recbar"><input class="fsearch" id="trnQ" placeholder="이름 · 학교 · 교수 검색" value="${esc(st.trnQ||'')}">
+     <div class="segs">${['',...TRN_PROGS].map(x=>`<button class="${fp===x?'on':''}" data-act="trnP" data-v="${x}">${x||'전체'}<span class="tc">${A.filter(t=>(!x||t.prog===x)&&(fs==='all'||(fs==='open'?trnOpen(t):!trnOpen(t)))).length}</span></button>`).join('')}</div>
+     <div class="segs">${[['open','진행 · 예정'],['done','끝남'],['all','전체']].map(([k,l])=>`<button class="${fs===k?'on':''}" data-act="trnS" data-v="${k}">${l}</button>`).join('')}</div>
+     <span class="sp" style="flex:1"></span><span class="note">${L.length}명</span></div>
+   ${L.length?`<div class="rtw"><table class="rtab trn"><thead><tr><th>과정</th><th>이름</th><th>부서</th><th>학교 · 학과</th><th>담당교수</th><th>현장교수 · 교사</th><th>HRD 담당자</th><th>기간</th><th>남은 기간</th><th>상태 · 채용</th><th>메모</th></tr></thead><tbody>
+   ${L.map(t=>{const pc=trnPct(t);return `<tr class="${trnNeedDec(t)?'hl':''}"><td><span class="cc ${trnCls(t.prog)}">${esc(t.prog||'기타')}</span></td><td class="nm" data-trn="${t.id}"><b>${esc(t.name)}</b>${t.grade?`<small>${esc(t.grade)}</small>`:''}</td><td>${cell(t.team)}</td>
+     <td>${t.school?`${esc(t.school)}${t.major?`<small class="sub">${esc(t.major)}</small>`:''}`:'<span class="na">—</span>'}</td><td>${cell(t.prof)}</td>
+     <td>${isIntern(t)?'<span class="na" title="대학생인턴은 해당 없음">해당 없음</span>':cell(t.fieldProf)}</td><td>${isIntern(t)?'<span class="na" title="대학생인턴은 해당 없음">해당 없음</span>':cell(t.hrd)}</td>
+     <td class="trnp">${trnSpan(t)}${pc!=null&&trnState(t)==='진행 중'?`<div class="pbar" title="${pc}% 지남"><i style="width:${pc}%"></i></div>`:''}${t.grad?`<small class="sub">졸업 ${t.grad.replace(/-/g,'.')}</small>`:''}</td>
+     <td>${dd(t)}</td><td>${stCell(t)}</td><td class="mm2" title="${esc(t.memo||'')}">${esc((t.memo||'').replace(/\n/g,' ').slice(0,30))||'<span class="na">—</span>'}</td></tr>`}).join('')}</tbody></table></div>`:`<div class="empty">${A.length?'조건에 맞는 사람이 없어요.':'아직 등록한 사람이 없어요. + 등록이나 붙여넣기로 넣어 주세요.'}</div>`}
+   </section>`;
+}
+function openTrn(id,pre={}){
+  const t=id?st.trainees.get(id):{prog:st.trnP||'P-TECH',name:'',team:'',school:'',major:'',grade:'',prof:'',fieldProf:'',hrd:'',start:'',end:'',grad:'',status:'',dec:'',memo:'',...pre};if(!t)return;
+  const names=staffOn().map(s=>s.name);
+  openLayer(`<div class="modal wide" role="dialog" aria-label="일학습 · 인턴"><h2>${id?esc(t.name)+' · '+esc(t.prog):'일학습 · 인턴 등록'}</h2><form id="fTrn" data-id="${id||''}" class="${isIntern(t)?'is-intern':''}">
+   <div class="fld"><label>과정</label><div class="segs pick" id="nProg">${TRN_PROGS.map(x=>`<button type="button" class="${x===t.prog?'on':''}" data-v="${x}">${x==='P-TECH'?'P-TECH (일학습병행)':x}</button>`).join('')}</div></div>
+   <div class="g3"><div class="fld"><label for="nName">이름</label><input class="inp" id="nName" list="trnNames" value="${esc(t.name||'')}"><datalist id="trnNames">${names.map(n=>`<option value="${esc(n)}">`).join('')}</datalist></div>
+    <div class="fld"><label for="nTeam">부서</label><input class="inp" id="nTeam" value="${esc(t.team||'')}" placeholder="비우면 명부에서 채워요"></div>
+    <div class="fld"><label for="nGrade">학년 · 기수</label><input class="inp" id="nGrade" value="${esc(t.grade||'')}" placeholder="예) 3학년 / 2기"></div></div>
+   <div class="g3"><div class="fld"><label for="nSchool">학교</label><input class="inp" id="nSchool" list="trnSchools" value="${esc(t.school||'')}"><datalist id="trnSchools">${[...new Set([...schAll().map(x=>x.name),...trnAll().map(x=>x.school)].filter(Boolean))].map(n=>`<option value="${esc(n)}">`).join('')}</datalist></div>
+    <div class="fld"><label for="nMajor">학과</label><input class="inp" id="nMajor" value="${esc(t.major||'')}"></div>
+    <div class="fld"><label for="nProf">담당교수</label><input class="inp" id="nProf" value="${esc(t.prof||'')}" placeholder="이름 · 연락처"></div></div>
+   <div class="g2 nointern"><div class="fld"><label for="nField">현장교수 · 교사 <span class="note">사내</span></label><input class="inp" id="nField" list="trnNames" value="${esc(t.fieldProf||'')}"></div>
+    <div class="fld"><label for="nHrd">HRD 담당자</label><input class="inp" id="nHrd" value="${esc(t.hrd||'')}" placeholder="이름 · 소속 · 연락처"></div></div>
+   <div class="g3"><div class="fld"><label for="nStart">시작일</label><input class="inp" type="date" id="nStart" value="${t.start||''}"></div>
+    <div class="fld"><label for="nEnd">종료일</label><input class="inp" type="date" id="nEnd" value="${t.end||''}"></div>
+    <div class="fld"><label for="nGrad">졸업(예정)일</label><input class="inp" type="date" id="nGrad" value="${t.grad||''}"></div></div>
+   <div class="fld"><label>진행 상태 <span class="note">비워 두면 기간으로 계산해요</span></label><div class="segs pick" id="nStatus">${[['','자동'],['수료','수료'],['중도 종료','중도 종료']].map(([v,l])=>`<button type="button" class="${(t.status||'')===v?'on':''}" data-v="${v}">${l}</button>`).join('')}</div></div>
+   <div class="fld onlyintern"><label>인턴 후 채용 여부</label><div class="segs pick" id="nDec">${[['','검토 중'],['채용','채용 전환'],['미채용','미채용']].map(([v,l])=>`<button type="button" class="${(t.dec||'')===v?'on':''}" data-v="${v}">${l}</button>`).join('')}</div></div>
+   <div class="fld"><label for="nMemo">메모</label><textarea class="inp" id="nMemo" rows="3" placeholder="훈련 과정명, 평가 일정, 제출 서류 등">${esc(t.memo||'')}</textarea></div></form>
+   <div class="acts">${id?`<button class="btn dan" data-act="delTrn" data-id="${id}" style="margin-right:auto">삭제</button>`:''}<button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="saveTrn">저장</button></div></div>`);
+}
+async function saveTrnForm(){
+  const f=$('#fTrn'),id=f.dataset.id,prog=$('#nProg .on')?.dataset.v||'기타',iv=prog==='대학생인턴';
+  const d={prog,name:$('#nName').value.trim(),team:$('#nTeam').value.trim(),grade:$('#nGrade').value.trim(),school:$('#nSchool').value.trim(),major:$('#nMajor').value.trim(),prof:$('#nProf').value.trim(),
+    fieldProf:iv?'':$('#nField').value.trim(),hrd:iv?'':$('#nHrd').value.trim(),start:$('#nStart').value,end:$('#nEnd').value,grad:$('#nGrad').value,status:$('#nStatus .on')?.dataset.v||'',dec:iv?($('#nDec .on')?.dataset.v||''):'',memo:$('#nMemo').value,updatedAt:nowISO()};
+  if(!d.name){toast('이름을 적어 주세요');return}
+  if(d.start&&d.end&&d.end<d.start){toast('종료일이 시작일보다 빨라요');return}
+  if(!d.team){const s=staffOn().find(x=>x.name===d.name);if(s)d.team=s.team||''}
+  if(d.dec&&d.dec!==(id?st.trainees.get(id)?.dec:''))d.decAt=today();
+  await st.api.put('trainees',id||'n-'+uid(),id?d:{...d,createdAt:nowISO()});addLog(`일학습 · 인턴 ${id?'수정':'등록'} · ${d.name} (${d.prog})`);closeLayer();toast('저장했어요');
+}
+function openTrnPaste(){
+  openLayer(`<div class="modal wide" role="dialog" aria-label="일학습 · 인턴 붙여넣기"><h2>일학습 · 인턴 붙여넣기</h2>
+   <p class="note">엑셀에서 아래 순서대로 칸을 복사해 붙여넣으세요. 과정은 P-TECH · 도제 · 대학생인턴 · 기타 중 하나예요 (일학습병행은 P-TECH로 넣어요). 같은 과정 · 이름이 이미 있으면 덮어써요.<br><b>과정 · 이름 · 부서 · 학교 · 학과 · 담당교수 · 현장교수 · HRD 담당자 · 시작일 · 종료일 · 졸업(예정)일 · 메모</b><br>대학생인턴은 현장교수 · HRD 담당자 칸을 비워 두세요.</p>
+   <textarea class="inp" id="npTxt" rows="10" placeholder="예) P-TECH	홍길동	기계1팀	○○폴리텍대학	기계과	김교수	이현장	박HRD	2026-03-02	2027-02-28"></textarea>
+   <div class="acts"><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="trnPasteGo">등록</button></div></div>`);
+}
+async function trnPasteGo(){
+  const normP=x=>{x=(x||'').replace(/\s/g,'');if(/p-?tech|일학습|병행/i.test(x))return 'P-TECH';if(/도제/.test(x))return '도제';if(/인턴/.test(x))return '대학생인턴';return '기타'};
+  const rows=$('#npTxt').value.split(/\r?\n/).map(l=>l.split('\t').map(x=>x.trim())).filter(c=>c[1]&&!/^이름$/.test(c[1]));
+  if(!rows.length){toast('붙여넣은 내용이 없어요 (과정 · 이름 순서인지 확인해 주세요)');return}
+  const ops=[],all=trnAll();
+  rows.forEach(c=>{const prog=normP(c[0]),iv=prog==='대학생인턴',ex=all.find(t=>t.prog===prog&&t.name===c[1]);
+    const d={prog,name:c[1],team:c[2]||(staffOn().find(s=>s.name===c[1])?.team||''),school:c[3]||'',major:c[4]||'',prof:c[5]||'',fieldProf:iv?'':(c[6]||''),hrd:iv?'':(c[7]||''),start:parseDateLoose(c[8]),end:parseDateLoose(c[9]),grad:(v=>/^\d{4}[-.]\d{1,2}$/.test(v)?v.replace('.','-').replace(/-(\d)$/,'-0$1')+'-01':parseDateLoose(v))(c[10]||''),updatedAt:nowISO()};
+    if(c[11])d.memo=c[11];
+    ops.push({c:'trainees',id:ex?ex.id:'n-'+uid(),d:ex?d:{...d,status:'',dec:'',createdAt:nowISO()}})});
+  await st.api.batch(ops);addLog(`일학습 · 인턴 붙여넣기 · ${ops.length}명`);closeLayer();toast(`${ops.length}명을 넣었어요`);
+}
+function vIntern(){
+  const tab=st.trnTab||'list',A=trnAll(),S=schAll();
+  const btns=tab==='sch'?'<button class="btn" data-act="schPaste">붙여넣기</button><button class="btn pri" data-act="newSch">+ 학교 추가</button>':'<button class="btn" data-act="trnPaste">붙여넣기</button><button class="btn pri" data-act="newTrn">+ 참여자 등록</button>';
+  return `<div class="ph"><h1>산학 협력</h1><span class="sp"></span>${btns}<div class="desc">${tab==='sch'?'학교별 담당자와 신입 모집 요청 처리 현황을 날짜별로 남겨요. 앞으로 날짜로 적은 기록은 예정으로 보여요.':'P-TECH(일학습병행) · 도제 · 대학생인턴 참여자를 학교 · 담당교수 · 기간 · HRD 담당자 · 현장교수별로 관리해요. 대학생인턴은 끝나기 14일 전부터 채용 여부를 정하라고 알려 줘요.'}</div></div>
+   <div class="segs ptabs">${[['list','참여자',A.filter(trnOpen).length],['sch','학교 · 모집 요청',S.length]].map(([k,l,n])=>`<button class="${tab===k?'on':''}" data-act="trnTab" data-v="${k}">${l}<span class="tc">${n}</span></button>`).join('')}</div>
+   ${tab==='sch'?vSchList():vTrnList()}`;
+}
+/* 학교 · 모집 요청: 학교 하나에 담당자 여러 명 + 날짜별 처리 기록 */
+const SCH_KINDS=['대학교','고등학교','기타'];
+const SCH_ST=['진행 중','회신 대기','종료'];
+const schAll=()=>[...(st.schools?.values()||[])];
+const schKey=s=>String(s||'').replace(/\s/g,'').replace(/(대학교|대학|고등학교)$/,'');
+const schTrn=name=>{const k=schKey(name);return k?trnAll().filter(t=>schKey(t.school)===k):[]};
+const schLogs=s=>[...(s.logs||[])].filter(l=>l.date||l.text).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+const schLast=s=>{const td=today();return schLogs(s).filter(l=>!l.date||l.date<=td).pop()||null};
+const schNext=s=>{const td=today();return schLogs(s).find(l=>l.date&&l.date>td)||null};
+function vSchList(){
+  const td=today(),fk=st.schK||'',q=(st.schQ||'').toLowerCase();
+  const S=schAll().filter(s=>(!fk||s.kind===fk)&&(!q||[s.name,s.memo,...(s.contacts||[]).flatMap(x=>[x.name,x.dept,x.tel,x.mail]),...(s.logs||[]).map(l=>l.text)].join(' ').toLowerCase().includes(q)))
+    .sort((a,b)=>((a.status==='종료')-(b.status==='종료'))||(schLast(b)?.date||'').localeCompare(schLast(a)?.date||'')||(a.name||'').localeCompare(b.name||''));
+  const all=schAll(),up=all.map(s=>({s,n:schNext(s)})).filter(x=>x.n).sort((a,b)=>a.n.date.localeCompare(b.n.date));
+  const stale=all.filter(s=>s.status!=='종료'&&!schNext(s)&&(!schLast(s)?.date||diffD(td,schLast(s).date)>=30));
+  const KP=[['학교',all.length+'곳',SCH_KINDS.slice(0,2).map(k=>`${k} ${all.filter(s=>s.kind===k).length}`).join(' · ')],['진행 중',all.filter(s=>(s.status||'진행 중')!=='종료').length+'곳','종료 제외'],['예정된 일정',up.length+'건',up[0]?`${md(up[0].n.date)} ${esc(up[0].s.name)}`:'없음'],['30일 넘게 연락 없음',stale.length+'곳','다시 연락해 보세요'],['연계 참여자',trnAll().filter(t=>trnOpen(t)&&all.some(s=>schKey(s.name)===schKey(t.school))).length+'명','진행 · 예정 중']];
+  const cts=s=>{const L=(s.contacts||[]).filter(x=>x.name||x.dept||x.tel||x.mail);if(!L.length)return '<span class="na">—</span>';return L.map(x=>`<div class="sct"><b>${esc(x.name&&x.name!=='-'?x.name:'담당자')}</b>${x.dept&&x.dept!=='-'?`<span>${esc(x.dept)}</span>`:''}<small>${[x.tel,x.mail].filter(v=>v&&v!=='-').map(esc).join(' · ')}</small></div>`).join('')};
+  const tchip=s=>{const L=schTrn(s.name).filter(trnOpen);if(!L.length)return '';const g={};L.forEach(t=>g[t.prog]=(g[t.prog]||0)+1);return `<div class="hsc-tp">${Object.entries(g).map(([k,n])=>`<span class="cc ${trnCls(k)}">${k==='대학생인턴'?'인턴':esc(k)} ${n}</span>`).join('')}</div>`};
+  return `<div class="kpis">${KP.map(([l,v,s])=>`<div class="kp"><span>${l}</span><b>${v}</b><small>${s}</small></div>`).join('')}</div>
+   <section class="card rec"><div class="recbar"><input class="fsearch" id="schQ" placeholder="학교 · 담당자 · 내용 검색" value="${esc(st.schQ||'')}">
+     <div class="segs">${['',...SCH_KINDS].map(x=>`<button class="${fk===x?'on':''}" data-act="schK" data-v="${x}">${x||'전체'}</button>`).join('')}</div><span class="sp" style="flex:1"></span><span class="note">${S.length}곳</span></div>
+   ${S.length?`<div class="rtw"><table class="rtab sch"><thead><tr><th>구분</th><th>학교</th><th>담당자</th><th>최근 처리</th><th>예정</th><th>비고</th><th>상태</th><th></th></tr></thead><tbody>
+   ${S.map(s=>{const l=schLast(s),n=schNext(s),old=s.status!=='종료'&&!n&&(!l?.date||diffD(td,l.date)>=30);return `<tr class="${s.status==='종료'?'off':''}"><td><span class="cc ${s.kind==='고등학교'?'t-g':s.kind==='대학교'?'t-b':'t-s'}">${esc(s.kind||'기타')}</span></td>
+     <td class="nm" data-sch="${s.id}"><b>${esc(s.name)}</b>${tchip(s)}</td><td class="sctw">${cts(s)}</td>
+     <td class="slog">${l?`<em>${l.date?md(l.date):'날짜 없음'}${l.date?` <span class="note">${diffD(td,l.date)?diffD(td,l.date)+'일 전':'오늘'}</span>`:''}</em>${esc(l.text||'')}`:'<span class="na">기록 없음</span>'}${old?'<small class="warn">30일 넘게 연락 없음</small>':''}${schLogs(s).length>1?`<small class="sub">기록 ${schLogs(s).length}건</small>`:''}</td>
+     <td class="slog">${n?`<span class="dday ${diffD(n.date,td)<=7?'soon':''}">${dfmt(diffD(n.date,td))}</span> <em>${md(n.date)}</em> ${esc(n.text||'')}`:'<span class="na">—</span>'}</td>
+     <td class="mm2">${esc(s.memo||'')||'<span class="na">—</span>'}</td><td><span class="cc ${(s.status||'진행 중')==='진행 중'?'t-c':s.status==='회신 대기'?'t-a':'t-s'}">${esc(s.status||'진행 중')}</span></td>
+     <td><button class="btn sm" data-act="schLog" data-id="${s.id}">+ 기록</button></td></tr>`}).join('')}</tbody></table></div>`:`<div class="empty">${all.length?'조건에 맞는 학교가 없어요.':'아직 등록한 학교가 없어요. + 학교 추가나 붙여넣기로 넣어 주세요.'}</div>`}
+   </section>`;
+}
+const schCtRow=(x={})=>`<div class="hsc-ct"><input class="inp" data-f="name" placeholder="성함 · 직함" value="${esc(x.name||'')}"><input class="inp" data-f="dept" placeholder="부서" value="${esc(x.dept||'')}"><input class="inp" data-f="tel" placeholder="연락처" value="${esc(x.tel||'')}"><input class="inp" data-f="mail" placeholder="메일" value="${esc(x.mail||'')}"><button type="button" class="icon-btn" data-sx="1" aria-label="이 줄 지우기">×</button></div>`;
+const schLgRow=(x={})=>`<div class="hsc-lg"><input class="inp" type="date" data-f="date" value="${x.date||''}"><input class="inp" data-f="text" placeholder="처리 내용 (예: 채용 모집요강 발송)" value="${esc(x.text||'')}"><button type="button" class="icon-btn" data-sx="1" aria-label="이 줄 지우기">×</button></div>`;
+function openSch(id,focusLog){
+  const s=id?st.schools.get(id):{kind:'대학교',name:'',contacts:[{}],logs:[],memo:'',status:'진행 중'};if(!s)return;
+  const L=schLogs(s),tr=id?schTrn(s.name):[];
+  openLayer(`<div class="modal wide" role="dialog" aria-label="학교 · 모집 요청"><h2>${id?esc(s.name):'학교 추가'}</h2><form id="fSch" data-id="${id||''}">
+   <div class="g3"><div class="fld"><label>구분</label><div class="segs pick" id="hKind">${SCH_KINDS.map(x=>`<button type="button" class="${x===(s.kind||'기타')?'on':''}" data-v="${x}">${x}</button>`).join('')}</div></div>
+    <div class="fld"><label for="hName">학교명</label><input class="inp" id="hName" value="${esc(s.name||'')}"></div>
+    <div class="fld"><label>상태</label><div class="segs pick" id="hSt">${SCH_ST.map(x=>`<button type="button" class="${x===(s.status||'진행 중')?'on':''}" data-v="${x}">${x}</button>`).join('')}</div></div></div>
+   <div class="fld"><label>담당자 <button type="button" class="btn sm" data-sadd="ct">+ 담당자</button></label><div id="hCts">${((s.contacts||[]).length?s.contacts:[{}]).map(schCtRow).join('')}</div></div>
+   <div class="fld"><label>처리 현황 <span class="note">앞으로 날짜는 예정으로 표시돼요</span> <button type="button" class="btn sm" data-sadd="lg">+ 기록</button></label><div id="hLogs">${(L.length?L:[]).map(schLgRow).join('')}${focusLog||!L.length?schLgRow({date:today()}):''}</div></div>
+   <div class="fld"><label for="hMemo">비고</label><input class="inp" id="hMemo" value="${esc(s.memo||'')}" placeholder="예) 양산캠퍼스 / 학생 희망자 없음"></div>
+   ${tr.length?`<div class="fld"><label>이 학교 참여자</label><div class="hsc-tp">${tr.map(t=>`<button type="button" class="cc ${trnCls(t.prog)}" data-trn="${t.id}">${esc(t.name)} · ${esc(t.prog)} · ${trnState(t)}</button>`).join('')}</div></div>`:''}</form>
+   <div class="acts">${id?`<button class="btn dan" data-act="delSch" data-id="${id}" style="margin-right:auto">삭제</button>`:''}<button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="saveSch">저장</button></div></div>`);
+  if(focusLog){const r=[...document.querySelectorAll('#hLogs .hsc-lg')].pop();r?.querySelector('[data-f="text"]').focus()}
+}
+async function saveSchForm(){
+  const id=$('#fSch').dataset.id,rows=sel=>[...document.querySelectorAll(sel)].map(r=>Object.fromEntries([...r.querySelectorAll('[data-f]')].map(i=>[i.dataset.f,i.value.trim()])));
+  const d={kind:$('#hKind .on')?.dataset.v||'기타',name:$('#hName').value.trim(),status:$('#hSt .on')?.dataset.v||'진행 중',memo:$('#hMemo').value.trim(),
+    contacts:rows('#hCts .hsc-ct').filter(x=>x.name||x.dept||x.tel||x.mail),logs:rows('#hLogs .hsc-lg').filter(x=>x.text).sort((a,b)=>(a.date||'').localeCompare(b.date||'')),updatedAt:nowISO()};
+  if(!d.name){toast('학교명을 적어 주세요');return}
+  if(!id&&schAll().some(s=>schKey(s.name)===schKey(d.name))){toast('같은 학교가 이미 있어요');return}
+  await st.api.put('schools',id||'h-'+uid(),id?d:{...d,createdAt:nowISO()});addLog(`학교 · 모집 요청 ${id?'수정':'추가'} · ${d.name}`);closeLayer();toast('저장했어요');
+}
+function openSchPaste(){
+  openLayer(`<div class="modal wide" role="dialog" aria-label="학교 붙여넣기"><h2>학교 · 모집 요청 붙여넣기</h2>
+   <p class="note">엑셀 '대학교 신입 모집 요청 현황' 표의 내용 줄을 그대로 복사해 붙여넣으세요 (제목·머리글 줄은 빼고). 학교명이 빈 줄은 위 학교의 이어지는 기록으로 넣어요. 같은 학교가 이미 있으면 새 담당자와 새 기록만 더해요.<br><b>번호 · 학교명 · 성함 · 부서 · 연락처 · 메일 · 날짜 · 처리현황 · 비고</b> &nbsp;<span class="note">맨 앞에 '고등학교'라고 적으면 구분이 고등학교로 들어가요</span></p>
+   <textarea class="inp" id="hpTxt" rows="10"></textarea>
+   <div class="acts"><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="schPasteGo">등록</button></div></div>`);
+}
+async function schPasteGo(){
+  const rows=$('#hpTxt').value.split(/\r?\n/).map(l=>l.split('\t').map(x=>x.trim()));
+  const map=new Map(schAll().map(s=>[schKey(s.name),structuredClone(s)])),touched=new Set();let cur=null;
+  const clean=v=>v==='-'?'':v;
+  rows.forEach(c=>{if(!c.some(Boolean))return;if(/^(구분|번호)$/.test(c[0])||c[1]==='대학명'||c[1]==='학교명')return;
+    const nm=c[1];if(nm){const k=schKey(nm);if(!map.has(k))map.set(k,{id:'h-'+uid(),kind:/고등학교|고교/.test(nm)||/고등/.test(c[0])?'고등학교':/대학|폴리텍|과기대/.test(nm)?'대학교':'기타',name:nm,contacts:[],logs:[],memo:'',status:'진행 중',createdAt:nowISO(),_new:1});cur=map.get(k)}
+    if(!cur)return;touched.add(schKey(cur.name));
+    const ct={name:clean(c[2]||''),dept:clean(c[3]||''),tel:clean(c[4]||''),mail:clean(c[5]||'')};
+    if((ct.name||ct.dept||ct.tel||ct.mail)&&!cur.contacts.some(x=>x.name===ct.name&&x.dept===ct.dept&&x.tel===ct.tel))cur.contacts.push(ct);
+    const lg={date:parseDateLoose(c[6]),text:clean(c[7]||'')};if(lg.text&&!cur.logs.some(x=>x.date===lg.date&&x.text===lg.text))cur.logs.push(lg);
+    const m=clean(c[8]||'');if(m&&!(cur.memo||'').includes(m))cur.memo=[cur.memo,m].filter(Boolean).join(' / ')});
+  const ops=[...touched].map(k=>{const s=map.get(k),{id,_new,...d}=s;d.logs.sort((a,b)=>(a.date||'').localeCompare(b.date||''));d.updatedAt=nowISO();return {c:'schools',id:id,d}});
+  if(!ops.length){toast('넣을 학교를 못 찾았어요');return}
+  await st.api.batch(ops);addLog(`학교 · 모집 요청 붙여넣기 · ${ops.length}곳`);closeLayer();toast(`${ops.length}곳을 넣었어요`);
+}
 /* ---------------- 월간 리포트 ---------------- */
 function vMonthly(){
   const td=pD(today()),off=st.mro||0,b=new Date(td.getFullYear(),td.getMonth()+off,1),y=b.getFullYear(),m=b.getMonth()+1,ym=`${y}-${pad(m)}`,first=`${ym}-01`,last=ymd(new Date(y,m,0));
@@ -3948,6 +4137,12 @@ const ACT={
   reqSt:async a=>{const r=st.reqs.get(a.dataset.id);if(!r)return;const v=REQ_ST[(REQ_ST.indexOf(r.status||'요청')+1)%REQ_ST.length];await st.api.put('reqs',r.id,{status:v,updatedAt:nowISO()})},
   reqPlan:a=>{const r=st.reqs.get(a.dataset.id);if(r&&r.month)reqToPlan(r)},
   tkt:a=>{st.tkt=a.dataset.v;render()},
+  newTrn:()=>openTrn(null),saveTrn:()=>saveTrnForm(),trnPaste:()=>openTrnPaste(),trnPasteGo:()=>trnPasteGo(),
+  trnTab:a=>{st.trnTab=a.dataset.v;render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
+  delSch:a=>{const id=a.dataset.id;openConfirm('이 학교와 기록을 삭제할까요?',async()=>{await st.api.remove('schools',id);closeLayer();toast('삭제했어요')})},
+  trnP:a=>{st.trnP=a.dataset.v;render()},trnS:a=>{st.trnS=a.dataset.v;render()},
+  trnDec:async a=>{const t=st.trainees.get(a.dataset.id);if(!t)return;await st.api.put('trainees',t.id,{dec:a.dataset.v,decAt:today(),updatedAt:nowISO()});addLog(`대학생인턴 채용 여부 · ${t.name} → ${a.dataset.v}`);toast(a.dataset.v==='채용'?'채용 전환으로 정했어요':'미채용으로 정했어요')},
+  delTrn:a=>{const id=a.dataset.id;openConfirm('이 기록을 삭제할까요?',async()=>{await st.api.remove('trainees',id);closeLayer();toast('삭제했어요')})},
   tft:a=>{st.tft=a.dataset.v;render()},
   newTalk:a=>openTalk(null,a?.dataset?.type?{type:a.dataset.type}:{}),
   saveTalk:()=>saveTalkForm(),

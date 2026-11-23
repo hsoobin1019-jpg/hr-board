@@ -1255,14 +1255,14 @@ button.oc-who:hover{background:#E5EAF4}
 .fld>label .btn.sm{margin-left:8px;height:24px;padding:0 9px;font-size:12px}.modal.xwide{width:min(1080px,calc(100vw - 32px))}.h2s{font-size:13px;color:var(--mute);font-weight:500;margin-left:6px}
 .stabs{margin:-4px 0 14px}
 .cardbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 12px;background:#F5F8FA;border-radius:12px;margin-bottom:12px}.cardbar .note{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.cdpriv:empty{display:none}.cdempty{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:#FFF8E6;color:#8A5A00;font-size:13px}.cdp{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line2);border-radius:12px;padding:12px}.cdp img,.cdph{width:84px;height:106px;object-fit:cover;border-radius:8px;flex:none;background:#F0F3F5}.cdph{display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--mute)}
+.cdpriv:empty{display:none}.cdedit{margin:0 0 10px;padding:9px 12px;border-radius:10px;background:#EBF8FB;color:#00687A;font-size:13px}.cvk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:4px 0 6px}.cvk div{background:#F7F9FA;border-radius:10px;padding:9px 12px;min-width:0}.cvk span{display:block;font-size:11.5px;color:var(--mute)}.cvk b{display:block;font-size:13.5px;font-weight:600;margin-top:2px;overflow-wrap:anywhere}.cvt{width:100%;border-collapse:collapse;font-size:13px}.cvt th{font-size:11.5px;color:var(--mute);font-weight:600;text-align:left;padding:6px 8px;border-bottom:1px solid var(--line2)}.cvt td{padding:8px;border-bottom:1px solid var(--line2)}.cvt .na{color:#C2CBD0}.cvn{margin:0;color:#B5BFC5;font-size:12.5px}@media(max-width:700px){.cvk{grid-template-columns:1fr 1fr}}.cdempty{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:#FFF8E6;color:#8A5A00;font-size:13px}.cdp{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line2);border-radius:12px;padding:12px}.cdp img,.cdph{width:84px;height:106px;object-fit:cover;border-radius:8px;flex:none;background:#F0F3F5}.cdph{display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--mute)}
 .cdp dl{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:5px 10px;margin:0;font-size:13px;flex:1;min-width:0}.cdp dt{color:var(--mute);font-weight:600}.cdp dd{margin:0}.cdp dd.w{grid-column:span 3}
 .cdpriv>.note{margin:6px 0 12px}
 .csec{margin-top:14px}.csec-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}.csec-h b{font-size:14px}
 .ctab{width:100%;border-collapse:collapse;font-size:12.5px}.ctab th{font-size:11.5px;color:var(--mute);font-weight:600;text-align:left;padding:4px 4px}.ctab td{padding:2px 2px}.ctab .ci{height:32px;padding:0 8px;font-size:13px;width:100%;min-width:70px}.ctab .cx{width:30px}.ctab .csrc{width:70px}
 .ctab tbody:empty::after{content:'없음';display:block;padding:6px 4px;color:#B5BFC5;font-size:12px}
 .cmil{margin-top:10px}.g2x{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
+.rtab td small.sub{display:block;font-size:11.5px;color:var(--mute);font-weight:500;margin-top:2px;max-width:460px;white-space:normal;line-height:1.35}.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
 @media(max-width:700px){.cdp dl{grid-template-columns:auto 1fr}.cdp dd.w{grid-column:auto}}
 .oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
@@ -3994,12 +3994,12 @@ async function cardAutoSync(quiet){
       if(!r){none++;continue}
       const c=cardMerge(cardOf(s),r.card,false);c.updatedAt=nowISO();c.src='인사카드 '+new Date(r.file.mod).toISOString().slice(0,10);
       ops.push({c:'staff',id:s.id,d:{card:c}});eduFromCard(s,r.card.eduRec).forEach(e=>ops.push({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}}));n++}
-    if(ops.length){await st.api.batch(ops);addLog(`인사카드 자동 연동 · ${n}명`,n);const oc=$('#fCard')?.dataset.id;if(oc&&ops.some(o=>o.id===oc))openCard(oc)}
+    if(ops.length){await st.api.batch(ops);addLog(`인사카드 자동 연동 · ${n}명`,n);const oc=$('#fCardV')?.dataset.id;if(oc&&ops.some(o=>o.id===oc))openCard(oc)}
     if(n)toast(`인사카드 ${n}명 연동했어요${none?` · 파일 없는 직원 ${none}명`:''}`);else if(!quiet)toast(`새로 채울 직원이 없어요${none?` · 파일 없는 직원 ${none}명`:''}`);
   }finally{cardSyncing=false}
 }async function cardDirPick(){
   if(!window.showDirectoryPicker){toast('이 브라우저는 폴더 연결을 지원하지 않아요 (Edge · 크롬에서 열어 주세요)');return null}
-  try{const h=await window.showDirectoryPicker({id:'hrcard',mode:'read'});FS.dir=h;FS.list=null;FS.cache.clear();try{await idb('readwrite',s=>s.put(h,NS+'cardDir'))}catch(e){}
+  try{const h=await window.showDirectoryPicker({id:'hrcard',mode:'read'});FS.dir=h;FS.list=null;FS.photos=null;FS.cache.clear();try{await idb('readwrite',s=>s.put(h,NS+'cardDir'))}catch(e){}
     st.cardDirName=h.name;toast(`'${h.name}' 폴더를 연결했어요`);render();return h}catch(e){if(e.name!=='AbortError')toast('폴더를 열지 못했어요: '+e.message);return null}
 }
 async function cardList(ask){
@@ -4083,7 +4083,14 @@ function parseCardTables(T){
   function etcPairs(d){for(let i=0;i<d.length;i++){const l=nk(d[i]);const L=ETC_L.find(x=>nk(x)===l);if(L){const nv=d[i+1]||'';p.etc.push([d[i].trim(),/^(등급|종류)$/.test(nk(nv))?'':cardClean(nv)]);if(!/^(등급|종류)$/.test(nk(nv)))i++}else if(/^(등급|종류)/.test(l)&&d[i].trim().length>2){p.etc.push([d[i].trim().slice(0,2),d[i].trim().slice(2).replace(/^\s*[:：]?\s*/,'')])}}}
   return {card:c,priv:p};
 }
-async function readCard(s,ask){
+/* 사진: 카드 파일에 없으면 인사카드 폴더 안 '사진' 폴더의 이름.jpg · png 를 써요 (그룹웨어에서 받아 넣는 곳) */
+async function cardPhotoFor(s){
+  const d=await cardDirGet(false);if(!d)return null;
+  if(!FS.photos){FS.photos=[];try{const sub=await d.getDirectoryHandle('사진');for await(const [n,h] of sub.entries()){if(h.kind==='file'&&/\.(jpe?g|png|gif|bmp|webp)$/i.test(n))FS.photos.push({n,h})}}catch(e){}}
+  const nm=nk(s.name),hits=FS.photos.filter(x=>{const b=nk(x.n.replace(/\.[^.]+$/,''));return b===nm||(s.empNo&&b===nk(s.empNo))||b.startsWith(nm+'_')||b.startsWith(nm+'(')});
+  if(!hits.length)return null;const fs=await Promise.all(hits.map(x=>x.h.getFile()));fs.sort((a,b)=>b.lastModified-a.lastModified);return fs[0];
+}
+const photoURL=async s=>{try{const f=await cardPhotoFor(s);return f?URL.createObjectURL(f):''}catch(e){return ''}};async function readCard(s,ask){
   const f=await cardFileFor(s,ask);if(!f)return f;
   const key=f.name+'|'+f.lastModified;if(FS.cache.has(key))return FS.cache.get(key);
   const z=await unzipPick(await f.arrayBuffer(),n=>n==='word/document.xml'||n==='word/_rels/document.xml.rels'||/^word\/media\//.test(n));
@@ -4091,6 +4098,7 @@ async function readCard(s,ask){
   // 사진: 문서에 처음 나오는 그림
   try{const rid=(xml.match(/r:embed="([^"]+)"/)||[])[1];if(rid&&z['word/_rels/document.xml.rels']){const rel=new TextDecoder().decode(z['word/_rels/document.xml.rels']);const tg=(rel.match(new RegExp(`Id="${rid}"[^>]*Target="([^"]+)"`))||rel.match(new RegExp(`Target="([^"]+)"[^>]*Id="${rid}"`))||[])[1];const img=tg&&z['word/'+tg.replace(/^\.?\//,'')];if(img){const ext=tg.split('.').pop().toLowerCase();if(/png|jpe?g|gif|bmp/.test(ext))r.priv.photo=URL.createObjectURL(new Blob([img],{type:'image/'+(ext==='jpg'?'jpeg':ext)}))}}}catch(e){}
   r.file={name:f.name,mod:f.lastModified,isNew:r.card.bal.length>0||/발령일자/.test(xml)};
+  if(!r.priv.photo){r.priv.photo=await photoURL(s);r.priv.photoSrc=r.priv.photo?'folder':''}
   FS.cache.set(key,r);return r;
 }
 window.__cardParse=async buf=>{const z=await unzipPick(buf,n=>n==='word/document.xml');return parseCardTables(docxRows(new TextDecoder().decode(z['word/document.xml'])))};
@@ -4103,19 +4111,25 @@ const cardOf=s=>s.card||{};
 const cardFilled=s=>{const c=cardOf(s);return CARD_SECS.some(([k])=>(c[k]||[]).length)||!!(c.mil&&c.mil.branch)};
 function staffTabs(id,on){const s=st.staff.get(id);const n=s?eduOf(s).length:0;return `<div class="segs ptabs stabs">${[['info','기본 정보'],['card','인사카드'],['edu','교육 이수',n]].map(([k,l,c])=>`<button type="button" class="${on===k?'on':''}" data-act="stTab" data-id="${id}" data-v="${k}">${l}${c!=null?`<span class="tc">${c}</span>`:''}</button>`).join('')}</div>`}
 const secRow=(k,cols,o={})=>`<tr>${cols.map(([f])=>`<td><input class="inp ci" data-f="${f}" value="${esc(o[f]||'')}"></td>`).join('')}<td class="cx"><button type="button" class="icon-btn" data-crm="1" aria-label="이 줄 지우기">×</button></td></tr>`;
-async function openCard(id,pre){
-  const s=st.staff.get(id);if(!s)return;const c=pre||structuredClone(cardOf(s));c.mil=c.mil||{};
+/* 인사카드 탭: 기본은 보기, '수정'을 눌러야 고칠 수 있어요 */
+const cardView=(c)=>{const e=v=>esc(v||''),mil=c.mil||{};
+  const sec=([k,l,cols])=>{const R=(c[k]||[]);return `<div class="csec"><div class="csec-h"><b>${l}</b>${R.length?`<span class="tc">${R.length}</span>`:''}</div>${R.length?`<div class="rtw"><table class="cvt"><thead><tr>${cols.map(([,h])=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${R.map(o=>`<tr>${cols.map(([f])=>`<td>${e(o[f])||'<span class="na">—</span>'}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`:'<p class="cvn">없음</p>'}</div>`};
+  return `<div class="cvk"><div><span>성명(영문)</span><b>${e(c.en)||'—'}</b></div><div><span>성명(한자)</span><b>${e(c.hanja)||'—'}</b></div><div><span>이메일</span><b>${e(c.email)||'—'}</b></div>
+    <div><span>병역</span><b>${[mil.type,[mil.branch,mil.rank].filter(Boolean).join(' '),mil.period].filter(Boolean).map(e).join(' · ')||'—'}</b></div></div>
+   ${CARD_SECS.map(sec).join('')}`};
+async function openCard(id,pre,edit){
+  const s=st.staff.get(id);if(!s)return;const c=pre||structuredClone(cardOf(s));c.mil=c.mil||{};edit=!!(edit||pre);
   openLayer(`<div class="modal xwide" role="dialog" aria-label="인사카드"><h2>${esc(s.name)} <small class="h2s">${esc([s.team,s.rank].filter(Boolean).join(' · '))}</small></h2>${staffTabs(id,'card')}
    <div class="cardbar"><span id="cdSrc" class="note">인사카드 파일 확인 중…</span><span class="sp" style="flex:1"></span>
-    <button type="button" class="btn sm" data-act="cardImport" data-id="${id}">파일에서 가져오기</button><button type="button" class="btn sm" data-act="cardWord" data-id="${id}">Word로 저장</button><button type="button" class="btn sm pri" data-act="cardPrint" data-id="${id}">PDF · 인쇄</button></div>
-   <div id="cdPriv" class="cdpriv"></div>${cardFilled(s)?'':'<p class="cdempty">아직 보드에 저장된 인사카드 내용이 없어요. 폴더가 허용되면 파일 내용으로 자동으로 채워지고, 위 <b>파일에서 가져오기</b>로 직접 불러올 수도 있어요.</p>'}
-   <form id="fCard" data-id="${id}">
+    ${edit?`<button type="button" class="btn sm" data-act="cardImport" data-id="${id}">파일에서 가져오기</button>`:`<button type="button" class="btn sm" data-act="cardEdit" data-id="${id}">수정</button>`}<button type="button" class="btn sm" data-act="cardWord" data-id="${id}">Word로 저장</button><button type="button" class="btn sm pri" data-act="cardPrint" data-id="${id}">PDF · 인쇄</button></div>
+   <div id="cdPriv" class="cdpriv"></div>${cardFilled(s)||edit?'':'<p class="cdempty">아직 보드에 저장된 인사카드 내용이 없어요. 폴더가 허용되면 파일 내용으로 자동으로 채워지고, <b>수정 → 파일에서 가져오기</b>로 직접 불러올 수도 있어요.</p>'}
+   ${edit?`<form id="fCard" class="edit" data-id="${id}"><p class="cdedit">수정 중이에요 · 다 고친 뒤 <b>저장</b>을 눌러 주세요</p>
     <div class="g3"><div class="fld"><label>성명(영문)</label><input class="inp" id="cEn" value="${esc(c.en||'')}"></div><div class="fld"><label>성명(한자)</label><input class="inp" id="cHj" value="${esc(c.hanja||'')}"></div><div class="fld"><label>이메일</label><input class="inp" id="cEm" value="${esc(c.email||'')}"></div></div>
     ${CARD_SECS.map(([k,l,cols])=>`<div class="csec"><div class="csec-h"><b>${l}</b><button type="button" class="btn sm" data-cadd="${k}">+ 줄</button></div>
      <div class="rtw"><table class="ctab" data-sec="${k}"><thead><tr>${cols.map(([,h])=>`<th>${h}</th>`).join('')}<th></th></tr></thead><tbody>${(c[k]||[]).map(o=>secRow(k,cols,o)).join('')}</tbody></table></div>${k==='edu'?`<div class="g3 cmil"><div class="fld"><label>병역 · 제대구분</label><input class="inp" id="cMt" value="${esc(c.mil.type||'')}" placeholder="필 / 미필 / 면제 / 특례"></div><div class="fld"><label>군별 · 최종계급</label><div class="g2x"><input class="inp" id="cMb" value="${esc(c.mil.branch||'')}" placeholder="군별"><input class="inp" id="cMr" value="${esc(c.mil.rank||'')}" placeholder="계급"></div></div><div class="fld"><label>복무기간</label><input class="inp" id="cMp" value="${esc(c.mil.period||'')}"></div></div>`:''}</div>`).join('')}
-    <p class="note">교육사항은 '교육 이수' 탭에서 관리해요. 주민번호 · 주소 · 연락처 · 가족 · 기타사항 · 사진은 보드에 저장하지 않고, 인사카드 파일에서 읽어 화면과 출력에만 써요.</p>
-   </form>
-   <div class="acts"><button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="saveCard">저장</button></div></div>`);
+   </form>`:`<div id="fCardV" data-id="${id}">${cardView(c)}</div>`}
+   <p class="note" style="margin-top:12px">교육사항은 '교육 이수' 탭에서 관리해요. 주민번호 · 주소 · 연락처 · 가족 · 기타사항 · 사진은 보드에 저장하지 않고, 인사카드 폴더의 파일에서 읽어 화면과 출력에만 써요.</p>
+   <div class="acts">${edit?`<button class="btn" data-act="cardView" data-id="${id}">취소</button><button class="btn pri" data-act="saveCard">저장</button>`:`<button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="cardEdit" data-id="${id}">수정</button>`}</div></div>`);
   cardPrivPaint(s);
 }
 async function cardPrivPaint(s){
@@ -4123,11 +4137,11 @@ async function cardPrivPaint(s){
   if(!window.showDirectoryPicker){el.textContent='이 브라우저에서는 인사카드 파일을 읽을 수 없어요';return}
   let r;try{r=await readCard(s,true)}catch(e){el.textContent='인사카드 파일을 읽지 못했어요: '+e.message;return}
   if(r===undefined){el.innerHTML=`<span class="cc t-r">${FS.dir?'폴더 허용 필요':'폴더 연결 안 됨'}</span> ${FS.dir?'브라우저를 새로 열면 폴더 읽기를 다시 허용해야 해요':'설정에서 인사카드 폴더를 연결해 주세요'} <button type="button" class="btn sm pri" data-act="cardDir" data-id="${s.id}">${FS.dir?'허용하고 불러오기':'폴더 연결'}</button>`;return}
-  if(r===null){el.innerHTML='<span class="cc t-r">인사카드 파일 없음</span> 폴더에 이 직원 이름의 파일이 없어요';pv.innerHTML='';return}
-  if(!cardFilled(s)&&!(s.card&&s.card.src)){const cc=cardMerge(cardOf(s),r.card,false);cc.updatedAt=nowISO();cc.src='인사카드 '+new Date(r.file.mod).toISOString().slice(0,10);const E=eduFromCard(s,r.card.eduRec);await st.api.batch([{c:'staff',id:s.id,d:{card:cc}},...E.map(e=>({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}}))]);toast('인사카드 파일 내용을 자동으로 채웠어요');return openCard(s.id)}
+  if(r===null){el.innerHTML='<span class="cc t-r">인사카드 파일 없음</span> 폴더에 이 직원 이름의 파일이 없어요';const ph=await photoURL(s);pv.innerHTML=ph?`<div class="cdp"><img src="${ph}" alt="사진"><dl><dt>사진</dt><dd class="w">사진 폴더에서 읽었어요</dd></dl></div>`:'';return}
+  if(!cardFilled(s)&&!(s.card&&s.card.src)){const cc=cardMerge(cardOf(s),r.card,false);cc.updatedAt=nowISO();cc.src='인사카드 '+new Date(r.file.mod).toISOString().slice(0,10);const E=eduFromCard(s,r.card.eduRec);await st.api.batch([{c:'staff',id:s.id,d:{card:cc}},...E.map(e=>({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}}))]);toast('인사카드 파일 내용을 자동으로 채웠어요');if(!$('#fCard.edit'))return openCard(s.id)}
   el.innerHTML=`<span class="cc ${r.file.isNew?'t-g':'t-a'}">${r.file.isNew?'26년 양식':'예전 양식'}</span> ${esc(r.file.name)} · 수정 ${new Date(r.file.mod).toLocaleDateString('ko-KR')}`;
   const P=r.priv,mask=v=>v?esc(v.replace(/(\d{6})\s*[-–]?\s*(\d)\d{6}/,'$1-$2******')):'—';
-  pv.innerHTML=`<div class="cdp">${P.photo?`<img src="${P.photo}" alt="사진">`:'<div class="cdph">사진 없음</div>'}<dl>
+  pv.innerHTML=`<div class="cdp">${P.photo?`<img src="${P.photo}" alt="사진">`:'<div class="cdph">사진 없음</div>'}${P.photoSrc==='folder'?'':''}<dl>
     <dt>주민등록번호</dt><dd>${mask(P.rrn)}</dd><dt>실제생년월일</dt><dd>${esc(P.birth||'—')}</dd><dt>핸드폰</dt><dd>${esc(P.phone||'—')}</dd><dt>비상연락망</dt><dd>${esc(P.emer||'—')}</dd><dt>현주소</dt><dd class="w">${esc(P.addr||'—')}</dd>
     <dt>가족</dt><dd class="w">${P.family.length?P.family.map(f=>esc([f.rel,f.name].filter(Boolean).join(' '))).join(', '):'—'}</dd></dl></div><p class="note">파일에서 읽은 정보예요 (보드에 저장 안 됨) · 주민번호 뒷자리는 출력할 때만 보여요</p>`;
 }
@@ -4138,7 +4152,7 @@ function cardFromForm(){
 }
 async function saveCardForm(close=true){
   const id=$('#fCard').dataset.id,s=st.staff.get(id);if(!s)return;const c=cardFromForm();c.updatedAt=nowISO();
-  await st.api.put('staff',id,{card:c});addLog(`인사카드 수정 · ${s.name}`);if(close)closeLayer();toast('인사카드를 저장했어요');
+  await st.api.put('staff',id,{card:c});addLog(`인사카드 수정 · ${s.name}`);if(close)openCard(id);toast('인사카드를 저장했어요');
 }
 /* 파일 → 보드: 비어 있는 칸만 채우거나(merge) 모두 바꿔요 */
 function cardMerge(cur,inc,replace){
@@ -4153,13 +4167,13 @@ async function cardImportOne(id){
   const s=st.staff.get(id);let r;try{r=await readCard(s,true)}catch(e){toast('파일을 읽지 못했어요: '+e.message);return}
   if(r===undefined){if(await cardDirPick())return cardImportOne(id);return}
   if(r===null){toast('이 직원의 인사카드 파일이 없어요');return}
-  const cur=$('#fCard')?cardFromForm():cardOf(s);const filled=CARD_SECS.some(([k])=>(cur[k]||[]).length);
+  const cur=$('#fCard.edit')?cardFromForm():cardOf(s);const filled=CARD_SECS.some(([k])=>(cur[k]||[]).length);
   const go=async replace=>{const c=cardMerge(cur,r.card,replace);const E=eduFromCard(s,r.card.eduRec);
     if(E.length)await st.api.batch(E.map(e=>({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}})));
-    openCard(id,c);toast(`파일 내용을 넣었어요${E.length?` · 교육 ${E.length}건 추가`:''} — 확인 후 저장을 눌러 주세요`)};
+    openCard(id,c,true);toast(`파일 내용을 넣었어요${E.length?` · 교육 ${E.length}건 추가`:''} — 확인 후 저장을 눌러 주세요`)};
   if(!filled)return go(false);
   openLayer(`<div class="modal" role="alertdialog"><h2>파일에서 가져오기</h2><p>이미 입력한 내용이 있어요. 어떻게 넣을까요?</p><div class="acts"><button class="btn" id="ciBack">취소</button><button class="btn" id="ciFill">빈 칸만 채우기</button><button class="btn pri" id="ciAll">파일 내용으로 모두 바꾸기</button></div></div>`);
-  $('#ciBack').onclick=()=>openCard(id,cur);$('#ciFill').onclick=()=>go(false);$('#ciAll').onclick=()=>go(true);
+  $('#ciBack').onclick=()=>openCard(id,cur,true);$('#ciFill').onclick=()=>go(false);$('#ciAll').onclick=()=>go(true);
 }
 
 /* --- 교육 이수 탭 (직원별) --- */
@@ -4190,13 +4204,13 @@ function vEdu(){
   const sOf=e=>st.staff.get(e.sid)||staffAll().find(s=>s.name===e.name);
   const ppl=new Set(L.map(e=>e.sid||e.name)).size,hrs=L.reduce((a,e)=>a+(+e.hours||0),0);
   const KP=[['교육 기록',L.length+'건',y==='all'?'전체 기간':y+'년'],['이수 인원',ppl+'명',`재직 ${staffOn().length}명 중`],['교육 시간',hrs?hrs+'시간':'–','시간 넣은 기록 기준'],['그룹웨어에서',L.filter(e=>e.src==='그룹웨어').length+'건','자동 반영']];
-  return `<div class="ph"><h1>교육 이수</h1><span class="sp"></span><button class="btn" data-act="eduPaste">붙여넣기</button><div class="desc">직원별 교육 이수 내역이에요. 직원 명부에서 사람을 누르면 '교육 이수' 탭에서 고칠 수 있고, 인사카드를 출력하면 교육사항에 들어가요.</div></div>
+  return `<div class="ph"><h1>교육 이수</h1><span class="sp"></span><button class="btn" data-act="eduGw">그룹웨어 가져오기</button><button class="btn" data-act="eduPaste">붙여넣기</button><div class="desc">직원별 교육 이수 내역이에요. 직원 명부에서 사람을 누르면 '교육 이수' 탭에서 고칠 수 있고, 인사카드를 출력하면 교육사항에 들어가요.</div></div>
    <div class="kpis">${KP.map(([l,v,s])=>`<div class="kp"><span>${l}</span><b>${v}</b><small>${s}</small></div>`).join('')}</div>
    <section class="card rec"><div class="recbar"><input class="fsearch" id="eduQ" placeholder="이름 · 교육명 · 기관 검색" value="${esc(st.eduQ||'')}">
     <select class="fsel" id="eduY">${['all',...years].map(v=>`<option value="${v}" ${v===y?'selected':''}>${v==='all'?'전체 기간':v+'년'}</option>`).join('')}</select>
     <div class="segs">${['',...EDU_KINDS].map(k=>`<button class="${fk===k?'on':''}" data-act="eduK" data-v="${k}">${k||'전체'}</button>`).join('')}</div><span class="sp" style="flex:1"></span><span class="note">${L.length}건</span></div>
    ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>기간</th><th>이름</th><th>부서</th><th>교육명</th><th>구분</th><th>교육기관</th><th class="n">시간</th><th>출처</th></tr></thead><tbody>
-   ${L.map(e=>{const s=sOf(e);return `<tr><td class="dt">${eduSpan(e)||'—'}</td><td class="nm" ${s?`data-edus="${s.id}"`:''}><b>${esc(e.name||'')}</b></td><td>${esc(s?.team||'—')}</td><td><b>${esc(e.title)}</b>${e.note?`<small class="sub">${esc(e.note)}</small>`:''}</td><td>${e.kind?`<span class="cc t-s">${esc(e.kind)}</span>`:'—'}</td><td>${esc(e.org||'—')}</td><td class="n">${e.hours||'—'}</td><td>${e.src&&e.src!=='보드'?`<span class="cc ${e.src==='그룹웨어'?'t-b':'t-s'}">${esc(e.src)}</span>`:'<span class="note">직접</span>'}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">교육 기록이 없어요.</div>'}</section>`;
+   ${L.map(e=>{const s=sOf(e);return `<tr><td class="dt">${eduSpan(e)||'—'}${(e.start||'')>today()?' <span class="cc t-a">예정</span>':''}</td><td class="nm" ${s?`data-edus="${s.id}"`:''}><b>${esc(e.name||'')}</b></td><td>${esc(s?.team||'—')}</td><td><b>${esc(e.title)}</b>${e.note?`<small class="sub">${esc(e.note)}</small>`:''}</td><td>${e.kind?`<span class="cc t-s">${esc(e.kind)}</span>`:'—'}</td><td>${esc(e.org||'—')}</td><td class="n">${e.hours||'—'}</td><td>${e.src&&e.src!=='보드'?`<span class="cc ${e.src==='그룹웨어'?'t-b':'t-s'}">${esc(e.src)}</span>`:'<span class="note">직접</span>'}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">교육 기록이 없어요.</div>'}</section>`;
 }
 function openEduPaste(){
   openLayer(`<div class="modal wide" role="dialog" aria-label="교육 붙여넣기"><h2>교육 이수 붙여넣기</h2>
@@ -4236,7 +4250,7 @@ function cardHTML(s,c,P,edu){
   const lic=c.lic||[],licR=[];for(let i=0;i<Math.max(3,Math.ceil(lic.length/2));i++)licR.push([lic[i*2]||{},lic[i*2+1]||{}]);
   const et=Object.fromEntries((P.etc||[]).map(([k,v])=>[nk(k),v]));const ev=k=>e(et[nk(k)]);
   const bal=(c.bal||[]).slice();if(s.joinDate&&!bal.some(b=>/입사/.test(b.kind||'')))bal.unshift({date:s.joinDate.replace(/-/g,'.'),kind:'입사',rank:s.rank||'',ord:s.team||'',note:''});
-  const ed=(edu||[]).slice().sort((a,b)=>(a.start||'').localeCompare(b.start||''));
+  const ed=(edu||[]).filter(x=>!x.start||x.start<=today()).sort((a,b)=>(a.start||'').localeCompare(b.start||''));
   const pr=c.prize||[],di=c.disc||[],pdN=Math.max(6,pr.length,di.length);
   return `<div class="pg"><h1>인 사 기 록 카 드</h1>
   <table><colgroup><col style="width:105px"><col style="width:88px"><col><col style="width:80px"><col></colgroup>
@@ -4272,7 +4286,7 @@ async function cardBundle(ids,ask=true){
   for(const id of ids){const s=st.staff.get(id);if(!s)continue;let r=null;
     if(!noDir&&window.showDirectoryPicker){try{r=await readCard(s,ask&&!out.length)}catch(e){r=null}if(r===undefined){noDir=true;r=null}}
     if(!r&&!noDir)noFile++;
-    let P=r?.priv;if(P&&P.photo&&P.photo.startsWith('blob:')){try{P={...P,photo:await blobToData(P.photo)}}catch(e){}}
+    let P=r?.priv;if(!P&&!noDir){const ph=await photoURL(s);if(ph)P={family:[],etc:[],photo:ph}}if(P&&P.photo&&P.photo.startsWith('blob:')){try{P={...P,photo:await blobToData(P.photo)}}catch(e){}}
     out.push({s,html:cardHTML(s,cardOf(s),P,eduOf(s))})}
   return {out,noFile,noDir};
 }
@@ -4536,9 +4550,9 @@ const ACT={
   newTrn:()=>openTrn(null),saveTrn:()=>saveTrnForm(),trnPaste:()=>openTrnPaste(),trnPasteGo:()=>trnPasteGo(),
   trnTab:a=>{st.trnTab=a.dataset.v;render()},
   stTab:a=>{const id=a.dataset.id,v=a.dataset.v;if(v==='info')openStaff(id);else if(v==='card')openCard(id);else openEduTab(id)},
-  cardImport:a=>cardImportOne(a.dataset.id),cardPrint:a=>cardPrint([a.dataset.id]),cardWord:a=>cardWord([a.dataset.id]),saveCard:()=>saveCardForm(),
-  cardDir:async a=>{const ok=FS.dir?await cardDirGet(true):null;if(!ok&&!await cardDirPick())return;FS.list=null;await cardAutoSync(false);if(a.dataset.id&&st.staff.get(a.dataset.id))openCard(a.dataset.id);else render()},
-  cardBulk:()=>openCardBulk(),cardBulkGo:a=>cardBulkGo(a.dataset.v),saveEdu:()=>saveEduForm(),eduPaste:()=>openEduPaste(),eduPasteGo:()=>eduPasteGo(),eduK:a=>{st.eduK=a.dataset.v;render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
+  cardImport:a=>cardImportOne(a.dataset.id),cardEdit:a=>openCard(a.dataset.id,null,true),cardView:a=>openCard(a.dataset.id),cardPrint:a=>cardPrint([a.dataset.id]),cardWord:a=>cardWord([a.dataset.id]),saveCard:()=>saveCardForm(),
+  cardDir:async a=>{const ok=FS.dir?await cardDirGet(true):null;if(!ok&&!await cardDirPick())return;FS.list=null;FS.photos=null;await cardAutoSync(false);if(a.dataset.id&&st.staff.get(a.dataset.id))openCard(a.dataset.id);else render()},
+  cardBulk:()=>openCardBulk(),cardBulkGo:a=>cardBulkGo(a.dataset.v),saveEdu:()=>saveEduForm(),eduPaste:()=>openEduPaste(),eduGw:()=>{const i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=async()=>{const f=i.files[0];if(!f)return;let j;try{j=JSON.parse(await f.text())}catch(e){toast('파일을 읽지 못했어요');return}const R=Array.isArray(j)?j:j.records;if(!Array.isArray(R)){toast('그룹웨어 교육이수 파일이 아니에요');return}const r=await eduIngest(R,'그룹웨어');toast(`그룹웨어에서 ${r.n}건 넣었어요${r.skip?` · 이미 있는 ${r.skip}건 건너뜀`:''}${r.miss.length?` · 명부에 없는 이름 ${r.miss.length}명`:''}`)};i.click()},eduPasteGo:()=>eduPasteGo(),eduK:a=>{st.eduK=a.dataset.v;render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
   delSch:a=>{const id=a.dataset.id;openConfirm('이 학교와 기록을 삭제할까요?',async()=>{await st.api.remove('schools',id);closeLayer();toast('삭제했어요')})},
   trnP:a=>{st.trnP=a.dataset.v;render()},trnS:a=>{st.trnS=a.dataset.v;render()},
   trnDec:async a=>{const t=st.trainees.get(a.dataset.id);if(!t)return;await st.api.put('trainees',t.id,{dec:a.dataset.v,decAt:today(),updatedAt:nowISO()});addLog(`대학생인턴 채용 여부 · ${t.name} → ${a.dataset.v}`);toast(a.dataset.v==='채용'?'채용 전환으로 정했어요':'미채용으로 정했어요')},

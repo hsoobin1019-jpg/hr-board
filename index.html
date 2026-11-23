@@ -1255,7 +1255,7 @@ button.oc-who:hover{background:#E5EAF4}
 .fld>label .btn.sm{margin-left:8px;height:24px;padding:0 9px;font-size:12px}.modal.xwide{width:min(1080px,calc(100vw - 32px))}.h2s{font-size:13px;color:var(--mute);font-weight:500;margin-left:6px}
 .stabs{margin:-4px 0 14px}
 .cardbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 12px;background:#F5F8FA;border-radius:12px;margin-bottom:12px}.cardbar .note{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.cdpriv:empty{display:none}.cdp{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line2);border-radius:12px;padding:12px}.cdp img,.cdph{width:84px;height:106px;object-fit:cover;border-radius:8px;flex:none;background:#F0F3F5}.cdph{display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--mute)}
+.cdpriv:empty{display:none}.cdempty{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:#FFF8E6;color:#8A5A00;font-size:13px}.cdp{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line2);border-radius:12px;padding:12px}.cdp img,.cdph{width:84px;height:106px;object-fit:cover;border-radius:8px;flex:none;background:#F0F3F5}.cdph{display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--mute)}
 .cdp dl{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:5px 10px;margin:0;font-size:13px;flex:1;min-width:0}.cdp dt{color:var(--mute);font-weight:600}.cdp dd{margin:0}.cdp dd.w{grid-column:span 3}
 .cdpriv>.note{margin:6px 0 12px}
 .csec{margin-top:14px}.csec-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}.csec-h b{font-size:14px}
@@ -2493,7 +2493,7 @@ function vSettings(){
    <b>정기업무 기본 미리 만들기</b><div><input class="fsel" type="number" min="1" max="90" id="sLead" value="${s.lead||14}" style="width:80px"> 일 전</div></div>
   </section>
   <section class="card"><div class="card-h"><h2>인사카드</h2></div>
-   <div class="kv"><b>인사카드 폴더</b><div>${FS.dir?`<span class="cc t-g">연결됨</span> ${esc(FS.dir.name)} `:'<span class="cc t-s">연결 안 됨</span> '}<button class="btn sm" data-act="cardDir">${FS.dir?'다시 연결 · 허용':'폴더 연결'}</button><p class="note" style="margin:6px 0 0">회사 PC에서 인사카드 Word 파일이 있는 폴더를 골라 주세요. 파일은 이 브라우저에서만 읽고, 주민번호 · 주소 · 연락처 · 가족 · 사진은 어디에도 저장하지 않아요.</p></div>
+   <div class="kv"><b>인사카드 폴더</b><div>${FS.dir?(FS.perm==='granted'?`<span class="cc t-g">연결됨</span> ${esc(FS.dir.name)} `:`<span class="cc t-a">허용 필요</span> ${esc(FS.dir.name)} `):'<span class="cc t-s">연결 안 됨</span> '}<button class="btn sm" data-act="cardDir">${FS.dir?'다시 연결 · 허용':'폴더 연결'}</button><p class="note" style="margin:6px 0 0">회사 PC에서 인사카드 Word 파일이 있는 폴더를 골라 주세요. 파일은 이 브라우저에서만 읽고, 주민번호 · 주소 · 연락처 · 가족 · 사진은 어디에도 저장하지 않아요.</p></div>
    <b>출력 하단 회사명</b><div><input class="fsel" id="sCardCo" value="${esc(s.cardCo||'')}" placeholder="예) (주)회사명" style="width:240px"></div></div>
   </section>
   <section class="card"><div class="card-h"><h2>입·퇴사 후속 업무</h2><span class="sp"></span><span class="note">한 줄에 하나씩 · 업무명 | 기준일로부터(+일수, 다음달15) | 분류</span></div>
@@ -3976,7 +3976,8 @@ const eduSpan=e=>[e.start,e.end&&e.end!==e.start?e.end:''].filter(Boolean).map(x
 const FS={dir:null,list:null,cache:new Map()};
 const idb=(mode,fn)=>new Promise((ok,no)=>{const r=indexedDB.open('hrb-fs',1);r.onupgradeneeded=()=>r.result.createObjectStore('h');r.onerror=()=>no(r.error);r.onsuccess=()=>{try{const t=r.result.transaction('h',mode),s=t.objectStore('h'),q=fn(s);t.oncomplete=()=>ok(q?.result);t.onerror=()=>no(t.error)}catch(e){no(e)}}});
 async function cardDirGet(ask){
-  if(FS.dir){if(await FS.dir.queryPermission({mode:'read'})==='granted')return FS.dir;if(ask&&await FS.dir.requestPermission({mode:'read'})==='granted')return FS.dir;return null}
+  if(FS.dir){const was=FS.perm;FS.perm=await FS.dir.queryPermission({mode:'read'});if(FS.perm!=='granted'&&ask){try{FS.perm=await FS.dir.requestPermission({mode:'read'})}catch(e){}}
+    if(FS.perm==='granted'){if(!FS.synced){FS.synced=true;setTimeout(()=>cardAutoSync(!ask),0)}if(was!=='granted'&&!ask)render();return FS.dir}return null}
   let h=null;try{h=await idb('readonly',s=>s.get(NS+'cardDir'))}catch(e){}
   if(h){FS.dir=h;return cardDirGet(ask)}
   return null;
@@ -3993,7 +3994,7 @@ async function cardAutoSync(quiet){
       if(!r){none++;continue}
       const c=cardMerge(cardOf(s),r.card,false);c.updatedAt=nowISO();c.src='인사카드 '+new Date(r.file.mod).toISOString().slice(0,10);
       ops.push({c:'staff',id:s.id,d:{card:c}});eduFromCard(s,r.card.eduRec).forEach(e=>ops.push({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}}));n++}
-    if(ops.length){await st.api.batch(ops);addLog(`인사카드 자동 연동 · ${n}명`,n)}
+    if(ops.length){await st.api.batch(ops);addLog(`인사카드 자동 연동 · ${n}명`,n);const oc=$('#fCard')?.dataset.id;if(oc&&ops.some(o=>o.id===oc))openCard(oc)}
     if(n)toast(`인사카드 ${n}명 연동했어요${none?` · 파일 없는 직원 ${none}명`:''}`);else if(!quiet)toast(`새로 채울 직원이 없어요${none?` · 파일 없는 직원 ${none}명`:''}`);
   }finally{cardSyncing=false}
 }async function cardDirPick(){
@@ -4107,7 +4108,7 @@ async function openCard(id,pre){
   openLayer(`<div class="modal xwide" role="dialog" aria-label="인사카드"><h2>${esc(s.name)} <small class="h2s">${esc([s.team,s.rank].filter(Boolean).join(' · '))}</small></h2>${staffTabs(id,'card')}
    <div class="cardbar"><span id="cdSrc" class="note">인사카드 파일 확인 중…</span><span class="sp" style="flex:1"></span>
     <button type="button" class="btn sm" data-act="cardImport" data-id="${id}">파일에서 가져오기</button><button type="button" class="btn sm" data-act="cardWord" data-id="${id}">Word로 저장</button><button type="button" class="btn sm pri" data-act="cardPrint" data-id="${id}">PDF · 인쇄</button></div>
-   <div id="cdPriv" class="cdpriv"></div>
+   <div id="cdPriv" class="cdpriv"></div>${cardFilled(s)?'':'<p class="cdempty">아직 보드에 저장된 인사카드 내용이 없어요. 폴더가 허용되면 파일 내용으로 자동으로 채워지고, 위 <b>파일에서 가져오기</b>로 직접 불러올 수도 있어요.</p>'}
    <form id="fCard" data-id="${id}">
     <div class="g3"><div class="fld"><label>성명(영문)</label><input class="inp" id="cEn" value="${esc(c.en||'')}"></div><div class="fld"><label>성명(한자)</label><input class="inp" id="cHj" value="${esc(c.hanja||'')}"></div><div class="fld"><label>이메일</label><input class="inp" id="cEm" value="${esc(c.email||'')}"></div></div>
     ${CARD_SECS.map(([k,l,cols])=>`<div class="csec"><div class="csec-h"><b>${l}</b><button type="button" class="btn sm" data-cadd="${k}">+ 줄</button></div>
@@ -4120,8 +4121,8 @@ async function openCard(id,pre){
 async function cardPrivPaint(s){
   const el=$('#cdSrc'),pv=$('#cdPriv');if(!el)return;
   if(!window.showDirectoryPicker){el.textContent='이 브라우저에서는 인사카드 파일을 읽을 수 없어요';return}
-  let r;try{r=await readCard(s,false)}catch(e){el.textContent='인사카드 파일을 읽지 못했어요: '+e.message;return}
-  if(r===undefined){el.innerHTML=`인사카드 폴더가 연결되지 않았어요 <button type="button" class="btn sm" data-act="cardDir" data-id="${s.id}">${FS.dir?'폴더 다시 허용':'폴더 연결'}</button>`;return}
+  let r;try{r=await readCard(s,true)}catch(e){el.textContent='인사카드 파일을 읽지 못했어요: '+e.message;return}
+  if(r===undefined){el.innerHTML=`<span class="cc t-r">${FS.dir?'폴더 허용 필요':'폴더 연결 안 됨'}</span> ${FS.dir?'브라우저를 새로 열면 폴더 읽기를 다시 허용해야 해요':'설정에서 인사카드 폴더를 연결해 주세요'} <button type="button" class="btn sm pri" data-act="cardDir" data-id="${s.id}">${FS.dir?'허용하고 불러오기':'폴더 연결'}</button>`;return}
   if(r===null){el.innerHTML='<span class="cc t-r">인사카드 파일 없음</span> 폴더에 이 직원 이름의 파일이 없어요';pv.innerHTML='';return}
   if(!cardFilled(s)&&!(s.card&&s.card.src)){const cc=cardMerge(cardOf(s),r.card,false);cc.updatedAt=nowISO();cc.src='인사카드 '+new Date(r.file.mod).toISOString().slice(0,10);const E=eduFromCard(s,r.card.eduRec);await st.api.batch([{c:'staff',id:s.id,d:{card:cc}},...E.map(e=>({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}}))]);toast('인사카드 파일 내용을 자동으로 채웠어요');return openCard(s.id)}
   el.innerHTML=`<span class="cc ${r.file.isNew?'t-g':'t-a'}">${r.file.isNew?'26년 양식':'예전 양식'}</span> ${esc(r.file.name)} · 수정 ${new Date(r.file.mod).toLocaleDateString('ko-KR')}`;

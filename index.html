@@ -1262,7 +1262,7 @@ button.oc-who:hover{background:#E5EAF4}
 .ctab{width:100%;border-collapse:collapse;font-size:12.5px}.ctab th{font-size:11.5px;color:var(--mute);font-weight:600;text-align:left;padding:4px 4px}.ctab td{padding:2px 2px}.ctab .ci{height:32px;padding:0 8px;font-size:13px;width:100%;min-width:70px}.ctab .cx{width:30px}.ctab .csrc{width:70px}
 .ctab tbody:empty::after{content:'없음';display:block;padding:6px 4px;color:#B5BFC5;font-size:12px}
 .cmil{margin-top:10px}.g2x{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.rtab td small.sub{display:block;font-size:11.5px;color:var(--mute);font-weight:500;margin-top:2px;max-width:460px;white-space:normal;line-height:1.35}.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
+.rtab td small.sub{display:block;font-size:11.5px;color:var(--mute);font-weight:500;margin-top:2px;max-width:460px;white-space:normal;line-height:1.35}.ros-f{display:flex;flex-direction:column;gap:8px;margin:12px 0 2px}.rfr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ros-f .rfl{width:40px;flex:none}.ros-f .rfl{font-size:12px;font-weight:700;color:var(--mute);margin-left:4px}.ros-f .segs button .tc{margin-left:4px}.rtog{height:34px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:4px}.rtog.on{border-color:#00A1B9;background:#F0FAFC;color:#008197;box-shadow:0 0 0 1px #00A1B9 inset}.ros-f .rsub{margin-left:48px;width:fit-content}.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
 @media(max-width:700px){.cdp dl{grid-template-columns:auto 1fr}.cdp dd.w{grid-column:auto}}
 .oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
@@ -3449,6 +3449,15 @@ const RS_COLS={name:['이름',s=>s.name||''],team:['부서',s=>teamOf(s)],rank:[
 function rosterCmp(){const so=st.ssort;if(!so||!RS_COLS[so.k])return orgCmp;const f=RS_COLS[so.k][1],d=so.d==='desc'?-1:1;
   return (a,b)=>{const x=f(a),y=f(b);const c=typeof x==='number'?x-y:String(x).localeCompare(String(y),'ko');return c*d||orgCmp(a,b)}}
 const rsTh=k=>{const so=st.ssort,on=so&&so.k===k;return `<th class="srt ${on?'on':''}"><button data-act="ssort" data-k="${k}" aria-label="${RS_COLS[k][0]} 정렬">${RS_COLS[k][0]}<i>${on?(so.d==='desc'?'▼':'▲'):'↕'}</i></button></th>`};
+/* 직원 명부 필터: 사업부 · 팀장만 · 조직도(설정의 조직 구조) */
+function orgFilterTree(){
+  const o=S().orgTree;if(!o)return [];const tm=it=>typeof it==='string'?[it]:(it.teams&&it.teams.length?it.teams:[]);const out=[];
+  (o.units||[]).forEach((u,i)=>{const subs=(u.groups||[]).map((g,j)=>({key:`u${i}g${j}`,label:g.name,teams:new Set([...(g.head||[]),...(g.items||[]).flatMap(tm)])})).filter(g=>g.label&&g.teams.size);
+    const all=new Set([...(u.head||[]),...(u.groups||[]).flatMap(g=>[...(g.head||[]),...(g.items||[]).flatMap(tm)])]);if(all.size)out.push({key:'u'+i,label:u.name,teams:all,subs})});
+  if(o.side&&(o.side.teams||[]).length)out.push({key:'side',label:o.side.label,teams:new Set(o.side.teams),subs:[]});
+  const top=(o.top||[]).flatMap(t=>t.teams||[]);if(top.length)out.push({key:'top',label:'임원',teams:new Set(top),subs:[]});
+  return out;
+}
 function vRoster(){
   const q=(st.sq||'').toLowerCase(),fs=['재직','수습','휴직','퇴사','전체'].includes(st.sfs)?st.sfs:'재직',ft=st.sft||'';
   const A=staffAll(),td=today();
@@ -3457,7 +3466,13 @@ function vRoster(){
   const tO=t=>Math.min(9999,...A.filter(s=>teamOf(s)===t).map(tordOf));
   const teams=[...new Set(A.map(teamOf))].sort((a,b)=>tO(a)-tO(b)||a.localeCompare(b));
   const sel=st.ssel||(st.ssel=new Set());[...sel].forEach(id=>{if(!st.staff.has(id))sel.delete(id)});
-  const L=A.filter(s=>SF[fs](s)&&(!ft||teamOf(s)===ft)&&(!q||[s.name,s.team,s.div,s.rank,s.job,s.memo,s.empNo].join(' ').toLowerCase().includes(q)))
+  const OT=orgFilterTree(),known=new Set(OT.flatMap(u=>[...u.teams]));
+  const og=st.sorg||'',ou=OT.find(u=>og===u.key||og.startsWith(u.key+'g')),osub=ou&&ou.subs.find(g=>g.key===og);
+  const inOrg=s=>!og||(og==='etc'?!known.has(teamOf(s)):(osub||ou)?(osub||ou).teams.has(teamOf(s)):true);
+  const dv=st.sdiv||'',ldr=!!st.sldr,B=A.filter(SF[fs]);
+  const divs=[...new Set(B.map(s=>s.div||''))].filter(Boolean).sort((a,b)=>B.filter(s=>s.div===b).length-B.filter(s=>s.div===a).length);
+  const pass=(s,skip)=>(skip==='div'||!dv||(s.div||'')===dv)&&(skip==='ldr'||!ldr||s.leader)&&(skip==='org'||inOrg(s));
+  const L=A.filter(s=>SF[fs](s)&&pass(s)&&(!ft||teamOf(s)===ft)&&(!q||[s.name,s.team,s.div,s.rank,s.job,s.memo,s.empNo].join(' ').toLowerCase().includes(q)))
     .sort(rosterCmp());
   const so=st.ssort,smode=!so?'org':so.k==='rank'&&so.d==='desc'?'rank':so.k==='name'&&so.d==='asc'?'name':so.k==='join'&&so.d==='asc'?'join':'';
   const grouped=!so;
@@ -3472,9 +3487,14 @@ function vRoster(){
     if(s.etype==='계약'&&s.cEnd)c.push(`<span class="cc ${s.cDec?'t-s':'t-c'}">계약 ~${md(s.cEnd)}${s.cDec?' · '+esc(s.cDec):''}</span>`);return c.join(' ')||'—'};
   return `<section class="card rec"><div class="recbar ros-top"><label class="ssearch">${ic('search',18)}<input id="sQ" placeholder="이름, 부서, 직급, 사번으로 검색" value="${esc(st.sq||'')}"></label>
     <div class="schips">${['재직','수습','휴직','퇴사','전체'].map(x=>`<button class="schip ${fs===x?'on':''}" data-act="sfs" data-v="${x}">${x}<b>${A.filter(SF[x]).length}</b></button>`).join('')}</div>
-    <select class="fsel" id="sFt" aria-label="부서"><option value="">부서 전체</option>${teams.map(t=>`<option ${ft===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+    <select class="fsel" id="sFt" aria-label="부서"><option value="">부서 전체</option>${teams.filter(t=>t===ft||B.some(s=>teamOf(s)===t&&pass(s))).map(t=>`<option ${ft===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+   <div class="ros-f"><div class="rfr"><span class="rfl">사업부</span><div class="segs">${['',...divs].map(d=>`<button class="${dv===d?'on':''}" data-act="sdiv" data-v="${esc(d)}">${d?esc(d.replace(/사업부$/,'')):'전체'}<span class="tc">${B.filter(s=>(!d||s.div===d)&&pass(s,'div')).length}</span></button>`).join('')}</div>
+    <button class="rtog ${ldr?'on':''}" data-act="sldr" aria-pressed="${ldr}">팀장만<span class="tc">${B.filter(s=>s.leader&&pass(s,'ldr')).length}</span></button>${dv||ldr||og?'<button class="btn sm" data-act="sfClr">필터 해제</button>':''}</div>
+    ${OT.length?`<div class="rfr"><span class="rfl">조직</span><div class="segs">${[{key:'',label:'전체'},...OT].map(u=>{const on=u.key?(og===u.key||og.startsWith(u.key+'g')):!og;const n=u.key?B.filter(s=>u.teams.has(teamOf(s))&&pass(s,'org')).length:null;return n===0&&!on?'':`<button class="${on?'on':''}" data-act="sorg" data-v="${u.key}">${esc(u.label)}${n!=null?`<span class="tc">${n}</span>`:''}</button>`}).join('')}${(()=>{const n=B.filter(s=>!known.has(teamOf(s))&&pass(s,'org')).length;return n?`<button class="${og==='etc'?'on':''}" data-act="sorg" data-v="etc" title="조직 구조에 없는 부서">미분류<span class="tc">${n}</span></button>`:''})()}</div></div>`:''}
+    ${ou&&ou.subs.length?`<div class="segs rsub">${[{key:ou.key,label:'전체'},...ou.subs].map(g=>`<button class="${og===g.key?'on':''}" data-act="sorg" data-v="${g.key}">${esc(g.label)}<span class="tc">${B.filter(s=>(g.teams||ou.teams).has(teamOf(s))&&pass(s,'org')).length}</span></button>`).join('')}</div>`:''}
+    </div>
    ${chk.length?`<div class="schk"><div class="schk-h">확인이 필요해요</div><div class="schk-l">${chk.slice(0,4).map(x=>{const n=diffD(x.d,td);return `<button class="schk-i" data-act="goTrack"><span><b>${esc(x.s.name)}</b><em>${x.kind}${n<0?'됨 · 결과 필요':` ${dfmt(n)}`}</em><small>${esc([x.s.team,x.s.rank].filter(Boolean).join(' · '))}</small></span><i>›</i></button>`}).join('')}</div>${chk.length>4?`<button class="sgmore" data-act="goTrack">${chk.length-4}건 더 보기</button>`:''}</div>`:''}
-   <div class="recbar ros-sub"><b class="ros-cnt">${fs==='전체'?'전체':fs} ${L.length}명</b>${ft?`<span class="note">${esc(ft)}</span>`:''}<span class="sp" style="flex:1"></span>
+   <div class="recbar ros-sub"><b class="ros-cnt">${fs==='전체'?'전체':fs} ${L.length}명</b>${[dv&&dv.replace(/사업부$/,' 사업부'),ldr&&'팀장만',og&&(osub?ou.label+' › '+osub.label:og==='etc'?'미분류':ou?.label),ft].filter(Boolean).map(x=>`<span class="note">${esc(x)}</span>`).join(' · ')}<span class="sp" style="flex:1"></span>
     ${sel.size?`<span class="ssbar"><b>${sel.size}명 선택</b><button class="btn sm dan" data-act="ssDel">선택 삭제</button><button class="btn sm" data-act="ssClr">해제</button></span>`:''}<button class="btn sm" data-act="cardBulk">인사카드 출력 · 저장</button>
     <div class="segs ssm">${[['org','사업부·부서순'],['rank','직급순'],['name','가나다순'],['join','입사일순']].map(([k,l])=>`<button class="${smode===k?'on':''}" data-act="ssMode" data-v="${k}">${l}</button>`).join('')}</div><button class="btn sm" data-act="csvStaff">CSV</button></div>
    ${L.length?`<div class="rtw"><table class="rtab ros"><thead><tr><th class="ck"><input type="checkbox" class="ssAll" aria-label="모두 선택" ${L.length&&L.every(s=>sel.has(s.id))?'checked':''}></th>${['name','team','rank','job','etype','join','ten'].map(rsTh).join('')}<th>수습 · 계약</th>${rsTh('status')}<th>메모</th><th></th></tr></thead><tbody>
@@ -3970,6 +3990,12 @@ const EDU_KINDS=['법정의무','직무','사내','외부','자격','기타'];
 const EDU_COLS=[['title','교육명'],['kind','교육구분'],['start','시작일'],['end','종료일'],['org','교육기관'],['hours','시간'],['note','비고']];
 const eduAll=()=>[...(st.edu?.values()||[])];
 const eduOf=s=>eduAll().filter(e=>e.sid===s.id||(!e.sid&&e.name===s.name)||(s.empNo&&e.empNo===s.empNo)).sort((a,b)=>(b.start||'').localeCompare(a.start||''));
+/* 같은 교육 · 정기교육은 사람마다 최신 1건만 (나머지는 '총 n회'로) */
+const EDU_FAM=[[/관리감독자/,'관리감독자 교육'],[/산업안전보건\s*정기|안전보건\s*정기교육/,'산업안전보건 정기교육'],[/지게차/,'지게차 교육'],[/안전보건관리책임자/,'안전보건관리책임자 교육'],[/안전보건관리담당자/,'안전보건관리담당자 교육'],[/소방안전관리자/,'소방안전관리자 교육'],[/산업기능요원/,'산업기능요원 복무교육'],[/성희롱/,'성희롱 예방교육'],[/개인정보/,'개인정보 보호교육'],[/장애인/,'장애인 인식개선교육'],[/괴롭힘/,'직장 내 괴롭힘 예방교육'],[/퇴직연금/,'퇴직연금 교육'],[/연말정산/,'연말정산 교육'],[/안전보건지킴이/,'안전보건지킴이 교육'],[/^법정의무교육$/,'법정의무교육'],[/i?cad\s*(plus)?\s*.*정기/i,'iCAD 정기교육']];
+const eduKey=t=>{t=String(t||'');for(const [re,k] of EDU_FAM)if(re.test(t))return k;
+  return t.replace(/\(.*?\)|\[.*?\]/g,' ').replace(/\d{6,8}|\d{2,4}\s*년도?|\d{1,2}\s*월|\d+\s*차|\d+\s*(시간|h|hr)\b|(상|하)반기/gi,' ').replace(/참석의?\s*건|참가\s*신청|신청의?\s*건|신청서?|참석|의\s*건/g,' ').replace(/[^가-힣A-Za-z0-9]/g,'').toLowerCase()||t};
+function eduLatest(L){const m=new Map();L.forEach(e=>{const k=eduKey(e.title);(m.get(k)||m.set(k,[]).get(k)).push(e)});
+  return [...m.values()].map(g=>{g.sort((a,b)=>(b.start||'').localeCompare(a.start||''));return {...g[0],times:g.length,famTitle:EDU_FAM.some(([re])=>re.test(g[0].title||''))?eduKey(g[0].title):''}})}const eduPreJoin=(e,s)=>!!(s&&s.joinDate&&e.start&&e.start<addD(s.joinDate,-60));
 const eduSpan=e=>[e.start,e.end&&e.end!==e.start?e.end:''].filter(Boolean).map(x=>x.replace(/-/g,'.')).join(' ~ ');
 
 /* --- 인사카드 폴더 (브라우저가 기억, 서버로 안 보냄) --- */
@@ -4200,17 +4226,19 @@ async function saveEduForm(){
 function vEdu(){
   const y=st.eduY||today().slice(0,4),fk=st.eduK||'',q=(st.eduQ||'').toLowerCase();
   const A=eduAll(),years=[...new Set(A.map(e=>(e.start||'').slice(0,4)).filter(Boolean).concat(today().slice(0,4)))].sort().reverse();
-  const L=A.filter(e=>(y==='all'||(e.start||'').startsWith(y))&&(!fk||e.kind===fk)&&(!q||[e.name,e.title,e.org,e.note].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.start||'').localeCompare(a.start||'')||(a.name||'').localeCompare(b.name||''));
+  const lt=st.eduLt!==false;let L0=A.filter(e=>(y==='all'||(e.start||'').startsWith(y))&&(!fk||e.kind===fk)&&(!q||[e.name,e.title,e.org,e.note].join(' ').toLowerCase().includes(q)));
+  if(lt){const g=new Map();L0.forEach(e=>{const k=e.sid||e.name;(g.get(k)||g.set(k,[]).get(k)).push(e)});L0=[...g.values()].flatMap(eduLatest)}
+  const L=L0.sort((a,b)=>(b.start||'').localeCompare(a.start||'')||(a.name||'').localeCompare(b.name||''));
   const sOf=e=>st.staff.get(e.sid)||staffAll().find(s=>s.name===e.name);
   const ppl=new Set(L.map(e=>e.sid||e.name)).size,hrs=L.reduce((a,e)=>a+(+e.hours||0),0);
-  const KP=[['교육 기록',L.length+'건',y==='all'?'전체 기간':y+'년'],['이수 인원',ppl+'명',`재직 ${staffOn().length}명 중`],['교육 시간',hrs?hrs+'시간':'–','시간 넣은 기록 기준'],['그룹웨어에서',L.filter(e=>e.src==='그룹웨어').length+'건','자동 반영']];
+  const KP=[[lt?'교육 (최신 기준)':'교육 기록',L.length+'건',(y==='all'?'전체 기간':y+'년')+(lt?' · 같은 교육 묶음':'')],['이수 인원',ppl+'명',`재직 ${staffOn().length}명 중`],['교육 시간',hrs?hrs+'시간':'–','시간 넣은 기록 기준'],['그룹웨어에서',L.filter(e=>e.src==='그룹웨어').length+'건','자동 반영']];
   return `<div class="ph"><h1>교육 이수</h1><span class="sp"></span><button class="btn" data-act="eduGw">그룹웨어 가져오기</button><button class="btn" data-act="eduPaste">붙여넣기</button><div class="desc">직원별 교육 이수 내역이에요. 직원 명부에서 사람을 누르면 '교육 이수' 탭에서 고칠 수 있고, 인사카드를 출력하면 교육사항에 들어가요.</div></div>
    <div class="kpis">${KP.map(([l,v,s])=>`<div class="kp"><span>${l}</span><b>${v}</b><small>${s}</small></div>`).join('')}</div>
    <section class="card rec"><div class="recbar"><input class="fsearch" id="eduQ" placeholder="이름 · 교육명 · 기관 검색" value="${esc(st.eduQ||'')}">
     <select class="fsel" id="eduY">${['all',...years].map(v=>`<option value="${v}" ${v===y?'selected':''}>${v==='all'?'전체 기간':v+'년'}</option>`).join('')}</select>
-    <div class="segs">${['',...EDU_KINDS].map(k=>`<button class="${fk===k?'on':''}" data-act="eduK" data-v="${k}">${k||'전체'}</button>`).join('')}</div><span class="sp" style="flex:1"></span><span class="note">${L.length}건</span></div>
+    <div class="segs">${[[true,'같은 교육은 최신만'],[false,'모든 기록']].map(([v,l])=>`<button class="${lt===v?'on':''}" data-act="eduLt" data-v="${v}">${l}</button>`).join('')}</div><div class="segs">${['',...EDU_KINDS].map(k=>`<button class="${fk===k?'on':''}" data-act="eduK" data-v="${k}">${k||'전체'}</button>`).join('')}</div><span class="sp" style="flex:1"></span><span class="note">${L.length}건</span></div>
    ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>기간</th><th>이름</th><th>부서</th><th>교육명</th><th>구분</th><th>교육기관</th><th class="n">시간</th><th>출처</th></tr></thead><tbody>
-   ${L.map(e=>{const s=sOf(e);return `<tr><td class="dt">${eduSpan(e)||'—'}${(e.start||'')>today()?' <span class="cc t-a">예정</span>':''}</td><td class="nm" ${s?`data-edus="${s.id}"`:''}><b>${esc(e.name||'')}</b></td><td>${esc(s?.team||'—')}</td><td><b>${esc(e.title)}</b>${e.note?`<small class="sub">${esc(e.note)}</small>`:''}</td><td>${e.kind?`<span class="cc t-s">${esc(e.kind)}</span>`:'—'}</td><td>${esc(e.org||'—')}</td><td class="n">${e.hours||'—'}</td><td>${e.src&&e.src!=='보드'?`<span class="cc ${e.src==='그룹웨어'?'t-b':'t-s'}">${esc(e.src)}</span>`:'<span class="note">직접</span>'}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">교육 기록이 없어요.</div>'}</section>`;
+   ${L.map(e=>{const s=sOf(e);return `<tr><td class="dt">${eduSpan(e)||'—'}${(e.start||'')>today()?' <span class="cc t-a">예정</span>':''}</td><td class="nm" ${s?`data-edus="${s.id}"`:''}><b>${esc(e.name||'')}</b>${eduPreJoin(e,s)?'<small class="sub" style="color:#B86E00" title="입사일보다 60일 넘게 이른 교육이에요. 동명이인이면 지워 주세요 (인사카드 출력에서는 빠져요)">입사 전 · 확인</small>':''}</td><td>${esc(s?.team||'—')}</td><td><b>${esc(e.famTitle||e.title)}</b>${e.times>1?` <span class="cc t-c" title="같은 교육 ${e.times}회 중 최신">총 ${e.times}회</span>`:''}${e.note?`<small class="sub">${esc(e.note)}</small>`:''}</td><td>${e.kind?`<span class="cc t-s">${esc(e.kind)}</span>`:'—'}</td><td>${esc(e.org||'—')}</td><td class="n">${e.hours||'—'}</td><td>${e.src&&e.src!=='보드'?`<span class="cc ${e.src==='그룹웨어'?'t-b':'t-s'}">${esc(e.src)}</span>`:'<span class="note">직접</span>'}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">교육 기록이 없어요.</div>'}</section>`;
 }
 function openEduPaste(){
   openLayer(`<div class="modal wide" role="dialog" aria-label="교육 붙여넣기"><h2>교육 이수 붙여넣기</h2>
@@ -4235,59 +4263,64 @@ async function eduPasteGo(){
 }
 
 /* --- 인사카드 출력 (26년 양식 모양) --- */
-const CARD_CSS=`@page{size:A4;margin:12mm 11mm}*{box-sizing:border-box}body{margin:0;font-family:'Malgun Gothic','맑은 고딕',sans-serif;color:#111;font-size:9.5pt}
+/* 인사카드 출력: 같은 표를 인쇄(PDF)와 Word에 함께 써요. 칸 너비는 셀마다 직접 적어 Word에서도 안 깨져요 */
+const CARD_CSS=`@page{size:A4;margin:12mm 12mm}*{box-sizing:border-box}body{margin:0;font-family:'Malgun Gothic','맑은 고딕',sans-serif;color:#111;font-size:9pt}
 .pg{page-break-after:always;break-after:page}.pg:last-child{page-break-after:auto;break-after:auto}
-h1{text-align:center;font-size:20pt;letter-spacing:12px;margin:0 0 10px;font-weight:800}h3{font-size:11pt;letter-spacing:6px;text-align:center;margin:14px 0 6px}
-table{width:100%;border-collapse:collapse;table-layout:fixed;margin-bottom:-1px}td,th{border:1px solid #444;padding:3px 4px;height:21px;text-align:center;vertical-align:middle;font-weight:normal;word-break:keep-all;overflow-wrap:anywhere;font-size:9pt}
-th,.lb{background:#EDEFF2;font-weight:700}.sl{background:#EDEFF2;font-weight:700;width:64px;white-space:nowrap;letter-spacing:0}
-.ph{width:105px;padding:0}.ph img{width:100%;height:132px;object-fit:cover;display:block}.l{text-align:left}
-.ft{text-align:center;margin-top:14px;font-weight:700;font-size:11pt;letter-spacing:2px}`;
-function cardHTML(s,c,P,edu){
+h1{text-align:center;font-size:19pt;letter-spacing:10pt;margin:0 0 8pt;font-weight:bold}h3{font-size:10.5pt;letter-spacing:5pt;text-align:center;margin:12pt 0 5pt}
+table{width:100%;border-collapse:collapse;table-layout:fixed;margin:0 0 -1px 0}td{border:.75pt solid #444;padding:2pt 3pt;height:15pt;text-align:center;vertical-align:middle;font-weight:normal;word-break:keep-all;overflow-wrap:anywhere;font-size:8.5pt;line-height:1.25}
+td.lb{background:#EDEFF2;font-weight:bold}td.sl{background:#EDEFF2;font-weight:bold;white-space:nowrap}
+td.ph{padding:0;background:#fff}td.ph img{display:block;width:100%;height:auto}.l{text-align:left}
+p{margin:0}.ft{text-align:center;margin-top:12pt;font-weight:bold;font-size:10.5pt;letter-spacing:2pt}`;
+const cw=p=>` width="${p}%" style="width:${p}%"`;
+function cardHTML(s,c,P,edu,word){
   P=P||{family:[],etc:[]};c=c||{};const mil=c.mil||{};const e=v=>esc(v||'');
   const pad=(a,n)=>a.concat(Array(Math.max(0,n-a.length)).fill({}));
-  const sec=(label,heads,rows,n,cell)=>{const R=pad(rows,n);return R.map((r,i)=>`<tr>${i===0?`<td class="sl" rowspan="${R.length+1}">${label}</td>`:''}${cell(r)}</tr>`).join('')};
-  const tb=(label,heads,rows,n,keys)=>`<tr>${`<td class="sl" rowspan="${Math.max(n,rows.length)+1}">${label}</td>`}${heads.map(h=>`<td class="lb">${h}</td>`).join('')}</tr>${pad(rows,n).map(r=>`<tr>${keys.map(k=>`<td>${e(r[k])}</td>`).join('')}</tr>`).join('')}`;
+  const SL=10;// 왼쪽 구분 칸
+  // 머리 줄에 너비를 적고, 아래 줄은 같은 칸 수로
+  const tb=(label,heads,ws,rows,n,keys)=>{const R=pad(rows,n);return `<table><tr><td class="sl"${cw(SL)} rowspan="${R.length+1}">${label}</td>${heads.map((h,i)=>`<td class="lb"${cw(ws[i])}>${h}</td>`).join('')}</tr>${R.map(r=>`<tr>${keys.map(k=>`<td>${e(r[k])}</td>`).join('')}</tr>`).join('')}</table>`};
   const lic=c.lic||[],licR=[];for(let i=0;i<Math.max(3,Math.ceil(lic.length/2));i++)licR.push([lic[i*2]||{},lic[i*2+1]||{}]);
   const et=Object.fromEntries((P.etc||[]).map(([k,v])=>[nk(k),v]));const ev=k=>e(et[nk(k)]);
   const bal=(c.bal||[]).slice();if(s.joinDate&&!bal.some(b=>/입사/.test(b.kind||'')))bal.unshift({date:s.joinDate.replace(/-/g,'.'),kind:'입사',rank:s.rank||'',ord:s.team||'',note:''});
-  const ed=(edu||[]).filter(x=>!x.start||x.start<=today()).sort((a,b)=>(a.start||'').localeCompare(b.start||''));
-  const pr=c.prize||[],di=c.disc||[],pdN=Math.max(6,pr.length,di.length);
+  const ed=eduLatest((edu||[]).filter(x=>(!x.start||x.start<=today())&&!eduPreJoin(x,s))).sort((a,b)=>(a.start||'').localeCompare(b.start||''));
+  const pr=c.prize||[],di=c.disc||[];
+  // 2쪽이 넘치지 않게: 교육 줄이 늘면(두 줄짜리는 2로) 발령 · 상벌의 빈 줄을 줄여요
+  const edW=ed.reduce((t,x)=>t+(String(x.famTitle||x.title||'').length>22||String(x.org||'').length>16?2:1),0);let over=Math.max(0,edW-6);
+  const balN=Math.max(bal.length,10-over,3);over=Math.max(0,over-(10-balN));const pdN=Math.max(pr.length,di.length,6-over,2);
+  const brk=word?`<br clear="all" style="page-break-before:always;mso-break-type:page-break">`:'';
+  const photo=P.photo?`<img src="${P.photo}" width="104" height="139" alt="">`:'';
   return `<div class="pg"><h1>인 사 기 록 카 드</h1>
-  <table><colgroup><col style="width:105px"><col style="width:88px"><col><col style="width:80px"><col></colgroup>
-   <tr><td class="ph" rowspan="5">${P.photo?`<img src="${P.photo}">`:''}</td><td class="lb">성명(한글)</td><td>${e(s.name)}</td><td class="lb">성명(영문)</td><td>${e(c.en)}</td></tr>
+  <table><tr><td class="ph" rowspan="5"${cw(16)}>${photo}</td><td class="lb"${cw(14)}>성명(한글)</td><td${cw(28)}>${e(s.name)}</td><td class="lb"${cw(12)}>성명(영문)</td><td${cw(30)}>${e(c.en)}</td></tr>
    <tr><td class="lb">주민등록번호</td><td>${e(P.rrn)}</td><td class="lb">성명(한자)</td><td>${e(c.hanja)}</td></tr>
    <tr><td class="lb">실제생년월일</td><td>${e(P.birth)}</td><td class="lb">이메일</td><td>${e(c.email)}</td></tr>
    <tr><td class="lb" rowspan="2">현주소</td><td class="l" rowspan="2">${e(P.addr)}</td><td class="lb">핸드폰</td><td>${e(P.phone)}</td></tr>
    <tr><td class="lb">비상연락망</td><td>${e(P.emer)}</td></tr></table>
-  <table><colgroup><col style="width:64px"><col span="6"></colgroup>
-   ${tb('학력사항',['학 교 명','전 공','입학년월','졸업년월','구 분','비 고'],c.edu||[],3,['school','major','in','out','kind','note'])}</table>
-  <table><colgroup><col style="width:64px"><col style="width:90px"><col><col><col></colgroup>
-   <tr><td class="sl" rowspan="4">병역</td><td class="lb">제대구분</td><td colspan="3" class="l">${e(mil.type)}</td></tr><tr><td class="lb">군별</td><td class="lb">최종계급</td><td class="lb" colspan="2">복무기간</td></tr>
-   <tr><td>${e(mil.branch)}</td><td>${e(mil.rank)}</td><td colspan="2">${e(mil.period)}</td></tr><tr><td></td><td></td><td colspan="2"></td></tr></table>
-  <table><colgroup><col style="width:64px"><col span="6"></colgroup>
-   <tr><td class="sl" rowspan="${licR.length+1}">자격면허</td>${['종류','취득일','발행처','종류','취득일','발행처'].map(h=>`<td class="lb">${h}</td>`).join('')}</tr>${licR.map(([a,b])=>`<tr>${[a,b].map(x=>`<td>${e(x.kind)}</td><td>${e(x.date)}</td><td>${e(x.org)}</td>`).join('')}</tr>`).join('')}</table>
-  <table><colgroup><col style="width:64px"><col span="5"></colgroup>${tb('어학능력',['외국어명','시험','공인점수','취득일','시행처'],c.lang||[],2,['name','test','score','date','org'])}</table>
-  <table><colgroup><col style="width:64px"><col span="5"></colgroup>${tb('경력사항',['근무처','근무기간','직급','직무','퇴사사유'],c.career||[],5,['org','period','rank','job','reason'])}</table>
-  <table><colgroup><col style="width:64px"><col span="6"></colgroup>${tb('가족관계',['관계','성명','생년월일','학력','직업','동거여부'],P.family||[],4,['rel','name','birth','school','job','live'])}</table>
-  <table><colgroup><col style="width:64px"><col style="width:62px"><col><col style="width:72px"><col><col style="width:72px"><col></colgroup>
-   <tr><td class="sl" rowspan="4">기타사항</td><td class="lb">신장</td><td>${ev('신장')}</td><td class="lb">거주형태</td><td>${ev('거주형태')}</td><td class="lb">보훈대상자</td><td>${ev('보훈대상자')}</td></tr>
-   <tr><td class="lb">체중</td><td>${ev('체중')}</td><td class="lb">종교</td><td>${ev('종교')}</td><td class="lb" rowspan="3">장애</td><td>${ev('등급')||ev('장애')}</td></tr>
-   <tr><td class="lb">혈액형</td><td>${ev('혈액형')}</td><td class="lb">취미, 특기</td><td>${ev('취미,특기')||ev('취미특기')}</td><td>${ev('종류')}</td></tr>
-   <tr><td class="lb">시력</td><td>${ev('시력')}</td><td class="lb">결혼여부</td><td>${ev('결혼여부')}</td><td></td></tr></table>
-  </div><div class="pg"><h1>인 사 기 록 카 드</h1>
-  <h3>인 사 발 령 사 항</h3><table><tr>${['발령일자','발령구분','직급','명','면','발령내용'].map(h=>`<th>${h}</th>`).join('')}</tr>${pad(bal,10).map(b=>`<tr><td>${e(b.date)}</td><td>${e(b.kind)}</td><td>${e(b.rank)}</td><td>${e(b.ord)}</td><td>${e(b.off)}</td><td class="l">${e(b.note)}</td></tr>`).join('')}</table>
-  <h3>교 육 사 항</h3><table><colgroup><col style="width:34%"><col style="width:12%"><col style="width:22%"><col style="width:18%"><col></colgroup><tr>${['교육명','교육구분','교육기간','교육기관','비고'].map(h=>`<th>${h}</th>`).join('')}</tr>${pad(ed,6).map(x=>`<tr><td class="l">${e(x.title)}</td><td>${e(x.kind)}</td><td>${x.start?eduSpan(x):''}</td><td>${e(x.org)}</td><td>${e([x.hours?x.hours+'시간':'',x.note].filter(Boolean).join(' '))}</td></tr>`).join('')}</table>
-  <h3>상 벌 사 항</h3><table><tr><th colspan="3">포 상 내 역</th><th colspan="3">징 계 내 역</th></tr><tr>${['포상 및 내용','포상년월','포상권자','징계내용','기간','사유'].map(h=>`<th>${h}</th>`).join('')}</tr>
+  ${tb('학력사항',['학 교 명','전 공','입학년월','졸업년월','구 분','비 고'],[22,22,12,12,10,12],c.edu||[],3,['school','major','in','out','kind','note'])}
+  <table><tr><td class="sl"${cw(SL)} rowspan="3">병역</td><td class="lb"${cw(16)}>제대구분</td><td colspan="3" class="l"${cw(74)}>${e(mil.type)}</td></tr>
+   <tr><td class="lb">군별</td><td class="lb"${cw(22)}>최종계급</td><td class="lb" colspan="2"${cw(52)}>복무기간</td></tr>
+   <tr><td>${e(mil.branch)}</td><td>${e(mil.rank)}</td><td colspan="2">${e(mil.period)}</td></tr></table>
+  <table><tr><td class="sl"${cw(SL)} rowspan="${licR.length+1}">자격면허</td>${[['종류',17],['취득일',11],['발행처',17],['종류',17],['취득일',11],['발행처',17]].map(([h,w])=>`<td class="lb"${cw(w)}>${h}</td>`).join('')}</tr>${licR.map(([a,b])=>`<tr>${[a,b].map(x=>`<td>${e(x.kind)}</td><td>${e(x.date)}</td><td>${e(x.org)}</td>`).join('')}</tr>`).join('')}</table>
+  ${tb('어학능력',['외국어명','시험','공인점수','취득일','시행처'],[16,22,16,16,20],c.lang||[],2,['name','test','score','date','org'])}
+  ${tb('경력사항',['근무처','근무기간','직급','직무','퇴사사유'],[24,22,12,14,18],c.career||[],5,['org','period','rank','job','reason'])}
+  ${tb('가족관계',['관계','성명','생년월일','학력','직업','동거여부'],[12,16,18,16,16,12],P.family||[],4,['rel','name','birth','school','job','live'])}
+  <table><tr><td class="sl"${cw(SL)} rowspan="2">기타사항</td><td class="lb"${cw(13)}>거주형태</td><td${cw(17)}>${ev('거주형태')}</td><td class="lb"${cw(13)}>취미, 특기</td><td${cw(17)}>${ev('취미,특기')||ev('취미특기')}</td><td class="lb"${cw(13)}>보훈대상자</td><td${cw(17)}>${ev('보훈대상자').replace(/대상\s*:\s*비대상\s*:\s*0?/,'')}</td></tr>
+   <tr><td class="lb">결혼여부</td><td>${ev('결혼여부')}</td><td class="lb">종교</td><td>${ev('종교')}</td><td class="lb"></td><td></td></tr></table>
+  </div>${brk}<div class="pg"><h1>인 사 기 록 카 드</h1>
+  <h3>인 사 발 령 사 항</h3><table><tr>${[['발령일자',15],['발령구분',13],['직급',12],['명',18],['면',14],['발령내용',28]].map(([h,w])=>`<td class="lb"${cw(w)}>${h}</td>`).join('')}</tr>${pad(bal,balN).map(b=>`<tr><td>${e(b.date)}</td><td>${e(b.kind)}</td><td>${e(b.rank)}</td><td>${e(b.ord)}</td><td>${e(b.off)}</td><td class="l">${e(b.note)}</td></tr>`).join('')}</table>
+  <h3>교 육 사 항</h3><table><tr>${[['교육명',32],['교육구분',11],['교육기간',21],['교육기관',20],['비고',16]].map(([h,w])=>`<td class="lb"${cw(w)}>${h}</td>`).join('')}</tr>${pad(ed,Math.max(6,ed.length)).map(x=>`<tr><td class="l">${e(x.famTitle||x.title)}</td><td>${e(x.kind)}</td><td>${x.start?eduSpan(x):''}</td><td>${e(x.org)}</td><td>${e([x.hours?x.hours+'시간':'',x.times>1?'총 '+x.times+'회':''].filter(Boolean).join(' · '))}</td></tr>`).join('')}</table>
+  <h3>상 벌 사 항</h3><table><tr><td class="lb" colspan="3"${cw(50)}>포 상 내 역</td><td class="lb" colspan="3"${cw(50)}>징 계 내 역</td></tr><tr>${[['포상 및 내용',22],['포상년월',14],['포상권자',14],['징계내용',22],['기간',14],['사유',14]].map(([h,w])=>`<td class="lb"${cw(w)}>${h}</td>`).join('')}</tr>
    ${Array.from({length:pdN},(_,i)=>{const a=pr[i]||{},b=di[i]||{};return `<tr><td class="l">${e(a.title)}</td><td>${e(a.ym)}</td><td>${e(a.by)}</td><td class="l">${e(b.what)}</td><td>${e(b.period)}</td><td>${e(b.why)}</td></tr>`}).join('')}</table>
-  ${S().cardCo?`<div class="ft">${esc(S().cardCo)}</div>`:''}</div>`;
+  ${S().cardCo?`<p class="ft">${esc(S().cardCo)}</p>`:''}</div>`;
 }
-async function cardBundle(ids,ask=true){
+/* 사진을 증명사진 비율(3:4)로 가운데 잘라 JPEG로 */
+const photo34=src=>new Promise(ok=>{const im=new Image();im.onload=()=>{try{const W=300,H=400,r=Math.max(W/im.width,H/im.height),w=im.width*r,h=im.height*r,cv=document.createElement('canvas');cv.width=W;cv.height=H;const g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,W,H);g.drawImage(im,(W-w)/2,(H-h)/2,w,h);ok(cv.toDataURL('image/jpeg',.9))}catch(e){ok(src)}};im.onerror=()=>ok('');im.src=src});
+async function cardBundle(ids,ask=true,word=false){
   const out=[];let noFile=0,noDir=false;
   for(const id of ids){const s=st.staff.get(id);if(!s)continue;let r=null;
     if(!noDir&&window.showDirectoryPicker){try{r=await readCard(s,ask&&!out.length)}catch(e){r=null}if(r===undefined){noDir=true;r=null}}
     if(!r&&!noDir)noFile++;
-    let P=r?.priv;if(!P&&!noDir){const ph=await photoURL(s);if(ph)P={family:[],etc:[],photo:ph}}if(P&&P.photo&&P.photo.startsWith('blob:')){try{P={...P,photo:await blobToData(P.photo)}}catch(e){}}
-    out.push({s,html:cardHTML(s,cardOf(s),P,eduOf(s))})}
+    let P=r?.priv;if(!P&&!noDir){const ph=await photoURL(s);if(ph)P={family:[],etc:[],photo:ph}}
+    if(P&&P.photo){try{P={...P,photo:await photo34(P.photo.startsWith('blob:')?await blobToData(P.photo):P.photo)}}catch(e){}}
+    out.push({s,P,html:cardHTML(s,cardOf(s),P,eduOf(s),word)})}
   return {out,noFile,noDir};
 }
 const blobToData=u=>fetch(u).then(r=>r.blob()).then(b=>new Promise(ok=>{const f=new FileReader();f.onload=()=>ok(f.result);f.readAsDataURL(b)}));
@@ -4300,15 +4333,27 @@ async function cardPrint(ids){
   const imgs=[...w.document.images];await Promise.all(imgs.map(i=>i.complete?0:new Promise(r=>{i.onload=i.onerror=r})));
   setTimeout(()=>{w.focus();w.print()},150);
 }
-const wordDoc=body=>`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]--><style>${CARD_CSS.replace('@page{size:A4;margin:12mm 11mm}','@page Section1{size:595.3pt 841.9pt;margin:34pt 31pt}div.Section1{page:Section1}').replace(/\.pg\{[^}]*\}/,'.pg{page-break-after:always}')}</style></head><body><div class="Section1">${body.replace(/<div class="pg">/g,'<div class="pg">')}</div></body></html>`;
+/* Word: 사진까지 담으려고 '웹 보관 파일(MHT)' 형식으로 저장해요 (.doc 로 열려요) */
+const b64utf8=s=>{const b=new TextEncoder().encode(s);let r='';for(let i=0;i<b.length;i+=8192)r+=String.fromCharCode(...b.subarray(i,i+8192));return btoa(r)};
+const wrap76=s=>s.replace(/(.{76})/g,'$1\r\n');
+function wordMht(items){
+  const imgs=[];let n=0;
+  const body=items.map(x=>x.html.replace(/src="(data:image\/(\w+);base64,([^"]+))"/g,(m,_,t,d)=>{const nm=`image${++n}.${t==='jpeg'?'jpg':t}`;imgs.push({nm,t,d});return `src="hrcard_files/${nm}"`})).join(`<br clear="all" style="page-break-before:always;mso-break-type:page-break">`);
+  const css=CARD_CSS.replace(/@page\{[^}]*\}/,'@page Section1{size:595.3pt 841.9pt;margin:34pt 34pt 34pt 34pt;mso-header-margin:20pt;mso-footer-margin:20pt}div.Section1{page:Section1}').replace(/\.pg\{[^}]*\}\.pg:last-child\{[^}]*\}/,'');
+  const html=`<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]--><style>${css}</style></head><body><div class="Section1">${body}</div></body></html>`;
+  const B='----=_NextPart_HRCARD_'+Date.now(),L='file:///C:/hrcard/';
+  let m=`MIME-Version: 1.0\r\nContent-Type: multipart/related; boundary="${B}"; type="text/html"\r\n\r\n--${B}\r\nContent-Type: text/html; charset="utf-8"\r\nContent-Transfer-Encoding: base64\r\nContent-Location: ${L}hrcard.htm\r\n\r\n${wrap76(b64utf8(html))}\r\n`;
+  imgs.forEach(i=>{m+=`\r\n--${B}\r\nContent-Type: image/${i.t}\r\nContent-Transfer-Encoding: base64\r\nContent-Location: ${L}hrcard_files/${i.nm}\r\n\r\n${wrap76(i.d)}\r\n`});
+  return m+`\r\n--${B}--\r\n`;
+}
 const cardDl=(name,blob)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)};
 async function cardWord(ids,each){
-  const {out,noDir}=await cardBundle(ids);if(!out.length)return;
-  const fn=s=>`인사기록카드_${s.name}.doc`.replace(/[\\/:*?"<>|]/g,'');
+  const {out,noDir}=await cardBundle(ids,true,true);if(!out.length)return;
+  const fn=s=>`인사기록카드_${s.name}.doc`.replace(/[\\/:*?"<>|]/g,'');const blob=items=>new Blob([wordMht(items)],{type:'application/msword'});
   if(each&&out.length>1&&window.showDirectoryPicker){let d;try{d=await window.showDirectoryPicker({id:'hrcardout',mode:'readwrite'})}catch(e){return}
-    for(const x of out){const h=await d.getFileHandle(fn(x.s),{create:true});const w=await h.createWritable();await w.write(new Blob(['﻿'+wordDoc(x.html)],{type:'application/msword'}));await w.close()}
+    for(const x of out){const h=await d.getFileHandle(fn(x.s),{create:true});const w=await h.createWritable();await w.write(blob([x]));await w.close()}
     toast(`${out.length}명의 인사카드를 '${d.name}' 폴더에 저장했어요`)}
-  else{cardDl(out.length===1?fn(out[0].s):`인사기록카드_${out.length}명_${today()}.doc`,new Blob(['﻿'+wordDoc(out.map(x=>x.html).join(''))],{type:'application/msword'}));toast('Word 파일로 저장했어요')}
+  else{cardDl(out.length===1?fn(out[0].s):`인사기록카드_${out.length}명_${today()}.doc`,blob(out));toast('Word 파일로 저장했어요')}
   if(noDir)toast('인사카드 폴더가 연결되지 않아 민감 정보 칸은 비어 있어요');
 }
 /* 직원 명부: 일괄 처리 창 */
@@ -4549,10 +4594,11 @@ const ACT={
   tkt:a=>{st.tkt=a.dataset.v;render()},
   newTrn:()=>openTrn(null),saveTrn:()=>saveTrnForm(),trnPaste:()=>openTrnPaste(),trnPasteGo:()=>trnPasteGo(),
   trnTab:a=>{st.trnTab=a.dataset.v;render()},
+  sdiv:a=>{st.sdiv=a.dataset.v;render()},sldr:()=>{st.sldr=!st.sldr;render()},sorg:a=>{st.sorg=a.dataset.v;st.sft='';render()},sfClr:()=>{st.sdiv='';st.sldr=false;st.sorg='';st.sft='';render()},
   stTab:a=>{const id=a.dataset.id,v=a.dataset.v;if(v==='info')openStaff(id);else if(v==='card')openCard(id);else openEduTab(id)},
   cardImport:a=>cardImportOne(a.dataset.id),cardEdit:a=>openCard(a.dataset.id,null,true),cardView:a=>openCard(a.dataset.id),cardPrint:a=>cardPrint([a.dataset.id]),cardWord:a=>cardWord([a.dataset.id]),saveCard:()=>saveCardForm(),
   cardDir:async a=>{const ok=FS.dir?await cardDirGet(true):null;if(!ok&&!await cardDirPick())return;FS.list=null;FS.photos=null;await cardAutoSync(false);if(a.dataset.id&&st.staff.get(a.dataset.id))openCard(a.dataset.id);else render()},
-  cardBulk:()=>openCardBulk(),cardBulkGo:a=>cardBulkGo(a.dataset.v),saveEdu:()=>saveEduForm(),eduPaste:()=>openEduPaste(),eduGw:()=>{const i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=async()=>{const f=i.files[0];if(!f)return;let j;try{j=JSON.parse(await f.text())}catch(e){toast('파일을 읽지 못했어요');return}const R=Array.isArray(j)?j:j.records;if(!Array.isArray(R)){toast('그룹웨어 교육이수 파일이 아니에요');return}const r=await eduIngest(R,'그룹웨어');toast(`그룹웨어에서 ${r.n}건 넣었어요${r.skip?` · 이미 있는 ${r.skip}건 건너뜀`:''}${r.miss.length?` · 명부에 없는 이름 ${r.miss.length}명`:''}`)};i.click()},eduPasteGo:()=>eduPasteGo(),eduK:a=>{st.eduK=a.dataset.v;render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
+  cardBulk:()=>openCardBulk(),cardBulkGo:a=>cardBulkGo(a.dataset.v),saveEdu:()=>saveEduForm(),eduPaste:()=>openEduPaste(),eduGw:()=>{const i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=async()=>{const f=i.files[0];if(!f)return;let j;try{j=JSON.parse(await f.text())}catch(e){toast('파일을 읽지 못했어요');return}const R=Array.isArray(j)?j:j.records;if(!Array.isArray(R)){toast('그룹웨어 교육이수 파일이 아니에요');return}const r=await eduIngest(R,'그룹웨어');toast(`그룹웨어에서 ${r.n}건 넣었어요${r.skip?` · 이미 있는 ${r.skip}건 건너뜀`:''}${r.miss.length?` · 명부에 없는 이름 ${r.miss.length}명`:''}`)};i.click()},eduPasteGo:()=>eduPasteGo(),eduK:a=>{st.eduK=a.dataset.v;render()},eduLt:a=>{st.eduLt=a.dataset.v==='true';render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
   delSch:a=>{const id=a.dataset.id;openConfirm('이 학교와 기록을 삭제할까요?',async()=>{await st.api.remove('schools',id);closeLayer();toast('삭제했어요')})},
   trnP:a=>{st.trnP=a.dataset.v;render()},trnS:a=>{st.trnS=a.dataset.v;render()},
   trnDec:async a=>{const t=st.trainees.get(a.dataset.id);if(!t)return;await st.api.put('trainees',t.id,{dec:a.dataset.v,decAt:today(),updatedAt:nowISO()});addLog(`대학생인턴 채용 여부 · ${t.name} → ${a.dataset.v}`);toast(a.dataset.v==='채용'?'채용 전환으로 정했어요':'미채용으로 정했어요')},

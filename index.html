@@ -1262,7 +1262,7 @@ button.oc-who:hover{background:#E5EAF4}
 .ctab{width:100%;border-collapse:collapse;font-size:12.5px}.ctab th{font-size:11.5px;color:var(--mute);font-weight:600;text-align:left;padding:4px 4px}.ctab td{padding:2px 2px}.ctab .ci{height:32px;padding:0 8px;font-size:13px;width:100%;min-width:70px}.ctab .cx{width:30px}.ctab .csrc{width:70px}
 .ctab tbody:empty::after{content:'없음';display:block;padding:6px 4px;color:#B5BFC5;font-size:12px}
 .cmil{margin-top:10px}.g2x{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.rtab td small.sub{display:block;font-size:11.5px;color:var(--mute);font-weight:500;margin-top:2px;max-width:460px;white-space:normal;line-height:1.35}.ros-f{display:flex;flex-direction:column;gap:8px;margin:12px 0 2px}.rfr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ros-f .rfl{width:40px;flex:none}.ros-f .rfl{font-size:12px;font-weight:700;color:var(--mute);margin-left:4px}.ros-f .segs button .tc{margin-left:4px}.rtog{height:34px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:4px}.rtog.on{border-color:#00A1B9;background:#F0FAFC;color:#008197;box-shadow:0 0 0 1px #00A1B9 inset}.ros-f .rsub{margin-left:48px;width:fit-content}.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
+.rtab td small.sub{display:block;font-size:11.5px;color:var(--mute);font-weight:500;margin-top:2px;max-width:460px;white-space:normal;line-height:1.35}.ros-f{display:flex;flex-direction:column;gap:8px;margin:12px 0 2px}.rfr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ros-f .rfl{width:40px;flex:none}.ros-f .rfl{font-size:12px;font-weight:700;color:var(--mute);margin-left:4px}.ros-f .segs button .tc{margin-left:4px}.rtog{height:34px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:4px}.rtog.on{border-color:#00A1B9;background:#F0FAFC;color:#008197;box-shadow:0 0 0 1px #00A1B9 inset}.ros-f .rsub{margin-left:48px;width:fit-content}.edv td{vertical-align:top}.edv td.nw,.edv td:nth-child(5){white-space:nowrap}.edv small.sub{display:block;font-size:11.5px;color:var(--mute);margin-top:3px}.edv td .cc{margin-left:2px}.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
 @media(max-width:700px){.cdp dl{grid-template-columns:auto 1fr}.cdp dd.w{grid-column:auto}}
 .oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
@@ -3995,7 +3995,7 @@ const EDU_FAM=[[/관리감독자/,'관리감독자 교육'],[/산업안전보건
 const eduKey=t=>{t=String(t||'');for(const [re,k] of EDU_FAM)if(re.test(t))return k;
   return t.replace(/\(.*?\)|\[.*?\]/g,' ').replace(/\d{6,8}|\d{2,4}\s*년도?|\d{1,2}\s*월|\d+\s*차|\d+\s*(시간|h|hr)\b|(상|하)반기/gi,' ').replace(/참석의?\s*건|참가\s*신청|신청의?\s*건|신청서?|참석|의\s*건/g,' ').replace(/[^가-힣A-Za-z0-9]/g,'').toLowerCase()||t};
 function eduLatest(L){const m=new Map();L.forEach(e=>{const k=eduKey(e.title);(m.get(k)||m.set(k,[]).get(k)).push(e)});
-  return [...m.values()].map(g=>{g.sort((a,b)=>(b.start||'').localeCompare(a.start||''));return {...g[0],times:g.length,famTitle:EDU_FAM.some(([re])=>re.test(g[0].title||''))?eduKey(g[0].title):''}})}const eduPreJoin=(e,s)=>!!(s&&s.joinDate&&e.start&&e.start<addD(s.joinDate,-60));
+  return [...m.values()].map(g=>{g.sort((a,b)=>(b.start||'').localeCompare(a.start||''));return {...g[0],times:g.reduce((t,e)=>t+(e.times||1),0),famTitle:EDU_FAM.some(([re])=>re.test(g[0].title||''))?eduKey(g[0].title):''}})}const eduPreJoin=(e,s)=>!!(s&&s.joinDate&&e.start&&e.start<addD(s.joinDate,-60));
 const eduSpan=e=>[e.start,e.end&&e.end!==e.start?e.end:''].filter(Boolean).map(x=>x.replace(/-/g,'.')).join(' ~ ');
 
 /* --- 인사카드 폴더 (브라우저가 기억, 서버로 안 보냄) --- */
@@ -4010,6 +4010,7 @@ async function cardDirGet(ask){
 }
 /* 폴더를 연결(허용)하면 인사카드가 비어 있는 직원은 자동으로 파일 내용을 채워요 (이미 입력한 칸은 그대로) */
 let cardSyncing=false;
+setTimeout(()=>{const go=()=>{if(st.ready?.settings&&st.staff?.size&&st.edu?.size)eduMergeAll(false);else if(Date.now()-t0<60000)setTimeout(go,1500)},t0=Date.now();go()},3000);
 setTimeout(()=>{const go=()=>{if(st.ready?.settings&&st.staff?.size)cardAutoSync(true);else setTimeout(go,1500)};go()},2500);
 async function cardAutoSync(quiet){
   if(cardSyncing)return;const d=await cardDirGet(false);if(!d)return;cardSyncing=true;
@@ -4204,14 +4205,19 @@ async function cardImportOne(id){
 
 /* --- 교육 이수 탭 (직원별) --- */
 const eduRow=(e={})=>`<tr data-eid="${e.id||''}">${EDU_COLS.map(([f])=>f==='kind'?`<td><input class="inp ci" data-f="kind" list="eduKinds" value="${esc(e.kind||'')}"></td>`:`<td><input class="inp ci" ${/start|end/.test(f)?'type="date"':''} data-f="${f}" value="${esc(e[f]||'')}"></td>`).join('')}<td class="csrc">${e.src&&e.src!=='보드'?`<span class="cc ${e.src==='그룹웨어'?'t-b':'t-s'}">${esc(e.src)}</span>`:''}</td><td class="cx"><button type="button" class="icon-btn" data-crm="1" aria-label="이 줄 지우기">×</button></td></tr>`;
-function openEduTab(id){
+/* 교육 이수 탭: 기본은 보기, '수정'을 눌러야 고쳐요 */
+const eduHistTxt=e=>(e.hist||[]).map(h=>(h.start||'').replace(/-/g,'.')).filter(Boolean).sort().reverse().join(', ');
+function openEduTab(id,edit){
   const s=st.staff.get(id);if(!s)return;const L=eduOf(s);
+  const view=()=>L.length?`<div class="rtw"><table class="cvt edv"><thead><tr><th>교육명</th><th>구분</th><th>기간</th><th>교육기관</th><th>시간</th><th>비고</th><th>출처</th></tr></thead><tbody>${L.map(e=>`<tr>
+     <td><b>${esc(e.title)}</b>${(e.times||1)>1?` <span class="cc t-c" title="이전: ${esc(eduHistTxt(e))}">총 ${e.times}회</span>`:''}${(e.start||'')>today()?' <span class="cc t-a">예정</span>':''}${eduPreJoin(e,s)?' <span class="cc t-a" title="입사일보다 60일 넘게 이른 교육이에요. 동명이인이면 지워 주세요">입사 전 · 확인</span>':''}${(e.times||1)>1?`<small class="sub">이전: ${esc(eduHistTxt(e))}</small>`:''}</td>
+     <td>${e.kind?`<span class="cc ${e.kind==='법정의무'?'t-a':'t-s'}">${esc(e.kind)}</span>`:'—'}</td><td class="nw">${eduSpan(e)||'—'}</td><td>${esc(e.org||'—')}</td><td>${e.hours?esc(e.hours)+'시간':'—'}</td><td class="mm2">${esc(e.note||'')||'<span class="na">—</span>'}</td>
+     <td>${e.src&&e.src!=='보드'?`<span class="cc ${e.src==='그룹웨어'?'t-b':'t-s'}">${esc(e.src)}</span>`:'<span class="note">직접</span>'}</td></tr>`).join('')}</tbody></table></div>`:'<p class="cvn">아직 교육 기록이 없어요. 수정을 눌러 넣거나, 교육 이수 메뉴에서 그룹웨어 · 붙여넣기로 넣을 수 있어요.</p>';
   openLayer(`<div class="modal xwide" role="dialog" aria-label="교육 이수"><h2>${esc(s.name)} <small class="h2s">${esc([s.team,s.rank].filter(Boolean).join(' · '))}</small></h2>${staffTabs(id,'edu')}
-   <form id="fEdu" data-id="${id}"><div class="csec"><div class="csec-h"><b>교육 이수 내역</b><span class="note">인사카드 출력 때 교육사항에 들어가요</span><span class="sp" style="flex:1"></span><button type="button" class="btn sm" data-eadd="1">+ 교육</button></div>
-   <datalist id="eduKinds">${EDU_KINDS.map(k=>`<option value="${k}">`).join('')}</datalist>
-   <div class="rtw"><table class="ctab edut"><thead><tr>${EDU_COLS.map(([,h])=>`<th>${h}</th>`).join('')}<th>출처</th><th></th></tr></thead><tbody>${L.map(eduRow).join('')||''}</tbody></table></div>
-   ${L.length?'':'<p class="note" style="margin-top:8px">아직 교육 기록이 없어요. + 교육으로 넣거나, 교육 이수 메뉴에서 여러 명을 한 번에 붙여넣을 수 있어요.</p>'}</div></form>
-   <div class="acts"><button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="saveEdu">저장</button></div></div>`);
+   <div class="csec"><div class="csec-h"><b>교육 이수 내역</b><span class="tc">${L.length}</span><span class="note">같은 교육은 최근 날짜 하나로 합쳐요 · 법정의무교육은 인사카드 출력에서 빠져요</span><span class="sp" style="flex:1"></span>${edit?'<button type="button" class="btn sm" data-eadd="1">+ 교육</button>':`<button type="button" class="btn sm" data-act="eduEdit" data-id="${id}">수정</button>`}</div>
+   ${edit?`<form id="fEdu" data-id="${id}"><p class="cdedit">수정 중이에요 · 다 고친 뒤 <b>저장</b>을 눌러 주세요</p><datalist id="eduKinds">${EDU_KINDS.map(k=>`<option value="${k}">`).join('')}</datalist>
+   <div class="rtw"><table class="ctab edut"><thead><tr>${EDU_COLS.map(([,h])=>`<th>${h}</th>`).join('')}<th>출처</th><th></th></tr></thead><tbody>${L.map(eduRow).join('')}</tbody></table></div></form>`:view()}</div>
+   <div class="acts">${edit?`<button class="btn" data-act="eduView" data-id="${id}">취소</button><button class="btn pri" data-act="saveEdu">저장</button>`:`<button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="eduEdit" data-id="${id}">수정</button>`}</div></div>`);
 }
 async function saveEduForm(){
   const id=$('#fEdu').dataset.id,s=st.staff.get(id);if(!s)return;
@@ -4219,9 +4225,40 @@ async function saveEduForm(){
   const keep=new Set(rows.map(r=>r.eid).filter(Boolean)),ops=[];
   eduOf(s).forEach(e=>{if(!keep.has(e.id))ops.push({c:'edu',id:e.id,del:true})});
   rows.filter(r=>r.title).forEach(({eid,...d})=>{d.sid=s.id;d.name=s.name;d.empNo=s.empNo||'';d.updatedAt=nowISO();ops.push({c:'edu',id:eid||'d-'+uid(),d:eid?d:{...d,src:'보드',createdAt:nowISO()}})});
-  await st.api.batch(ops);addLog(`교육 이수 수정 · ${s.name}`);closeLayer();toast('교육 이수 내역을 저장했어요');
+  await st.api.batch(ops);await eduMergeAll(true);addLog(`교육 이수 수정 · ${s.name}`);openEduTab(id);toast('교육 이수 내역을 저장했어요');
 }
-
+/* 같은 사람의 중복 · 유사 교육(같은 묶음)은 최근 날짜 1건으로 합쳐요. 나머지 날짜 · 출처는 hist 에 남겨 다시 가져올 때 중복되지 않게 */
+/* 비고는 특이사항만: 온라인 / 오프라인 + 확인 필요 같은 메모. 문서번호 · 참가비 · 장소는 따로 보관 */
+const EDU_ONLINE=/온라인|비대면|화상|zoom|줌|실시간|원격|이러닝|e-?learning|사이버|웨비나|webinar|동영상|인터넷/i;
+const isDocNo=x=>/-\d{8}-\d{2,4}$|^SPsystems-|^\S+-\S+-\d{6,}/.test(x.trim());
+function eduNoteClean(e){
+  const parts=String(e.note||'').split(/\s*·\s*/).map(x=>x.trim()).filter(Boolean);
+  let docNo=e.docNo||'',fee=e.fee||'',place=e.place||'';const keep=[];
+  if(!parts.some(x=>isDocNo(x)||/^참가비/.test(x)))return {note:e.note||'',docNo,fee,place};
+  parts.forEach(x=>{if(isDocNo(x))docNo=docNo||x;else if(/^참가비/.test(x))fee=fee||x.replace(/^참가비\s*/,'');else if(/확인 필요|신청일 기준|^온라인$|^오프라인$/.test(x))keep.push(x);else if(e.src==='그룹웨어')place=place||x;else keep.push(x)});
+  const mode=e.src==='그룹웨어'||place?(EDU_ONLINE.test(place+' '+(e.title||''))?'온라인':place?'오프라인':''):'';
+  const note=[...new Set([mode,...keep.filter(x=>x!=='온라인'&&x!=='오프라인')].filter(Boolean))].join(' · ');
+  return {note,docNo,fee,place};
+}
+async function eduNormAll(){
+  const ops=[];eduAll().forEach(e=>{const d={};const n=eduNoteClean(e);['note','docNo','fee','place'].forEach(k=>{if((e[k]||'')!==n[k])d[k]=n[k]});
+    if(EDU_FAM.some(([re])=>re.test(e.title||''))){const t=eduKey(e.title);if(t!==e.title)d.title=t}
+    if(Object.keys(d).length)ops.push({c:'edu',id:e.id,d})});
+  if(ops.length)await st.api.batch(ops);return ops.length;
+}async function eduMergeAll(quiet){
+  await eduNormAll();
+  const by=new Map();eduAll().forEach(e=>{const s=st.staff.get(e.sid);if(eduPreJoin(e,s))return;const k=(e.sid||e.name)+'|'+eduKey(e.title);(by.get(k)||by.set(k,[]).get(k)).push(e)});
+  const ops=[];let n=0;
+  for(const g of by.values()){if(g.length<2)continue;
+    g.sort((a,b)=>(b.start||'').localeCompare(a.start||'')||(b.end||'').localeCompare(a.end||'')||(b.createdAt||'').localeCompare(a.createdAt||''));
+    const [k,...rest]=g,fam=EDU_FAM.some(([re])=>re.test(k.title||''));
+    const hist=[...(k.hist||[]),...rest.flatMap(r=>[{title:r.title,start:r.start||'',end:r.end||'',org:r.org||'',srcId:r.srcId||'',note:r.note||''},...(r.hist||[])])];
+    const times=g.reduce((t,e)=>t+(e.times||1),0);
+    ops.push({c:'edu',id:k.id,d:{title:fam?eduKey(k.title):k.title,hours:k.hours||rest.find(r=>r.hours)?.hours||'',org:k.org||rest.find(r=>r.org)?.org||'',times,hist,updatedAt:nowISO()}});
+    rest.forEach(r=>ops.push({c:'edu',id:r.id,del:true}));n+=rest.length}
+  if(ops.length){await st.api.batch(ops);addLog(`교육 이수 중복 · 유사 교육 합침 · ${n}건`,n);if(!quiet)toast(`같은 교육 ${n}건을 최근 날짜 기준으로 합쳤어요`)}
+  return n;
+}
 /* --- 교육 이수 메뉴 (전체) --- */
 function vEdu(){
   const y=st.eduY||today().slice(0,4),fk=st.eduK||'',q=(st.eduQ||'').toLowerCase();
@@ -4250,10 +4287,11 @@ function openEduPaste(){
 async function eduIngest(recs,src){
   const A=eduAll(),ops=[],miss=new Set();let skip=0;
   recs.forEach(r=>{const s=(r.empNo&&staffAll().find(x=>x.empNo===r.empNo))||staffOn().find(x=>x.name===r.name)||staffAll().find(x=>x.name===r.name);if(!s)miss.add(r.name);
-    if((r.srcId&&A.some(e=>e.srcId===r.srcId))||A.some(e=>(e.sid===s?.id||e.name===r.name)&&e.title===r.title&&(e.start||'')===(r.start||''))){skip++;return}
-    ops.push({c:'edu',id:'d-'+uid(),d:{sid:s?.id||'',empNo:s?.empNo||r.empNo||'',name:s?.name||r.name,title:r.title,kind:r.kind||'',start:r.start||'',end:r.end||'',org:r.org||'',hours:r.hours||'',note:r.note||'',src,srcId:r.srcId||'',createdAt:nowISO()}})});
+    const seen=e=>[e,...(e.hist||[])];if((r.srcId&&A.some(e=>seen(e).some(h=>h.srcId===r.srcId)))||A.some(e=>(e.sid===s?.id||e.name===r.name)&&seen(e).some(h=>(h.start||'')===(r.start||'')&&eduKey(h.title)===eduKey(r.title)))){skip++;return}
+    ops.push({c:'edu',id:'d-'+uid(),d:{sid:s?.id||'',empNo:s?.empNo||r.empNo||'',name:s?.name||r.name,title:r.title,kind:r.kind||'',start:r.start||'',end:r.end||'',org:r.org||'',hours:r.hours||'',note:r.note||'',docNo:r.docNo||'',fee:r.fee||'',place:r.place||'',src,srcId:r.srcId||'',createdAt:nowISO()}})});
   if(ops.length)await st.api.batch(ops);if(ops.length)addLog(`교육 이수 ${src} · ${ops.length}건`);
-  return {n:ops.length,skip,miss:[...miss]};
+  const merged=await eduMergeAll(true);
+  return {n:ops.length,skip,miss:[...miss],merged};
 }
 async function eduPasteGo(){
   const rows=$('#epTxt').value.split(/\r?\n/).map(l=>l.split('\t').map(x=>x.trim())).filter(c=>c[0]&&c[1]&&c[0]!=='이름');
@@ -4281,7 +4319,7 @@ function cardHTML(s,c,P,edu,word){
   const lic=c.lic||[],licR=[];for(let i=0;i<Math.max(3,Math.ceil(lic.length/2));i++)licR.push([lic[i*2]||{},lic[i*2+1]||{}]);
   const et=Object.fromEntries((P.etc||[]).map(([k,v])=>[nk(k),v]));const ev=k=>e(et[nk(k)]);
   const bal=(c.bal||[]).slice();if(s.joinDate&&!bal.some(b=>/입사/.test(b.kind||'')))bal.unshift({date:s.joinDate.replace(/-/g,'.'),kind:'입사',rank:s.rank||'',ord:s.team||'',note:''});
-  const ed=eduLatest((edu||[]).filter(x=>(!x.start||x.start<=today())&&!eduPreJoin(x,s))).sort((a,b)=>(a.start||'').localeCompare(b.start||''));
+  const ed=eduLatest((edu||[]).filter(x=>(!x.start||x.start<=today())&&!eduPreJoin(x,s)&&x.kind!=='법정의무')).sort((a,b)=>(a.start||'').localeCompare(b.start||''));
   const pr=c.prize||[],di=c.disc||[];
   // 2쪽이 넘치지 않게: 교육 줄이 늘면(두 줄짜리는 2로) 발령 · 상벌의 빈 줄을 줄여요
   const edW=ed.reduce((t,x)=>t+(String(x.famTitle||x.title||'').length>22||String(x.org||'').length>16?2:1),0);let over=Math.max(0,edW-6);
@@ -4306,7 +4344,7 @@ function cardHTML(s,c,P,edu,word){
    <tr><td class="lb">결혼여부</td><td>${ev('결혼여부')}</td><td class="lb">종교</td><td>${ev('종교')}</td><td class="lb"></td><td></td></tr></table>
   </div>${brk}<div class="pg"><h1>인 사 기 록 카 드</h1>
   <h3>인 사 발 령 사 항</h3><table><tr>${[['발령일자',15],['발령구분',13],['직급',12],['명',18],['면',14],['발령내용',28]].map(([h,w])=>`<td class="lb"${cw(w)}>${h}</td>`).join('')}</tr>${pad(bal,balN).map(b=>`<tr><td>${e(b.date)}</td><td>${e(b.kind)}</td><td>${e(b.rank)}</td><td>${e(b.ord)}</td><td>${e(b.off)}</td><td class="l">${e(b.note)}</td></tr>`).join('')}</table>
-  <h3>교 육 사 항</h3><table><tr>${[['교육명',32],['교육구분',11],['교육기간',21],['교육기관',20],['비고',16]].map(([h,w])=>`<td class="lb"${cw(w)}>${h}</td>`).join('')}</tr>${pad(ed,Math.max(6,ed.length)).map(x=>`<tr><td class="l">${e(x.famTitle||x.title)}</td><td>${e(x.kind)}</td><td>${x.start?eduSpan(x):''}</td><td>${e(x.org)}</td><td>${e([x.hours?x.hours+'시간':'',x.times>1?'총 '+x.times+'회':''].filter(Boolean).join(' · '))}</td></tr>`).join('')}</table>
+  <h3>교 육 사 항</h3><table><tr>${[['교육명',32],['교육구분',11],['교육기간',21],['교육기관',20],['비고',16]].map(([h,w])=>`<td class="lb"${cw(w)}>${h}</td>`).join('')}</tr>${pad(ed,Math.max(6,ed.length)).map(x=>`<tr><td class="l">${e(x.famTitle||x.title)}</td><td>${e(x.kind)}</td><td>${x.start?eduSpan(x):''}</td><td>${e(x.org)}</td><td>${e([x.note,x.hours?x.hours+'시간':'',x.times>1?'총 '+x.times+'회':''].filter(Boolean).join(' · ').replace(/\s*·?\s*참석자 여러 명 — 확인 필요|\s*·?\s*날짜는 신청일 기준/g,''))}</td></tr>`).join('')}</table>
   <h3>상 벌 사 항</h3><table><tr><td class="lb" colspan="3"${cw(50)}>포 상 내 역</td><td class="lb" colspan="3"${cw(50)}>징 계 내 역</td></tr><tr>${[['포상 및 내용',22],['포상년월',14],['포상권자',14],['징계내용',22],['기간',14],['사유',14]].map(([h,w])=>`<td class="lb"${cw(w)}>${h}</td>`).join('')}</tr>
    ${Array.from({length:pdN},(_,i)=>{const a=pr[i]||{},b=di[i]||{};return `<tr><td class="l">${e(a.title)}</td><td>${e(a.ym)}</td><td>${e(a.by)}</td><td class="l">${e(b.what)}</td><td>${e(b.period)}</td><td>${e(b.why)}</td></tr>`}).join('')}</table>
   ${S().cardCo?`<p class="ft">${esc(S().cardCo)}</p>`:''}</div>`;
@@ -4598,7 +4636,7 @@ const ACT={
   stTab:a=>{const id=a.dataset.id,v=a.dataset.v;if(v==='info')openStaff(id);else if(v==='card')openCard(id);else openEduTab(id)},
   cardImport:a=>cardImportOne(a.dataset.id),cardEdit:a=>openCard(a.dataset.id,null,true),cardView:a=>openCard(a.dataset.id),cardPrint:a=>cardPrint([a.dataset.id]),cardWord:a=>cardWord([a.dataset.id]),saveCard:()=>saveCardForm(),
   cardDir:async a=>{const ok=FS.dir?await cardDirGet(true):null;if(!ok&&!await cardDirPick())return;FS.list=null;FS.photos=null;await cardAutoSync(false);if(a.dataset.id&&st.staff.get(a.dataset.id))openCard(a.dataset.id);else render()},
-  cardBulk:()=>openCardBulk(),cardBulkGo:a=>cardBulkGo(a.dataset.v),saveEdu:()=>saveEduForm(),eduPaste:()=>openEduPaste(),eduGw:()=>{const i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=async()=>{const f=i.files[0];if(!f)return;let j;try{j=JSON.parse(await f.text())}catch(e){toast('파일을 읽지 못했어요');return}const R=Array.isArray(j)?j:j.records;if(!Array.isArray(R)){toast('그룹웨어 교육이수 파일이 아니에요');return}const r=await eduIngest(R,'그룹웨어');toast(`그룹웨어에서 ${r.n}건 넣었어요${r.skip?` · 이미 있는 ${r.skip}건 건너뜀`:''}${r.miss.length?` · 명부에 없는 이름 ${r.miss.length}명`:''}`)};i.click()},eduPasteGo:()=>eduPasteGo(),eduK:a=>{st.eduK=a.dataset.v;render()},eduLt:a=>{st.eduLt=a.dataset.v==='true';render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
+  cardBulk:()=>openCardBulk(),cardBulkGo:a=>cardBulkGo(a.dataset.v),saveEdu:()=>saveEduForm(),eduPaste:()=>openEduPaste(),eduGw:()=>{const i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=async()=>{const f=i.files[0];if(!f)return;let j;try{j=JSON.parse(await f.text())}catch(e){toast('파일을 읽지 못했어요');return}const R=Array.isArray(j)?j:j.records;if(!Array.isArray(R)){toast('그룹웨어 교육이수 파일이 아니에요');return}const r=await eduIngest(R,'그룹웨어');toast(`그룹웨어에서 ${r.n}건 넣었어요${r.skip?` · 이미 있는 ${r.skip}건 건너뜀`:''}${r.merged?` · 같은 교육 ${r.merged}건 합침`:''}${r.miss.length?` · 명부에 없는 이름 ${r.miss.length}명`:''}`)};i.click()},eduPasteGo:()=>eduPasteGo(),eduK:a=>{st.eduK=a.dataset.v;render()},eduLt:a=>{st.eduLt=a.dataset.v==='true';render()},eduEdit:a=>openEduTab(a.dataset.id,true),eduView:a=>openEduTab(a.dataset.id),schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
   delSch:a=>{const id=a.dataset.id;openConfirm('이 학교와 기록을 삭제할까요?',async()=>{await st.api.remove('schools',id);closeLayer();toast('삭제했어요')})},
   trnP:a=>{st.trnP=a.dataset.v;render()},trnS:a=>{st.trnS=a.dataset.v;render()},
   trnDec:async a=>{const t=st.trainees.get(a.dataset.id);if(!t)return;await st.api.put('trainees',t.id,{dec:a.dataset.v,decAt:today(),updatedAt:nowISO()});addLog(`대학생인턴 채용 여부 · ${t.name} → ${a.dataset.v}`);toast(a.dataset.v==='채용'?'채용 전환으로 정했어요':'미채용으로 정했어요')},

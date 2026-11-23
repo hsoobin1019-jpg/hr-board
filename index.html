@@ -3981,7 +3981,22 @@ async function cardDirGet(ask){
   if(h){FS.dir=h;return cardDirGet(ask)}
   return null;
 }
-async function cardDirPick(){
+/* 폴더를 연결(허용)하면 인사카드가 비어 있는 직원은 자동으로 파일 내용을 채워요 (이미 입력한 칸은 그대로) */
+let cardSyncing=false;
+setTimeout(()=>{const go=()=>{if(st.ready?.settings&&st.staff?.size)cardAutoSync(true);else setTimeout(go,1500)};go()},2500);
+async function cardAutoSync(quiet){
+  if(cardSyncing)return;const d=await cardDirGet(false);if(!d)return;cardSyncing=true;
+  try{const L=staffOn().filter(s=>!cardFilled(s)&&!(s.card&&s.card.src));if(!L.length){if(!quiet)toast('인사카드 폴더가 연결됐어요 · 새로 채울 직원은 없어요');return}
+    if(!quiet)toast(`인사카드 ${L.length}명 연동 중…`);
+    const ops=[];let n=0,none=0;
+    for(const s of L){let r;try{r=await readCard(s,false)}catch(e){r=null}
+      if(!r){none++;continue}
+      const c=cardMerge(cardOf(s),r.card,false);c.updatedAt=nowISO();c.src='인사카드 '+new Date(r.file.mod).toISOString().slice(0,10);
+      ops.push({c:'staff',id:s.id,d:{card:c}});eduFromCard(s,r.card.eduRec).forEach(e=>ops.push({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}}));n++}
+    if(ops.length){await st.api.batch(ops);addLog(`인사카드 자동 연동 · ${n}명`,n)}
+    if(n)toast(`인사카드 ${n}명 연동했어요${none?` · 파일 없는 직원 ${none}명`:''}`);else if(!quiet)toast(`새로 채울 직원이 없어요${none?` · 파일 없는 직원 ${none}명`:''}`);
+  }finally{cardSyncing=false}
+}async function cardDirPick(){
   if(!window.showDirectoryPicker){toast('이 브라우저는 폴더 연결을 지원하지 않아요 (Edge · 크롬에서 열어 주세요)');return null}
   try{const h=await window.showDirectoryPicker({id:'hrcard',mode:'read'});FS.dir=h;FS.list=null;FS.cache.clear();try{await idb('readwrite',s=>s.put(h,NS+'cardDir'))}catch(e){}
     st.cardDirName=h.name;toast(`'${h.name}' 폴더를 연결했어요`);render();return h}catch(e){if(e.name!=='AbortError')toast('폴더를 열지 못했어요: '+e.message);return null}
@@ -4108,6 +4123,7 @@ async function cardPrivPaint(s){
   let r;try{r=await readCard(s,false)}catch(e){el.textContent='인사카드 파일을 읽지 못했어요: '+e.message;return}
   if(r===undefined){el.innerHTML=`인사카드 폴더가 연결되지 않았어요 <button type="button" class="btn sm" data-act="cardDir" data-id="${s.id}">${FS.dir?'폴더 다시 허용':'폴더 연결'}</button>`;return}
   if(r===null){el.innerHTML='<span class="cc t-r">인사카드 파일 없음</span> 폴더에 이 직원 이름의 파일이 없어요';pv.innerHTML='';return}
+  if(!cardFilled(s)&&!(s.card&&s.card.src)){const cc=cardMerge(cardOf(s),r.card,false);cc.updatedAt=nowISO();cc.src='인사카드 '+new Date(r.file.mod).toISOString().slice(0,10);const E=eduFromCard(s,r.card.eduRec);await st.api.batch([{c:'staff',id:s.id,d:{card:cc}},...E.map(e=>({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}}))]);toast('인사카드 파일 내용을 자동으로 채웠어요');return openCard(s.id)}
   el.innerHTML=`<span class="cc ${r.file.isNew?'t-g':'t-a'}">${r.file.isNew?'26년 양식':'예전 양식'}</span> ${esc(r.file.name)} · 수정 ${new Date(r.file.mod).toLocaleDateString('ko-KR')}`;
   const P=r.priv,mask=v=>v?esc(v.replace(/(\d{6})\s*[-–]?\s*(\d)\d{6}/,'$1-$2******')):'—';
   pv.innerHTML=`<div class="cdp">${P.photo?`<img src="${P.photo}" alt="사진">`:'<div class="cdph">사진 없음</div>'}<dl>
@@ -4520,7 +4536,7 @@ const ACT={
   trnTab:a=>{st.trnTab=a.dataset.v;render()},
   stTab:a=>{const id=a.dataset.id,v=a.dataset.v;if(v==='info')openStaff(id);else if(v==='card')openCard(id);else openEduTab(id)},
   cardImport:a=>cardImportOne(a.dataset.id),cardPrint:a=>cardPrint([a.dataset.id]),cardWord:a=>cardWord([a.dataset.id]),saveCard:()=>saveCardForm(),
-  cardDir:async a=>{const ok=FS.dir?await cardDirGet(true):null;if(!ok)await cardDirPick();FS.list=null;if(a.dataset.id&&$('#fCard'))cardPrivPaint(st.staff.get(a.dataset.id));else render()},
+  cardDir:async a=>{const ok=FS.dir?await cardDirGet(true):null;if(!ok&&!await cardDirPick())return;FS.list=null;await cardAutoSync(false);if(a.dataset.id&&st.staff.get(a.dataset.id))openCard(a.dataset.id);else render()},
   cardBulk:()=>openCardBulk(),cardBulkGo:a=>cardBulkGo(a.dataset.v),saveEdu:()=>saveEduForm(),eduPaste:()=>openEduPaste(),eduPasteGo:()=>eduPasteGo(),eduK:a=>{st.eduK=a.dataset.v;render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
   delSch:a=>{const id=a.dataset.id;openConfirm('이 학교와 기록을 삭제할까요?',async()=>{await st.api.remove('schools',id);closeLayer();toast('삭제했어요')})},
   trnP:a=>{st.trnP=a.dataset.v;render()},trnS:a=>{st.trnS=a.dataset.v;render()},

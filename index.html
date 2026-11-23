@@ -1252,7 +1252,19 @@ button.oc-who:hover{background:#E5EAF4}
 .hsc-tp{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}button.cc{border:0;cursor:pointer;font:inherit;font-size:11.5px;font-weight:600}
 .hsc-ct,.hsc-lg{display:grid;gap:6px;margin-bottom:6px;align-items:center}.hsc-ct{grid-template-columns:1.1fr 1.3fr 1fr 1.3fr 32px}.hsc-lg{grid-template-columns:150px 1fr 32px}
 @media(max-width:700px){.hsc-ct{grid-template-columns:1fr 1fr}.hsc-ct .icon-btn{grid-column:2;justify-self:end}}
-.fld>label .btn.sm{margin-left:8px;height:24px;padding:0 9px;font-size:12px}.oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
+.fld>label .btn.sm{margin-left:8px;height:24px;padding:0 9px;font-size:12px}.modal.xwide{width:min(1080px,calc(100vw - 32px))}.h2s{font-size:13px;color:var(--mute);font-weight:500;margin-left:6px}
+.stabs{margin:-4px 0 14px}
+.cardbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 12px;background:#F5F8FA;border-radius:12px;margin-bottom:12px}.cardbar .note{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cdpriv:empty{display:none}.cdp{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line2);border-radius:12px;padding:12px}.cdp img,.cdph{width:84px;height:106px;object-fit:cover;border-radius:8px;flex:none;background:#F0F3F5}.cdph{display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--mute)}
+.cdp dl{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:5px 10px;margin:0;font-size:13px;flex:1;min-width:0}.cdp dt{color:var(--mute);font-weight:600}.cdp dd{margin:0}.cdp dd.w{grid-column:span 3}
+.cdpriv>.note{margin:6px 0 12px}
+.csec{margin-top:14px}.csec-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}.csec-h b{font-size:14px}
+.ctab{width:100%;border-collapse:collapse;font-size:12.5px}.ctab th{font-size:11.5px;color:var(--mute);font-weight:600;text-align:left;padding:4px 4px}.ctab td{padding:2px 2px}.ctab .ci{height:32px;padding:0 8px;font-size:13px;width:100%;min-width:70px}.ctab .cx{width:30px}.ctab .csrc{width:70px}
+.ctab tbody:empty::after{content:'없음';display:block;padding:6px 4px;color:#B5BFC5;font-size:12px}
+.cmil{margin-top:10px}.g2x{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
+@media(max-width:700px){.cdp dl{grid-template-columns:auto 1fr}.cdp dd.w{grid-column:auto}}
+.oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
 .og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
 .og-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
@@ -1569,6 +1581,7 @@ const ICONS={
  monthly:'<path d="M7 3.5h7l4.5 4.5v12.5H7z"/><path d="M14 3.5V8h4.5M10 17v-3M13 17v-5M16 17v-2"/>',
  ops:'<path d="M12 3.5l7 2.5v5.5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
  staff:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 20a5 5 0 0 1 6-4.8"/>',
+ edu:'<path d="M4 5.5h6a2 2 0 0 1 2 2V19a1.6 1.6 0 0 0-1.6-1.6H4zM20 5.5h-6a2 2 0 0 0-2 2V19a1.6 1.6 0 0 1 1.6-1.6H20z"/>',
  intern:'<path d="M2.5 9 12 4.5 21.5 9 12 13.5z"/><path d="M6.5 11v4.5c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3V11M21.5 9v5"/>',
  talk:'<path d="M4 5.5h16v10H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',
  history:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
@@ -1781,7 +1794,7 @@ function localApi(){
    ===================================================================== */
 const st={
   api:null,user:null,emails:[],admins:[],
-  tasks:new Map(),routines:new Map(),people:new Map(),cands:new Map(),staff:new Map(),reqs:new Map(),plans:new Map(),talks:new Map(),trainees:new Map(),schools:new Map(),notices:[],logs:[],settings:null,
+  tasks:new Map(),routines:new Map(),people:new Map(),cands:new Map(),staff:new Map(),reqs:new Map(),plans:new Map(),talks:new Map(),trainees:new Map(),schools:new Map(),edu:new Map(),notices:[],logs:[],settings:null,
   ready:{tasks:0,routines:0,people:0,settings:0},
   view:'home',
   filt:{who:'all',status:'open',period:'all',from:'',to:'',cat:'',side:'',q:'',star:false},
@@ -1858,7 +1871,7 @@ async function onUser(u){
   unsubs.push(A.watch('routines',docs=>{st.routines=new Map(docs.map(d=>[d.id,d]));st.ready.routines=1;maybeGen();render()}));
   unsubs.push(A.watch('people',docs=>{st.people=new Map(docs.map(d=>[d.id,d]));st.ready.people=1;render()}));
   unsubs.push(A.watch('candidates',docs=>{st.cands=new Map(docs.map(d=>[d.id,d]));render()}));
-  for(const [c,k] of [['staff','staff'],['reqs','reqs'],['plans','plans'],['talks','talks'],['events','events'],['trainees','trainees'],['schools','schools']])unsubs.push(A.watch(c,docs=>{st[k]=new Map(docs.map(d=>[d.id,d]));render()}));
+  for(const [c,k] of [['staff','staff'],['reqs','reqs'],['plans','plans'],['talks','talks'],['events','events'],['trainees','trainees'],['schools','schools'],['edu','edu']])unsubs.push(A.watch(c,docs=>{st[k]=new Map(docs.map(d=>[d.id,d]));render()}));
   unsubs.push(A.watch('notices',docs=>{st.notices=docs;render()},{order:'at',desc:true,limit:30}));
   unsubs.push(A.watch('logs',docs=>{st.logs=docs;if(st.view==='history')render()},{order:'at',desc:true,limit:150}));
   route();
@@ -1992,8 +2005,8 @@ async function createTask(d,quiet){
 /* =====================================================================
    라우팅 · 렌더
    ===================================================================== */
-const VIEWS=[['home','홈'],['tasks','업무'],['calendar','캘린더'],['routines','정기업무'],['report','업무 분석'],['plan','인원계획'],['recruit','채용 관리'],['people','입퇴사 현황'],['staff','직원 명부'],['org','조직도'],['hrstat','인사 통계'],['onoff','온보딩 · 오프보딩'],['track','수습 · 계약'],['intern','산학 협력'],['talk','면담'],['monthly','월간 리포트'],['ops','운영 점검'],['history','기록'],['settings','설정']];
-const NAV_GROUPS=[['업무',['tasks','calendar','routines','report']],['채용',['plan','recruit','people']],['인사관리',['staff','org','hrstat','onoff','track','intern','talk','monthly']],['운영',['ops','history','settings']]];
+const VIEWS=[['home','홈'],['tasks','업무'],['calendar','캘린더'],['routines','정기업무'],['report','업무 분석'],['plan','인원계획'],['recruit','채용 관리'],['people','입퇴사 현황'],['staff','직원 명부'],['org','조직도'],['hrstat','인사 통계'],['onoff','온보딩 · 오프보딩'],['track','수습 · 계약'],['intern','산학 협력'],['edu','교육 이수'],['talk','면담'],['monthly','월간 리포트'],['ops','운영 점검'],['history','기록'],['settings','설정']];
+const NAV_GROUPS=[['업무',['tasks','calendar','routines','report']],['채용',['plan','recruit','people']],['인사관리',['staff','org','hrstat','onoff','track','intern','edu','talk','monthly']],['운영',['ops','history','settings']]];
 // 주소창은 항상 깨끗하게(#tasks 같은 꼬리 없이) — 화면 이동은 브라우저 기록에 담아 뒤로가기도 돼요
 const cleanUrl=()=>location.pathname+location.search;
 function goView(v,push=true){
@@ -2035,7 +2048,7 @@ function renderNow(){
   renderNav();
   if(!st.ready.settings||!st.ready.tasks){$('#view').innerHTML='<div class="loading">불러오는 중…</div>';return}
   const keepFocus=document.activeElement?.id; const pos=document.activeElement?.selectionStart;
-  const f={home:vHome,tasks:vTasks,calendar:vCal,routines:vRoutines,people:vPeople,staff:vStaffList,talk:vTalk,plan:vPlanView,recruit:vRecruit,org:vOrgView,hrstat:vHrStat,onoff:vOnoff,track:vTrackView,intern:vIntern,monthly:vMonthlyView,ops:vOpsView,history:vHistory,report:vReport,settings:vSettings}[st.view];
+  const f={home:vHome,tasks:vTasks,calendar:vCal,routines:vRoutines,people:vPeople,staff:vStaffList,talk:vTalk,plan:vPlanView,recruit:vRecruit,org:vOrgView,hrstat:vHrStat,onoff:vOnoff,track:vTrackView,intern:vIntern,edu:vEdu,monthly:vMonthlyView,ops:vOpsView,history:vHistory,report:vReport,settings:vSettings}[st.view];
   // 다시 그려도 보드 칸·가로 스크롤 위치는 그대로 (체크할 때 목록이 위로 튀지 않게)
   const keepY=Object.fromEntries($$('#view .kcol').map(c=>[c.dataset.drop,c.querySelector('.kl')?.scrollTop||0])),keepX=$('#view .kb')?.scrollLeft||0;
   $('#view').innerHTML=f();
@@ -2479,6 +2492,10 @@ function vSettings(){
    <div class="kv"><b>업무 분류</b><div class="list-edit">${(s.cats||CATS).map(c=>`<span class="chip">${esc(c)}<button data-act="delCat" data-v="${esc(c)}" aria-label="삭제">✕</button></span>`).join('')}<form id="fCat" style="display:inline-flex;gap:6px"><input class="fsearch" style="min-width:120px" id="newCat" placeholder="새 분류"><button class="btn sm">추가</button></form></div>
    <b>정기업무 기본 미리 만들기</b><div><input class="fsel" type="number" min="1" max="90" id="sLead" value="${s.lead||14}" style="width:80px"> 일 전</div></div>
   </section>
+  <section class="card"><div class="card-h"><h2>인사카드</h2></div>
+   <div class="kv"><b>인사카드 폴더</b><div>${FS.dir?`<span class="cc t-g">연결됨</span> ${esc(FS.dir.name)} `:'<span class="cc t-s">연결 안 됨</span> '}<button class="btn sm" data-act="cardDir">${FS.dir?'다시 연결 · 허용':'폴더 연결'}</button><p class="note" style="margin:6px 0 0">회사 PC에서 인사카드 Word 파일이 있는 폴더를 골라 주세요. 파일은 이 브라우저에서만 읽고, 주민번호 · 주소 · 연락처 · 가족 · 사진은 어디에도 저장하지 않아요.</p></div>
+   <b>출력 하단 회사명</b><div><input class="fsel" id="sCardCo" value="${esc(s.cardCo||'')}" placeholder="예) (주)회사명" style="width:240px"></div></div>
+  </section>
   <section class="card"><div class="card-h"><h2>입·퇴사 후속 업무</h2><span class="sp"></span><span class="note">한 줄에 하나씩 · 업무명 | 기준일로부터(+일수, 다음달15) | 분류</span></div>
    <div class="g2"><div class="fld"><label>입사</label><textarea class="inp" id="tplIn" rows="6">${esc(tplTxt('in'))}</textarea></div><div class="fld"><label>퇴사</label><textarea class="inp" id="tplOut" rows="6">${esc(tplTxt('out'))}</textarea></div></div>
    <button class="btn pri" data-act="saveTpl">후속 업무 저장</button>
@@ -2775,6 +2792,10 @@ document.addEventListener('click',async e=>{
   const cd=T.closest('[data-cand]');if(cd){openCand(cd.dataset.cand);return}
   const sfd=T.closest('[data-staff]');if(sfd){openStaff(sfd.dataset.staff);return}
   const tkd=T.closest('[data-talk]');if(tkd){openTalk(tkd.dataset.talk);return}
+  const ca=T.closest('[data-cadd]');if(ca){const k=ca.dataset.cadd,sec=CARD_SECS.find(x=>x[0]===k);const tb=document.querySelector(`.ctab[data-sec="${k}"] tbody`);tb.insertAdjacentHTML('beforeend',secRow(k,sec[2]));tb.lastElementChild.querySelector('input')?.focus();return}
+  const ea=T.closest('[data-eadd]');if(ea){const tb=$('#fEdu tbody');tb.insertAdjacentHTML('afterbegin',eduRow({}));tb.firstElementChild.querySelector('input')?.focus();return}
+  const cr=T.closest('[data-crm]');if(cr){cr.closest('tr').remove();return}
+  const eds=T.closest('[data-edus]');if(eds){openEduTab(eds.dataset.edus);return}
   const trd=T.closest('[data-trn]');if(trd){openTrn(trd.dataset.trn);return}
   const shd=T.closest('[data-sch]');if(shd){openSch(shd.dataset.sch);return}
   const sad=T.closest('[data-sadd]');if(sad){const w=sad.dataset.sadd==='ct'?$('#hCts'):$('#hLogs');w.insertAdjacentHTML('beforeend',sad.dataset.sadd==='ct'?schCtRow():schLgRow({date:today()}));w.lastElementChild.querySelector('input:not([type=date])')?.focus();return}
@@ -2845,7 +2866,7 @@ document.addEventListener('click',async e=>{
   const hb=T.closest('#tHelpers .chip');if(hb){hb.classList.toggle('on');return}
   const ptb=T.closest('#pType button');if(ptb){$$('#pType button').forEach(b=>b.classList.toggle('on',b===ptb));const o2=ptb.dataset.v==='out';if($('#pInF'))$('#pInF').hidden=o2;if($('#pOutF'))$('#pOutF').hidden=!o2;if($('#pDateL'))$('#pDateL').textContent=o2?'퇴사일':'입사일';return}
   const np=T.closest('#nProg button');if(np){$$('#nProg button').forEach(b=>b.classList.toggle('on',b===np));$('#fTrn').classList.toggle('is-intern',np.dataset.v==='대학생인턴');return}
-  const nsb=T.closest('#nStatus button,#nDec button,#hKind button,#hSt button');if(nsb){$$('#'+nsb.parentElement.id+' button').forEach(b=>b.classList.toggle('on',b===nsb));return}
+  const nsb=T.closest('#nStatus button,#nDec button,#hKind button,#hSt button,#cbT button');if(nsb){$$('#'+nsb.parentElement.id+' button').forEach(b=>b.classList.toggle('on',b===nsb));return}
   const kt=T.closest('#kType button');if(kt){$$('#kType button').forEach(b=>b.classList.toggle('on',b===kt));$('#kQs').innerHTML=(TALK_GUIDE[kt.dataset.v]?.q||[]).map(x=>`<button type="button" class="chip" data-tq="${esc(x)}">${esc(x)}</button>`).join('');return}
   const tqb=T.closest('[data-tq]');if(tqb){const ta=$('#kSum');ta.value=(ta.value.trim()?ta.value.replace(/\s*$/,'')+'\n':'')+'Q. '+tqb.dataset.tq+'\nA. ';ta.focus();return}
   const pk=T.closest('.segs.pick button');if(pk){$$('button',pk.parentElement).forEach(b=>b.classList.toggle('on',b===pk));return}
@@ -2865,6 +2886,8 @@ document.addEventListener('change',e=>{
   if(T.classList.contains('ssAll')){const S=st.ssel||(st.ssel=new Set());[...document.querySelectorAll('.ssOne')].forEach(x=>T.checked?S.add(x.dataset.id):S.delete(x.dataset.id));render();return}
   if(T.id==='ooAll'){st.ooAll=T.checked;render();return}
   if(T.id==='sFt'){st.sft=T.value;render();return}
+  if(T.id==='eduY'){st.eduY=T.value;render();return}
+  if(T.id==='sCardCo'){st.api.put('settings','main',{cardCo:T.value.trim()});toast('저장했어요');return}
   if(T.matches('[data-plan]')){savePlanCell(T);return}
   if(T.id==='recY'){st.recY=T.value;render();return}
   if(T.id==='sLead'){st.api.put('settings','main',{lead:+T.value||14});toast('저장했어요');return}
@@ -2874,6 +2897,7 @@ document.addEventListener('input',e=>{
   if(e.target.id==='q')doSearch(e.target.value);
   if(e.target.id==='qa')qaPreview();
   if(e.target.id==='sQ'){st.sq=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
+  if(e.target.id==='eduQ'){st.eduQ=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
   if(e.target.id==='schQ'){st.schQ=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
   if(e.target.id==='trnQ'){st.trnQ=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
   if(e.target.id==='tkQ'){st.tq=e.target.value;clearTimeout(st.qt);st.qt=setTimeout(render,200)}
@@ -3443,6 +3467,7 @@ function vRoster(){
       if(dv!==pd){pd=dv;pt=null;if(dv)rows.push(`<tr class="rg-d"><td colspan="13"><b>${esc(dv)}</b><span>${L.filter(x=>(x.div||'')===dv).length}명</span></td></tr>`)}
       if(t!==pt){pt=t;rows.push(`<tr class="rg-t"><td colspan="13"><b>${esc(t)}</b><span>${L.filter(x=>teamOf(x)===t&&(x.div||'')===dv).length}명</span></td></tr>`)}}
     rows.push(s)});
+  st.rosterIds=L.map(s=>s.id);
   const chips=s=>{const c=[];if(s.prob&&!s.probRes)c.push(`<span class="cc t-a">수습 ~${md(probEnd(s))}</span>`);else if(s.prob&&s.probRes)c.push(`<span class="cc t-s">수습 ${esc(s.probRes)}</span>`);
     if(s.etype==='계약'&&s.cEnd)c.push(`<span class="cc ${s.cDec?'t-s':'t-c'}">계약 ~${md(s.cEnd)}${s.cDec?' · '+esc(s.cDec):''}</span>`);return c.join(' ')||'—'};
   return `<section class="card rec"><div class="recbar ros-top"><label class="ssearch">${ic('search',18)}<input id="sQ" placeholder="이름, 부서, 직급, 사번으로 검색" value="${esc(st.sq||'')}"></label>
@@ -3450,7 +3475,7 @@ function vRoster(){
     <select class="fsel" id="sFt" aria-label="부서"><option value="">부서 전체</option>${teams.map(t=>`<option ${ft===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
    ${chk.length?`<div class="schk"><div class="schk-h">확인이 필요해요</div><div class="schk-l">${chk.slice(0,4).map(x=>{const n=diffD(x.d,td);return `<button class="schk-i" data-act="goTrack"><span><b>${esc(x.s.name)}</b><em>${x.kind}${n<0?'됨 · 결과 필요':` ${dfmt(n)}`}</em><small>${esc([x.s.team,x.s.rank].filter(Boolean).join(' · '))}</small></span><i>›</i></button>`}).join('')}</div>${chk.length>4?`<button class="sgmore" data-act="goTrack">${chk.length-4}건 더 보기</button>`:''}</div>`:''}
    <div class="recbar ros-sub"><b class="ros-cnt">${fs==='전체'?'전체':fs} ${L.length}명</b>${ft?`<span class="note">${esc(ft)}</span>`:''}<span class="sp" style="flex:1"></span>
-    ${sel.size?`<span class="ssbar"><b>${sel.size}명 선택</b><button class="btn sm dan" data-act="ssDel">선택 삭제</button><button class="btn sm" data-act="ssClr">해제</button></span>`:''}
+    ${sel.size?`<span class="ssbar"><b>${sel.size}명 선택</b><button class="btn sm dan" data-act="ssDel">선택 삭제</button><button class="btn sm" data-act="ssClr">해제</button></span>`:''}<button class="btn sm" data-act="cardBulk">인사카드 출력 · 저장</button>
     <div class="segs ssm">${[['org','사업부·부서순'],['rank','직급순'],['name','가나다순'],['join','입사일순']].map(([k,l])=>`<button class="${smode===k?'on':''}" data-act="ssMode" data-v="${k}">${l}</button>`).join('')}</div><button class="btn sm" data-act="csvStaff">CSV</button></div>
    ${L.length?`<div class="rtw"><table class="rtab ros"><thead><tr><th class="ck"><input type="checkbox" class="ssAll" aria-label="모두 선택" ${L.length&&L.every(s=>sel.has(s.id))?'checked':''}></th>${['name','team','rank','job','etype','join','ten'].map(rsTh).join('')}<th>수습 · 계약</th>${rsTh('status')}<th>메모</th><th></th></tr></thead><tbody>
    ${rows.map(s=>typeof s==='string'?s:`<tr class="${sel.has(s.id)?'on':''}"><td class="ck"><input type="checkbox" class="ssOne" data-id="${s.id}" aria-label="선택" ${sel.has(s.id)?'checked':''}></td><td class="nm" data-staff="${s.id}"><b>${esc(s.name)}</b>${s.leader?'<small>팀장</small>':''}</td><td>${esc(s.team||'—')}</td><td>${esc(s.rank||'—')}</td><td>${esc(s.job||'—')}</td><td>${esc(s.etype||'정규')}</td>
@@ -3613,7 +3638,7 @@ function openStaff(id,pre={}){
   if(!s)return;
   const seg=(idn,arr,v)=>`<div class="segs pick" id="${idn}">${arr.map(x=>`<button type="button" class="${x===v?'on':''}" data-v="${x}">${x}</button>`).join('')}</div>`;
   const sel=(idn,arr,v,ph)=>`<select class="inp" id="${idn}"><option value="">${ph}</option>${arr.map(x=>`<option ${x===v?'selected':''}>${x}</option>`).join('')}</select>`;
-  openLayer(`<div class="modal wide" role="dialog" aria-label="직원"><h2>${id?'직원 정보':'직원 추가'}</h2>
+  openLayer(`<div class="modal wide" role="dialog" aria-label="직원"><h2>${id?esc(s.name)+' <small class="h2s">'+esc([s.team,s.rank].filter(Boolean).join(' · '))+'</small>':'직원 추가'}</h2>${id?staffTabs(id,'info'):''}
    <form id="fStaff" data-id="${id||''}">
     <div class="g3"><div class="fld"><label for="sName">이름</label><input class="inp" id="sName" value="${esc(s.name)}"></div>
      <div class="fld"><label for="sTeam">부서</label><input class="inp" id="sTeam" list="teamList3" value="${esc(s.team||'')}"><datalist id="teamList3">${ivTeams().concat(staffAll().map(x=>x.team)).filter((v,i,a)=>v&&a.indexOf(v)===i).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div>
@@ -3929,6 +3954,360 @@ async function schPasteGo(){
   if(!ops.length){toast('넣을 학교를 못 찾았어요');return}
   await st.api.batch(ops);addLog(`학교 · 모집 요청 붙여넣기 · ${ops.length}곳`);closeLayer();toast(`${ops.length}곳을 넣었어요`);
 }
+/* ---------------- 인사카드 · 교육 이수 ----------------
+   - 보드에 저장: 학력 · 병역 · 자격 · 어학 · 경력 · 발령 · 상벌 (staff.card) / 교육 이수 (edu)
+   - 저장 안 함(민감 정보): 주민번호 · 생년월일 · 주소 · 연락처 · 가족 · 기타사항 · 사진
+     → 회사 PC에서 연결한 인사카드 폴더의 Word 파일에서 그때그때 읽어서 화면 · 출력에만 써요 */
+const CARD_SECS=[
+ ['edu','학력사항',[['school','학교명'],['major','전공'],['in','입학년월'],['out','졸업년월'],['kind','구분'],['note','비고']],3],
+ ['lic','자격면허',[['kind','종류'],['date','취득일'],['org','발행처']],3],
+ ['lang','어학능력',[['name','외국어명'],['test','시험'],['score','공인점수'],['date','취득일'],['org','시행처']],2],
+ ['career','경력사항',[['org','근무처'],['period','근무기간'],['rank','직급'],['job','직무'],['reason','퇴사사유']],5],
+ ['bal','인사발령',[['date','발령일자'],['kind','발령구분'],['rank','직급'],['ord','명'],['off','면'],['note','발령내용']],10],
+ ['prize','포상',[['title','포상 및 내용'],['ym','포상년월'],['by','포상권자']],6],
+ ['disc','징계',[['what','징계내용'],['period','기간'],['why','사유']],6]];
+const EDU_KINDS=['법정의무','직무','사내','외부','자격','기타'];
+const EDU_COLS=[['title','교육명'],['kind','교육구분'],['start','시작일'],['end','종료일'],['org','교육기관'],['hours','시간'],['note','비고']];
+const eduAll=()=>[...(st.edu?.values()||[])];
+const eduOf=s=>eduAll().filter(e=>e.sid===s.id||(!e.sid&&e.name===s.name)||(s.empNo&&e.empNo===s.empNo)).sort((a,b)=>(b.start||'').localeCompare(a.start||''));
+const eduSpan=e=>[e.start,e.end&&e.end!==e.start?e.end:''].filter(Boolean).map(x=>x.replace(/-/g,'.')).join(' ~ ');
+
+/* --- 인사카드 폴더 (브라우저가 기억, 서버로 안 보냄) --- */
+const FS={dir:null,list:null,cache:new Map()};
+const idb=(mode,fn)=>new Promise((ok,no)=>{const r=indexedDB.open('hrb-fs',1);r.onupgradeneeded=()=>r.result.createObjectStore('h');r.onerror=()=>no(r.error);r.onsuccess=()=>{try{const t=r.result.transaction('h',mode),s=t.objectStore('h'),q=fn(s);t.oncomplete=()=>ok(q?.result);t.onerror=()=>no(t.error)}catch(e){no(e)}}});
+async function cardDirGet(ask){
+  if(FS.dir){if(await FS.dir.queryPermission({mode:'read'})==='granted')return FS.dir;if(ask&&await FS.dir.requestPermission({mode:'read'})==='granted')return FS.dir;return null}
+  let h=null;try{h=await idb('readonly',s=>s.get(NS+'cardDir'))}catch(e){}
+  if(h){FS.dir=h;return cardDirGet(ask)}
+  return null;
+}
+async function cardDirPick(){
+  if(!window.showDirectoryPicker){toast('이 브라우저는 폴더 연결을 지원하지 않아요 (Edge · 크롬에서 열어 주세요)');return null}
+  try{const h=await window.showDirectoryPicker({id:'hrcard',mode:'read'});FS.dir=h;FS.list=null;FS.cache.clear();try{await idb('readwrite',s=>s.put(h,NS+'cardDir'))}catch(e){}
+    st.cardDirName=h.name;toast(`'${h.name}' 폴더를 연결했어요`);render();return h}catch(e){if(e.name!=='AbortError')toast('폴더를 열지 못했어요: '+e.message);return null}
+}
+async function cardList(ask){
+  const d=await cardDirGet(ask);if(!d)return null;
+  if(FS.list)return FS.list;const L=[];
+  for await(const [n,h] of d.entries()){if(h.kind==='file'&&/\.docx$/i.test(n)&&!/^[~#]/.test(n))L.push({n,h})}
+  return FS.list=L;
+}
+const cardFileName=n=>String(n).replace(/\.docx$/i,'');
+async function cardFileFor(s,ask){
+  const L=await cardList(ask);if(!L)return undefined;
+  const nm=String(s.name||'').replace(/\s/g,'');if(!nm)return null;
+  const hit=L.filter(x=>{const b=cardFileName(x.n).replace(/\s/g,'');const i=b.indexOf(nm);if(i<0)return false;const pre=b[i-1],post=b[i+nm.length];return (i===0||/[_\-.\s)]/.test(pre))&&(post===undefined||/[_(\-.\s]/.test(post))});
+  if(!hit.length)return null;
+  const fs=await Promise.all(hit.map(async x=>({x,f:await x.h.getFile()})));fs.sort((a,b)=>b.f.lastModified-a.f.lastModified);
+  return fs[0].f;
+}
+
+/* --- docx 읽기: zip을 직접 풀어요 (외부 라이브러리 없음) --- */
+async function unzipPick(buf,want){
+  const u=new Uint8Array(buf),dv=new DataView(buf),out={};
+  let e=u.length-22;while(e>=0&&dv.getUint32(e,true)!==0x06054b50)e--;if(e<0)throw new Error('Word 파일이 아니에요');
+  let p=dv.getUint32(e+16,true);const n=dv.getUint16(e+10,true),td=new TextDecoder();
+  for(let i=0;i<n;i++){
+    const m=dv.getUint16(p+10,true),cs=dv.getUint32(p+20,true),nl=dv.getUint16(p+28,true),xl=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true);
+    const name=td.decode(u.subarray(p+46,p+46+nl));p+=46+nl+xl+cl;
+    if(!want(name))continue;
+    const ds=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),raw=u.subarray(ds,ds+cs);
+    out[name]=m===0?raw.slice():new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+  }
+  return out;
+}
+const W_NS='http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+const nk=s=>String(s||'').replace(/\s+/g,'');
+function docxRows(xml){
+  const doc=new DOMParser().parseFromString(xml,'application/xml'),body=doc.getElementsByTagNameNS(W_NS,'body')[0];const T=[];
+  const txt=el=>{let s='';const walk=n=>{for(const c of n.childNodes){if(c.namespaceURI!==W_NS){if(c.childNodes)walk(c);continue}if(c.localName==='t')s+=c.textContent;else if(c.localName==='tab')s+=' ';else if(c.localName==='br'||c.localName==='p'&&s)s+=(c.localName==='p'?'\n':' ');if(c.localName!=='t')walk(c)}};walk(el);return s.replace(/[ \t]+/g,' ').replace(/\n+/g,' ').trim()};
+  const tables=[];const findT=n=>{for(const c of n.children){if(c.namespaceURI===W_NS&&c.localName==='tbl')tables.push(c);else findT(c)}};findT(body);
+  tables.forEach(t=>{const rows=[];for(const tr of t.children){if(tr.localName!=='tr')continue;const cells=[];for(const tc of tr.children){if(tc.localName!=='tc')continue;cells.push(txt(tc))}rows.push(cells)}T.push(rows)});
+  return T;
+}
+/* 병역 '필: O  미필:  면제:  특례(사유: )' → '필' · '면제 (기흉)' · '특례 (산업기능요원)' */
+function milParse(v){
+  v=String(v||'').replace(/\s+/g,' ').trim();if(!/[:：]/.test(v))return /^[-–]$/.test(v)?'':v;
+  v=v.replace(/^팔/,'필').replace(/([√✓])(미필|면제|특례)/g,'$2:$1 ');
+  const K=['미필','면제','특례'],pos=[{k:'필',i:0}];K.forEach(k=>{const i=v.indexOf(k);if(i>=0)pos.push({k,i})});pos.sort((a,b)=>a.i-b.i);
+  const MK=/^[OoＯ0○●■√✓Vvㅇ필\-–·.\s]*$/;const out=[];
+  pos.forEach((p,j)=>{let s=v.slice(p.i+p.k.length,j+1<pos.length?pos[j+1].i:v.length).replace(/\(?\s*사유\s*/,'').replace(/[:：()]/g,' ').replace(/\s+/g,' ').trim();
+    if(!s||/^[-–]$/.test(s))return;const det=MK.test(s)?'':s.replace(/^[OoＯ0○●■√✓Vvㅇ]\s*/,'').trim();out.push(det&&det!==p.k?`${p.k} (${det})`:p.k)});
+  return out.join(', ');
+}const SEC_MAP={'학력사항':'edu','병역':'mil','병역사항':'mil','자격면허':'lic','자격사항':'lic','어학능력':'lang','경력사항':'career','가족관계':'family','기타사항':'etc'};
+const PERS={'성명(한글)':'name','성명(영문)':'en','성명(한자)':'hanja','주민등록번호':'rrn','실제생년월일':'birth','생년월일':'birth','이메일':'email','현주소':'addr','주소':'addr','핸드폰':'phone','휴대폰':'phone','연락처':'phone','비상연락망':'emer'};
+const ETC_L=['신장','체중','혈액형','시력','거주형태','종교','취미,특기','취미특기','결혼여부','보훈대상자','장애'];
+const cardClean=v=>{v=String(v||'').trim();return /^[-–—]$/.test(v)?'':v};
+function parseCardTables(T){
+  const c={en:'',hanja:'',email:'',mil:{type:'',branch:'',rank:'',period:''},edu:[],lic:[],lang:[],career:[],bal:[],prize:[],disc:[],eduRec:[]};
+  const p={name:'',rrn:'',birth:'',addr:'',phone:'',emer:'',family:[],etc:[]};
+  const all=T.flat();
+  all.forEach(r=>r.forEach((x,i)=>{const k=PERS[nk(x)];if(!k)return;const v=cardClean(r[i+1]);if(PERS[nk(r[i+1])])return;if(k==='en'||k==='hanja'||k==='email')c[k]=c[k]||v;else p[k]=p[k]||v}));
+  const pushRow=(arr,keys,cells)=>{const o={};keys.forEach((k,i)=>o[k]=cardClean(cells[i]));if(Object.values(o).some(Boolean))arr.push(o)};
+  T.forEach(rows=>{
+    const h=nk((rows[0]||[]).join(''));
+    if(/^발령일자/.test(h)){rows.slice(1).forEach(r=>pushRow(c.bal,['date','kind','rank','ord','off','note'],r));return}
+    if(/^교육명/.test(h)){rows.slice(1).forEach(r=>{const o={};['title','kind','period','org','note'].forEach((k,i)=>o[k]=cardClean(r[i]));if(o.title)c.eduRec.push(o)});return}
+    if(/포상내역/.test(h)){rows.slice(2).forEach(r=>{pushRow(c.prize,['title','ym','by'],r.slice(0,3));pushRow(c.disc,['what','period','why'],r.slice(3,6))});return}
+    let sec=null,milH=false;
+    rows.forEach(r=>{const f=nk(r[0]);if(SEC_MAP[f]){sec=SEC_MAP[f];milH=false;
+        if(sec==='mil'){const i=r.findIndex(x=>/제대구분/.test(nk(x)));c.mil.type=milParse(r.slice(i+1).join(' '));return}
+        if(sec==='etc'){etcPairs(r.slice(1));return}
+        return}
+      if(!sec)return;const d=r.slice(1);
+      if(sec==='mil'){if(/군별/.test(nk(d.join('')))){milH=true;return}if(milH&&d.some(x=>cardClean(x))&&!c.mil.branch){c.mil.branch=cardClean(d[0]);c.mil.rank=cardClean(d[1]);c.mil.period=cardClean(d[2])}return}
+      if(sec==='etc'){etcPairs(d);return}
+      if(/^(학교명|종류|외국어명|근무처|관계)/.test(nk(d[0])))return;
+      if(sec==='edu')pushRow(c.edu,['school','major','in','out','kind','note'],d);
+      else if(sec==='lic'){pushRow(c.lic,['kind','date','org'],d.slice(0,3));pushRow(c.lic,['kind','date','org'],d.slice(3,6))}
+      else if(sec==='lang')pushRow(c.lang,['name','test','score','date','org'],d);
+      else if(sec==='career')pushRow(c.career,['org','period','rank','job','reason'],d);
+      else if(sec==='family')pushRow(p.family,['rel','name','birth','school','job','live'],d)});
+  });
+  function etcPairs(d){for(let i=0;i<d.length;i++){const l=nk(d[i]);const L=ETC_L.find(x=>nk(x)===l);if(L){const nv=d[i+1]||'';p.etc.push([d[i].trim(),/^(등급|종류)$/.test(nk(nv))?'':cardClean(nv)]);if(!/^(등급|종류)$/.test(nk(nv)))i++}else if(/^(등급|종류)/.test(l)&&d[i].trim().length>2){p.etc.push([d[i].trim().slice(0,2),d[i].trim().slice(2).replace(/^\s*[:：]?\s*/,'')])}}}
+  return {card:c,priv:p};
+}
+async function readCard(s,ask){
+  const f=await cardFileFor(s,ask);if(!f)return f;
+  const key=f.name+'|'+f.lastModified;if(FS.cache.has(key))return FS.cache.get(key);
+  const z=await unzipPick(await f.arrayBuffer(),n=>n==='word/document.xml'||n==='word/_rels/document.xml.rels'||/^word\/media\//.test(n));
+  const xml=new TextDecoder().decode(z['word/document.xml']);const r=parseCardTables(docxRows(xml));
+  // 사진: 문서에 처음 나오는 그림
+  try{const rid=(xml.match(/r:embed="([^"]+)"/)||[])[1];if(rid&&z['word/_rels/document.xml.rels']){const rel=new TextDecoder().decode(z['word/_rels/document.xml.rels']);const tg=(rel.match(new RegExp(`Id="${rid}"[^>]*Target="([^"]+)"`))||rel.match(new RegExp(`Target="([^"]+)"[^>]*Id="${rid}"`))||[])[1];const img=tg&&z['word/'+tg.replace(/^\.?\//,'')];if(img){const ext=tg.split('.').pop().toLowerCase();if(/png|jpe?g|gif|bmp/.test(ext))r.priv.photo=URL.createObjectURL(new Blob([img],{type:'image/'+(ext==='jpg'?'jpeg':ext)}))}}}catch(e){}
+  r.file={name:f.name,mod:f.lastModified,isNew:r.card.bal.length>0||/발령일자/.test(xml)};
+  FS.cache.set(key,r);return r;
+}
+window.__cardParse=async buf=>{const z=await unzipPick(buf,n=>n==='word/document.xml');return parseCardTables(docxRows(new TextDecoder().decode(z['word/document.xml'])))};
+
+/* --- 교육 기록 날짜 풀기: '2026.03.02~2026.03.05', '2026-03', '2026.3.2' --- */
+function eduPeriod(v){v=String(v||'');const ds=[...v.matchAll(/(\d{4})[-./년\s]+(\d{1,2})(?:[-./월\s]+(\d{1,2}))?/g)].map(m=>`${m[1]}-${pad(m[2])}-${pad(m[3]||1)}`);return {start:ds[0]||'',end:ds[1]||''}}
+
+/* --- 인사카드 창 --- */
+const cardOf=s=>s.card||{};
+const cardFilled=s=>{const c=cardOf(s);return CARD_SECS.some(([k])=>(c[k]||[]).length)||!!(c.mil&&c.mil.branch)};
+function staffTabs(id,on){const s=st.staff.get(id);const n=s?eduOf(s).length:0;return `<div class="segs ptabs stabs">${[['info','기본 정보'],['card','인사카드'],['edu','교육 이수',n]].map(([k,l,c])=>`<button type="button" class="${on===k?'on':''}" data-act="stTab" data-id="${id}" data-v="${k}">${l}${c!=null?`<span class="tc">${c}</span>`:''}</button>`).join('')}</div>`}
+const secRow=(k,cols,o={})=>`<tr>${cols.map(([f])=>`<td><input class="inp ci" data-f="${f}" value="${esc(o[f]||'')}"></td>`).join('')}<td class="cx"><button type="button" class="icon-btn" data-crm="1" aria-label="이 줄 지우기">×</button></td></tr>`;
+async function openCard(id,pre){
+  const s=st.staff.get(id);if(!s)return;const c=pre||structuredClone(cardOf(s));c.mil=c.mil||{};
+  openLayer(`<div class="modal xwide" role="dialog" aria-label="인사카드"><h2>${esc(s.name)} <small class="h2s">${esc([s.team,s.rank].filter(Boolean).join(' · '))}</small></h2>${staffTabs(id,'card')}
+   <div class="cardbar"><span id="cdSrc" class="note">인사카드 파일 확인 중…</span><span class="sp" style="flex:1"></span>
+    <button type="button" class="btn sm" data-act="cardImport" data-id="${id}">파일에서 가져오기</button><button type="button" class="btn sm" data-act="cardWord" data-id="${id}">Word로 저장</button><button type="button" class="btn sm pri" data-act="cardPrint" data-id="${id}">PDF · 인쇄</button></div>
+   <div id="cdPriv" class="cdpriv"></div>
+   <form id="fCard" data-id="${id}">
+    <div class="g3"><div class="fld"><label>성명(영문)</label><input class="inp" id="cEn" value="${esc(c.en||'')}"></div><div class="fld"><label>성명(한자)</label><input class="inp" id="cHj" value="${esc(c.hanja||'')}"></div><div class="fld"><label>이메일</label><input class="inp" id="cEm" value="${esc(c.email||'')}"></div></div>
+    ${CARD_SECS.map(([k,l,cols])=>`<div class="csec"><div class="csec-h"><b>${l}</b><button type="button" class="btn sm" data-cadd="${k}">+ 줄</button></div>
+     <div class="rtw"><table class="ctab" data-sec="${k}"><thead><tr>${cols.map(([,h])=>`<th>${h}</th>`).join('')}<th></th></tr></thead><tbody>${(c[k]||[]).map(o=>secRow(k,cols,o)).join('')}</tbody></table></div>${k==='edu'?`<div class="g3 cmil"><div class="fld"><label>병역 · 제대구분</label><input class="inp" id="cMt" value="${esc(c.mil.type||'')}" placeholder="필 / 미필 / 면제 / 특례"></div><div class="fld"><label>군별 · 최종계급</label><div class="g2x"><input class="inp" id="cMb" value="${esc(c.mil.branch||'')}" placeholder="군별"><input class="inp" id="cMr" value="${esc(c.mil.rank||'')}" placeholder="계급"></div></div><div class="fld"><label>복무기간</label><input class="inp" id="cMp" value="${esc(c.mil.period||'')}"></div></div>`:''}</div>`).join('')}
+    <p class="note">교육사항은 '교육 이수' 탭에서 관리해요. 주민번호 · 주소 · 연락처 · 가족 · 기타사항 · 사진은 보드에 저장하지 않고, 인사카드 파일에서 읽어 화면과 출력에만 써요.</p>
+   </form>
+   <div class="acts"><button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="saveCard">저장</button></div></div>`);
+  cardPrivPaint(s);
+}
+async function cardPrivPaint(s){
+  const el=$('#cdSrc'),pv=$('#cdPriv');if(!el)return;
+  if(!window.showDirectoryPicker){el.textContent='이 브라우저에서는 인사카드 파일을 읽을 수 없어요';return}
+  let r;try{r=await readCard(s,false)}catch(e){el.textContent='인사카드 파일을 읽지 못했어요: '+e.message;return}
+  if(r===undefined){el.innerHTML=`인사카드 폴더가 연결되지 않았어요 <button type="button" class="btn sm" data-act="cardDir" data-id="${s.id}">${FS.dir?'폴더 다시 허용':'폴더 연결'}</button>`;return}
+  if(r===null){el.innerHTML='<span class="cc t-r">인사카드 파일 없음</span> 폴더에 이 직원 이름의 파일이 없어요';pv.innerHTML='';return}
+  el.innerHTML=`<span class="cc ${r.file.isNew?'t-g':'t-a'}">${r.file.isNew?'26년 양식':'예전 양식'}</span> ${esc(r.file.name)} · 수정 ${new Date(r.file.mod).toLocaleDateString('ko-KR')}`;
+  const P=r.priv,mask=v=>v?esc(v.replace(/(\d{6})\s*[-–]?\s*(\d)\d{6}/,'$1-$2******')):'—';
+  pv.innerHTML=`<div class="cdp">${P.photo?`<img src="${P.photo}" alt="사진">`:'<div class="cdph">사진 없음</div>'}<dl>
+    <dt>주민등록번호</dt><dd>${mask(P.rrn)}</dd><dt>실제생년월일</dt><dd>${esc(P.birth||'—')}</dd><dt>핸드폰</dt><dd>${esc(P.phone||'—')}</dd><dt>비상연락망</dt><dd>${esc(P.emer||'—')}</dd><dt>현주소</dt><dd class="w">${esc(P.addr||'—')}</dd>
+    <dt>가족</dt><dd class="w">${P.family.length?P.family.map(f=>esc([f.rel,f.name].filter(Boolean).join(' '))).join(', '):'—'}</dd></dl></div><p class="note">파일에서 읽은 정보예요 (보드에 저장 안 됨) · 주민번호 뒷자리는 출력할 때만 보여요</p>`;
+}
+function cardFromForm(){
+  const c={en:$('#cEn').value.trim(),hanja:$('#cHj').value.trim(),email:$('#cEm').value.trim(),mil:{type:$('#cMt').value.trim(),branch:$('#cMb').value.trim(),rank:$('#cMr').value.trim(),period:$('#cMp').value.trim()}};
+  CARD_SECS.forEach(([k])=>{c[k]=[...document.querySelectorAll(`.ctab[data-sec="${k}"] tbody tr`)].map(tr=>Object.fromEntries([...tr.querySelectorAll('[data-f]')].map(i=>[i.dataset.f,i.value.trim()]))).filter(o=>Object.values(o).some(Boolean))});
+  return c;
+}
+async function saveCardForm(close=true){
+  const id=$('#fCard').dataset.id,s=st.staff.get(id);if(!s)return;const c=cardFromForm();c.updatedAt=nowISO();
+  await st.api.put('staff',id,{card:c});addLog(`인사카드 수정 · ${s.name}`);if(close)closeLayer();toast('인사카드를 저장했어요');
+}
+/* 파일 → 보드: 비어 있는 칸만 채우거나(merge) 모두 바꿔요 */
+function cardMerge(cur,inc,replace){
+  const c=structuredClone(cur||{});['en','hanja','email'].forEach(k=>{if(replace||!c[k])c[k]=inc[k]||c[k]||''});
+  if(replace||!(c.mil&&(c.mil.type||c.mil.branch)))c.mil=inc.mil;
+  CARD_SECS.forEach(([k])=>{if(replace||!(c[k]||[]).length)c[k]=inc[k]||[]});return c;
+}
+function eduFromCard(s,rows){
+  const have=eduOf(s);return rows.map(o=>{const pd=eduPeriod(o.period);return {sid:s.id,empNo:s.empNo||'',name:s.name,title:o.title,kind:EDU_KINDS.includes(o.kind)?o.kind:(o.kind||''),start:pd.start,end:pd.end,org:o.org,hours:'',note:[o.note,!pd.start&&o.period?o.period:''].filter(Boolean).join(' '),src:'인사카드'}}).filter(e=>!have.some(h=>h.title===e.title&&(h.start||'')===(e.start||'')));
+}
+async function cardImportOne(id){
+  const s=st.staff.get(id);let r;try{r=await readCard(s,true)}catch(e){toast('파일을 읽지 못했어요: '+e.message);return}
+  if(r===undefined){if(await cardDirPick())return cardImportOne(id);return}
+  if(r===null){toast('이 직원의 인사카드 파일이 없어요');return}
+  const cur=$('#fCard')?cardFromForm():cardOf(s);const filled=CARD_SECS.some(([k])=>(cur[k]||[]).length);
+  const go=async replace=>{const c=cardMerge(cur,r.card,replace);const E=eduFromCard(s,r.card.eduRec);
+    if(E.length)await st.api.batch(E.map(e=>({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}})));
+    openCard(id,c);toast(`파일 내용을 넣었어요${E.length?` · 교육 ${E.length}건 추가`:''} — 확인 후 저장을 눌러 주세요`)};
+  if(!filled)return go(false);
+  openLayer(`<div class="modal" role="alertdialog"><h2>파일에서 가져오기</h2><p>이미 입력한 내용이 있어요. 어떻게 넣을까요?</p><div class="acts"><button class="btn" id="ciBack">취소</button><button class="btn" id="ciFill">빈 칸만 채우기</button><button class="btn pri" id="ciAll">파일 내용으로 모두 바꾸기</button></div></div>`);
+  $('#ciBack').onclick=()=>openCard(id,cur);$('#ciFill').onclick=()=>go(false);$('#ciAll').onclick=()=>go(true);
+}
+
+/* --- 교육 이수 탭 (직원별) --- */
+const eduRow=(e={})=>`<tr data-eid="${e.id||''}">${EDU_COLS.map(([f])=>f==='kind'?`<td><input class="inp ci" data-f="kind" list="eduKinds" value="${esc(e.kind||'')}"></td>`:`<td><input class="inp ci" ${/start|end/.test(f)?'type="date"':''} data-f="${f}" value="${esc(e[f]||'')}"></td>`).join('')}<td class="csrc">${e.src&&e.src!=='보드'?`<span class="cc ${e.src==='그룹웨어'?'t-b':'t-s'}">${esc(e.src)}</span>`:''}</td><td class="cx"><button type="button" class="icon-btn" data-crm="1" aria-label="이 줄 지우기">×</button></td></tr>`;
+function openEduTab(id){
+  const s=st.staff.get(id);if(!s)return;const L=eduOf(s);
+  openLayer(`<div class="modal xwide" role="dialog" aria-label="교육 이수"><h2>${esc(s.name)} <small class="h2s">${esc([s.team,s.rank].filter(Boolean).join(' · '))}</small></h2>${staffTabs(id,'edu')}
+   <form id="fEdu" data-id="${id}"><div class="csec"><div class="csec-h"><b>교육 이수 내역</b><span class="note">인사카드 출력 때 교육사항에 들어가요</span><span class="sp" style="flex:1"></span><button type="button" class="btn sm" data-eadd="1">+ 교육</button></div>
+   <datalist id="eduKinds">${EDU_KINDS.map(k=>`<option value="${k}">`).join('')}</datalist>
+   <div class="rtw"><table class="ctab edut"><thead><tr>${EDU_COLS.map(([,h])=>`<th>${h}</th>`).join('')}<th>출처</th><th></th></tr></thead><tbody>${L.map(eduRow).join('')||''}</tbody></table></div>
+   ${L.length?'':'<p class="note" style="margin-top:8px">아직 교육 기록이 없어요. + 교육으로 넣거나, 교육 이수 메뉴에서 여러 명을 한 번에 붙여넣을 수 있어요.</p>'}</div></form>
+   <div class="acts"><button class="btn" data-act="closeLayer">닫기</button><button class="btn pri" data-act="saveEdu">저장</button></div></div>`);
+}
+async function saveEduForm(){
+  const id=$('#fEdu').dataset.id,s=st.staff.get(id);if(!s)return;
+  const rows=[...document.querySelectorAll('#fEdu tbody tr')].map(tr=>({eid:tr.dataset.eid,...Object.fromEntries([...tr.querySelectorAll('[data-f]')].map(i=>[i.dataset.f,i.value.trim()]))}));
+  const keep=new Set(rows.map(r=>r.eid).filter(Boolean)),ops=[];
+  eduOf(s).forEach(e=>{if(!keep.has(e.id))ops.push({c:'edu',id:e.id,del:true})});
+  rows.filter(r=>r.title).forEach(({eid,...d})=>{d.sid=s.id;d.name=s.name;d.empNo=s.empNo||'';d.updatedAt=nowISO();ops.push({c:'edu',id:eid||'d-'+uid(),d:eid?d:{...d,src:'보드',createdAt:nowISO()}})});
+  await st.api.batch(ops);addLog(`교육 이수 수정 · ${s.name}`);closeLayer();toast('교육 이수 내역을 저장했어요');
+}
+
+/* --- 교육 이수 메뉴 (전체) --- */
+function vEdu(){
+  const y=st.eduY||today().slice(0,4),fk=st.eduK||'',q=(st.eduQ||'').toLowerCase();
+  const A=eduAll(),years=[...new Set(A.map(e=>(e.start||'').slice(0,4)).filter(Boolean).concat(today().slice(0,4)))].sort().reverse();
+  const L=A.filter(e=>(y==='all'||(e.start||'').startsWith(y))&&(!fk||e.kind===fk)&&(!q||[e.name,e.title,e.org,e.note].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.start||'').localeCompare(a.start||'')||(a.name||'').localeCompare(b.name||''));
+  const sOf=e=>st.staff.get(e.sid)||staffAll().find(s=>s.name===e.name);
+  const ppl=new Set(L.map(e=>e.sid||e.name)).size,hrs=L.reduce((a,e)=>a+(+e.hours||0),0);
+  const KP=[['교육 기록',L.length+'건',y==='all'?'전체 기간':y+'년'],['이수 인원',ppl+'명',`재직 ${staffOn().length}명 중`],['교육 시간',hrs?hrs+'시간':'–','시간 넣은 기록 기준'],['그룹웨어에서',L.filter(e=>e.src==='그룹웨어').length+'건','자동 반영']];
+  return `<div class="ph"><h1>교육 이수</h1><span class="sp"></span><button class="btn" data-act="eduPaste">붙여넣기</button><div class="desc">직원별 교육 이수 내역이에요. 직원 명부에서 사람을 누르면 '교육 이수' 탭에서 고칠 수 있고, 인사카드를 출력하면 교육사항에 들어가요.</div></div>
+   <div class="kpis">${KP.map(([l,v,s])=>`<div class="kp"><span>${l}</span><b>${v}</b><small>${s}</small></div>`).join('')}</div>
+   <section class="card rec"><div class="recbar"><input class="fsearch" id="eduQ" placeholder="이름 · 교육명 · 기관 검색" value="${esc(st.eduQ||'')}">
+    <select class="fsel" id="eduY">${['all',...years].map(v=>`<option value="${v}" ${v===y?'selected':''}>${v==='all'?'전체 기간':v+'년'}</option>`).join('')}</select>
+    <div class="segs">${['',...EDU_KINDS].map(k=>`<button class="${fk===k?'on':''}" data-act="eduK" data-v="${k}">${k||'전체'}</button>`).join('')}</div><span class="sp" style="flex:1"></span><span class="note">${L.length}건</span></div>
+   ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>기간</th><th>이름</th><th>부서</th><th>교육명</th><th>구분</th><th>교육기관</th><th class="n">시간</th><th>출처</th></tr></thead><tbody>
+   ${L.map(e=>{const s=sOf(e);return `<tr><td class="dt">${eduSpan(e)||'—'}</td><td class="nm" ${s?`data-edus="${s.id}"`:''}><b>${esc(e.name||'')}</b></td><td>${esc(s?.team||'—')}</td><td><b>${esc(e.title)}</b>${e.note?`<small class="sub">${esc(e.note)}</small>`:''}</td><td>${e.kind?`<span class="cc t-s">${esc(e.kind)}</span>`:'—'}</td><td>${esc(e.org||'—')}</td><td class="n">${e.hours||'—'}</td><td>${e.src&&e.src!=='보드'?`<span class="cc ${e.src==='그룹웨어'?'t-b':'t-s'}">${esc(e.src)}</span>`:'<span class="note">직접</span>'}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">교육 기록이 없어요.</div>'}</section>`;
+}
+function openEduPaste(){
+  openLayer(`<div class="modal wide" role="dialog" aria-label="교육 붙여넣기"><h2>교육 이수 붙여넣기</h2>
+   <p class="note">엑셀에서 아래 순서대로 복사해 붙여넣으세요. 이름은 직원 명부와 맞춰요. 같은 사람 · 교육명 · 시작일이 이미 있으면 건너뛰어요.<br><b>이름 · 교육명 · 교육구분 · 시작일 · 종료일 · 교육기관 · 시간 · 비고</b></p>
+   <textarea class="inp" id="epTxt" rows="10" placeholder="예) 홍길동	직장 내 성희롱 예방교육	법정의무	2026-03-10		사내	1"></textarea>
+   <div class="acts"><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="eduPasteGo">등록</button></div></div>`);
+}
+/* 붙여넣기 · 그룹웨어 자동 반영이 같이 쓰는 입구: srcId가 같으면 다시 안 넣어요 */
+async function eduIngest(recs,src){
+  const A=eduAll(),ops=[],miss=new Set();let skip=0;
+  recs.forEach(r=>{const s=(r.empNo&&staffAll().find(x=>x.empNo===r.empNo))||staffOn().find(x=>x.name===r.name)||staffAll().find(x=>x.name===r.name);if(!s)miss.add(r.name);
+    if((r.srcId&&A.some(e=>e.srcId===r.srcId))||A.some(e=>(e.sid===s?.id||e.name===r.name)&&e.title===r.title&&(e.start||'')===(r.start||''))){skip++;return}
+    ops.push({c:'edu',id:'d-'+uid(),d:{sid:s?.id||'',empNo:s?.empNo||r.empNo||'',name:s?.name||r.name,title:r.title,kind:r.kind||'',start:r.start||'',end:r.end||'',org:r.org||'',hours:r.hours||'',note:r.note||'',src,srcId:r.srcId||'',createdAt:nowISO()}})});
+  if(ops.length)await st.api.batch(ops);if(ops.length)addLog(`교육 이수 ${src} · ${ops.length}건`);
+  return {n:ops.length,skip,miss:[...miss]};
+}
+async function eduPasteGo(){
+  const rows=$('#epTxt').value.split(/\r?\n/).map(l=>l.split('\t').map(x=>x.trim())).filter(c=>c[0]&&c[1]&&c[0]!=='이름');
+  if(!rows.length){toast('붙여넣은 내용이 없어요');return}
+  const r=await eduIngest(rows.map(c=>{const a=parseDateLoose(c[3])||eduPeriod(c[3]).start,b=parseDateLoose(c[4])||eduPeriod(c[3]).end;return {name:c[0],title:c[1],kind:c[2]||'',start:a,end:b,org:c[5]||'',hours:c[6]||'',note:c[7]||''}}),'붙여넣기');
+  closeLayer();toast(`${r.n}건 넣었어요${r.skip?` · 중복 ${r.skip}건 건너뜀`:''}${r.miss.length?` · 명부에 없는 이름 ${r.miss.length}명`:''}`);
+}
+
+/* --- 인사카드 출력 (26년 양식 모양) --- */
+const CARD_CSS=`@page{size:A4;margin:12mm 11mm}*{box-sizing:border-box}body{margin:0;font-family:'Malgun Gothic','맑은 고딕',sans-serif;color:#111;font-size:9.5pt}
+.pg{page-break-after:always;break-after:page}.pg:last-child{page-break-after:auto;break-after:auto}
+h1{text-align:center;font-size:20pt;letter-spacing:12px;margin:0 0 10px;font-weight:800}h3{font-size:11pt;letter-spacing:6px;text-align:center;margin:14px 0 6px}
+table{width:100%;border-collapse:collapse;table-layout:fixed;margin-bottom:-1px}td,th{border:1px solid #444;padding:3px 4px;height:21px;text-align:center;vertical-align:middle;font-weight:normal;word-break:keep-all;overflow-wrap:anywhere;font-size:9pt}
+th,.lb{background:#EDEFF2;font-weight:700}.sl{background:#EDEFF2;font-weight:700;width:64px;white-space:nowrap;letter-spacing:0}
+.ph{width:105px;padding:0}.ph img{width:100%;height:132px;object-fit:cover;display:block}.l{text-align:left}
+.ft{text-align:center;margin-top:14px;font-weight:700;font-size:11pt;letter-spacing:2px}`;
+function cardHTML(s,c,P,edu){
+  P=P||{family:[],etc:[]};c=c||{};const mil=c.mil||{};const e=v=>esc(v||'');
+  const pad=(a,n)=>a.concat(Array(Math.max(0,n-a.length)).fill({}));
+  const sec=(label,heads,rows,n,cell)=>{const R=pad(rows,n);return R.map((r,i)=>`<tr>${i===0?`<td class="sl" rowspan="${R.length+1}">${label}</td>`:''}${cell(r)}</tr>`).join('')};
+  const tb=(label,heads,rows,n,keys)=>`<tr>${`<td class="sl" rowspan="${Math.max(n,rows.length)+1}">${label}</td>`}${heads.map(h=>`<td class="lb">${h}</td>`).join('')}</tr>${pad(rows,n).map(r=>`<tr>${keys.map(k=>`<td>${e(r[k])}</td>`).join('')}</tr>`).join('')}`;
+  const lic=c.lic||[],licR=[];for(let i=0;i<Math.max(3,Math.ceil(lic.length/2));i++)licR.push([lic[i*2]||{},lic[i*2+1]||{}]);
+  const et=Object.fromEntries((P.etc||[]).map(([k,v])=>[nk(k),v]));const ev=k=>e(et[nk(k)]);
+  const bal=(c.bal||[]).slice();if(s.joinDate&&!bal.some(b=>/입사/.test(b.kind||'')))bal.unshift({date:s.joinDate.replace(/-/g,'.'),kind:'입사',rank:s.rank||'',ord:s.team||'',note:''});
+  const ed=(edu||[]).slice().sort((a,b)=>(a.start||'').localeCompare(b.start||''));
+  const pr=c.prize||[],di=c.disc||[],pdN=Math.max(6,pr.length,di.length);
+  return `<div class="pg"><h1>인 사 기 록 카 드</h1>
+  <table><colgroup><col style="width:105px"><col style="width:88px"><col><col style="width:80px"><col></colgroup>
+   <tr><td class="ph" rowspan="5">${P.photo?`<img src="${P.photo}">`:''}</td><td class="lb">성명(한글)</td><td>${e(s.name)}</td><td class="lb">성명(영문)</td><td>${e(c.en)}</td></tr>
+   <tr><td class="lb">주민등록번호</td><td>${e(P.rrn)}</td><td class="lb">성명(한자)</td><td>${e(c.hanja)}</td></tr>
+   <tr><td class="lb">실제생년월일</td><td>${e(P.birth)}</td><td class="lb">이메일</td><td>${e(c.email)}</td></tr>
+   <tr><td class="lb" rowspan="2">현주소</td><td class="l" rowspan="2">${e(P.addr)}</td><td class="lb">핸드폰</td><td>${e(P.phone)}</td></tr>
+   <tr><td class="lb">비상연락망</td><td>${e(P.emer)}</td></tr></table>
+  <table><colgroup><col style="width:64px"><col span="6"></colgroup>
+   ${tb('학력사항',['학 교 명','전 공','입학년월','졸업년월','구 분','비 고'],c.edu||[],3,['school','major','in','out','kind','note'])}</table>
+  <table><colgroup><col style="width:64px"><col style="width:90px"><col><col><col></colgroup>
+   <tr><td class="sl" rowspan="4">병역</td><td class="lb">제대구분</td><td colspan="3" class="l">${e(mil.type)}</td></tr><tr><td class="lb">군별</td><td class="lb">최종계급</td><td class="lb" colspan="2">복무기간</td></tr>
+   <tr><td>${e(mil.branch)}</td><td>${e(mil.rank)}</td><td colspan="2">${e(mil.period)}</td></tr><tr><td></td><td></td><td colspan="2"></td></tr></table>
+  <table><colgroup><col style="width:64px"><col span="6"></colgroup>
+   <tr><td class="sl" rowspan="${licR.length+1}">자격면허</td>${['종류','취득일','발행처','종류','취득일','발행처'].map(h=>`<td class="lb">${h}</td>`).join('')}</tr>${licR.map(([a,b])=>`<tr>${[a,b].map(x=>`<td>${e(x.kind)}</td><td>${e(x.date)}</td><td>${e(x.org)}</td>`).join('')}</tr>`).join('')}</table>
+  <table><colgroup><col style="width:64px"><col span="5"></colgroup>${tb('어학능력',['외국어명','시험','공인점수','취득일','시행처'],c.lang||[],2,['name','test','score','date','org'])}</table>
+  <table><colgroup><col style="width:64px"><col span="5"></colgroup>${tb('경력사항',['근무처','근무기간','직급','직무','퇴사사유'],c.career||[],5,['org','period','rank','job','reason'])}</table>
+  <table><colgroup><col style="width:64px"><col span="6"></colgroup>${tb('가족관계',['관계','성명','생년월일','학력','직업','동거여부'],P.family||[],4,['rel','name','birth','school','job','live'])}</table>
+  <table><colgroup><col style="width:64px"><col style="width:62px"><col><col style="width:72px"><col><col style="width:72px"><col></colgroup>
+   <tr><td class="sl" rowspan="4">기타사항</td><td class="lb">신장</td><td>${ev('신장')}</td><td class="lb">거주형태</td><td>${ev('거주형태')}</td><td class="lb">보훈대상자</td><td>${ev('보훈대상자')}</td></tr>
+   <tr><td class="lb">체중</td><td>${ev('체중')}</td><td class="lb">종교</td><td>${ev('종교')}</td><td class="lb" rowspan="3">장애</td><td>${ev('등급')||ev('장애')}</td></tr>
+   <tr><td class="lb">혈액형</td><td>${ev('혈액형')}</td><td class="lb">취미, 특기</td><td>${ev('취미,특기')||ev('취미특기')}</td><td>${ev('종류')}</td></tr>
+   <tr><td class="lb">시력</td><td>${ev('시력')}</td><td class="lb">결혼여부</td><td>${ev('결혼여부')}</td><td></td></tr></table>
+  </div><div class="pg"><h1>인 사 기 록 카 드</h1>
+  <h3>인 사 발 령 사 항</h3><table><tr>${['발령일자','발령구분','직급','명','면','발령내용'].map(h=>`<th>${h}</th>`).join('')}</tr>${pad(bal,10).map(b=>`<tr><td>${e(b.date)}</td><td>${e(b.kind)}</td><td>${e(b.rank)}</td><td>${e(b.ord)}</td><td>${e(b.off)}</td><td class="l">${e(b.note)}</td></tr>`).join('')}</table>
+  <h3>교 육 사 항</h3><table><colgroup><col style="width:34%"><col style="width:12%"><col style="width:22%"><col style="width:18%"><col></colgroup><tr>${['교육명','교육구분','교육기간','교육기관','비고'].map(h=>`<th>${h}</th>`).join('')}</tr>${pad(ed,6).map(x=>`<tr><td class="l">${e(x.title)}</td><td>${e(x.kind)}</td><td>${x.start?eduSpan(x):''}</td><td>${e(x.org)}</td><td>${e([x.hours?x.hours+'시간':'',x.note].filter(Boolean).join(' '))}</td></tr>`).join('')}</table>
+  <h3>상 벌 사 항</h3><table><tr><th colspan="3">포 상 내 역</th><th colspan="3">징 계 내 역</th></tr><tr>${['포상 및 내용','포상년월','포상권자','징계내용','기간','사유'].map(h=>`<th>${h}</th>`).join('')}</tr>
+   ${Array.from({length:pdN},(_,i)=>{const a=pr[i]||{},b=di[i]||{};return `<tr><td class="l">${e(a.title)}</td><td>${e(a.ym)}</td><td>${e(a.by)}</td><td class="l">${e(b.what)}</td><td>${e(b.period)}</td><td>${e(b.why)}</td></tr>`}).join('')}</table>
+  ${S().cardCo?`<div class="ft">${esc(S().cardCo)}</div>`:''}</div>`;
+}
+async function cardBundle(ids,ask=true){
+  const out=[];let noFile=0,noDir=false;
+  for(const id of ids){const s=st.staff.get(id);if(!s)continue;let r=null;
+    if(!noDir&&window.showDirectoryPicker){try{r=await readCard(s,ask&&!out.length)}catch(e){r=null}if(r===undefined){noDir=true;r=null}}
+    if(!r&&!noDir)noFile++;
+    let P=r?.priv;if(P&&P.photo&&P.photo.startsWith('blob:')){try{P={...P,photo:await blobToData(P.photo)}}catch(e){}}
+    out.push({s,html:cardHTML(s,cardOf(s),P,eduOf(s))})}
+  return {out,noFile,noDir};
+}
+const blobToData=u=>fetch(u).then(r=>r.blob()).then(b=>new Promise(ok=>{const f=new FileReader();f.onload=()=>ok(f.result);f.readAsDataURL(b)}));
+async function cardPrint(ids){
+  const w=window.open('','_blank');if(!w){toast('팝업이 막혔어요. 이 사이트의 팝업을 허용해 주세요');return}
+  w.document.write('<p style="font-family:sans-serif;padding:20px">인사카드를 준비하고 있어요…</p>');
+  const {out,noFile,noDir}=await cardBundle(ids);
+  w.document.open();w.document.write(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>인사기록카드${out.length===1?'_'+esc(out[0].s.name):` (${out.length}명)`}</title><style>${CARD_CSS}</style></head><body>${out.map(x=>x.html).join('')}</body></html>`);w.document.close();
+  if(noDir)toast('인사카드 폴더가 연결되지 않아 주민번호 · 주소 · 연락처 · 가족 · 사진 칸은 비어 있어요');else if(noFile)toast(`${noFile}명은 인사카드 파일이 없어 민감 정보 칸이 비어 있어요`);
+  const imgs=[...w.document.images];await Promise.all(imgs.map(i=>i.complete?0:new Promise(r=>{i.onload=i.onerror=r})));
+  setTimeout(()=>{w.focus();w.print()},150);
+}
+const wordDoc=body=>`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]--><style>${CARD_CSS.replace('@page{size:A4;margin:12mm 11mm}','@page Section1{size:595.3pt 841.9pt;margin:34pt 31pt}div.Section1{page:Section1}').replace(/\.pg\{[^}]*\}/,'.pg{page-break-after:always}')}</style></head><body><div class="Section1">${body.replace(/<div class="pg">/g,'<div class="pg">')}</div></body></html>`;
+const cardDl=(name,blob)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)};
+async function cardWord(ids,each){
+  const {out,noDir}=await cardBundle(ids);if(!out.length)return;
+  const fn=s=>`인사기록카드_${s.name}.doc`.replace(/[\\/:*?"<>|]/g,'');
+  if(each&&out.length>1&&window.showDirectoryPicker){let d;try{d=await window.showDirectoryPicker({id:'hrcardout',mode:'readwrite'})}catch(e){return}
+    for(const x of out){const h=await d.getFileHandle(fn(x.s),{create:true});const w=await h.createWritable();await w.write(new Blob(['﻿'+wordDoc(x.html)],{type:'application/msword'}));await w.close()}
+    toast(`${out.length}명의 인사카드를 '${d.name}' 폴더에 저장했어요`)}
+  else{cardDl(out.length===1?fn(out[0].s):`인사기록카드_${out.length}명_${today()}.doc`,new Blob(['﻿'+wordDoc(out.map(x=>x.html).join(''))],{type:'application/msword'}));toast('Word 파일로 저장했어요')}
+  if(noDir)toast('인사카드 폴더가 연결되지 않아 민감 정보 칸은 비어 있어요');
+}
+/* 직원 명부: 일괄 처리 창 */
+function openCardBulk(){
+  const sel=[...(st.ssel||[])].filter(id=>st.staff.has(id)),vis=(st.rosterIds||[]);
+  openLayer(`<div class="modal" role="dialog" aria-label="인사카드 일괄"><h2>인사카드 일괄</h2>
+   <div class="fld"><label>대상</label><div class="segs pick" id="cbT">${sel.length?`<button type="button" class="on" data-v="sel">선택한 ${sel.length}명</button>`:''}<button type="button" class="${sel.length?'':'on'}" data-v="vis">지금 목록 ${vis.length}명</button></div></div>
+   <div class="cblist">
+    <button class="cbi" data-act="cardBulkGo" data-v="print"><b>PDF · 인쇄</b><span>한 번에 인쇄 창을 열어요. 인쇄 창에서 'PDF로 저장'을 고르면 PDF 한 파일로 저장돼요.</span></button>
+    <button class="cbi" data-act="cardBulkGo" data-v="word"><b>Word로 저장 (사람마다 한 파일)</b><span>저장할 폴더를 고르면 인사기록카드_이름.doc 로 하나씩 저장해요.</span></button>
+    <button class="cbi" data-act="cardBulkGo" data-v="word1"><b>Word로 저장 (한 파일로 묶기)</b><span>모든 사람을 한 Word 파일에 페이지를 나눠 담아요.</span></button>
+    <button class="cbi" data-act="cardBulkGo" data-v="import"><b>인사카드 파일에서 가져오기</b><span>폴더의 Word 파일에서 학력 · 병역 · 자격 · 경력 · 발령 · 교육 등을 읽어 보드에 넣어요. 이미 입력한 칸은 그대로 둬요.</span></button>
+   </div>
+   <p class="note">${FS.dir?'':'인사카드 폴더를 아직 연결하지 않았어요. 처음 쓸 때 폴더를 고르는 창이 떠요. '}주민번호 · 주소 · 연락처 · 가족 · 사진은 폴더의 파일에서 읽어 출력에만 써요.</p>
+   <div class="acts"><button class="btn" data-act="closeLayer">닫기</button></div></div>`);
+}
+async function cardBulkGo(v){
+  const t=$('#cbT .on')?.dataset.v||'vis',ids=t==='sel'?[...(st.ssel||[])]:(st.rosterIds||[]);if(!ids.length){toast('대상이 없어요');return}
+  closeLayer();
+  if(v==='print')return cardPrint(ids);
+  if(v==='word'||v==='word1'){toast(`${ids.length}명 인사카드를 만드는 중…`);return cardWord(ids,v==='word')}
+  if(v==='import'){if(!await cardDirGet(true)&&!await cardDirPick())return;toast(`${ids.length}명 인사카드 파일을 읽는 중…`);
+    let n=0,none=0,eN=0;const ops=[],E=[];
+    for(const id of ids){const s=st.staff.get(id);let r;try{r=await readCard(s,false)}catch(e){r=null}if(!r){none++;continue}
+      const c=cardMerge(cardOf(s),r.card,false);c.updatedAt=nowISO();c.src='인사카드 '+new Date(r.file.mod).toISOString().slice(0,10);ops.push({c:'staff',id,d:{card:c}});n++;
+      eduFromCard(s,r.card.eduRec).forEach(e=>E.push({c:'edu',id:'d-'+uid(),d:{...e,createdAt:nowISO()}}))}
+    if(ops.length)await st.api.batch(ops.concat(E));addLog(`인사카드 일괄 가져오기 · ${n}명`,n);
+    toast(`${n}명 넣었어요${eN||E.length?` · 교육 ${E.length}건`:''}${none?` · 파일 없음 ${none}명`:''}`)}
+}
+
 /* ---------------- 월간 리포트 ---------------- */
 function vMonthly(){
   const td=pD(today()),off=st.mro||0,b=new Date(td.getFullYear(),td.getMonth()+off,1),y=b.getFullYear(),m=b.getMonth()+1,ym=`${y}-${pad(m)}`,first=`${ym}-01`,last=ymd(new Date(y,m,0));
@@ -4138,7 +4517,11 @@ const ACT={
   reqPlan:a=>{const r=st.reqs.get(a.dataset.id);if(r&&r.month)reqToPlan(r)},
   tkt:a=>{st.tkt=a.dataset.v;render()},
   newTrn:()=>openTrn(null),saveTrn:()=>saveTrnForm(),trnPaste:()=>openTrnPaste(),trnPasteGo:()=>trnPasteGo(),
-  trnTab:a=>{st.trnTab=a.dataset.v;render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
+  trnTab:a=>{st.trnTab=a.dataset.v;render()},
+  stTab:a=>{const id=a.dataset.id,v=a.dataset.v;if(v==='info')openStaff(id);else if(v==='card')openCard(id);else openEduTab(id)},
+  cardImport:a=>cardImportOne(a.dataset.id),cardPrint:a=>cardPrint([a.dataset.id]),cardWord:a=>cardWord([a.dataset.id]),saveCard:()=>saveCardForm(),
+  cardDir:async a=>{const ok=FS.dir?await cardDirGet(true):null;if(!ok)await cardDirPick();FS.list=null;if(a.dataset.id&&$('#fCard'))cardPrivPaint(st.staff.get(a.dataset.id));else render()},
+  cardBulk:()=>openCardBulk(),cardBulkGo:a=>cardBulkGo(a.dataset.v),saveEdu:()=>saveEduForm(),eduPaste:()=>openEduPaste(),eduPasteGo:()=>eduPasteGo(),eduK:a=>{st.eduK=a.dataset.v;render()},schK:a=>{st.schK=a.dataset.v;render()},newSch:()=>openSch(null),saveSch:()=>saveSchForm(),schLog:a=>openSch(a.dataset.id,true),schPaste:()=>openSchPaste(),schPasteGo:()=>schPasteGo(),
   delSch:a=>{const id=a.dataset.id;openConfirm('이 학교와 기록을 삭제할까요?',async()=>{await st.api.remove('schools',id);closeLayer();toast('삭제했어요')})},
   trnP:a=>{st.trnP=a.dataset.v;render()},trnS:a=>{st.trnS=a.dataset.v;render()},
   trnDec:async a=>{const t=st.trainees.get(a.dataset.id);if(!t)return;await st.api.put('trainees',t.id,{dec:a.dataset.v,decAt:today(),updatedAt:nowISO()});addLog(`대학생인턴 채용 여부 · ${t.name} → ${a.dataset.v}`);toast(a.dataset.v==='채용'?'채용 전환으로 정했어요':'미채용으로 정했어요')},

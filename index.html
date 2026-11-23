@@ -500,6 +500,9 @@ body{background:#fff;letter-spacing:-.2px}
 .kbar.t-b{background:#1f6fe5}.kbar.t-c{background:#22b8d8}.kbar.t-g{background:#22a861}.kbar.t-s{background:#94a3b8}.kbar.t-a{background:#f0a020}.kbar.t-r{background:#e5484d}
 .kc b{font-weight:600;font-size:14px;display:block;line-height:1.4}
 .kmeta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.kfb{border:0;background:none;color:var(--mute);width:26px;height:26px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none}.kfb:hover{background:#EEF2F4;color:var(--ink)}.kfb svg{transition:transform .15s}.kcol.kfold .kfb svg{transform:rotate(-90deg)}
+.kcol.kfold{min-height:0}.kml{display:flex;flex-direction:column;gap:4px}.kmini{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line2);border-radius:10px;padding:7px 10px;cursor:pointer;font-size:13px;min-width:0}.kmini:hover{border-color:#C7D3D8}.kmini .ckc{width:18px;height:18px;flex:none;font-size:11px}.kmini .kmt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}.kmini em{font-style:normal;font-size:11.5px;color:var(--mute);flex:none}.kmini em.late{color:#D92D20;font-weight:700}.kmini.done .kmt{color:var(--mute);text-decoration:line-through;font-weight:500}.kmini.late{border-color:#F5C2C0}.kmini .st{color:#E8A317;margin-right:2px}.kempty.sm{padding:8px;font-size:12px}
+.kc.done .kfoot{margin-top:4px}.kdone-d{font-size:12px;color:var(--mute);font-weight:600}
 .kmeta:empty{display:none}
 .kfoot{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--mute)}
 .kfoot:empty{display:none}
@@ -2230,16 +2233,18 @@ function liHtml(t){
   </div>`;
 }
 // 보드 (트렐로식): 상태별 칸, 끌어서 옮기기, 칸 아래 바로 추가
+/* 접은 칸: 카드를 한 줄(완료 단추 · 제목 · 마감)로 */
+function kmini(t){return `<div class="kmini ${isLate(t)?'late':''} ${t.status==='done'?'done':''}" draggable="true" data-drag="${t.id}" data-open="${t.id}"><button class="ckc ${t.status==='done'?'on':''}" data-act="toggleDone" data-id="${t.id}" draggable="false" aria-label="${t.status==='done'?'완료 취소':'완료'}">${t.status==='done'?'✓':''}</button><span class="kmt">${t.star&&t.status!=='done'?'<span class="st">★</span>':''}${esc(t.title)}</span>${t.status==='done'?(t.doneAt?`<em>${md(t.doneAt.slice(0,10))}</em>`:''):t.due?`<em class="${isLate(t)?'late':''}">${md(t.due)}</em>`:''}</div>`}
 function kcard(t){
   const c=t.chk||[],open=st.kopen?.has(t.id);
   return `<div class="kc ${isLate(t)?'late':''} ${t.status==='done'?'done':''} ${t.hid&&t.status==='done'?'hid0':''} ${open?'open':''}" draggable="true" data-drag="${t.id}" data-open="${t.id}">
    ${t.status==='done'?`<button class="ksnz ${t.hid?'hidon':''}" data-act="hideOne" data-id="${t.id}" draggable="false" title="${t.hid?'다시 보이기':'이 완료 카드 숨기기'}" aria-label="${t.hid?'다시 보이기':'숨기기'}">${t.hid?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-6 9-6 9 6 9 6"/><path d="M3 3l18 18"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>'}</button>`:isSnz(t)?`<button class="ksnz on" data-act="unsnz" data-id="${t.id}" draggable="false" title="지금 다시 보이기">${md(t.snz)}까지 숨김 · 보이기</button>`:`<button class="ksnz" data-act="snz" data-id="${t.id}" draggable="false" title="나중에 보기 (정한 날까지 숨김)" aria-label="나중에 보기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-6 9-6 9 6 9 6"/><path d="M3 3l18 18"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>`}
    <button class="kexp" data-act="kexp" data-id="${t.id}" draggable="false" aria-expanded="${open?'true':'false'}" title="${open?'체크리스트 접기':'체크리스트 펼치기'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
-   ${t.cat?`<div class="kbar t-${CAT_TONE[t.cat]||'s'}"></div>`:''}
+   ${t.cat&&t.status!=='done'?`<div class="kbar t-${CAT_TONE[t.cat]||'s'}"></div>`:''}
    <div class="ktt"><button class="ckc ${t.status==='done'?'on':''}" data-act="toggleDone" data-id="${t.id}" draggable="false" title="${t.status==='done'?'완료 취소':'완료로 바꾸기'}" aria-label="${t.status==='done'?'완료 취소':'완료'}">${t.status==='done'?'✓':''}</button><b>${t.star?'<span class="st">★</span>':''}${esc(t.title)}</b></div>
-   ${t.memo?`<p class="kmemo">${esc(t.memo)}</p>`:''}
+   ${t.status==='done'?`<div class="kfoot"><span class="kdone-d">✓ 완료${t.doneAt?' '+md(t.doneAt.slice(0,10)):''}</span></div>`:`${t.memo?`<p class="kmemo">${esc(t.memo)}</p>`:''}
    <div class="kmeta">${catChip(t.cat)}${t.rid?'<span class="tag r">정기</span>':''}${t.star&&t.status==='doing'?'<span class="cc t-c">진행중</span>':''}</div>
-   <div class="kfoot">${t.due?`<span class="kdue ${isLate(t)?'late':diffD(t.due,today())<=(t.remind??3)&&t.status!=='done'?'soon':''}">◷ ${md(t.due)}(${dow(t.due)})</span>`:''}${c.length?`<span class="kchk ${c.every(x=>x.done)?'all':''}">☑ ${c.filter(x=>x.done).length}/${c.length}</span>`:''}${t.cmts?.length?`<span>💬 ${t.cmts.length}</span>`:''}</div>
+   <div class="kfoot">${t.due?`<span class="kdue ${isLate(t)?'late':diffD(t.due,today())<=(t.remind??3)&&t.status!=='done'?'soon':''}">◷ ${md(t.due)}(${dow(t.due)})</span>`:''}${c.length?`<span class="kchk ${c.every(x=>x.done)?'all':''}">☑ ${c.filter(x=>x.done).length}/${c.length}</span>`:''}${t.cmts?.length?`<span>💬 ${t.cmts.length}</span>`:''}</div>`}
    ${open?`<div class="kchl">${c.length?`<div class="prog"><i style="width:${Math.round(c.filter(x=>x.done).length/c.length*100)}%"></i></div>`:''}
      ${c.map((x,i)=>`<div class="kci ${x.done?'done':''}"><button class="ckc ${x.done?'on':''}" data-act="kchk" data-id="${t.id}" data-i="${i}" draggable="false" aria-label="${esc(x.t)} ${x.done?'완료 취소':'완료'}">${x.done?'✓':''}</button><span class="ckt" data-act="chkTxt" data-k="k" data-id="${t.id}" data-i="${i}" title="눌러서 고치기">${esc(x.t)}</span>${chkDue(x)}<button class="kcdel" data-act="kchkDel" data-id="${t.id}" data-i="${i}" draggable="false" aria-label="삭제">✕</button></div>`).join('')||'<div class="note" style="padding:2px 0 4px">아직 체크리스트가 없어요.</div>'}
      <form class="kchadd" data-id="${t.id}"><input id="kchin-${t.id}" placeholder="+ 단계 추가 (Enter)" autocomplete="off" draggable="false"></form></div>`:''}
@@ -2250,18 +2255,21 @@ function kcard(t){
 const BCOL={star:'중요',todo:'할 일',doing:'진행중',done:'완료',hold:'보류'};
 const colOf=t=>t.status==='done'?'done':t.status==='hold'?'hold':t.star?'star':t.status;
 function boardHtml(L){
+  const kf=st.kfold||(st.kfold=new Set((lsGet(NS+'kfold')||'').split(',').filter(Boolean)));
+  const fbtn=(s,n)=>`<button class="kfb" data-act="kfold" data-s="${s}" aria-expanded="${kf.has(s)?'false':'true'}" title="${kf.has(s)?'펼치기':'접기'}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>`;
   const col=s=>{
     /* 손으로 옮긴 순서(ord)가 있으면 그대로, 순서가 없는 새 업무는 위에 마감순으로 */
     let items=L.filter(x=>colOf(x)===s).sort((a,b)=>(a.ord==null?-1:a.ord)-(b.ord==null?-1:b.ord)||byDue(a,b));
     let nHid=0;
     if(s==='done'){items=items.filter(x=>!x.doneAt||diffD(today(),x.doneAt)<=14).sort((a,b)=>(b.doneAt||'').localeCompare(a.doneAt||''));nHid=items.filter(x=>x.hid).length;if(!st.showHidDone)items=items.filter(x=>!x.hid)}
-    return `<div class="kcol k-${s}" data-drop="${s}"><div class="kh"><span class="kdot s-${s}"></span><b>${BCOL[s]}</b><span class="note">${items.length}</span>${s==='done'?'<button class="hdone" data-act="hideDone" title="완료 칸을 접어 숨겨요">숨기기</button>':''}</div>
+    if(kf.has(s))return `<div class="kcol k-${s} kfold" data-drop="${s}"><div class="kh"><span class="kdot s-${s}"></span><b>${BCOL[s]}</b><span class="note">${items.length}</span><span class="sp" style="flex:1"></span>${fbtn(s)}</div><div class="kl kml">${items.map(kmini).join('')||'<div class="kempty sm">없음</div>'}</div></div>`;
+    return `<div class="kcol k-${s}" data-drop="${s}"><div class="kh"><span class="kdot s-${s}"></span><b>${BCOL[s]}</b><span class="note">${items.length}</span><span class="sp" style="flex:1"></span>${s==='done'?'<button class="hdone" data-act="hideDone" title="완료 칸을 숨겨요">숨기기</button>':''}${fbtn(s)}</div>
      <div class="kl">${items.map(kcard).join('')||`<div class="kempty">${s==='star'?'★ 중요 업무를 여기로 끌어다 놓으세요':'여기로 끌어다 놓으세요'}</div>`}</div>
      ${s==='done'?'':`<button class="kaddb" data-act="newTask" ${s==='star'?'data-star="1"':`data-st="${s}"`}>+ 업무 추가</button>`}
      ${s==='done'?`<div class="kdnote"><span class="note">최근 2주 완료만 보여요</span>${nHid?`<button class="hdone" data-act="showHidDone">${st.showHidDone?'숨긴 카드 다시 감추기':`숨긴 카드 ${nHid}건 보기`}</button>`:''}</div>`:''}</div>`};
   // 일정 칸: 오늘부터 2주 안의 캘린더 일정 (업무가 아니라 끌어 옮기지는 않아요)
   const td=today(),EV=[...(st.events?.values()||[])].filter(e=>(e.end||e.start)>=td&&e.start<=addD(td,14)).sort((a,b)=>(a.start+(a.time||'')).localeCompare(b.start+(b.time||'')));
-  const evCol=`<div class="kcol k-ev"><div class="kh"><span class="kdot s-ev"></span><b>일정</b><span class="note">${EV.length}</span><span class="note" style="margin-left:auto">2주 안</span></div>
+  const evCol=kf.has('ev')?`<div class="kcol k-ev kfold"><div class="kh"><span class="kdot s-ev"></span><b>일정</b><span class="note">${EV.length}</span><span class="sp" style="flex:1"></span>${fbtn('ev')}</div><div class="kl kml">${EV.map(e=>`<div class="kmini" data-ev="${e.id}"><span class="kmt">${e.star?'<span class="st">★</span>':''}${esc(e.title)}</span><em>${md(e.start)}</em></div>`).join('')||'<div class="kempty sm">없음</div>'}</div></div>`:`<div class="kcol k-ev"><div class="kh"><span class="kdot s-ev"></span><b>일정</b><span class="note">${EV.length}</span><span class="note" style="margin-left:auto">2주 안</span>${fbtn('ev')}</div>
     <div class="kl kevl">${EV.map(e=>{const n=diffD(e.start,td);return `<div class="kev" data-ev="${e.id}"><span class="kevd ${e.start<=td?'now':''}"><b>${+e.start.slice(8)}</b><small>${e.start<=td?'오늘':dow(e.start)}</small></span><span class="kevt"><b>${e.star?'★ ':''}${esc(e.title)}</b><small>${[e.time,e.end&&e.end!==e.start?`~${md(e.end)}`:'',n>0?`${n}일 뒤`:''].filter(Boolean).map(esc).join(' · ')}</small></span></div>`}).join('')||'<div class="kempty">2주 안에 일정이 없어요</div>'}</div>
     <button class="kaddb" data-act="newTask" data-mode="event">+ 일정 추가</button></div>`;
   return `<div class="kb">${col('star')}${col('todo')}${col('doing')}<div class="kstack">${evCol}${st.hideDone&&!st.filt.snz?`<button class="kdone-hid" data-drop="done" data-act="hideDone" title="완료 칸 다시 보이기">✓ 완료 ${L.filter(x=>x.status==='done'&&(!x.doneAt||diffD(today(),x.doneAt)<=14)).length}건 숨김 · 보이기</button>`:col('done')}${col('hold')}</div></div>`;
@@ -2286,7 +2294,7 @@ function vTasks(){
   return `
   <div class="tkhead"><h1>업무</h1><span class="cntb">${L.length}건</span>
     <form id="fQuick" class="qadd"><span class="qplus">+</span><input id="qa" autocomplete="off" placeholder="빠른 추가 · 예) 원천세 신고 12/10 #세무신고 !"><span id="qaPrev" class="qprev">날짜 · #분류 · ! 중요</span><button class="btn pri sm">추가</button></form>
-    <button class="btn cmpb ${st.compact?'on':''}" data-act="compact" aria-pressed="${st.compact?'true':'false'}" title="카드·목록에서 메모를 숨겨 간략하게 봐요">${st.compact?'자세히 보기':'간략히 보기'}</button><button class="btn" data-act="paste">붙여넣기</button><button class="btn pri" data-act="newTask">+ 업무 추가</button></div>
+    ${v==='board'?(()=>{const kf=st.kfold||new Set((lsGet(NS+'kfold')||'').split(',').filter(Boolean));const all=['star','todo','doing','ev','done','hold'].every(k=>kf.has(k));return `<button class="btn" data-act="kfoldAll" title="보드의 모든 칸을 한 번에 접거나 펼쳐요">${all?'전체 펼치기':'전체 접기'}</button>`})():''}<button class="btn cmpb ${st.compact?'on':''}" data-act="compact" aria-pressed="${st.compact?'true':'false'}" title="카드·목록에서 메모를 숨겨 간략하게 봐요">${st.compact?'자세히 보기':'간략히 보기'}</button><button class="btn" data-act="paste">붙여넣기</button><button class="btn pri" data-act="newTask">+ 업무 추가</button></div>
   <div class="tkbar"><div class="segs tabs">${TABS.map(([k,l,n])=>`<button class="${ct===k?'on':''}" data-act="ttab" data-v="${k}">${l}${n!=null?`<span class="tc ${k==='late'&&n?'red':''}">${n}</span>`:''}</button>`).join('')}</div>
     <div class="tkf">
       <select class="fsel" data-fs="period" aria-label="기간"><option value="all">전체 기간</option><option value="late">기한 지남</option><option value="today">오늘</option><option value="week">이번 주</option><option value="month">이번 달</option><option value="next">다음 달</option><option value="range">기간 지정</option><option value="none">기한 없음</option></select>
@@ -4557,6 +4565,8 @@ const ACT={
   hideOne:async a=>{const t=st.tasks.get(a.dataset.id);if(!t)return;await st.api.put('tasks',t.id,{hid:!t.hid});toast(t.hid?'다시 보이게 했어요':'완료 카드를 숨겼어요')},
   showHidDone:()=>{st.showHidDone=!st.showHidDone;render()},
   compact:()=>{st.compact=!st.compact;lsSet(NS+'compact',st.compact?'1':'');render()},
+  kfold:a=>{const kf=st.kfold||(st.kfold=new Set());const s=a.dataset.s;kf.has(s)?kf.delete(s):kf.add(s);lsSet(NS+'kfold',[...kf].join(','));render()},
+  kfoldAll:()=>{const K=['star','todo','doing','ev','done','hold'],kf=st.kfold||(st.kfold=new Set());const all=K.every(k=>kf.has(k));st.kfold=new Set(all?[]:K);lsSet(NS+'kfold',[...st.kfold].join(','));render()},
   snz:a=>{const t=st.tasks.get(a.dataset.id);if(!t)return;const td=today(),dt=pD(td),nm=ymd(new Date(dt.getFullYear(),dt.getMonth()+1,1)),mon=addD(weekStart(td),7);
     const ch=[['내일',addD(td,1)],['3일 뒤',addD(td,3)],['다음 주 월요일',mon],['다음 달 1일',nm],...(t.due&&diffD(t.due,td)>3?[['마감 3일 전',addD(t.due,-3)]]:[])];
     openPop(a,`<div class="ph3">나중에 보기 · 이날 다시 나타나요</div>${ch.map(([l,d])=>`<button class="pi" data-pv="${d}">${l}<span class="note" style="margin-left:auto">${md(d)}(${dow(d)})</span></button>`).join('')}

@@ -1265,8 +1265,19 @@ button.oc-who:hover{background:#E5EAF4}
 .ctab{width:100%;border-collapse:collapse;font-size:12.5px}.ctab th{font-size:11.5px;color:var(--mute);font-weight:600;text-align:left;padding:4px 4px}.ctab td{padding:2px 2px}.ctab .ci{height:32px;padding:0 8px;font-size:13px;width:100%;min-width:70px}.ctab .cx{width:30px}.ctab .csrc{width:70px}
 .ctab tbody:empty::after{content:'없음';display:block;padding:6px 4px;color:#B5BFC5;font-size:12px}
 .cmil{margin-top:10px}.g2x{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.rtab td small.sub{display:block;font-size:11.5px;color:var(--mute);font-weight:500;margin-top:2px;max-width:460px;white-space:normal;line-height:1.35}.ros-f{display:flex;flex-direction:column;gap:8px;margin:12px 0 2px}.rfr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ros-f .rfl{width:40px;flex:none}.ros-f .rfl{font-size:12px;font-weight:700;color:var(--mute);margin-left:4px}.ros-f .segs button .tc{margin-left:4px}.rtog{height:34px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:4px}.rtog.on{border-color:#00A1B9;background:#F0FAFC;color:#008197;box-shadow:0 0 0 1px #00A1B9 inset}.ros-f .rsub{margin-left:48px;width:fit-content}.edv td{vertical-align:top}.edv td.nw,.edv td:nth-child(5){white-space:nowrap}.edv small.sub{display:block;font-size:11.5px;color:var(--mute);margin-top:3px}.edv td .cc{margin-left:2px}.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
+.rtab td small.sub{display:block;font-size:11.5px;color:var(--mute);font-weight:500;margin-top:2px;max-width:460px;white-space:normal;line-height:1.35}.ros-f{display:flex;flex-direction:column;gap:8px;margin:12px 0 2px}.rfr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ros-f .rfl{width:40px;flex:none}.ros-f .rfl{font-size:12px;font-weight:700;color:var(--mute);margin-left:4px}.ros-f .segs button .tc{margin-left:4px}.rtog{height:34px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:4px}.rtog.on{border-color:#00A1B9;background:#F0FAFC;color:#008197;box-shadow:0 0 0 1px #00A1B9 inset}.ros-f .rsub{margin-left:48px;width:fit-content}.edv td{vertical-align:top}.edv td.nw,.edv td:nth-child(5){white-space:nowrap}.edv small.sub{display:block;font-size:11.5px;color:var(--mute);margin-top:3px}.edv td .cc{margin-left:2px}.tlbox .tlin{max-width:380px;margin:30px auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}.tlic{font-size:34px}.tlin b{font-size:16px}.tlf{display:flex;gap:8px;width:100%;margin-top:8px}.tlf .inp{flex:1}.tlwarn{margin:4px 0 0;padding:9px 12px;border-radius:10px;background:#FFF8E6;color:#8A5A00;font-size:12.5px}.tklead{border-top:1px dashed var(--line);margin-top:6px;padding-top:12px}.tklead>label{display:flex;align-items:center;gap:6px}#kLeadBox{margin-top:10px;padding:12px;border-radius:12px;background:#F5F8FF}.tlf2{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:8px}.cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
 @media(max-width:700px){.cdp dl{grid-template-columns:auto 1fr}.cdp dd.w{grid-column:auto}}
+/* 조직도(조직 구조) 색: 자동 조직도와 같은 민트 · 파랑 */
+.orgc{--ln:#C9D6DC;--nv:#0B6B7A}
+.orgc .oc-box{background:#F3FBFC;border:1px solid #BFE6EC;border-radius:16px;color:var(--ink);box-shadow:0 1px 2px rgba(16,40,60,.04);min-width:150px;padding:8px 18px}
+.orgc .oc-box.chair{background:#F3FBFC}.orgc .oc-box b{color:var(--ink2);font-weight:600}.orgc .oc-box .oc-pn{color:var(--ink)}.orgc .oc-box .oc-pn:hover{background:#E3F4F7}
+.orgc .oc-sbox{border:1px solid #E1E8EB;border-radius:16px;box-shadow:0 1px 2px rgba(16,40,60,.04)}.orgc .oc-sbox>b{color:var(--ink)}
+.orgc .oc-u{border:1px solid #E1E8EB;border-radius:16px}
+.orgc .oc-uh{background:linear-gradient(90deg,#00A1B9,#1f8fe0)}
+.orgc .oc-who em,.orgc .oc-u .oc-who em{color:#008197}
+.orgc .oc-g>span{color:var(--ink);border-left-color:#00A1B9}
+.orgc .oc-i{background:#fff;border:1px solid #E1E8EB;border-radius:12px}.orgc .oc-i summary:hover{background:#F3F8FA}.orgc .oc-i[open]{border-color:#BFE6EC;box-shadow:0 2px 8px rgba(0,129,151,.06)}
+.orgc .oc-i summary b,.orgc .oc-i.empty b{color:var(--ink)}
 .oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
 .og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
@@ -1802,7 +1813,7 @@ const st={
   view:'home',
   filt:{who:'all',status:'open',period:'all',from:'',to:'',cat:'',side:'',q:'',star:false},
   sel:new Set(),lastCk:null,
-  cal:null,rp:'all',ptab:'sum',ivw:0,hrp:'year',rtab:'now',gfold:{},hideDone:!!lsGet(NS+'hideDone'),compact:!!lsGet(NS+'compact'),tview:lsGet(NS+'tview')||'board',rside:'',rsel:new Set(),
+  cal:null,rp:'all',ptab:'sum',ivw:0,hrp:'year',rtab:'year',gfold:{},hideDone:!!lsGet(NS+'hideDone'),compact:!!lsGet(NS+'compact'),tview:lsGet(NS+'tview')||'board',rside:'',rsel:new Set(),
   homeWho:'me',hTab:'done',
   fold:JSON.parse(lsGet(NS+'fold')||'{}'),
   undo:null,genBusy:false
@@ -2016,6 +2027,7 @@ function goView(v,push=true){
   v=VIEWS.some(x=>x[0]===v)?v:'home';
   if(push&&v!==st.view)history.pushState({v},'',cleanUrl());else history.replaceState({v},'',cleanUrl());
   try{sessionStorage.setItem(NS+'view',v)}catch(e){}
+  if(st.view==='talk'&&v!=='talk'&&TL.key){TL.key=null;TL.plain.clear();clearTimeout(TL.timer)}
   st.view=v; closePop(); render(); window.scrollTo(0,0);
 }
 document.addEventListener('click',e=>{
@@ -2055,6 +2067,7 @@ function renderNow(){
   // 다시 그려도 보드 칸·가로 스크롤 위치는 그대로 (체크할 때 목록이 위로 튀지 않게)
   const keepY=Object.fromEntries($$('#view .kcol').map(c=>[c.dataset.drop,c.querySelector('.kl')?.scrollTop||0])),keepX=$('#view .kb')?.scrollLeft||0;
   $('#view').innerHTML=f();
+  {const pw=$('#tlPw')||$('#view #tlNew');if(pw&&!/INPUT|TEXTAREA/.test(document.activeElement?.tagName||''))setTimeout(()=>pw.focus(),0)}
   // 다우오피스처럼 회색 카드 안 내용은 흰 패널에 담아요
   $$('#view section.card').forEach(c=>{if(c.classList.contains('hc')||c.querySelector(':scope>.panel'))return;const kids=[...c.children].filter(x=>!x.classList.contains('card-h'));if(!kids.length)return;const p=document.createElement('div');p.className='panel';kids.forEach(x=>p.appendChild(x));c.appendChild(p)});
   // 패널로 옮긴 뒤에 스크롤 위치를 되돌려요 (옮기면 스크롤이 초기화돼서)
@@ -2346,7 +2359,7 @@ function calItems(d){
   if(K.has('iv'))cands().filter(c=>c.date===d&&ivRes(c)!=='불참').forEach(c=>out.push({k:'iv',html:`<span class="ce iv" data-cand="${c.id}">면접 ${esc(c.time||'')} ${esc(c.name)}</span>`,row:`<div class="cdr" data-cand="${c.id}"><span class="cdk k-iv">면접</span><div class="tt"><b>${esc(c.name)}</b><small>${esc([c.time,c.team,c.position].filter(Boolean).join(' · '))}</small></div></div>`}));
   if(K.has('track'))staffOn().forEach(s=>{const it=(lb)=>out.push({k:'track',html:`<span class="ce tk" data-staff="${s.id}">${lb} ${esc(s.name)}</span>`,row:`<div class="cdr" data-staff="${s.id}"><span class="cdk k-tk">${lb}</span><div class="tt"><b>${esc(s.name)}</b><small>${esc([s.team,s.rank].filter(Boolean).join(' · '))}</small></div></div>`});
     if(s.prob&&!s.probRes&&s.joinDate&&probEnd(s)===d)it('수습 종료');if(s.etype==='계약'&&!s.cDec&&s.cEnd===d)it('계약 만료')});
-  if(K.has('talk'))[...st.talks.values()].filter(k=>k.date===d).forEach(k=>out.push({k:'talk',html:`<span class="ce tl" data-talk="${k.id}">면담 ${esc(k.name)}</span>`,row:`<div class="cdr" data-talk="${k.id}"><span class="cdk k-tl">면담</span><div class="tt"><b>${esc(k.name)}</b><small>${esc(k.kind||'')}</small></div></div>`}));
+  if(K.has('talk'))talkList().filter(k=>k.date===d).forEach(k=>out.push({k:'talk',html:`<span class="ce tl" data-talk="${k.id}">면담 ${esc(k.name)}</span>`,row:`<div class="cdr" data-talk="${k.id}"><span class="cdk k-tl">면담</span><div class="tt"><b>${esc(k.name)}</b><small>${esc(k.kind||'')}</small></div></div>`}));
   return out;
 }
 function vCal(){
@@ -2894,6 +2907,7 @@ document.addEventListener('change',e=>{
   if(T.classList.contains('ssAll')){const S=st.ssel||(st.ssel=new Set());[...document.querySelectorAll('.ssOne')].forEach(x=>T.checked?S.add(x.dataset.id):S.delete(x.dataset.id));render();return}
   if(T.id==='ooAll'){st.ooAll=T.checked;render();return}
   if(T.id==='sFt'){st.sft=T.value;render();return}
+  if(T.id==='kLead'){const bx=$('#kLeadBox');bx.hidden=!T.checked;if(T.checked){if(!$('#kLeadName').value)$('#kLeadName').value=teamLeadOf($('#kName').value.trim());if(!$('#kLeadDate').value)$('#kLeadDate').value=$('#kDate').value||today()}return}
   if(T.id==='eduY'){st.eduY=T.value;render();return}
   if(T.id==='sCardCo'){st.api.put('settings','main',{cardCo:T.value.trim()});toast('저장했어요');return}
   if(T.matches('[data-plan]')){savePlanCell(T);return}
@@ -2923,6 +2937,8 @@ document.addEventListener('submit',async e=>{
     addLog(`팀원 추가 · ${name}`);toast(`${name} 님을 팀원에 추가했어요`);
   }
   if(f.id==='fNotice'){const v=$('#nText').value.trim();if(!v)return;await st.api.add('notices',{at:nowISO(),by:me(),text:v});$('#nText').value=''}
+  if(f.id==='fTLu'){const pw=$('#tlPw').value;if(!pw)return;const b=f.querySelector('button');b.disabled=true;b.textContent='확인 중…';const ok=await tlUnlock(pw);if(ok){toast('열었어요');render()}else{b.disabled=false;b.textContent='열기';$('#tlPw').value='';$('#tlPw').focus();toast('비밀번호가 맞지 않아요')}return}
+  if(f.id==='fTL'){tlSave();return}
   if(f.id==='fCat'){const v=$('#newCat').value.trim();if(v)await st.api.put('settings','main',{cats:[...new Set([...(S().cats||CATS),v])]})}
   if(f.id==='fTask')saveTaskForm();
   if(f.id==='fGh')ghConnectForm();
@@ -3527,7 +3543,7 @@ function vOrg(){
   const n=d=>on.filter(s=>divOf(teamOf(s))===d).length;
   const mode=st.ogv||'tree';
   const sw=`<div class="segs og-sw">${[['tree','트리'],['card','부서 카드']].map(([k,l])=>`<button class="${mode===k?'on':''}" data-act="ogv" data-v="${k}">${l}</button>`).join('')}</div>`;
-  const cfg=S().orgTree,edBtn=`<button class="btn sm" data-act="orgEdit">조직 구조 ${cfg?'편집':'설정'}</button>`;
+  const cfg=S().orgTree,edBtn=`${!cfg&&S().orgTreePrev?'<button class="btn sm pri" data-act="orgRestore">이전 조직 구조 되살리기</button>':''}<button class="btn sm" data-act="orgEdit">조직 구조 ${cfg?'편집':'설정'}</button>`;
   if(mode==='tree')return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 부서를 누르면 팀원이 펼쳐져요</span><span style="flex:1"></span>${edBtn}${sw}</div>${cfg?orgChart(cfg,on,rk):orgTree(on,teams,divOf,rk)}</section>`;
   return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 팀장·사업부는 직원 정보에서 정해요</span><span style="flex:1"></span>${sw}</div>
    ${hasDiv?divs.map(d=>{const ts=teams.filter(t=>divOf(t)===d);return `<div class="og-div"><div class="og-dh"><b>${esc(d||'사업부 미정')}</b><span class="tc">${n(d)}명</span><span class="note">${ts.length}개 부서</span></div><div class="og-grid">${ts.map(card).join('')}</div></div>`}).join(''):`<div class="og-grid">${teams.map(card).join('')}</div>`}</section>`;
@@ -3546,7 +3562,7 @@ function orgChart(cfg,on,rk){
     const chip=s=>`<button class="og-mc ${s.leader?'ld':''}" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.leader?'팀장':s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}${s.status==='휴직'?'<i>휴직</i>':''}</button>`;
     return `<details class="oc-i"><summary><b>${esc(o.label)}</b><span class="tc">${L.length}</span></summary><div class="oc-ms">${multi.length>1?multi.map(t=>`<div class="oc-sub"><small>${esc(t)} · ${L.filter(s=>teamOf(s)===t).length}명</small><div class="ot-ms">${L.filter(s=>teamOf(s)===t).map(chip).join('')}</div></div>`).join(''):`<div class="ot-ms">${L.map(chip).join('')}</div>`}</div></details>`};
   const cnt=u=>{const ts=new Set();(u.head||[]).forEach(t=>ts.add(t));(u.groups||[]).forEach(g=>{(g.head||[]).forEach(t=>ts.add(t));(g.items||[]).forEach(it=>(typeof it==='string'?[it]:it.teams||[it.label]).forEach(t=>ts.add(t)))});return byTeam([...ts]).length};
-  const HC=['#2A9BDB','#1F84D0','#1A6CC0','#1957AB','#1B4294','#1B2B72'];
+  const HC=['#00A1B9'];
   const units=(cfg.units||[]).map((u,i)=>{mark(u.head);const n=cnt(u);
     return `<li><div class="oc-u" style="--uc:${HC[i%HC.length]}"><div class="oc-uh"><b>${esc(u.name)}</b>${u.sub?`<small>${esc(u.sub)}</small>`:''}${n?`<span class="oc-n">${n}명</span>`:''}</div>
       ${u.head||u.title||u.person?`<div class="oc-head">${who(u.head,u.title,u.person,u.rank)}</div>`:''}
@@ -3774,18 +3790,93 @@ const TALK_GUIDE={
  '퇴사 면담':{q:['퇴사를 결심한 가장 큰 이유는?','회사가 무엇을 바꿨다면 남았을까요?','인수인계 대상과 일정은?','마지막 근무일과 남은 연차 사용 계획은?','다음 계획을 말해 줄 수 있나요? (선택)'],n:['사직서 제출일·퇴사일을 확정해 남겨 두세요','연차 정산 · 퇴직금(퇴직 후 14일 이내) · 4대보험 상실신고 일정을 안내하세요','퇴사 사유를 분류해 두면 이직 통계에 쓰여요']},
  '기타 면담':{q:['오늘 면담의 목적을 먼저 공유해 주세요','현재 상황을 어떻게 보고 있나요?','필요한 지원은 무엇인가요?'],n:['합의한 내용과 다음 일정을 남겨 두세요']}
 };
+/* ---------------- 면담 기록 잠금 ----------------
+   비밀번호에서 만든 열쇠(PBKDF2 → AES-GCM)로 면담 내용을 암호화해서 저장해요.
+   보드 자료 · 백업 · GitHub 에는 암호문만 남고, 비밀번호는 어디에도 저장하지 않아요.
+   평문으로 남는 건 날짜와 후속 조치 완료 표시뿐이에요 (월간 리포트 건수용). */
+const TL={key:null,plain:new Map(),busy:false,timer:0};
+const TL_ITER=250000,TL_MIN=30;// 30분 지나면 다시 잠가요
+const u8b64=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode(...u.subarray(i,i+8192));return btoa(s)};
+const b64u8=b=>Uint8Array.from(atob(b),c=>c.charCodeAt(0));
+const tlLocked=()=>!!S().talkLock;
+async function tlDerive(pw,salt){const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt:b64u8(salt),iterations:TL_ITER,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function tlEncWith(key,obj){const iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(JSON.stringify(obj))));return {iv:u8b64(iv),ct:u8b64(ct)}}
+async function tlDecWith(key,d){const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64u8(d.iv)},key,b64u8(d.ct));return JSON.parse(new TextDecoder().decode(pt))}
+const TL_SECRET=['name','team','type','summary','follow','lead','leadName','leadDate','leadSum','leadNote'];
+/* 화면에서 쓰는 면담 목록: 잠금이 없으면 그대로, 잠겨 있으면 풀린 동안만 내용이 보여요 */
+function talkList(){if(!tlLocked())return [...st.talks.values()];if(!TL.key)return [];tlSync();return [...st.talks.values()].map(r=>TL.plain.get(r.id)).filter(Boolean)}
+function talkGet(id){if(!tlLocked())return st.talks.get(id);if(!TL.key)return null;return TL.plain.get(id)||null}
+/* 보관된 암호문이 바뀌면 다시 풀어요 */
+function tlSync(){
+  if(!TL.key||TL.busy)return;const need=[...st.talks.values()].filter(r=>{const p=TL.plain.get(r.id);return !p||p.__ct!==r.ct||p.fdone!==r.fdone});
+  const gone=[...TL.plain.keys()].filter(id=>!st.talks.has(id));gone.forEach(id=>TL.plain.delete(id));
+  if(!need.length)return;TL.busy=true;
+  Promise.all(need.map(async r=>{let o={};if(r.ct){try{o=await tlDecWith(TL.key,r)}catch(e){o={name:'(풀 수 없는 기록)',summary:''}}}else o=Object.fromEntries(TL_SECRET.map(k=>[k,r[k]||'']));
+    const {ct,iv,enc,...rest}=r;TL.plain.set(r.id,{...rest,...o,__ct:r.ct})})).finally(()=>{TL.busy=false;render()});
+}
+function tlArm(){clearTimeout(TL.timer);TL.timer=setTimeout(()=>{tlLock(true)},TL_MIN*60000)}
+function tlLock(auto){TL.key=null;TL.plain.clear();clearTimeout(TL.timer);if(st.view==='talk'||$('#fTalk'))closeLayer();render();if(auto)toast('면담 기록을 다시 잠갔어요')}
+async function tlUnlock(pw){const L=S().talkLock;if(!L)return false;try{const k=await tlDerive(pw,L.salt);const ok=await tlDecWith(k,L.check);if(ok!=='hrb-ok')return false;TL.key=k;TL.plain.clear();tlArm();tlSync();return true}catch(e){return false}}
+/* 내용을 새 열쇠로 다시 쓰기 (처음 잠글 때 · 비밀번호 바꿀 때 · 잠금 없앨 때) */
+async function tlRewrite(oldKey,newKey){
+  const ops=[];for(const r of st.talks.values()){let o;if(r.ct){o=await tlDecWith(oldKey,r)}else o=Object.fromEntries(TL_SECRET.map(k=>[k,r[k]||'']));
+    const keep={date:r.date||'',fdone:!!r.fdone,fdoneAt:r.fdoneAt||'',createdAt:r.createdAt||nowISO(),updatedAt:nowISO()};
+    ops.push({c:'talks',id:r.id,del:true});ops.push({c:'talks',id:r.id,d:newKey?{...keep,enc:1,...await tlEncWith(newKey,o)}:{...keep,...o}})}
+  if(ops.length)await st.api.batch(ops);
+}
+function openTalkLock(mode){
+  // mode: set(처음) · change(바꾸기) · off(없애기)
+  const T={set:'면담 기록 잠그기',change:'비밀번호 바꾸기',off:'잠금 없애기'}[mode];
+  openLayer(`<div class="modal" role="dialog" aria-label="${T}"><h2>${T}</h2><form id="fTL" data-mode="${mode}">
+   ${mode==='set'?'<p class="note">비밀번호를 정하면 지금까지의 면담 기록과 앞으로 쓰는 기록이 모두 암호화돼요. 보드 자료 · 백업 파일 · GitHub 에도 암호문만 남아요.</p>':''}
+   ${mode!=='set'?'<div class="fld"><label for="tlOld">지금 비밀번호</label><input class="inp" type="password" id="tlOld" autocomplete="current-password"></div>':''}
+   ${mode!=='off'?'<div class="fld"><label for="tlNew">새 비밀번호 <span class="note">6자 이상</span></label><input class="inp" type="password" id="tlNew" autocomplete="new-password"></div><div class="fld"><label for="tlNew2">한 번 더</label><input class="inp" type="password" id="tlNew2" autocomplete="new-password"></div>':'<p class="note">잠금을 없애면 면담 내용이 다시 암호화 없이 저장돼요.</p>'}
+   ${mode!=='off'?'<p class="tlwarn">⚠ 비밀번호를 잊으면 면담 기록을 다시 볼 방법이 없어요. 꼭 따로 적어 두세요.</p>':''}</form>
+   <div class="acts"><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="tlSave">${mode==='off'?'잠금 없애기':'저장'}</button></div></div>`);
+  setTimeout(()=>($('#tlOld')||$('#tlNew'))?.focus(),30);
+}
+async function tlSave(){
+  const mode=$('#fTL').dataset.mode,nw=$('#tlNew')?.value||'',nw2=$('#tlNew2')?.value||'',old=$('#tlOld')?.value||'';
+  if(mode!=='off'){if(nw.length<6){toast('비밀번호는 6자 이상으로 정해 주세요');return}if(nw!==nw2){toast('두 비밀번호가 달라요');return}}
+  let oldKey=null;if(mode!=='set'){const L=S().talkLock;try{oldKey=await tlDerive(old,L.salt);if(await tlDecWith(oldKey,L.check)!=='hrb-ok')throw 0}catch(e){toast('지금 비밀번호가 맞지 않아요');return}}
+  toast('바꾸는 중…');
+  try{
+    if(mode==='off'){await tlRewrite(oldKey,null);await st.api.put('settings','main',{talkLock:null});TL.key=null;TL.plain.clear();addLog('면담 기록 잠금 해제');closeLayer();toast('잠금을 없앴어요');return}
+    const salt=u8b64(crypto.getRandomValues(new Uint8Array(16))),key=await tlDerive(nw,salt),check=await tlEncWith(key,'hrb-ok');
+    await tlRewrite(oldKey,key);TL.key=key;TL.plain.clear();await st.api.put('settings','main',{talkLock:{salt,check,iter:TL_ITER,at:nowISO()}});
+    if(mode==='set'){/* 변경 기록에 남은 면담 대상 이름도 지워요 */const logs=await new Promise(r=>{let un=null,done=false;un=st.api.watch('logs',d=>{if(done)return;done=true;setTimeout(()=>un&&un(),0);r(d)})});const fx=logs.filter(l=>/^면담 기록 · /.test(l.text||''));if(fx.length)await st.api.batch(fx.map(l=>({c:'logs',id:l.id,d:{text:'면담 기록 저장'}})))}
+    tlArm();render();addLog(mode==='set'?'면담 기록 잠금 설정':'면담 기록 비밀번호 변경');closeLayer();toast(mode==='set'?'면담 기록을 잠갔어요':'비밀번호를 바꿨어요');
+  }catch(e){toast('바꾸지 못했어요: '+e.message)}
+}
+function vTalkSetScreen(){
+  return `<div class="ph"><h1>면담</h1><div class="desc">면담 기록은 비밀번호를 넣어야 볼 수 있어요. 먼저 비밀번호를 정해 주세요.</div></div>
+   <section class="card tlbox"><div class="tlin"><div class="tlic">🔒</div><b>면담 기록 비밀번호 정하기</b><p class="note">지금 있는 면담 기록${st.talks.size?` ${st.talks.size}건`:''}과 앞으로 쓰는 기록이 모두 암호화돼요. 면담 메뉴에 들어올 때마다 이 비밀번호를 물어봐요.</p>
+    <form id="fTL" data-mode="set" class="tlf2"><input class="inp" type="password" id="tlNew" placeholder="새 비밀번호 (6자 이상)" autocomplete="new-password"><input class="inp" type="password" id="tlNew2" placeholder="한 번 더" autocomplete="new-password"><button class="btn pri">비밀번호 정하기</button></form>
+    <p class="tlwarn">⚠ 비밀번호를 잊으면 면담 기록을 다시 볼 방법이 없어요. 꼭 따로 적어 두세요.</p></div></section>`;
+}
+function vTalkLockScreen(){
+  return `<div class="ph"><h1>면담</h1><div class="desc">면담 기록은 비밀번호로 잠겨 있어요.</div></div>
+   <section class="card tlbox"><div class="tlin"><div class="tlic">🔒</div><b>비밀번호를 입력해 주세요</b><p class="note">면담 메뉴에 들어올 때마다 물어봐요. 다른 메뉴로 나가거나 ${TL_MIN}분이 지나면 다시 잠겨요.</p>
+    <form id="fTLu" class="tlf"><input class="inp" type="password" id="tlPw" placeholder="면담 기록 비밀번호" autocomplete="current-password"><button class="btn pri">열기</button></form>
+    <button class="btn sm" data-act="tlMode" data-v="change" style="margin-top:10px">비밀번호 바꾸기</button></div></section>`;
+}
+
 function vTalk(){
   const tab=st.tkt||'log';
-  return `<div class="ph"><h1>면담</h1><span class="sp"></span><button class="btn pri" data-act="newTalk">+ 면담 기록</button><div class="desc">면담 내용과 후속 조치를 남겨요. 기록을 쓸 때 유형별 질문을 눌러 바로 넣을 수 있어요.</div></div>
-   <div class="segs ptabs">${[['log','면담 기록'],['guide','면담 가이드']].map(([k,l])=>`<button class="${tab===k?'on':''}" data-act="tkt" data-v="${k}">${l}${k==='log'?`<span class="tc">${st.talks.size}</span>`:''}</button>`).join('')}</div>
+  if(!tlLocked())return vTalkSetScreen();
+  if(!TL.key)return vTalkLockScreen();
+  const lk=tlLocked()?'<button class="btn" data-act="tlLockNow" title="지금 바로 잠가요">🔒 잠그기</button><button class="btn" data-act="tlMode" data-v="change">비밀번호 바꾸기</button><button class="btn" data-act="tlMode" data-v="off" title="암호화를 풀고 다시 그냥 저장해요">잠금 없애기</button>':'';
+  return `<div class="ph"><h1>면담</h1><span class="sp"></span>${lk}<button class="btn pri" data-act="newTalk">+ 면담 기록</button><div class="desc">면담 내용과 후속 조치를 남겨요. 기록을 쓸 때 유형별 질문을 눌러 바로 넣을 수 있어요.</div></div>
+   <div class="segs ptabs">${[['log','면담 기록'],['guide','면담 가이드']].map(([k,l])=>`<button class="${tab===k?'on':''}" data-act="tkt" data-v="${k}">${l}${k==='log'?`<span class="tc">${talkList().length}</span>`:''}</button>`).join('')}</div>
    ${tab==='guide'?vTalkGuide():vTalkLog()}`;
 }
 function vTalkLog(){
   const q=(st.tq||'').toLowerCase(),ft=st.tft||'';
-  const L=[...st.talks.values()].filter(t=>(!ft||t.type===ft)&&(!q||[t.name,t.team,t.summary,t.follow].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const L=talkList().filter(t=>(!ft||t.type===ft)&&(!q||[t.name,t.team,t.summary,t.follow,t.leadName,t.leadSum,t.leadNote].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
   return `<section class="card rec"><div class="recbar"><input class="fsearch" id="tkQ" placeholder="이름 · 내용 검색" value="${esc(st.tq||'')}"><div class="segs">${['',...TALK_TYPES].map(x=>`<button class="${ft===x?'on':''}" data-act="tft" data-v="${x}">${x?x.replace(' 면담',''):'전체'}</button>`).join('')}</div><span class="sp" style="flex:1"></span><span class="note">${L.length}건</span></div>
    ${L.length?`<div class="rtw"><table class="rtab"><thead><tr><th>날짜</th><th>대상</th><th>부서</th><th>유형</th><th>내용</th><th>후속 조치</th><th class="c">조치 완료</th></tr></thead><tbody>
-   ${L.map(t=>`<tr><td class="dt" data-talk="${t.id}">${md(t.date)} <span>${dow(t.date)}</span></td><td class="nm" data-talk="${t.id}"><b>${esc(t.name)}</b></td><td>${esc(t.team||'—')}</td><td><span class="cc t-s">${esc(t.type||'')}</span></td>
+   ${L.map(t=>`<tr><td class="dt" data-talk="${t.id}">${md(t.date)} <span>${dow(t.date)}</span></td><td class="nm" data-talk="${t.id}"><b>${esc(t.name)}</b></td><td>${esc(t.team||'—')}</td><td><span class="cc t-s">${esc(t.type||'')}</span>${t.lead?` <span class="cc t-b" title="${esc([t.leadName,t.leadDate&&md(t.leadDate)].filter(Boolean).join(' · '))}">팀장 면담</span>`:''}</td>
      <td class="mm2" title="${esc(t.summary||'')}">${esc((t.summary||'').replace(/\n/g,' ').slice(0,40))}</td><td class="mm2">${esc(t.follow||'—')}</td><td class="c">${t.follow?mkb('talks',t.id,'fdone',t.fdone,t.fdoneAt):'—'}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">면담 기록이 없어요.</div>'}</section>`;
 }
 function vTalkGuide(){
@@ -3793,8 +3884,10 @@ function vTalkGuide(){
     <h4 class="tgh">이렇게 물어보세요</h4><ol class="tgq">${TALK_GUIDE[k].q.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
     <h4 class="tgh">챙길 점</h4><ul class="tgn">${TALK_GUIDE[k].n.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>`).join('')}</div>`;
 }
+const teamLeadOf=n=>{const s=staffOn().find(x=>x.name===n);if(!s)return '';const l=staffOn().find(x=>x.leader&&x.team===s.team&&x.id!==s.id);return l?l.name:''};
 function openTalk(id,pre={}){
-  const t=id?st.talks.get(id):{date:today(),name:'',team:'',type:'정기 면담',summary:'',follow:'',...pre};if(!t)return;
+  if(tlLocked()&&!TL.key){goView('talk');toast('면담 기록 비밀번호를 먼저 입력해 주세요');return}
+  const t=id?talkGet(id):{date:today(),name:'',team:'',type:'정기 면담',summary:'',follow:'',...pre};if(!t)return;
   const names=staffOn().map(s=>s.name);
   openLayer(`<div class="modal wide" role="dialog" aria-label="면담"><h2>${id?'면담 기록':'면담 기록 쓰기'}</h2><form id="fTalk" data-id="${id||''}">
    <div class="g3"><div class="fld"><label for="kDate">날짜</label><input class="inp" type="date" id="kDate" value="${t.date||''}"></div>
@@ -3803,13 +3896,20 @@ function openTalk(id,pre={}){
    <div class="fld"><label>유형</label><div class="segs pick" id="kType">${TALK_TYPES.map(x=>`<button type="button" class="${x===t.type?'on':''}" data-v="${x}">${x}</button>`).join('')}</div></div>
    <div class="fld"><label>질문 가이드 <span class="note">눌러서 내용에 넣기</span></label><div class="tqs" id="kQs">${TALK_GUIDE[t.type]?.q.map(x=>`<button type="button" class="chip" data-tq="${esc(x)}">${esc(x)}</button>`).join('')||''}</div></div>
    <div class="fld"><label for="kSum">내용</label><textarea class="inp" id="kSum" rows="6">${esc(t.summary||'')}</textarea></div>
-   <div class="fld"><label for="kFollow">후속 조치</label><input class="inp" id="kFollow" value="${esc(t.follow||'')}" placeholder="예) 12/1까지 업무 분장 조정"></div></form>
+   <div class="fld"><label for="kFollow">후속 조치</label><input class="inp" id="kFollow" value="${esc(t.follow||'')}" placeholder="예) 12/1까지 업무 분장 조정"></div>
+   <div class="tklead"><label class="chkl"><input type="checkbox" id="kLead" ${t.lead?'checked':''}> <b>팀장 면담</b> <span class="note">팀장 면담도 했으면 체크하세요</span></label>
+    <div id="kLeadBox" ${t.lead?'':'hidden'}><div class="g3"><div class="fld"><label for="kLeadName">면담 팀장</label><input class="inp" id="kLeadName" list="leadNames" value="${esc(t.leadName||'')}" placeholder="대상의 팀장"><datalist id="leadNames">${staffOn().filter(s=>s.leader).map(s=>`<option value="${esc(s.name)}">${esc(s.team||'')}</option>`).join('')}</datalist></div>
+     <div class="fld"><label for="kLeadDate">팀장 면담일</label><input class="inp" type="date" id="kLeadDate" value="${t.leadDate||''}"></div><div></div></div>
+     <div class="fld"><label for="kLeadSum">팀장 면담 내용</label><textarea class="inp" id="kLeadSum" rows="4" placeholder="팀장이 확인한 내용 · 의견">${esc(t.leadSum||'')}</textarea></div>
+     <div class="fld"><label for="kLeadNote">팀장 요청 · 조치</label><input class="inp" id="kLeadNote" value="${esc(t.leadNote||'')}" placeholder="예) 업무량 조정 요청"></div></div></div></form>
    <div class="acts">${id?`<button class="btn dan" data-act="delTalk" data-id="${id}" style="margin-right:auto">삭제</button>`:''}<button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="saveTalk">저장</button></div></div>`);
 }
 async function saveTalkForm(){
-  const id=$('#fTalk').dataset.id,d={date:$('#kDate').value,name:$('#kName').value.trim(),team:$('#kTeam').value.trim(),type:$('#kType .on')?.dataset.v||'기타 면담',summary:$('#kSum').value,follow:$('#kFollow').value.trim(),updatedAt:nowISO()};
+  const id=$('#fTalk').dataset.id,d={date:$('#kDate').value,name:$('#kName').value.trim(),team:$('#kTeam').value.trim(),type:$('#kType .on')?.dataset.v||'기타 면담',summary:$('#kSum').value,follow:$('#kFollow').value.trim(),lead:$('#kLead').checked,leadName:$('#kLead').checked?$('#kLeadName').value.trim():'',leadDate:$('#kLead').checked?$('#kLeadDate').value:'',leadSum:$('#kLead').checked?$('#kLeadSum').value:'',leadNote:$('#kLead').checked?$('#kLeadNote').value.trim():'',updatedAt:nowISO()};
   if(!d.name){toast('대상을 적어 주세요');return}
   if(!d.team){const s=staffOn().find(x=>x.name===d.name);if(s)d.team=s.team||''}
+  if(tlLocked()){if(!TL.key){toast('잠겨 있어요. 비밀번호를 다시 입력해 주세요');return}const {date,updatedAt,...sec}=d;const e=await tlEncWith(TL.key,sec);tlArm();
+    await st.api.put('talks',id||'k-'+uid(),{date,updatedAt,enc:1,...e,...(id?{}:{createdAt:nowISO()})});addLog('면담 기록 저장');closeLayer();toast('저장했어요');return}
   await st.api.put('talks',id||'k-'+uid(),id?d:{...d,createdAt:nowISO()});addLog(`면담 기록 · ${d.name} (${d.type})`);closeLayer();toast('저장했어요');
 }
 
@@ -4439,7 +4539,7 @@ function vMonthly(){
   const R=[...st.reqs.values()].filter(r=>r.status!=='완료');
   const nx=ymd(new Date(y,m+1,0)),T=trackItems().filter(x=>x.d<=nx);
   const L=live().filter(t=>t.due&&t.due.startsWith(ym)),D=L.filter(t=>t.status==='done'),ontime=D.filter(t=>t.doneAt&&t.doneAt<=t.due).length,late=L.filter(t=>t.status!=='done'&&t.due<today());
-  const rt=L.filter(t=>t.rid),K=[...st.talks.values()].filter(t=>(t.date||'').startsWith(ym));
+  const rt=L.filter(t=>t.rid),K=(tlLocked()&&!TL.key?[...st.talks.values()].map(t=>({...t,name:'🔒 잠김',type:'',follow:''})):talkList()).filter(t=>(t.date||'').startsWith(ym));
   const list=(arr,f)=>arr.length?`<ul class="mrl">${arr.map(f).join('')}</ul>`:'<p class="note">없음</p>';
   return `<div class="rpbar"><button class="icon-btn" data-act="mro" data-v="-1" aria-label="이전 달">‹</button><b class="yr">${y}년 ${m}월 리포트</b><button class="icon-btn" data-act="mro" data-v="1" aria-label="다음 달">›</button><button class="btn sm" data-act="mro" data-v="0">이번 달</button><span class="sp" style="flex:1"></span><button class="btn pri" data-act="printRep">인쇄 · PDF 저장</button></div>
    <div class="mrep">
@@ -4654,6 +4754,7 @@ const ACT={
   tft:a=>{st.tft=a.dataset.v;render()},
   newTalk:a=>openTalk(null,a?.dataset?.type?{type:a.dataset.type}:{}),
   saveTalk:()=>saveTalkForm(),
+  tlMode:a=>openTalkLock(a.dataset.v),tlSave:()=>tlSave(),tlLockNow:()=>{tlLock();toast('면담 기록을 잠갔어요')},
   delTalk:a=>{const id=a.dataset.id;openConfirm('이 면담 기록을 삭제할까요?',async()=>{await st.api.remove('talks',id);toast('삭제했어요')})},
   atab:a=>{st.atab=a.dataset.v;render()},
   mro:a=>{st.mro=+a.dataset.v===0?0:(st.mro||0)+(+a.dataset.v);render()},
@@ -4665,7 +4766,8 @@ const ACT={
   orgEdit:()=>openOrgEdit(),
   orgSave:async()=>{const v=$('#ocTxt').value.trim();let o;try{o=JSON.parse(v);if(!o||!Array.isArray(o.units))throw 0}catch(e){toast('형식이 맞지 않아요. 받은 파일 내용을 그대로 붙여넣어 주세요');return}
     await st.api.put('settings','main',{orgTree:o});addLog('조직 구조 저장');closeLayer();toast('조직도를 저장했어요')},
-  orgReset:async()=>{await st.api.put('settings','main',{orgTree:null});closeLayer();toast('자동 조직도로 되돌렸어요')},
+  orgReset:()=>openConfirm('지금 조직 구조를 지우고 자동 조직도로 바꿀까요? 지운 구조는 보관해 두었다가 \'이전 조직 구조 되살리기\'로 되돌릴 수 있어요.',async()=>{await st.api.put('settings','main',{orgTreePrev:S().orgTree,orgTree:null});toast('자동 조직도로 바꿨어요')}),
+  orgRestore:async()=>{const o=S().orgTreePrev;if(!o){toast('되살릴 조직 구조가 없어요');return}await st.api.put('settings','main',{orgTree:o});addLog('조직 구조 되살리기');toast('이전 조직 구조로 되돌렸어요')},
   ssort:a=>{const k=a.dataset.k,so=st.ssort;st.ssort=!so||so.k!==k?{k,d:k==='rank'||k==='ten'?'desc':'asc'}:so.d==='asc'?{k,d:'desc'}:so.d==='desc'&&(k==='rank'||k==='ten')?{k,d:'asc'}:null;
     if(st.ssort&&(k==='rank'||k==='ten')&&so&&so.k===k&&so.d==='asc')st.ssort=null;render()},
   ssortReset:()=>{st.ssort=null;render()},

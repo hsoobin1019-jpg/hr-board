@@ -1316,8 +1316,15 @@ button.oc-who:hover{background:#E5EAF4}
 .orgc .oc-gby{padding-left:13px;margin-top:-4px}.orgc .oc-gby .oc-who{background:none;border:0;padding:0;font-size:13.5px;color:var(--ink2);font-weight:600}
 .orgc .oc-gby .oc-who em{color:#008197}.orgc .oc-gby button.oc-who:hover{text-decoration:underline}
 .orgc .oc-g .oc-who{background:none;border:0;padding:0}.orgc .oc-g i.tc{font-style:normal;margin-left:2px}
-.orgc .oc-uh{min-height:112px}.orgc .oc-ut b{font-size:16.5px;word-break:keep-all}
+.orgc .oc-uh{min-height:0;height:78px;padding:8px 12px;gap:4px}.orgc .oc-ut{flex-wrap:nowrap;max-width:100%}.orgc .oc-ut{gap:5px}.orgc .oc-ut b{white-space:nowrap;font-size:15.5px;letter-spacing:-.2px}.orgc .oc-n{white-space:nowrap;flex:none;font-size:11.5px;padding:1px 7px}.orgc .oc-uh{padding:8px 6px}.orgc .oc-g .oc-who{margin-left:auto;font-size:13px;color:var(--ink2);font-weight:600}.orgc .oc-g .oc-who em{color:#008197}.orgc .oc-ut b{font-size:16.5px;word-break:keep-all}
 .orgc .oc-sbox>.oc-who{background:none;border:0;padding:0 4px;font-size:14px;font-weight:600}.orgc .oc-sbox>.oc-who em{color:#008197;margin-left:3px}
+/* 11/24 최종: 헤더 납작 · 총괄은 둥근 칸 · 그룹 담당도 둥근 칸 */
+.orgc .oc-uh{height:auto;min-height:0;padding:9px 8px 10px;gap:5px}
+.orgc .oc-uhd .oc-who{background:rgba(255,255,255,.95);color:var(--ink);border:0;border-radius:99px;padding:3px 11px;font-size:13px;font-weight:600}
+.orgc .oc-uhd .oc-who em{color:var(--uc);margin-left:0}.orgc .oc-uhd button.oc-who:hover{background:#fff}
+.orgc .oc-g{align-items:center}
+.orgc .oc-g .oc-who{margin-left:auto;background:#F1F3F8;border:0;border-radius:99px;padding:3px 10px;font-size:12.5px;color:var(--ink);font-weight:600}
+.orgc .oc-g .oc-who em{color:#008197}
 .oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
 .og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
@@ -3588,7 +3595,7 @@ function orgChart(cfg,on,rk){
   const top1=ts=>byTeam(ts).sort((a,b)=>rk(b)-rk(a)||(b.leader?1:0)-(a.leader?1:0))[0];
   const placed=new Set(),used=new Set();const mark=ts=>(ts||[]).forEach(t=>used.add(t));const put=L=>L.forEach(s=>placed.add(s.id));
   const findP=n=>on.find(s=>s.name===ocName(n));
-  const who=(ts,title,person,rank)=>{const p=(person&&findP(person))||(!person&&top1(ts));if(p)placed.add(p.id);return p?`<button class="oc-who" data-staff="${p.id}">${esc(p.name)} ${esc(rank!=null?rank:(p.rank||''))}${title?` <em>${esc(title)}</em>`:''}</button>`:person?`<span class="oc-who">${esc(ocName(person))} ${esc(rank||'')}${title?` <em>${esc(title)}</em>`:''}</span>`:(title?`<span class="oc-who"><em>${esc(title)}</em></span>`:'')};
+  const who=(ts,title,person,rank)=>{const p=(person&&findP(person))||(!person&&top1(ts));if(p)placed.add(p.id);return p?`<button class="oc-who" data-staff="${p.id}">${esc(p.name)} ${title?esc(rank!=null?rank:(p.rank||'')):`<em>${esc(rank!=null?rank:(p.rank||''))}</em>`}${title?` <em>${esc(title)}</em>`:''}</button>`:person?`<span class="oc-who">${esc(ocName(person))} ${esc(rank||'')}${title?` <em>${esc(title)}</em>`:''}</span>`:(title?`<span class="oc-who"><em>${esc(title)}</em></span>`:'')};
   const chip=s=>`<button class="og-mc ${s.leader?'ld':''}" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.leader?'팀장':s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}${s.status==='휴직'?'<i>휴직</i>':''}</button>`;
   const ghost=n=>`<span class="og-mc gh"><b>${esc(ocName(n))}</b><small>${esc(String(n).split('|')[1]||'')}</small></span>`;
   const pplHtml=arr=>(arr||[]).map(n=>{const s=findP(n);return s?chip(s):ghost(n)}).join('');
@@ -3616,7 +3623,7 @@ function orgChart(cfg,on,rk){
   const units=(cfg.units||[]).map((u,i)=>{mark(u.head);put(byTeam(u.head));const n=cnt(u);
     return `<li><div class="oc-u" style="--uc:${HC[i%HC.length]}"><div class="oc-uh"><div class="oc-ut"><b>${esc(u.name)}</b>${n?`<span class="oc-n">${n}명</span>`:''}</div>${u.sub?`<small>${esc(u.sub)}</small>`:''}${u.head||u.title||u.person?`<div class="oc-uhd">${who(u.head,u.title,u.person,u.rank)}</div>`:''}</div>
       <div class="oc-b">${(u.groups||[]).map((g,gi)=>{mark(g.head);put(byTeam(g.head));const hd=g.head||g.person;
-        if(g.name&&(hd||g.people)){put(pplOf(g.people));return `<div class="oc-g2"><div class="oc-g"><span>${esc(g.name)}</span>${(g.people||[]).length?`<i class="tc">${(g.people||[]).length}</i>`:''}</div>${hd?`<div class="oc-gby">${who(g.head,g.title||'',g.person,g.rank)}</div>`:''}${(g.people||[]).length?`<div class="ot-ms oc-gp">${pplHtml(g.people)}</div>`:''}${(g.items||[]).length?`<div class="oc-is">${(g.items||[]).map(item).join('')}</div>`:''}</div>`}
+        if(g.name&&hd)return `<div class="oc-g"><span>${esc(g.name)}</span>${who(g.head,g.title||'',g.person,g.rank)}</div><div class="oc-is">${(g.items||[]).map(item).join('')}</div>`;
         return `${g.name?`<div class="oc-g"><span>${esc(g.name)}</span></div>`:gi?'<hr class="oc-hr">':'<span class="oc-hr0"></span>'}<div class="oc-is">${(g.items||[]).map(item).join('')}</div>`}).join('')||'<div class="note oc-none">하위 부서 없음</div>'}</div></div></li>`}).join('');
   const tops=(cfg.top||[]).map((t,i)=>{mark(t.teams);put(byTeam(t.teams));const p=top1(t.teams);return `<div class="oc-box ${i===0?'chair':'ceo'}"><b>${esc(t.label)}</b>${p?`<button class="oc-pn" data-staff="${p.id}">${esc(p.name)}</button>`:''}</div>`});
   const sd=cfg.side;if(sd){mark(sd.teams);put(byTeam(sd.teams))}

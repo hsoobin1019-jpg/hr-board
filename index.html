@@ -1291,6 +1291,9 @@ button.oc-who:hover{background:#E5EAF4}
 .pvch text.io{font-size:11px}.pvch tspan.j{fill:#0B7F92;font-weight:700}.pvch tspan.l{fill:#C42626;font-weight:700}.pvch text.io.b{fill:var(--ink);font-weight:700}
 .pvch .bc{fill:#1F6FD1}.pvch .bs{fill:#E07B2E}.pvch .fut .bc,.pvch .fut .bs{opacity:.45}
 .pvch .col .sg.dir{fill:#00889C}.pvch .col .sg.ind{fill:#7C5CD6}.pvch .col .sg.ex{fill:#E07B2E}.pvlg i.ldir{background:#00889C}.pvlg i.lind{background:#7C5CD6}.pvlg i.lex{background:#E07B2E}.pvt tr.pvsec.mix td{border-bottom-color:#7C5CD6;cursor:default}
+.pvt input.pin[type=number]{-moz-appearance:textfield;appearance:textfield}.pvt input.pin::-webkit-inner-spin-button,.pvt input.pin::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0;display:none}
+.pvt td.n{padding:0 4px;text-align:center;font-variant-numeric:tabular-nums}.pvt td.n .pin{padding:0;text-indent:0;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:0}
+.pvt td.gap .gp,.pvt td.gap .gz{display:inline-block;min-width:38px;text-align:center}
 .pvlg i.tgk{height:0;width:14px;border-radius:0;border-top:2px dashed #1B2B36;background:none}.pvlg i.pvsc{background:#1F6FD1}.pvlg i.pvss{background:#E07B2E}
 #pvTip{position:fixed;z-index:999;background:#1B2B36;color:#fff;font-size:12.5px;line-height:1.45;padding:7px 10px;border-radius:8px;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.18);max-width:340px}
 .pvhelp{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--mute);margin:-2px 0 10px}.pvhelp i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}.pvhelp .k1{background:#1B2B36}.pvhelp .k2{background:#B7C2C8}.pvhelp .k3{background:#E4E8EB;border:1px solid #C9D2D8}
@@ -3912,6 +3915,7 @@ function vPlanAll(){
     +inRows('직접 인력',MIXK.filter(x=>x[1]==='직접'))+calcRow('pvsub','직접 인력 소계',m=>mSum(m,KD))
     +inRows('',[['exec','','등기임원']])+calcRow('pvtot','총인원',m=>mSum(m,KA))
     +inRows('',[['join','','입사'],['leave','','퇴사']])+calcRow('pvsub','퇴직률 <small>퇴사 ÷ 총인원</small>',m=>{const t=mSum(m,KA),l=pNum(m.leave);return t&&l!=null?Math.round(l/t*100)+'%':null})
+    +calcRow('pvsub','입사자 대비 퇴사 <small>퇴사 ÷ 입사</small>',m=>{const j=pNum(m.join),l=pNum(m.leave);return j&&l!=null?Math.round(l/j*100)+'%':null})
     +inRows('',[['labor','','인건비 <small>백만원</small>']])+calcRow('pvsub','인당매출 <small>별도 매출 ÷ 총인원 · 백만원</small>',(m,y)=>{const t=mSum(m,KA),s=pNum(planDoc(y).sales);return t&&s?(s/t).toFixed(1):null});
   const missNote=miss.length?`<p class="pvmiss">⚠ 표 구조에 없는 재직자 <b>${miss.reduce((s,x)=>s+x[1],0)}명</b> — ${miss.map(([t,n])=>`${esc(t)} ${n}명`).join(', ')}. <button class="pvlnk" data-act="pvLayout">표 구조</button>에서 알맞은 줄에 넣으면 총계가 명부와 맞아요.</p>`:'';
   return `<div class="pvkp">${KP.map(([l,v,u,s])=>`<div class="pvkc"><span>${l}</span><b>${typeof v==='number'?v.toLocaleString():v}<i>${u}</i></b><small>${s}</small></div>`).join('')}</div>

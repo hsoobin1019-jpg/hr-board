@@ -1278,6 +1278,22 @@ button.oc-who:hover{background:#E5EAF4}
 .orgc .oc-g>span{color:var(--ink);border-left-color:#00A1B9}
 .orgc .oc-i{background:#fff;border:1px solid #E1E8EB;border-radius:12px}.orgc .oc-i summary:hover{background:#F3F8FA}.orgc .oc-i[open]{border-color:#BFE6EC;box-shadow:0 2px 8px rgba(0,129,151,.06)}
 .orgc .oc-i summary b,.orgc .oc-i.empty b{color:var(--ink)}
+/* 조직도 모양 다듬기 (11/24) */
+.orgc .oc-box{min-width:300px;padding:10px 28px;display:flex;align-items:center;justify-content:center;gap:14px}
+.orgc .oc-box b{font-size:12.5px;margin:0}.orgc .oc-box .oc-pn{margin:0;font-size:17px}
+.orgc .oc-stem{padding-left:calc(50% + 150px);padding-top:14px}
+.orgc .oc-side::before{left:-150px;width:150px;top:50%}
+.orgc .oc-sbox{display:flex;align-items:center;gap:12px;min-width:430px;padding:10px 14px;text-align:left}
+.orgc .oc-sbox>b{margin:0;font-size:15px;white-space:nowrap}.orgc .oc-sbox .oc-who{margin:0}
+.orgc .oc-sbox .oc-i{margin:0 0 0 auto;min-width:150px;position:relative}
+.orgc .oc-sbox .oc-i[open]{position:absolute;right:14px;top:8px;z-index:5;min-width:260px;background:#fff}
+.orgc .oc-uh{background:var(--uc);min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 10px}
+.orgc .oc-ut{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.orgc .oc-ut b{display:inline;font-size:15px}.orgc .oc-n{margin:0;display:inline-block}
+.orgc .oc-uh small{margin:0}
+.orgc .oc-uhd .oc-who{background:rgba(255,255,255,.94);color:var(--ink);font-size:12px;padding:4px 10px}
+.orgc .oc-uhd .oc-who em{color:var(--uc)}
+.orgc .oc-b{padding-top:10px}
 .oc-left{margin-top:14px;align-self:flex-start}textarea.mono{font-family:Consolas,'D2Coding',monospace;font-size:12.5px;line-height:1.5}
 .og-div{margin-top:18px}.og-div:first-of-type{margin-top:6px}
 .og-dh{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px;padding-left:10px;border-left:4px solid #00A1B9}.og-dh b{font-size:17px}.og-dh .tc{font-weight:700;color:#008197}
@@ -3562,10 +3578,10 @@ function orgChart(cfg,on,rk){
     const chip=s=>`<button class="og-mc ${s.leader?'ld':''}" data-staff="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.leader?'팀장':s.rank||s.job||'')}</small>${s.etype==='계약'?'<i>계약</i>':''}${s.prob&&!s.probRes?'<i class="p">수습</i>':''}${s.status==='휴직'?'<i>휴직</i>':''}</button>`;
     return `<details class="oc-i"><summary><b>${esc(o.label)}</b><span class="tc">${L.length}</span></summary><div class="oc-ms">${multi.length>1?multi.map(t=>`<div class="oc-sub"><small>${esc(t)} · ${L.filter(s=>teamOf(s)===t).length}명</small><div class="ot-ms">${L.filter(s=>teamOf(s)===t).map(chip).join('')}</div></div>`).join(''):`<div class="ot-ms">${L.map(chip).join('')}</div>`}</div></details>`};
   const cnt=u=>{const ts=new Set();(u.head||[]).forEach(t=>ts.add(t));(u.groups||[]).forEach(g=>{(g.head||[]).forEach(t=>ts.add(t));(g.items||[]).forEach(it=>(typeof it==='string'?[it]:it.teams||[it.label]).forEach(t=>ts.add(t)))});return byTeam([...ts]).length};
-  const HC=['#00A1B9'];
+  const NU=(cfg.units||[]).length,mix=(a,b,t)=>'#'+[0,2,4].map(k=>Math.round(parseInt(a.substr(k+1,2),16)*(1-t)+parseInt(b.substr(k+1,2),16)*t).toString(16).padStart(2,'0')).join('');
+  const HC=(cfg.units||[]).map((_,i)=>mix('#00A1B9','#1F6FD1',NU>1?i/(NU-1):0));
   const units=(cfg.units||[]).map((u,i)=>{mark(u.head);const n=cnt(u);
-    return `<li><div class="oc-u" style="--uc:${HC[i%HC.length]}"><div class="oc-uh"><b>${esc(u.name)}</b>${u.sub?`<small>${esc(u.sub)}</small>`:''}${n?`<span class="oc-n">${n}명</span>`:''}</div>
-      ${u.head||u.title||u.person?`<div class="oc-head">${who(u.head,u.title,u.person,u.rank)}</div>`:''}
+    return `<li><div class="oc-u" style="--uc:${HC[i%HC.length]}"><div class="oc-uh"><div class="oc-ut"><b>${esc(u.name)}</b>${n?`<span class="oc-n">${n}명</span>`:''}</div>${u.sub?`<small>${esc(u.sub)}</small>`:''}${u.head||u.title||u.person?`<div class="oc-uhd">${who(u.head,u.title,u.person,u.rank)}</div>`:''}</div>
       <div class="oc-b">${(u.groups||[]).map((g,gi)=>{mark(g.head);return `${g.name?`<div class="oc-g"><span>${esc(g.name)}</span>${g.head||g.person?who(g.head,'',g.person,g.rank):''}</div>`:gi?'<hr class="oc-hr">':'<span class="oc-hr0"></span>'}<div class="oc-is">${(g.items||[]).map(item).join('')}</div>`}).join('')||'<div class="note oc-none">하위 부서 없음</div>'}</div></div></li>`}).join('');
   const tops=(cfg.top||[]).map((t,i)=>{mark(t.teams);const p=top1(t.teams);return `<div class="oc-box ${i===0?'chair':'ceo'}"><b>${esc(t.label)}</b>${p?`<button class="oc-pn" data-staff="${p.id}">${esc(p.name)}</button>`:''}</div>`});
   const sd=cfg.side;if(sd)mark(sd.teams);

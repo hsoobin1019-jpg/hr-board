@@ -1290,6 +1290,7 @@ button.oc-who:hover{background:#E5EAF4}
 .pvch .tg{stroke:#1B2B36;stroke-width:2;stroke-dasharray:5 3}.pvch text.v.in{fill:#fff}.pvch text.tgl{text-anchor:middle;fill:var(--ink);font-weight:700;font-size:11px}
 .pvch text.io{font-size:11px}.pvch tspan.j{fill:#0B7F92;font-weight:700}.pvch tspan.l{fill:#C42626;font-weight:700}.pvch text.io.b{fill:var(--ink);font-weight:700}
 .pvch .bc{fill:#1F6FD1}.pvch .bs{fill:#E07B2E}.pvch .fut .bc,.pvch .fut .bs{opacity:.45}
+.pvch .col .sg.dir{fill:#00889C}.pvch .col .sg.ind{fill:#7C5CD6}.pvch .col .sg.ex{fill:#E07B2E}.pvlg i.ldir{background:#00889C}.pvlg i.lind{background:#7C5CD6}.pvlg i.lex{background:#E07B2E}.pvt tr.pvsec.mix td{border-bottom-color:#7C5CD6;cursor:default}
 .pvlg i.tgk{height:0;width:14px;border-radius:0;border-top:2px dashed #1B2B36;background:none}.pvlg i.pvsc{background:#1F6FD1}.pvlg i.pvss{background:#E07B2E}
 #pvTip{position:fixed;z-index:999;background:#1B2B36;color:#fff;font-size:12.5px;line-height:1.45;padding:7px 10px;border-radius:8px;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.18);max-width:340px}
 .pvhelp{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--mute);margin:-2px 0 10px}.pvhelp i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}.pvhelp .k1{background:#1B2B36}.pvhelp .k2{background:#B7C2C8}.pvhelp .k3{background:#E4E8EB;border:1px solid #C9D2D8}
@@ -3758,7 +3759,7 @@ const planDoc=y=>st.plans.get('plan-'+y)||{depts:{}};
      + 합계 이름 = 사업본부, 사업본부   (그 사업본부들 다음에 합계 줄)
    지난 해: 연말 실적(actual · 비우면 명부 계산) / 올해: 경영목표(target) · 실적(actual · 비우면 현 인원) · 목표대비 / 다음 해부터: 계획(target) */
 const PLAN_TO=2030;
-const planYears=()=>{const cy=+today().slice(0,4);const F=+st.pvF||cy-2,T=+st.pvT||Math.max(PLAN_TO,cy+1);const a=[];for(let y=Math.min(F,T);y<=Math.max(F,T);y++)a.push(y);return a};
+const planYears=()=>{const cy=+today().slice(0,4);const F=+st.pvF||cy-3,T=+st.pvT||Math.max(PLAN_TO,cy+1);const a=[];for(let y=Math.min(F,T);y<=Math.max(F,T);y++)a.push(y);return a};
 const pSum=a=>(a||[]).reduce((s,x)=>s+(+x||0),0);
 const pNum=v=>v===''||v==null||isNaN(+v)?null:+v;
 function planLayoutParse(txt){
@@ -3824,6 +3825,14 @@ function pvFrame(W,H,pad,mx,unit,Y,cy,draw,under){
   const cols=Y.map((y,i)=>{const cx=pad.l+sl*i+sl/2;return `<g class="col ${y<cy?'past':y===cy?'cur':'fut'}">${draw(y,i,cx,sl,yv)}<text class="yr" x="${cx}" y="${pad.t+ih+17}">${y}</text>${under?under(y,i,cx,pad.t+ih+33):''}</g>`}).join('');
   return `<svg class="pvch" viewBox="0 0 ${W} ${H}" role="img">${g}<text class="ax un" x="${pad.l-6}" y="${pad.t-10}">${unit}</text><line class="base" x1="${pad.l}" x2="${W-pad.r}" y1="${pad.t+ih}" y2="${pad.t+ih}"/>${cols}</svg>`;
 }
+// 인력 구성(간접 · 직접) — 전략회의 자료 양식. 지난 해 그래프 인원·입퇴사는 이 값이 있으면 이 값으로 그려요
+const MIXK=[['strat','간접','전략'],['fin','간접','재무 · 구매'],['sales','간접','영업'],['divInd','간접','사업부 간접'],['div','직접','사업부'],['lab','직접','연구소'],['exec','임원','등기임원']];
+const PVMIX={'간접전략':'strat','간접재무구매':'fin','간접영업':'sales','간접사업부간접':'divInd','직접사업부':'div','직접연구소':'lab','임원등기임원':'exec','입사':'join','퇴사':'leave','인건비':'labor'};
+const pvMixKey=(label,grp)=>{const n=String(label).replace(/[\s·,ㆍ()]/g,''),g=/간접/.test(grp||'')?'간접':/직접/.test(grp||'')?'직접':'';return PVMIX[n]||(g&&PVMIX[g+n])||null};
+const mixOf=y=>planDoc(y).mix||{},mixHas=m=>MIXK.some(([k])=>pNum(m[k])!=null);
+const mixSeg=m=>{const g=t=>MIXK.filter(x=>x[1]===t).reduce((s,[k])=>s+(pNum(m[k])||0),0);return {ind:g('간접'),dir:g('직접'),ex:g('임원')}};
+function pvStack(x,w,yv,m){let base=0,out='';const segs=[['dir',m.dir],['ind',m.ind],['ex',m.ex]].filter(s=>s[1]>0);
+  segs.forEach(([k,v],j)=>{const y0=yv(base),y1=yv(base+v),h=Math.max(1,y0-y1-(j?2:0));out+=j===segs.length-1?`<path class="sg ${k}" d="${pvBarPath(x,y1,w,h)}"/>`:`<rect class="sg ${k}" x="${x}" y="${y1}" width="${w}" height="${h}"/>`;base+=v});return out}
 function vPlanAll(){
   const G=planGrid(),{cy,Y,lay,rows,miss}=G,fold=st.pvFold||(st.pvFold=new Set());
   const ci=Y.indexOf(cy),last=Y[Y.length-1];
@@ -3835,18 +3844,20 @@ function vPlanAll(){
   const part=CY.map((y,i)=>y<=cy?planAgg(CR,i).miss||[]:[]);const head=CY.map((y,i)=>{const a=planAgg(CR,i);return y===cy?a.act:a.v}),tgt=cci>=0?planAgg(CR,cci).tg:null;
   const who=[...new Set(CR.flatMap(r=>r.who))];
   const io=CY.map(y=>y>cy?null:{j:who.filter(s=>(s.joinDate||'').startsWith(y+'')).length,l:who.filter(s=>(s._status||s.status)==='퇴사'&&(s.leaveDate||'').startsWith(y+'')).length});
-  const sales=CY.map(y=>({c:pvEok(pNum(planDoc(y).salesC)),s:pvEok(pNum(planDoc(y).sales))}));
+  const MX=CY.map(y=>{const m=mixOf(y);return y<cy&&mixHas(m)?mixSeg(m):null});
+  CY.forEach((y,i)=>{const m=mixOf(y);if(MX[i]){head[i]=MX[i].ind+MX[i].dir+MX[i].ex;part[i]=[]}if(y<cy&&(pNum(m.join)!=null||pNum(m.leave)!=null))io[i]={j:pNum(m.join)??0,l:pNum(m.leave)??0}});
+  const sales=CY.map(y=>({c:pvEok(pNum(planDoc(y).salesC))}));
   const allR=CG.rows,totC=CY.map((y,i)=>{const a=planAgg(allR,i);return y<=cy&&(a.miss||[]).length?null:y===cy?a.act:a.v});
   const W=620,H=300,pad={l:44,r:10,t:30,b:66};
   const mxH=pvNice(Math.max(1,...head,tgt||0)*1.12);
   const chH=pvFrame(W,H,pad,mxH,'명',CY,cy,(y,i,cx,sl,yv)=>{const bw=Math.min(30,sl*.56),v=head[i],k=y<cy?'실적':y===cy?'현재 인원':'계획';
-      const pt=part[i].length,tip=`${y}년 · ${k} ${v}명${y===cy&&tgt!=null?` · 경영목표 ${tgt}명`:''}${io[i]?` · 입사 ${io[i].j} · 퇴사 ${io[i].l}`:''}${pt?` · 자료 없는 줄 ${pt}개(${part[i].slice(0,4).join(', ')}${pt>4?' 등':''})라 명부 인원만 셌어요`:''}`;
-      return `<rect class="hit" x="${cx-sl/2}" y="${pad.t}" width="${sl}" height="${H-pad.t-pad.b}" data-tip="${esc(tip)}"/><path class="bar${pt?' part':''}" d="${pvBarPath(cx-bw/2,yv(v),bw,yv(0)-yv(v))}"/>${y===cy&&tgt!=null?`<line class="tg" x1="${cx-bw/2-5}" x2="${cx+bw/2+5}" y1="${yv(tgt)}" y2="${yv(tgt)}"/><text class="tgl" x="${cx}" y="${Math.min(yv(tgt),yv(v))-8}">목표 ${tgt}</text>`:''}${y===cy&&tgt!=null&&Math.abs(yv(v)-yv(tgt))<22?`<text class="v in" x="${cx}" y="${yv(v)+15}">${v}</text>`:`<text class="v" x="${cx}" y="${yv(v)-7}">${v}</text>`}`},
+      const pt=part[i].length,tip=`${y}년 · ${k} ${v}명${y===cy&&tgt!=null?` · 경영목표 ${tgt}명`:''}${io[i]?` · 입사 ${io[i].j} · 퇴사 ${io[i].l}`:''}${MX[i]?` · 간접 ${MX[i].ind} · 직접 ${MX[i].dir} · 임원 ${MX[i].ex} (전략회의 자료)`:''}${pt?` · 자료 없는 줄 ${pt}개(${part[i].slice(0,4).join(', ')}${pt>4?' 등':''})라 명부 인원만 셌어요`:''}`;
+      return `<rect class="hit" x="${cx-sl/2}" y="${pad.t}" width="${sl}" height="${H-pad.t-pad.b}" data-tip="${esc(tip)}"/>${MX[i]?pvStack(cx-bw/2,bw,yv,MX[i]):`<path class="bar${pt?' part':''}" d="${pvBarPath(cx-bw/2,yv(v),bw,yv(0)-yv(v))}"/>`}${y===cy&&tgt!=null?`<line class="tg" x1="${cx-bw/2-5}" x2="${cx+bw/2+5}" y1="${yv(tgt)}" y2="${yv(tgt)}"/><text class="tgl" x="${cx}" y="${Math.min(yv(tgt),yv(v))-8}">목표 ${tgt}</text>`:''}${y===cy&&tgt!=null&&Math.abs(yv(v)-yv(tgt))<22?`<text class="v in" x="${cx}" y="${yv(v)+15}">${v}</text>`:`<text class="v" x="${cx}" y="${yv(v)-7}">${v}</text>`}`},
     (y,i,cx,yy)=>io[i]?`<text class="io" x="${cx}" y="${yy}"><tspan class="j">+${io[i].j}</tspan></text><text class="io" x="${cx}" y="${yy+15}"><tspan class="l">−${io[i].l}</tspan></text>`:'');
-  const mxS=pvNice(Math.max(1,...sales.flatMap(x=>[x.c||0,x.s||0]))*1.12);
-  const chS=pvFrame(W,H,pad,mxS,'억원',CY,cy,(y,i,cx,sl,yv)=>{const bw=Math.min(15,sl*.3),x=sales[i],per=x.c&&totC[i]?x.c/totC[i]:null;
-      const tip=`${y}년 · 연결 매출 ${x.c!=null?pvFmt(x.c)+'억':'—'} · 별도 매출 ${x.s!=null?pvFmt(x.s)+'억':'—'}${per?` · 인당 ${per.toFixed(2)}억(연결÷총계 ${totC[i]}명)`:''}`;
-      return `<rect class="hit" x="${cx-sl/2}" y="${pad.t}" width="${sl}" height="${H-pad.t-pad.b}" data-tip="${esc(tip)}"/>${x.c!=null?`<path class="bc" d="${pvBarPath(cx-bw-1,yv(x.c),bw,yv(0)-yv(x.c))}"/><text class="v" x="${cx-bw/2-1}" y="${yv(x.c)-7}">${pvFmt(x.c)}</text>`:''}${x.s!=null?`<path class="bs" d="${pvBarPath(cx+1,yv(x.s),bw,yv(0)-yv(x.s))}"/>`:''}`},
+  const mxS=pvNice(Math.max(1,...sales.map(x=>x.c||0))*1.12);
+  const chS=pvFrame(W,H,pad,mxS,'억원',CY,cy,(y,i,cx,sl,yv)=>{const bw=Math.min(30,sl*.56),x=sales[i],per=x.c&&totC[i]?x.c/totC[i]:null;
+      const tip=`${y}년 · 매출(DART 연결) ${x.c!=null?pvFmt(x.c)+'억':'—'}${per?` · 인당 ${per.toFixed(2)}억(연결÷총계 ${totC[i]}명)`:''}`;
+      return `<rect class="hit" x="${cx-sl/2}" y="${pad.t}" width="${sl}" height="${H-pad.t-pad.b}" data-tip="${esc(tip)}"/>${x.c!=null?`<path class="bc" d="${pvBarPath(cx-bw/2,yv(x.c),bw,yv(0)-yv(x.c))}"/><text class="v" x="${cx}" y="${yv(x.c)-7}">${pvFmt(x.c)}</text>`:''}`},
     (y,i,cx,yy)=>{const x=sales[i],per=x.c&&totC[i]?x.c/totC[i]:null;return per?`<text class="io" x="${cx}" y="${yy}">인당</text><text class="io b" x="${cx}" y="${yy+15}">${per.toFixed(1)}억</text>`:''});
   // ── 요약 숫자
   const ca=ci>=0?planAgg(rows,ci):null,lastV=planAgg(rows,Y.length-1).v;
@@ -3879,7 +3890,7 @@ function vPlanAll(){
   // ── 매출 · 인력 편성
   const BR=rows.filter(inB),cnt=(list,i,y)=>{const a=planAgg(list,i);return y===cy?a.act:a.v};
   const sIn=(f,y)=>{const v=pNum(planDoc(y)[f]);return `<td class="n ${y<cy?'':y===cy?'cur':'fut'}" ${y===cy?'colspan="3"':''}><input class="pin" type="text" inputmode="numeric" data-plan="${f}" data-team="" data-y="${y}" value="${v==null?'':pvFmt(v)}" placeholder="" aria-label="${y}년 ${f==='salesC'?'연결':'별도'} 매출"></td>`};
-  const perC=Y.map((y,i)=>{const s=pNum(planDoc(y).salesC),n=cnt(rows,i,y);return s&&n?s/n/100:null});
+  const perC=Y.map((y,i)=>{const s=pNum(planDoc(y).salesC),n=cnt(rows,i,y);return s&&n&&!(y<=cy&&(planAgg(rows,i).miss||[]).length)?s/n/100:null});
   const refI=(()=>{for(let i=Y.length-1;i>=0;i--)if(Y[i]<=cy&&perC[i])return i;return -1})();
   // 기준 인당매출: 표 기간 안에서 올해 이전 가장 최근 값(없으면 저장된 가장 최근 해)
   let ref=refI>=0?{y:Y[refI],v:perC[refI]}:null;
@@ -3889,14 +3900,24 @@ function vPlanAll(){
     <tr class="pvr"><td colspan="2" class="pvl wide">매출액 · 연결 <small>DART</small></td>${Y.map(y=>sIn('salesC',y)).join('')}<td></td></tr>
     <tr class="pvr"><td colspan="2" class="pvl wide">매출액 · 별도 <small>사내</small></td>${Y.map(y=>sIn('sales',y)).join('')}<td></td></tr>
     <tr class="pvr"><td colspan="2" class="pvl wide">인당매출 · 연결 <small>÷ 총계</small></td>${Y.map((y,i)=>tdY(y,perC[i]?perC[i].toFixed(2)+'억':'')).join('')}<td></td></tr>
-    <tr class="pvr"><td colspan="2" class="pvl wide">인당매출 · 별도 <small>÷ ${esc(bk?.l||'')}</small></td>${Y.map((y,i)=>{const s=pNum(planDoc(y).sales),n=cnt(BR,i,y);return tdY(y,s&&n?(s/n/100).toFixed(2)+'억':'')}).join('')}<td></td></tr>
     <tr class="pvr fit"><td colspan="2" class="pvl wide">매출 기준 적정 인원 <small>${ref?`인당 ${ref.v.toFixed(2)}억 유지 (${ref.y}년)`:'연결 매출을 넣으면 계산돼요'}</small></td>${Y.map((y,i)=>{const s=pNum(planDoc(y).salesC);if(!ref||!s||y<cy)return tdY(y,'');const fit=Math.round(s/100/ref.v),pl=y===cy?planAgg(rows,i).tg:cnt(rows,i,y),d=pl-fit;
       return tdY(y,`<b>${fit}</b>${d?`<span class="fitd ${d>0?'over':'under'}" title="계획 ${pl}명 − 적정 ${fit}명">${d>0?'+':''}${d}</span>`:''}`)}).join('')}<td class="pvn"><span class="note">계획이 적정보다 많으면 +, 적으면 −</span></td></tr>`;
+  const mixIn=(k,y)=>{const v=pNum(mixOf(y)[k]);return `<td class="n ${y<cy?'':y===cy?'cur':'fut'}" ${y===cy?'colspan="3"':''}><input class="pin" type="text" inputmode="numeric" data-plan="mix.${k}" data-team="" data-y="${y}" value="${v==null?'':pvFmt(v)}" aria-label="${y}년 ${k}"></td>`};
+  const mSum=(m,ks)=>ks.some(k=>pNum(m[k])!=null)?ks.reduce((s,k)=>s+(pNum(m[k])||0),0):null;
+  const KI=MIXK.filter(x=>x[1]==='간접').map(x=>x[0]),KD=MIXK.filter(x=>x[1]==='직접').map(x=>x[0]),KA=MIXK.map(x=>x[0]);
+  const calcRow=(cls,label,f)=>`<tr class="${cls}"><td colspan="2">${label}</td>${Y.map(y=>tdY(y,f(mixOf(y),y)??'')).join('')}<td></td></tr>`;
+  const inRows=(grp,list)=>list.map(([k,,l],j)=>`<tr class="pvr">${grp&&j===0?`<td class="pvg" rowspan="${list.length}">${grp}</td>`:''}<td class="pvl ${grp?'':'wide'}" ${grp?'':'colspan="2"'}>${l}</td>${Y.map(y=>mixIn(k,y)).join('')}<td></td></tr>`).join('');
+  const mixBlock=`<tr class="pvsec mix"><td colspan="${NC}">인력 구성 · 간접 / 직접<small>전략회의 자료 양식 · 넣은 해는 위 그래프의 지난 해 인원 · 입퇴사로 쓰여요</small></td></tr>`
+    +inRows('간접 인력',MIXK.filter(x=>x[1]==='간접'))+calcRow('pvsub','간접 인력 소계',m=>mSum(m,KI))
+    +inRows('직접 인력',MIXK.filter(x=>x[1]==='직접'))+calcRow('pvsub','직접 인력 소계',m=>mSum(m,KD))
+    +inRows('',[['exec','','등기임원']])+calcRow('pvtot','총인원',m=>mSum(m,KA))
+    +inRows('',[['join','','입사'],['leave','','퇴사']])+calcRow('pvsub','퇴직률 <small>퇴사 ÷ 총인원</small>',m=>{const t=mSum(m,KA),l=pNum(m.leave);return t&&l!=null?Math.round(l/t*100)+'%':null})
+    +inRows('',[['labor','','인건비 <small>백만원</small>']])+calcRow('pvsub','인당매출 <small>별도 매출 ÷ 총인원 · 백만원</small>',(m,y)=>{const t=mSum(m,KA),s=pNum(planDoc(y).sales);return t&&s?(s/t).toFixed(1):null});
   const missNote=miss.length?`<p class="pvmiss">⚠ 표 구조에 없는 재직자 <b>${miss.reduce((s,x)=>s+x[1],0)}명</b> — ${miss.map(([t,n])=>`${esc(t)} ${n}명`).join(', ')}. <button class="pvlnk" data-act="pvLayout">표 구조</button>에서 알맞은 줄에 넣으면 총계가 명부와 맞아요.</p>`:'';
   return `<div class="pvkp">${KP.map(([l,v,u,s])=>`<div class="pvkc"><span>${l}</span><b>${typeof v==='number'?v.toLocaleString():v}<i>${u}</i></b><small>${s}</small></div>`).join('')}</div>
    <div class="pvcharts">
-    <section class="card pvchc"><div class="card-h"><h2>인원 변동</h2><span class="pvsub2">${esc(bk?.l||'')} · 막대 아래는 그해 입사 / 퇴사</span><span class="sp"></span><span class="pvlg"><i class="past"></i>실적<i class="cur"></i>현재<i class="fut"></i>계획<i class="tgk"></i>목표${part.some(x=>x.length)?'<i class="prt"></i>일부 자료':''}</span></div>${chH}</section>
-    <section class="card pvchc"><div class="card-h"><h2>매출 · 인당매출</h2><span class="pvsub2">막대 아래는 인당매출(연결 ÷ 총계)</span><span class="sp"></span><span class="pvlg"><i class="pvsc"></i>연결 (DART)<i class="pvss"></i>별도</span></div>${chS}</section>
+    <section class="card pvchc"><div class="card-h"><h2>인원 변동</h2><span class="pvsub2">${esc(bk?.l||'')} · 지난 해는 전략회의 자료 · 막대 아래 입사 / 퇴사</span><span class="sp"></span><span class="pvlg"><i class="past"></i>실적<i class="cur"></i>현재<i class="fut"></i>계획<i class="tgk"></i>목표${MX.some(Boolean)?'<i class="lind"></i>간접<i class="ldir"></i>직접<i class="lex"></i>임원':''}${part.some(x=>x.length)?'<i class="prt"></i>일부 자료':''}</span></div>${chH}</section>
+    <section class="card pvchc"><div class="card-h"><h2>매출 · 인당매출</h2><span class="pvsub2">DART 공시 연결 매출 · 막대 아래는 인당매출(÷ 총계)</span></div>${chS}</section>
    </div>
    <section class="card rec pvcard"><div class="recbar"><b>기간</b>${yrOpt('pvF',Y[0],cy-30,cy)}<span>~</span>${yrOpt('pvT',last,cy,cy+30)}
      <b style="margin-left:10px">그래프 · 인당매출 기준</b><select class="fsel" id="pvBase" aria-label="그래프와 인당매출 기준">${bases.map(b=>`<option value="${b.k}" ${b===bk?'selected':''}>${esc(b.l)}</option>`).join('')}</select>
@@ -3906,7 +3927,7 @@ function vPlanAll(){
     <div class="rtw"><table class="pvt"><colgroup><col class="cg"><col class="cl">${Y.map(y=>y===cy?'<col><col><col>':'<col>').join('')}<col class="cn"></colgroup>
      <thead><tr><th colspan="2" rowspan="2" class="lh">구분</th>${Y.map(y=>y<cy?`<th rowspan="2">${y}<small>연말 실적</small></th>`:y===cy?`<th colspan="3" class="cur pvhd">${y}년 <small>올해</small></th>`:`<th rowspan="2" class="fut">${y}<small>계획</small></th>`).join('')}<th rowspan="2" class="lh">비고</th></tr>
      <tr>${ci>=0?'<th class="cur c1">경영목표</th><th class="cur">실적<small>현 인원</small></th><th class="cur c3">목표대비</th>':''}</tr></thead>
-     <tbody>${body||`<tr><td colspan="${NC}"><div class="empty">표 구조가 비어 있어요. '표 구조'에서 넣어 주세요.</div></td></tr>`}${salesBlock}</tbody></table></div></section>`;
+     <tbody>${body||`<tr><td colspan="${NC}"><div class="empty">표 구조가 비어 있어요. '표 구조'에서 넣어 주세요.</div></td></tr>`}${salesBlock}${mixBlock}</tbody></table></div></section>`;
 }
 // 막대: 위쪽 모서리만 4px 둥글게
 function pvBarPath(x,y,w,h){if(h<=0)return '';const r=Math.min(4,w/2,h);return `M${x},${y+h}V${y+r}Q${x},${y} ${x+r},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h}Z`}
@@ -3935,7 +3956,7 @@ async function planPasteGo(){
   const L=$('#pvTxt').value.split(/\r?\n/).map(l=>l.split('\t').map(x=>x.trim()));
   const cy=+today().slice(0,4),yr=x=>{const m=String(x||'').match(/((19|20)\d{2})\s*(년|末|말|$|\s)/);return m?+m[1]:null};
   const isHdr=c=>c.slice(1).filter(x=>yr(x)&&(/년|末|말/.test(x)||/^\d{4}$/.test(x))).length>=1&&c.slice(1).every(x=>!x||!/^[\d,.\-△]+$/.test(x)||yr(x));
-  let cols=null,fc=0;const docs={};let n=0;
+  let cols=null,fc=0,grp='';const docs={};let n=0;
   const doc=y=>docs[y]||(docs[y]=structuredClone(planDoc(y)));
   for(let i=0;i<L.length;i++){const c=L[i];if(!c.some(Boolean))continue;
     if(isHdr(c)){const sub=L[i+1]&&L[i+1].some(x=>/목표|실적|대비|현\s*인원/.test(x))?L[i+1]:null;if(sub)i++;
@@ -3944,7 +3965,9 @@ async function planPasteGo(){
         if(/대비|증감|변동/.test(t))return null;const f=/목표|계획/.test(t)?'target':/실적|현\s*인원|末|말/.test(t)?'actual':yy<cy?'actual':'target';return {y:yy,f}});
       fc=cols.findIndex(Boolean);if(fc<1)fc=1;continue}
     if(!cols)continue;
-    const label=c.slice(0,fc).filter(Boolean).pop()||'';if(!label||/소계|합계|총\s*계|전체|인당|^계$|\s계$/.test(label))continue;
+    if(fc>1&&c[0])grp=c[0];const label=c.slice(0,fc).filter(Boolean).pop()||'';const mk=pvMixKey(label,fc>1?grp:'');
+    if(mk){cols.forEach((m,j)=>{if(!m||m.note)return;const v=String(c[j]||'').replace(/[,명\s]/g,'');if(v===''||isNaN(+v))return;const d=doc(m.y);d.mix={...(d.mix||{}),[mk]:+v};n++});continue}
+    if(!label||/소계|합계|총\s*계|총인원|재직|퇴직률|전체|인당|^계$|\s계$/.test(label))continue;
     const sales=/매출/.test(label);
     cols.forEach((m,j)=>{if(!m)return;const raw=String(c[j]||'');
       if(m.note){if(sales||!raw)return;const d=doc(cy);d.depts=d.depts||{};(d.depts[label]=d.depts[label]||{}).note=raw;n++;return}
@@ -3952,7 +3975,7 @@ async function planPasteGo(){
       const d=doc(m.y);if(sales){d[/연결|DART/i.test(label)?'salesC':'sales']=+v;n++;return}d.depts=d.depts||{};(d.depts[label]=d.depts[label]||{})[m.f]=+v;n++})}
   if(!cols){toast('머리줄(예: 2024년 末 · 2026년 경영목표)을 찾지 못했어요');return}
   if(!n){toast('넣을 숫자를 찾지 못했어요');return}
-  await st.api.batch(Object.entries(docs).map(([y,d])=>({c:'plans',id:'plan-'+y,d:{depts:d.depts||{},...(d.sales!=null?{sales:d.sales}:{}),...(d.salesC!=null?{salesC:d.salesC}:{}),updatedAt:nowISO()}})));
+  await st.api.batch(Object.entries(docs).map(([y,d])=>({c:'plans',id:'plan-'+y,d:{depts:d.depts||{},...(d.sales!=null?{sales:d.sales}:{}),...(d.salesC!=null?{salesC:d.salesC}:{}),...(d.mix?{mix:d.mix}:{}),updatedAt:nowISO()}})));
   addLog(`인원계획 붙여넣기 · ${n}칸`);closeLayer();toast(`${n}칸을 넣었어요 (${Object.keys(docs).sort().join(', ')}년)`);
 }
 function planCsv(){
@@ -4025,6 +4048,7 @@ function vPlanYear(){
    <p class="note" style="margin-top:10px">회색 기울임 숫자는 계획으로 계산한 예상 인원이에요.</p></section>`;
 }
 async function savePlanCell(el){
+  if(/^mix\./.test(el.dataset.plan)){const k=el.dataset.plan.slice(4),v=el.value.replace(/[,\s]/g,'');if(v!==''&&isNaN(+v)){toast('숫자만 넣어 주세요');return}const m={...(planDoc(+el.dataset.y).mix||{}),[k]:v===''?null:+v};await st.api.put('plans','plan-'+el.dataset.y,{mix:m,updatedAt:nowISO()});return}
   if(/^sales/.test(el.dataset.plan)){const v=el.value.replace(/[,\s]/g,'');if(v!==''&&isNaN(+v)){toast('숫자만 넣어 주세요');return}await st.api.put('plans','plan-'+el.dataset.y,{[el.dataset.plan]:v===''?null:+v,updatedAt:nowISO()});return}
   const y=+el.dataset.y,t=el.dataset.team,f=el.dataset.plan,doc=structuredClone(planDoc(y));doc.depts=doc.depts||{};const p=doc.depts[t]=doc.depts[t]||{};
   if(f==='hire'||f==='leave'){const a=p[f]||Array(12).fill(0);a[+el.dataset.m-1]=+el.value||0;p[f]=a}else if(f==='target'||f==='actual')p[f]=el.value===''?null:+el.value;else p[f]=el.value;

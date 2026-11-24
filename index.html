@@ -3543,7 +3543,7 @@ function vOrg(){
   const n=d=>on.filter(s=>divOf(teamOf(s))===d).length;
   const mode=st.ogv||'tree';
   const sw=`<div class="segs og-sw">${[['tree','트리'],['card','부서 카드']].map(([k,l])=>`<button class="${mode===k?'on':''}" data-act="ogv" data-v="${k}">${l}</button>`).join('')}</div>`;
-  const cfg=S().orgTree,edBtn=`${!cfg&&S().orgTreePrev?'<button class="btn sm pri" data-act="orgRestore">이전 조직 구조 되살리기</button>':''}<button class="btn sm" data-act="orgEdit">조직 구조 ${cfg?'편집':'설정'}</button>`;
+  const cfg=S().orgTree,edBtn=`${!cfg&&(S().orgTreePrev||ghCfgAny())?'<button class="btn sm pri" data-act="orgRestore">이전 조직 구조 되살리기</button>':''}<button class="btn sm" data-act="orgEdit">조직 구조 ${cfg?'편집':'설정'}</button>`;
   if(mode==='tree')return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 부서를 누르면 팀원이 펼쳐져요</span><span style="flex:1"></span>${edBtn}${sw}</div>${cfg?orgChart(cfg,on,rk):orgTree(on,teams,divOf,rk)}</section>`;
   return `<section class="card ogc"><div class="og-top"><b>전체 ${on.length}명</b><span class="note">${teams.length}개 부서 · 팀장·사업부는 직원 정보에서 정해요</span><span style="flex:1"></span>${sw}</div>
    ${hasDiv?divs.map(d=>{const ts=teams.filter(t=>divOf(t)===d);return `<div class="og-div"><div class="og-dh"><b>${esc(d||'사업부 미정')}</b><span class="tc">${n(d)}명</span><span class="note">${ts.length}개 부서</span></div><div class="og-grid">${ts.map(card).join('')}</div></div>`}).join(''):`<div class="og-grid">${teams.map(card).join('')}</div>`}</section>`;
@@ -3582,6 +3582,17 @@ function openOrgEdit(){
    <p class="note">조직도 모양(본부 · 그룹 · 부서 묶음 · 총괄자)을 정해요. 부서 이름은 직원 명부의 부서와 같게 적어 주세요. 이 내용은 비공개 자료에만 저장돼요.<br>받은 '조직 구조' 파일 내용을 그대로 붙여넣으면 돼요.</p>
    <textarea class="inp mono" id="ocTxt" rows="16" spellcheck="false">${esc(cur?JSON.stringify(cur,null,1):'')}</textarea>
    <div class="acts">${cur?'<button class="btn dan" data-act="orgReset" style="margin-right:auto">자동 조직도로 되돌리기</button>':''}<button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="orgSave">저장</button></div></div>`);
+}
+/* 조직 구조 되살리기: 보관본이 없으면 GitHub 저장 기록(커밋)을 거슬러 올라가 마지막으로 있던 조직 구조를 찾아요 */
+const ghCfgAny=()=>{for(const k of [GH_CFG,'hrb.gh.cfg']){try{const c=JSON.parse(localStorage.getItem(k)||'null');if(c&&c.token&&c.owner&&c.repo)return {branch:'main',path:'board.json',...c}}catch(e){}}return null};
+async function orgFindInHistory(){
+  const c=ghCfgAny();if(!c)throw new Error('GitHub 연동 정보가 없어요');
+  const out=[];for(let pg=1;pg<=3;pg++){const r=await ghFetch(c,ghRepoUrl(c)+'/commits?path='+encodeURIComponent(c.path)+'&sha='+encodeURIComponent(c.branch)+'&per_page=50&page='+pg);if(!r.ok)throw await ghErr(r);const a=await r.json();out.push(...a);if(a.length<50)break}
+  let n=0;for(const cm of out){if(++n>60)break;
+    const r=await ghFetch(c,ghFileUrl(c)+'?ref='+cm.sha,{headers:{Accept:'application/vnd.github.raw+json'}});if(!r.ok)continue;
+    let o;try{o=JSON.parse(await r.text())}catch(e){continue}
+    const t=o?.data?.settings?.main?.orgTree;if(t&&(t.units||[]).length)return {tree:t,at:cm.commit?.author?.date||o.savedAt||''}}
+  return null;
 }
 /* 조직도 트리: 최고 임원 → 다음 임원 → 경영진 → 사업부 → 부서군 → 부서 */
 function orgTree(on,teams,divOf,rk){
@@ -4767,7 +4778,10 @@ const ACT={
   orgSave:async()=>{const v=$('#ocTxt').value.trim();let o;try{o=JSON.parse(v);if(!o||!Array.isArray(o.units))throw 0}catch(e){toast('형식이 맞지 않아요. 받은 파일 내용을 그대로 붙여넣어 주세요');return}
     await st.api.put('settings','main',{orgTree:o});addLog('조직 구조 저장');closeLayer();toast('조직도를 저장했어요')},
   orgReset:()=>openConfirm('지금 조직 구조를 지우고 자동 조직도로 바꿀까요? 지운 구조는 보관해 두었다가 \'이전 조직 구조 되살리기\'로 되돌릴 수 있어요.',async()=>{await st.api.put('settings','main',{orgTreePrev:S().orgTree,orgTree:null});toast('자동 조직도로 바꿨어요')}),
-  orgRestore:async()=>{const o=S().orgTreePrev;if(!o){toast('되살릴 조직 구조가 없어요');return}await st.api.put('settings','main',{orgTree:o});addLog('조직 구조 되살리기');toast('이전 조직 구조로 되돌렸어요')},
+  orgRestore:async a=>{let o=S().orgTreePrev,at='';
+    if(!o){const b=a;if(b){b.disabled=true;b.textContent='GitHub 기록에서 찾는 중…'}try{const f=await orgFindInHistory();if(f){o=f.tree;at=f.at}}catch(e){toast('찾지 못했어요: '+e.message)}finally{if(b){b.disabled=false;b.textContent='이전 조직 구조 되살리기'}}}
+    if(!o){toast('되살릴 조직 구조를 찾지 못했어요. 조직 구조 설정에서 붙여넣어 주세요');return}
+    openConfirm(`${at?new Date(at).toLocaleString('ko-KR')+' 저장본의 ':'보관해 둔 '}조직 구조(${(o.units||[]).map(u=>u.name).join(', ')})로 되돌릴까요?`,async()=>{await st.api.put('settings','main',{orgTree:o});addLog('조직 구조 되살리기');toast('이전 조직 구조로 되돌렸어요')})},
   ssort:a=>{const k=a.dataset.k,so=st.ssort;st.ssort=!so||so.k!==k?{k,d:k==='rank'||k==='ten'?'desc':'asc'}:so.d==='asc'?{k,d:'desc'}:so.d==='desc'&&(k==='rank'||k==='ten')?{k,d:'asc'}:null;
     if(st.ssort&&(k==='rank'||k==='ten')&&so&&so.k===k&&so.d==='asc')st.ssort=null;render()},
   ssortReset:()=>{st.ssort=null;render()},

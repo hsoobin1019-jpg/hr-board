@@ -1274,6 +1274,22 @@ button.oc-who:hover{background:#E5EAF4}
 .pvt tr.pvdiv td{background:#F1F6F8;cursor:pointer}.pvt tr.pvdiv td:first-child{background:#F1F6F8}.pvt tr.pvdiv small{color:var(--mute);font-weight:500}.pvf{display:inline-block;width:14px;color:var(--mute)}
 .pvt tr.tot td,.pvt tr.tot td:first-child{background:#E8F4F7}.pvt td small.up{display:block;font-size:10.5px;color:#0B7F92}.pvt td small.dn{display:block;font-size:10.5px;color:#C42626}
 .pvt-t{padding-left:22px!important}.pvys{margin-left:12px;flex-wrap:wrap}.pvys button{padding:0 9px}
+.pvtop{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:12px;align-items:stretch;margin-bottom:12px}.pvtop .pvk{grid-template-columns:repeat(2,minmax(0,1fr));margin:0}.pvtop .pvchc{margin:0}.pvchc .pvch{height:128px}
+@media(max-width:900px){.pvtop{grid-template-columns:1fr}}
+.pvt{table-layout:fixed;width:100%;min-width:760px;font-size:13px;border-collapse:collapse}.pvt col.cg{width:9%}.pvt col.cl{width:11%}.pvt col.cn{width:15%}
+.pvt th,.pvt td{border:1px solid #D5DEE3;padding:2px 3px;text-align:center;white-space:normal;word-break:keep-all;height:28px}
+.pvt thead th{position:static;background:#E3EEF5;font-weight:700;color:var(--ink);font-size:12.5px;line-height:1.25}.pvt thead th small{display:block;font-size:10.5px;font-weight:500;color:var(--mute)}
+.pvt thead th.cur{background:#D8E7F7;color:#174E8C}.pvt thead th.fut{background:#E6F3F5;color:#0B6F80}
+.pvt th:first-child,.pvt td:first-child{position:static;min-width:0;background:transparent}
+.pvt td.pvg{background:#F7FAFB;font-weight:600}.pvt td.pvl{font-weight:500}.pvt td.pvl.man,.pvman-k{color:#7A868D}.pvman-k{font-weight:600}
+.pvt td .pin{width:100%;height:24px;text-align:center;padding:0 2px;border-color:transparent;background:transparent}.pvt td .pin:hover,.pvt td .pin:focus{border-color:#9CCAD6;background:#fff}
+.pvt td.auto .pin::placeholder{color:#8F9BA2;font-style:normal}.pvt td.cur{background:#F4F8FE}.pvt td.fut{background:#F6FBFC}
+.pvt td.pvn .pin{text-align:left;font-size:12px}.pvt td.gap{font-weight:600}.pvt td.neg{color:#C42626}.pvt td.pos{color:#0B7F92}
+.pvt tr.pvsec td{background:#2F5F86;color:#fff;font-weight:700;text-align:left;padding-left:8px;cursor:pointer}.pvt tr.pvsec .pvf{color:#CFE3F2}
+.pvt tr.pvsub td{background:#EAF2F8;font-weight:700}.pvt tr.pvtot td{background:#FBEDED;color:#C42626;font-weight:700}.pvt tr.pvtot td small{color:#B65C5C;font-weight:500}
+.pvt tr.pvgrand td{background:#DCE9F2;color:#C42626;font-weight:800}.pvt tr.pvgrand.big td{font-size:14px}.pvt tr.pvsales td{background:#FAFBFC;color:var(--ink2)}.pvt tr.pvsales td small{color:var(--mute)}
+.pvt tr.pvtot td .pin,.pvt tr.pvtot td.pvn .pin{color:inherit;font-weight:700}
+.pvmiss{background:#FFF7E6;border:1px solid #F3D9A4;border-radius:8px;padding:6px 10px;margin:0 0 8px}.pvlnk{border:0;background:none;color:#0B7F92;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
 .cblist{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}.cbi{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}.cbi:hover{border-color:#00A1B9;background:#F5FBFC}.cbi b{font-size:14px}.cbi span{font-size:12.5px;color:var(--mute)}
 @media(max-width:700px){.cdp dl{grid-template-columns:auto 1fr}.cdp dd.w{grid-column:auto}}
 /* 조직도(조직 구조) 색: 자동 조직도와 같은 민트 · 파랑 */
@@ -2994,6 +3010,7 @@ document.addEventListener('change',e=>{
   if(T.id==='pvF'){st.pvF=+T.value;render();return}
   if(T.id==='pvT'){st.pvT=+T.value;render();return}
   if(T.id==='pvAll'){st.pvAll=T.checked;render();return}
+  if(T.id==='pvBase'){st.api.put('settings','main',{planSalesBase:T.value});return}
   if(T.id==='sCardCo'){st.api.put('settings','main',{cardCo:T.value.trim()});toast('저장했어요');return}
   if(T.matches('[data-plan]')){savePlanCell(T);return}
   if(T.id==='recY'){st.recY=T.value;render();return}
@@ -3706,86 +3723,187 @@ function vTrack(){
 }
 /* 인원계획 */
 const planDoc=y=>st.plans.get('plan-'+y)||{depts:{}};
-/* ---------------- 인원계획 · 연도별 한눈에 ----------------
-   지난 해: 연말 실적 = 직접 넣은 값(actual) 또는 직원 명부로 계산한 값
-   올해: 현 인원(명부) + 연말 목표(target)
-   다음 해부터: 연말 계획(target). 비워 두면 전년 + 채용 계획 − 퇴사 예상으로 예상치를 보여 줘요 */
+/* ---------------- 인원계획 · 인력 현황표 ----------------
+   표 구조는 비공개 설정(settings.main.planLayout)에 글로 저장해요. 사이트 파일에는 회사 구조를 넣지 않아요.
+     # 사업본부      ## 그룹(비우면 그룹 없음)      행 이름 = 팀이름, @사람이름   (= - 이면 직접 입력)
+     + 합계 이름 = 사업본부, 사업본부   (그 사업본부들 다음에 합계 줄)
+   지난 해: 연말 실적(actual · 비우면 명부 계산) / 올해: 경영목표(target) · 실적(actual · 비우면 현 인원) · 목표대비 / 다음 해부터: 계획(target) */
 const PLAN_TO=2030;
-const planYears=()=>{const cy=+today().slice(0,4);const F=+st.pvF||cy-5,T=+st.pvT||Math.max(PLAN_TO,cy+1);const a=[];for(let y=Math.min(F,T);y<=Math.max(F,T);y++)a.push(y);return a};
+const planYears=()=>{const cy=+today().slice(0,4);const F=+st.pvF||cy-2,T=+st.pvT||Math.max(PLAN_TO,cy+1);const a=[];for(let y=Math.min(F,T);y<=Math.max(F,T);y++)a.push(y);return a};
 const pSum=a=>(a||[]).reduce((s,x)=>s+(+x||0),0);
-function planGrid(){
-  const cy=+today().slice(0,4),td=today(),Y=planYears(),A=staffAll();
-  const teamSet=new Set();
-  Y.forEach(y=>{Object.keys(planDoc(y).depts||{}).forEach(t=>teamSet.add(t))});
-  A.forEach(s=>{const t=teamOf(s);if(Y.some(y=>activeAt(s,y<cy?`${y}-12-31`:td)))teamSet.add(t)});
-  staffOn().forEach(s=>teamSet.add(teamOf(s)));
-  const divOfT=t=>{const L=A.filter(s=>teamOf(s)===t&&s.div);const on=L.filter(s=>s.status!=='퇴사');return (on[0]||L[0])?.div||'사업부 미정'};
-  const tO=t=>Math.min(9999,...A.filter(s=>teamOf(s)===t).map(tordOf));
-  const rows=[...teamSet].map(t=>{let prev=null;const cells=Y.map(y=>{const p=(planDoc(y).depts||{})[t]||{};const num=v=>v===''||v==null?null:+v;let c;
-      if(y<cy){const man=num(p.actual),calc=headAt(t,`${y}-12-31`);c={y,kind:man!=null?'man':'calc',v:man??calc,man,calc,f:'actual'}}
-      else if(y===cy){const cur=headAt(t,td),tg=num(p.target),proj=(prev??headAt(t,`${y-1}-12-31`))+pSum(p.hire)-pSum(p.leave);c={y,kind:tg!=null?'plan':'cur',v:tg??cur,tg,cur,proj,f:'target'}}
-      else{const tg=num(p.target),proj=(prev??0)+pSum(p.hire)-pSum(p.leave);c={y,kind:tg!=null?'plan':'proj',v:tg??proj,tg,proj,f:'target'}}
-      prev=c.v;return c});
-    return {t,div:divOfT(t),ord:tO(t),cells,empty:cells.every(c=>!c.v&&c.man==null&&c.tg==null)}});
-  rows.sort((a,b)=>{const i=x=>{const k=DIV_ORDER.indexOf(x);return x&&x!=='사업부 미정'?(k<0?50:k):99};return i(a.div)-i(b.div)||a.div.localeCompare(b.div)||a.ord-b.ord||a.t.localeCompare(b.t)});
-  return {cy,Y,rows};
+const pNum=v=>v===''||v==null||isNaN(+v)?null:+v;
+function planLayoutParse(txt){
+  const L={secs:[],sums:[]};let sec=null,grp=null;
+  const newSec=n=>{sec={name:n,groups:[]};L.secs.push(sec);grp=null};
+  String(txt||'').split(/\r?\n/).forEach(raw=>{const l=raw.trim();if(!l||l.startsWith('//'))return;let m;
+    if((m=l.match(/^\+\s*(.+?)\s*[=:]\s*(.+)$/))){L.sums.push({label:m[1],secs:m[2].split(/[,，]/).map(x=>x.trim()).filter(Boolean)});return}
+    if((m=l.match(/^##\s*(.*)$/))){if(!sec)newSec('');grp={name:m[1].trim(),rows:[]};sec.groups.push(grp);return}
+    if((m=l.match(/^#\s*(.+)$/))){newSec(m[1].trim());return}
+    if(!sec)newSec('');if(!grp){grp={name:'',rows:[]};sec.groups.push(grp)}
+    const i=l.indexOf('='),label=(i<0?l:l.slice(0,i)).trim(),rest=i<0?null:l.slice(i+1).trim();
+    const keys=rest==null?[label]:rest==='-'||rest===''?[]:rest.split(/[,，]/).map(x=>x.trim()).filter(Boolean);
+    if(label)grp.rows.push({label,keys})});
+  L.secs.forEach(s=>s.groups=s.groups.filter(g=>g.rows.length));L.secs=L.secs.filter(s=>s.groups.length);
+  return L;
 }
+const planKeyHit=(s,k)=>k[0]==='@'?(s.name||'')===k.slice(1).split('|')[0].trim():teamOf(s)===k;
+// 구조를 아직 안 넣었을 때: 조직 구조(설정) 또는 사업부·부서로 기본 표를 만들어요
+function planLayoutDefault(){
+  const o=S().orgTree,out=[];
+  if(o){
+    if((o.top||[]).length){out.push('# 임원');o.top.forEach(t=>out.push(`${t.label} = ${(t.teams||[]).join(', ')||'-'}`))}
+    if(o.side&&o.side.label)out.push(`# ${o.side.label}`,`${o.side.label} = ${(o.side.teams||[]).join(', ')||'-'}`);
+    (o.units||[]).forEach(u=>{out.push(`# ${u.name}`);if((u.head||[]).length)out.push(`${u.title||'본부장'} = ${u.head.join(', ')}`);
+      (u.groups||[]).forEach(g=>{out.push(g.name?`## ${g.name}`:'##');if((g.head||[]).length)out.push(`${g.name} 담당 = ${g.head.join(', ')}`);
+        (g.items||[]).forEach(it=>{if(typeof it==='string')out.push(it);else if(it.people||it.subs)out.push(`${it.label} = ${[it.lead,...(it.people||[]),...(it.subs||[]).flatMap(x=>x.people||[])].filter(Boolean).map(n=>'@'+ocName(n)).join(', ')}`);else out.push(`${it.label} = ${(it.teams||[]).join(', ')||'-'}`)})})});
+  }
+  const L=planLayoutParse(out.join('\n')),keys=L.secs.flatMap(s=>s.groups.flatMap(g=>g.rows.flatMap(r=>r.keys)));
+  const rest=staffOn().filter(s=>!keys.some(k=>planKeyHit(s,k)));
+  const divs=[...new Set(rest.map(s=>s.div||'기타'))].sort((a,b)=>DIV_ORDER.indexOf(b)-DIV_ORDER.indexOf(a)||a.localeCompare(b));
+  divs.forEach(d=>{out.push(`# ${o?'구조에 없는 부서 · ':''}${d}`);[...new Set(rest.filter(s=>(s.div||'기타')===d).map(teamOf))].sort().forEach(t=>out.push(t))});
+  return out.join('\n');
+}
+const planLayoutText=()=>S().planLayout||planLayoutDefault();
+function planGrid(){
+  const cy=+today().slice(0,4),td=today(),Y=planYears(),A=staffAll(),lay=planLayoutParse(planLayoutText());
+  const rows=[];
+  lay.secs.forEach((sec,si)=>sec.groups.forEach((g,gi)=>g.rows.forEach(r=>{
+    const who=A.filter(s=>r.keys.some(k=>planKeyHit(s,k))),auto=who.length>0,cnt=d=>who.filter(s=>activeAt(s,d)).length;
+    let prev=null;
+    const cells=Y.map(y=>{const p=(planDoc(y).depts||{})[r.label]||{};let c;
+      if(y<cy){const man=pNum(p.actual),calc=auto?cnt(`${y}-12-31`):null;c={y,k:'past',man,calc,v:man??calc??0}}
+      else if(y===cy){const man=pNum(p.actual),cur=auto?cnt(td):null,act=man??cur??0,tg=pNum(p.target);c={y,k:'cur',man,cur,act,tg,v:tg??act}}
+      else{const tg=pNum(p.target),proj=(prev??0)+pSum(p.hire)-pSum(p.leave);c={y,k:'fut',tg,proj,v:tg??proj}}
+      prev=c.v;return c});
+    rows.push({si,gi,label:r.label,keys:r.keys,auto,who,cells,note:((planDoc(cy).depts||{})[r.label]||{}).note||''})})));
+  const used=new Set(rows.flatMap(r=>r.who));
+  const miss=[...staffOn().filter(s=>!used.has(s)).reduce((m,s)=>m.set(teamOf(s),(m.get(teamOf(s))||0)+1),new Map())];
+  return {cy,Y,lay,rows,miss};
+}
+// 여러 줄 합: 지난 해·다음 해는 v, 올해는 목표(tg 비우면 실적)·실적·목표대비
+const planAgg=(list,i)=>{const c0=list[0]?.cells[i];if(!c0)return {v:0};if(c0.k!=='cur')return {v:list.reduce((s,r)=>s+r.cells[i].v,0)};
+  const tg=list.reduce((s,r)=>s+r.cells[i].v,0),act=list.reduce((s,r)=>s+r.cells[i].act,0);return {v:tg,tg,act,gap:act-tg}};
+const planTotals=(G,secIdx)=>G.rows.filter(r=>secIdx.includes(r.si));
 function vPlanAll(){
-  const {cy,Y,rows}=planGrid(),show=st.pvAll?rows:rows.filter(r=>!r.empty),fold=st.pvFold||(st.pvFold=new Set());
-  const divs=[...new Set(show.map(r=>r.div))];
-  const tot=Y.map((y,i)=>show.reduce((s,r)=>s+(r.cells[i].v||0),0));
-  const curNow=headAt('',today());const last=Y[Y.length-1],lastV=tot[Y.length-1],ci=Y.indexOf(cy);
-  const cagr=ci>=0&&last>cy&&tot[ci]>0?((Math.pow(lastV/tot[ci],1/(last-cy))-1)*100):null;
-  const KP=[['현재 인원',curNow+'명','직원 명부 재직자'],[`${cy}년 연말 목표`,(ci>=0?tot[ci]:'–')+'명',ci>=0&&tot[ci]!==curNow?`지금보다 ${tot[ci]-curNow>0?'+':''}${tot[ci]-curNow}명`:'목표를 넣으면 계산돼요'],[`${last}년 계획`,lastV+'명',`${cy}년 대비 ${ci>=0?(lastV-tot[ci]>0?'+':'')+(lastV-tot[ci]):'–'}명`],['연평균 증감',cagr==null?'–':(cagr>0?'+':'')+cagr.toFixed(1)+'%',`${cy}→${last}년 기준`]];
-  // 막대그래프
-  const mx=Math.max(1,...tot),W=Math.max(700,Y.length*100),H=200,bw=Math.min(46,W/Y.length-30);
-  const svg=`<svg class="pvch" viewBox="0 0 ${W} ${H}" role="img" aria-label="연도별 인원">${Y.map((y,i)=>{const x=i*(W/Y.length)+(W/Y.length-bw)/2,h=Math.round(tot[i]/mx*(H-46)),yy=H-22-h,k=y<cy?'past':y===cy?'cur':'fut';
-      return `<g class="${k}"><rect x="${x}" y="${yy}" width="${bw}" height="${Math.max(h,1)}" rx="5"/><text class="v" x="${x+bw/2}" y="${yy-6}">${tot[i]}</text><text class="y" x="${x+bw/2}" y="${H-6}">${y}</text></g>`}).join('')}</svg>`;
-  const yrOpt=(id,v,a,b)=>`<select class="fsel" id="${id}">${Array.from({length:b-a+1},(_,i)=>a+i).map(y=>`<option ${y===v?'selected':''}>${y}</option>`).join('')}</select>`;
-  const cell=(r,c)=>{const ph=c.kind==='man'||c.kind==='calc'?c.calc:c.kind==='cur'||c.y===cy?c.cur:c.proj;
-    const val=c.f==='actual'?c.man:c.tg;
-    return `<td class="n pvc ${c.y<cy?'past':c.y===cy?'cur':'fut'} ${val==null?'auto':''}"><input class="pin" type="number" min="0" id="pv${c.y}_${encodeURIComponent(r.t).replace(/[^A-Za-z0-9]/g,'')}" data-plan="${c.f}" data-team="${esc(r.t)}" data-y="${c.y}" value="${val??''}" placeholder="${ph??''}" title="${c.y<cy?(c.man!=null?`직접 넣은 실적 · 명부 계산 ${c.calc}명`:'직원 명부로 계산한 연말 인원 · 숫자를 넣으면 실적으로 바뀌어요'):c.y===cy?`연말 목표 · 지금 ${c.cur}명`:(c.tg!=null?'연말 계획':'전년 + 채용 계획 − 퇴사 예상으로 계산한 예상치')}">${c.y===cy&&c.tg!=null?`<small>현 ${c.cur}</small>`:''}</td>`};
-  const sumRow=(label,list,cls,key)=>`<tr class="${cls}" ${key?`data-act="pvFold" data-v="${esc(key)}"`:''}><td>${key?`<span class="pvf">${fold.has(key)?'▸':'▾'}</span>`:''}<b>${esc(label)}</b>${key?`<small> ${list.length}개 부서</small>`:''}</td>${Y.map((y,i)=>{const v=list.reduce((s,r)=>s+(r.cells[i].v||0),0),pv=i?list.reduce((s,r)=>s+(r.cells[i-1].v||0),0):null,d=pv==null?null:v-pv;return `<td class="n ${y<cy?'past':y===cy?'cur':'fut'}"><b>${v}</b>${d?`<small class="${d>0?'up':'dn'}">${d>0?'+':''}${d}</small>`:''}</td>`}).join('')}</tr>`;
-  return `<div class="kpis">${KP.map(([l,v,s])=>`<div class="kp"><span>${l}</span><b>${v}</b><small>${s}</small></div>`).join('')}</div>
-   <section class="card"><div class="card-h"><h2>연도별 인원</h2><span class="sp"></span><span class="pvlg"><i class="past"></i>실적<i class="cur"></i>올해<i class="fut"></i>계획</span></div><div class="pvchw">${svg}</div></section>
+  const G=planGrid(),{cy,Y,lay,rows,miss}=G,fold=st.pvFold||(st.pvFold=new Set());
+  const all=rows,ci=Y.indexOf(cy),last=Y[Y.length-1];
+  const tot=Y.map((y,i)=>{const a=planAgg(all,i);return a.act??a.v});
+  const ca=ci>=0?planAgg(all,ci):null;
+  const lastV=tot[Y.length-1];
+  const KP=[['현재 인원',(ca?ca.act:headAt('',today()))+'명','현황표 총계 기준'],[`${cy}년 경영목표`,ca?ca.tg+'명':'–',ca?`목표대비 ${ca.gap>0?'+':''}${ca.gap}명`:''],[`${last}년 계획`,lastV+'명',ca?`지금보다 ${lastV-ca.act>=0?'+':''}${lastV-ca.act}명`:''],['구조에 없는 재직자',miss.reduce((s,x)=>s+x[1],0)+'명',miss.length?'아래 안내 참고':'모두 표에 들어 있어요']];
+  const mx=Math.max(1,...tot),W=Math.max(420,Y.length*46),H=128,bw=Math.min(26,W/Y.length-12);
+  const svg=`<svg class="pvch" viewBox="0 0 ${W} ${H}" role="img" aria-label="연도별 총인원">${Y.map((y,i)=>{const x=i*(W/Y.length)+(W/Y.length-bw)/2,h=Math.round(tot[i]/mx*(H-40)),yy=H-20-h,k=y<cy?'past':y===cy?'cur':'fut';
+      return `<g class="${k}"><rect x="${x}" y="${yy}" width="${bw}" height="${Math.max(h,1)}" rx="4"/><text class="v" x="${x+bw/2}" y="${yy-5}">${tot[i]}</text><text x="${x+bw/2}" y="${H-5}">${y}</text></g>`}).join('')}</svg>`;
+  const yrOpt=(id,v,a,b)=>`<select class="fsel" id="${id}" aria-label="${id==='pvF'?'시작 연도':'끝 연도'}">${Array.from({length:b-a+1},(_,i)=>a+i).map(y=>`<option ${y===v?'selected':''}>${y}</option>`).join('')}</select>`;
+  const inp=(f,r,y,val,ph,tip)=>`<input class="pin" type="number" min="0" data-plan="${f}" data-team="${esc(r.label)}" data-y="${y}" value="${val??''}" placeholder="${ph??''}" title="${esc(tip)}">`;
+  const gapTd=g=>`<td class="n gap ${g==null?'':g<0?'neg':g>0?'pos':''}">${g==null?'':(g>0?'+':'')+g}</td>`;
+  const dataCells=r=>r.cells.map(c=>c.k==='past'?`<td class="n ${c.man==null?'auto':''}">${inp('actual',r,c.y,c.man,c.calc,c.man!=null?`직접 넣은 ${c.y}년 말 실적${c.calc!=null?` · 명부 계산 ${c.calc}명`:''}`:c.calc!=null?'직원 명부로 계산한 연말 인원 · 숫자를 넣으면 바뀌어요':'직접 입력하는 줄이에요')}</td>`
+     :c.k==='cur'?`<td class="n cur ${c.tg==null?'auto':''}">${inp('target',r,c.y,c.tg,c.act,'경영목표 · 비우면 실적과 같다고 봐요')}</td><td class="n cur ${c.man==null?'auto':''}">${inp('actual',r,c.y,c.man,c.cur,c.cur!=null?`지금 명부 인원 ${c.cur}명 · 숫자를 넣으면 그 값으로 바뀌어요`:'직접 입력하는 줄이에요')}</td>${gapTd(c.tg==null?null:c.act-c.tg)}`
+     :`<td class="n fut ${c.tg==null?'auto':''}">${inp('target',r,c.y,c.tg,c.proj,c.tg!=null?'연말 계획':'전년 + 채용 계획 − 퇴사 예상')}</td>`).join('');
+  const sumCells=list=>Y.map((y,i)=>{const a=planAgg(list,i);return y===cy?`<td class="n cur">${a.tg}</td><td class="n cur">${a.act}</td>${gapTd(a.gap)}`:`<td class="n ${y<cy?'':'fut'}">${a.v}</td>`}).join('')+'<td></td>';
+  const noteTd=r=>`<td class="pvn"><input class="pin wide" data-plan="note" data-team="${esc(r.label)}" data-y="${cy}" value="${esc(r.note)}" placeholder="" title="${esc(r.note)}" aria-label="${esc(r.label)} 비고"></td>`;
+  const NC=2+Y.length+(ci>=0?2:0)+1;
+  let body='';
+  lay.secs.forEach((sec,si)=>{const SR=rows.filter(r=>r.si===si),one=SR.length===1,key='s'+si+sec.name,f=fold.has(key);
+    if(one){const r=SR[0];body+=`<tr class="pvtot"><td colspan="2">${esc(sec.name||r.label)}${sec.name&&sec.name!==r.label?` <small>${esc(r.label)}</small>`:''}</td>${dataCells(r)}${noteTd(r)}</tr>`}
+    else{
+      if(sec.name)body+=`<tr class="pvsec" data-act="pvFold" data-v="${esc(key)}"><td colspan="${NC}"><span class="pvf">${f?'▸':'▾'}</span>${esc(sec.name)}</td></tr>`;
+      if(!f)sec.groups.forEach((g,gi)=>{const GR=SR.filter(r=>r.gi===gi),span=g.name&&!(GR.length===1&&GR[0].label===g.name);
+        GR.forEach((r,k)=>{body+=`<tr>${span?(k===0?`<td class="pvg" rowspan="${GR.length}">${esc(g.name)}</td>`:''):''}<td ${span?'':'colspan="2"'} class="pvl ${r.auto?'':'man'}" title="${r.auto?esc('명부 연결: '+r.keys.join(', ')):'명부와 연결 안 된 줄 · 숫자를 직접 넣어요'}">${esc(r.label)}</td>${dataCells(r)}${noteTd(r)}</tr>`});
+        if(g.name)body+=`<tr class="pvsub"><td colspan="2">${esc(g.name)} 소계</td>${sumCells(GR)}</tr>`});
+      body+=`<tr class="pvtot"><td colspan="2">${esc(sec.name||'')} 합계</td>${sumCells(SR)}</tr>`}
+    lay.sums.filter(x=>{const ix=x.secs.map(n=>lay.secs.findIndex(s=>s.name===n)).filter(i=>i>=0);return ix.length&&Math.max(...ix)===si}).forEach(x=>{const ix=x.secs.map(n=>lay.secs.findIndex(s=>s.name===n));body+=`<tr class="pvgrand"><td colspan="2">${esc(x.label)}</td>${sumCells(rows.filter(r=>ix.includes(r.si)))}</tr>`});
+  });
+  if(lay.secs.length>1)body+=`<tr class="pvgrand big"><td colspan="2">총 계</td>${sumCells(rows)}</tr>`;
+  // 매출 · 인당매출
+  const bases=[...lay.secs.map((s,i)=>({k:'s'+i,l:s.name||'(이름 없음)',ix:[i]})),...lay.sums.map((x,j)=>({k:'u'+j,l:x.label,ix:x.secs.map(n=>lay.secs.findIndex(s=>s.name===n)).filter(i=>i>=0)})),{k:'all',l:'총계',ix:lay.secs.map((_,i)=>i)}];
+  const bk=bases.find(b=>b.k===S().planSalesBase)||bases[0];
+  const BR=bk?rows.filter(r=>bk.ix.includes(r.si)):[];
+  const salesRow=`<tr class="pvsales"><td colspan="2">매출액 <small>(백만원)</small></td>${Y.map(y=>{const v=pNum(planDoc(y).sales);return `<td class="n" ${y===cy?'colspan="3"':''}><input class="pin" type="number" min="0" data-plan="sales" data-team="" data-y="${y}" value="${v??''}" placeholder="—" aria-label="${y}년 매출액"></td>`}).join('')}<td></td></tr>`;
+  const perRow=`<tr class="pvsales"><td colspan="2">인당매출 <small>(억 · ${esc(bk?.l||'')} 기준)</small></td>${Y.map((y,i)=>{const s=pNum(planDoc(y).sales),a=planAgg(BR,i),n=y===cy?a.act:a.v;return `<td class="n" ${y===cy?'colspan="3"':''}>${s&&n?(s/n/100).toFixed(1)+'억':''}</td>`}).join('')}<td></td></tr>`;
+  const missNote=miss.length?`<p class="note pvmiss">⚠ 표 구조에 없는 재직자 ${miss.reduce((s,x)=>s+x[1],0)}명 — ${miss.map(([t,n])=>`${esc(t)} ${n}명`).join(', ')}. <button class="pvlnk" data-act="pvLayout">표 구조</button>에서 알맞은 줄에 넣으면 총계가 명부와 맞아요.</p>`:'';
+  return `<div class="pvtop"><div class="kpis pvk">${KP.map(([l,v,s])=>`<div class="kp"><span>${l}</span><b>${v}</b><small>${s}</small></div>`).join('')}</div>
+     <section class="card pvchc"><div class="card-h"><h2>연도별 총인원</h2><span class="sp"></span><span class="pvlg"><i class="past"></i>실적<i class="cur"></i>올해(현 인원)<i class="fut"></i>계획</span></div>${svg}</section></div>
    <section class="card rec"><div class="recbar"><b>기간</b>${yrOpt('pvF',Y[0],cy-30,cy)}<span>~</span>${yrOpt('pvT',last,cy,cy+30)}
-     <label class="chkl"><input type="checkbox" id="pvAll" ${st.pvAll?'checked':''}> 빈 부서도 보기</label><span class="sp" style="flex:1"></span>
-     <button class="btn sm" data-act="pvPaste">엑셀 붙여넣기</button><button class="btn sm" data-act="pvCsv">CSV</button></div>
-    <p class="note" style="margin:-2px 0 10px">칸에 숫자를 바로 넣으면 저장돼요. <b>지난 해</b>는 연말 실적(비우면 직원 명부로 계산한 값이 연하게 보여요), <b>올해부터</b>는 연말 목표·계획이에요. 계획을 비워 두면 '연간 상세'의 채용·퇴사 계획으로 계산한 예상치가 연하게 보여요.</p>
-    <div class="rtw pvw"><table class="rtab pvt"><thead><tr><th>부서</th>${Y.map(y=>`<th class="n ${y<cy?'past':y===cy?'cur':'fut'}">${y}${y===cy?'<small>올해</small>':''}</th>`).join('')}</tr></thead><tbody>
-     ${divs.map(d=>{const L=show.filter(r=>r.div===d);return sumRow(d,L,'pvdiv',d)+(fold.has(d)?'':L.map(r=>`<tr><td class="pvt-t">${esc(r.t)}</td>${r.cells.map(c=>cell(r,c)).join('')}</tr>`).join(''))}).join('')||`<tr><td colspan="${Y.length+1}"><div class="empty">보여 줄 부서가 없어요.</div></td></tr>`}
-     ${show.length?sumRow('전체 합계',show,'tot',''):''}</tbody></table></div></section>`;
+     <b style="margin-left:10px">인당매출 기준</b><select class="fsel" id="pvBase" aria-label="인당매출 기준">${bases.map(b=>`<option value="${b.k}" ${b===bk?'selected':''}>${esc(b.l)}</option>`).join('')}</select>
+     <span class="sp" style="flex:1"></span><button class="btn sm" data-act="pvLayout">표 구조</button><button class="btn sm" data-act="pvPaste">엑셀 붙여넣기</button><button class="btn sm" data-act="pvCsv">CSV</button><button class="btn sm pri" data-act="pvPrint">인쇄 · PDF</button></div>
+    <p class="note" style="margin:-2px 0 8px">칸에 숫자를 넣으면 바로 저장돼요. 연한 숫자는 자동 계산값이에요(지난 해·올해 실적 = 직원 명부, 경영목표 비움 = 실적과 같음, 다음 해 비움 = 전년 + 채용 − 퇴사 계획). <span class="pvman-k">회색 이름</span>은 명부와 연결 안 된 줄이라 직접 입력해요.</p>
+    ${missNote}
+    <div class="rtw"><table class="rtab pvt"><colgroup><col class="cg"><col class="cl">${Y.map(y=>y===cy?'<col><col><col>':'<col>').join('')}<col class="cn"></colgroup>
+     <thead><tr><th colspan="2" rowspan="2">구분</th>${Y.map(y=>y<cy?`<th rowspan="2">${y}년 末</th>`:y===cy?`<th colspan="3" class="cur">${y}년</th>`:`<th rowspan="2" class="fut">${y}년<small>계획</small></th>`).join('')}<th rowspan="2">비고</th></tr>
+     <tr>${ci>=0?'<th class="cur">경영목표</th><th class="cur">실적<small>(현 인원)</small></th><th class="cur">목표대비</th>':''}</tr></thead>
+     <tbody>${body||`<tr><td colspan="${NC}"><div class="empty">표 구조가 비어 있어요. '표 구조'에서 넣어 주세요.</div></td></tr>`}${salesRow}${perRow}</tbody></table></div></section>`;
+}
+function openPlanLayout(){
+  const has=!!S().planLayout;
+  openLayer(`<div class="modal wide" role="dialog" aria-label="인력 현황표 구조"><h2>인력 현황표 구조</h2>
+   <p class="note">한 줄에 하나씩 써요. <b># 사업본부</b> · <b>## 그룹</b>(빈 <b>##</b>는 그룹 없는 줄) · <b>행 이름 = 팀이름, @사람이름</b>(명부와 연결해 인원을 자동 계산) · <b>행 이름 = -</b>(직접 입력) · <b>+ 합계 이름 = 사업본부, 사업본부</b>(묶음 합계). 이름만 쓰면 같은 이름의 팀과 연결돼요. 구조는 비공개 설정에만 저장돼요.</p>
+   ${has?'':'<p class="note">지금은 조직 구조로 만든 기본 표예요. 저장하면 이 내용으로 고정돼요.</p>'}
+   <textarea class="inp mono" id="pvLay" rows="18">${esc(planLayoutText())}</textarea>
+   <div class="acts">${has?'<button class="btn" data-act="pvLayReset">기본 구조로</button>':''}<span class="sp" style="flex:1"></span><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="pvLaySave">저장</button></div></div>`);
 }
 function openPlanPaste(){
-  openLayer(`<div class="modal wide" role="dialog" aria-label="인원계획 붙여넣기"><h2>연도별 인원 붙여넣기</h2>
-   <p class="note">엑셀에서 <b>첫 줄은 '부서 · 연도들'</b>, 아래 줄은 부서별 숫자로 복사해 붙여넣으세요. 지난 해 숫자는 <b>연말 실적</b>, 올해부터는 <b>연말 계획</b>으로 들어가요. 빈 칸은 건너뛰고, '합계·전체' 줄은 무시해요.</p>
-   <textarea class="inp mono" id="pvTxt" rows="10" placeholder="부서	2019	2020	2021	…	2030&#10;설계1팀	3	4	4	…	6&#10;제어1팀	5	5	6	…	8"></textarea>
+  openLayer(`<div class="modal wide" role="dialog" aria-label="인원계획 붙여넣기"><h2>인력 현황 붙여넣기</h2>
+   <p class="note">엑셀 현황표를 <b>머리줄째</b> 복사해 붙여넣으세요. 머리줄의 <b>'2024년 末'</b> 같은 지난 해는 연말 실적, 올해의 <b>경영목표 · 실적(현 인원)</b>, 다음 해는 계획으로 들어가요. <b>비고</b> 칸과 <b>매출액</b> 줄도 들어가요. 소계 · 합계 · 목표대비 · 인당매출 줄은 건너뛰어요. 줄 이름은 '표 구조'의 행 이름과 같아야 해요.</p>
+   <textarea class="inp mono" id="pvTxt" rows="12" placeholder="구분	2024년 末	2025년 末	2026년 경영목표	2026년 실적	비고&#10;전략실	7	4	6		&#10;영업1팀	3	3	5		"></textarea>
    <div class="acts"><button class="btn" data-act="closeLayer">취소</button><button class="btn pri" data-act="pvPasteGo">넣기</button></div></div>`);
 }
 async function planPasteGo(){
-  const L=$('#pvTxt').value.split(/\r?\n/).map(l=>l.split('\t').map(x=>x.trim())).filter(c=>c.some(Boolean));
-  const hi=L.findIndex(c=>c.slice(1).some(x=>/^(19|20)\d{2}/.test(x)));if(hi<0){toast('첫 줄에 연도(예: 2020)를 넣어 주세요');return}
-  const ys=L[hi].map(x=>{const m=String(x).match(/^((19|20)\d{2})/);return m?+m[1]:null}),cy=+today().slice(0,4);
-  const docs={};let n=0;
-  L.slice(hi+1).forEach(c=>{const t=c[0];if(!t||/합계|총계|전체|^계$/.test(t))return;
-    ys.forEach((y,i)=>{if(!y||i===0)return;const raw=String(c[i]||'').replace(/[,명\s]/g,'');if(raw===''||isNaN(+raw))return;
-      const d=docs[y]||(docs[y]=structuredClone(planDoc(y)));d.depts=d.depts||{};const p=d.depts[t]=d.depts[t]||{};p[y<cy?'actual':'target']=+raw;n++})});
+  const L=$('#pvTxt').value.split(/\r?\n/).map(l=>l.split('\t').map(x=>x.trim()));
+  const cy=+today().slice(0,4),yr=x=>{const m=String(x||'').match(/((19|20)\d{2})\s*(년|末|말|$|\s)/);return m?+m[1]:null};
+  const isHdr=c=>c.slice(1).filter(x=>yr(x)&&(/년|末|말/.test(x)||/^\d{4}$/.test(x))).length>=1&&c.slice(1).every(x=>!x||!/^[\d,.\-△]+$/.test(x)||yr(x));
+  let cols=null,fc=0;const docs={};let n=0;
+  const doc=y=>docs[y]||(docs[y]=structuredClone(planDoc(y)));
+  for(let i=0;i<L.length;i++){const c=L[i];if(!c.some(Boolean))continue;
+    if(isHdr(c)){const sub=L[i+1]&&L[i+1].some(x=>/목표|실적|대비|현\s*인원/.test(x))?L[i+1]:null;if(sub)i++;
+      let carry=null;cols=c.map((x,j)=>{const s=sub?sub[j]||'':'',t=(x+' '+s).trim();if(/비고/.test(t))return {note:1};
+        const y=yr(x);if(y)carry=y;else if(!(sub&&s&&carry))return null;const yy=y||carry;
+        if(/대비|증감|변동/.test(t))return null;const f=/목표|계획/.test(t)?'target':/실적|현\s*인원|末|말/.test(t)?'actual':yy<cy?'actual':'target';return {y:yy,f}});
+      fc=cols.findIndex(Boolean);if(fc<1)fc=1;continue}
+    if(!cols)continue;
+    const label=c.slice(0,fc).filter(Boolean).pop()||'';if(!label||/소계|합계|총\s*계|전체|인당|^계$|\s계$/.test(label))continue;
+    const sales=/매출/.test(label);
+    cols.forEach((m,j)=>{if(!m)return;const raw=String(c[j]||'');
+      if(m.note){if(sales||!raw)return;const d=doc(cy);d.depts=d.depts||{};(d.depts[label]=d.depts[label]||{}).note=raw;n++;return}
+      const v=raw.replace(/[,명\s]/g,'').replace(/^△/,'-');if(v===''||isNaN(+v))return;
+      const d=doc(m.y);if(sales){d.sales=+v;n++;return}d.depts=d.depts||{};(d.depts[label]=d.depts[label]||{})[m.f]=+v;n++})}
+  if(!cols){toast('머리줄(예: 2024년 末 · 2026년 경영목표)을 찾지 못했어요');return}
   if(!n){toast('넣을 숫자를 찾지 못했어요');return}
-  await st.api.batch(Object.entries(docs).map(([y,d])=>({c:'plans',id:'plan-'+y,d:{depts:d.depts,updatedAt:nowISO()}})));
+  await st.api.batch(Object.entries(docs).map(([y,d])=>({c:'plans',id:'plan-'+y,d:{depts:d.depts||{},...(d.sales!=null?{sales:d.sales}:{}),updatedAt:nowISO()}})));
   addLog(`인원계획 붙여넣기 · ${n}칸`);closeLayer();toast(`${n}칸을 넣었어요 (${Object.keys(docs).sort().join(', ')}년)`);
 }
 function planCsv(){
-  const {cy,Y,rows}=planGrid(),show=st.pvAll?rows:rows.filter(r=>!r.empty);
-  const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
-  const lines=[['사업부','부서',...Y.map(y=>y+(y<cy?' 실적':y===cy?' 목표':' 계획'))].map(q).join(',')];
-  show.forEach(r=>lines.push([r.div,r.t,...r.cells.map(c=>c.v)].map(q).join(',')));
-  lines.push(['','전체 합계',...Y.map((y,i)=>show.reduce((s,r)=>s+(r.cells[i].v||0),0))].map(q).join(','));
-  cardDl(`인원계획_${Y[0]}-${Y[Y.length-1]}.csv`,new Blob(['﻿'+lines.join('\r\n')],{type:'text/csv'}));
+  const {cy,Y,lay,rows}=planGrid(),q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  const head=['사업본부','그룹','구분',...Y.flatMap(y=>y<cy?[y+'년 말']:y===cy?[y+' 경영목표',y+' 실적',y+' 목표대비']:[y+' 계획']),'비고'];
+  const vals=(list,note)=>Y.flatMap((y,i)=>{const a=planAgg(list,i);return y===cy?[a.tg,a.act,a.gap]:[a.v]}).concat([note||'']);
+  const out=[head.map(q).join(',')];
+  lay.secs.forEach((s,si)=>{const SR=rows.filter(r=>r.si===si);s.groups.forEach((g,gi)=>{const GR=SR.filter(r=>r.gi===gi);GR.forEach(r=>out.push([s.name,g.name,r.label,...vals([r],r.note)].map(q).join(',')));if(g.name)out.push([s.name,g.name,g.name+' 소계',...vals(GR)].map(q).join(','))});
+    if(SR.length>1)out.push([s.name,'',s.name+' 합계',...vals(SR)].map(q).join(','))});
+  lay.sums.forEach(x=>{const ix=x.secs.map(n=>lay.secs.findIndex(s=>s.name===n));out.push(['','',x.label,...vals(rows.filter(r=>ix.includes(r.si)))].map(q).join(','))});
+  out.push(['','','총계',...vals(rows)].map(q).join(','));
+  cardDl(`인력현황_${Y[0]}-${Y[Y.length-1]}.csv`,new Blob(['﻿'+out.join('\r\n')],{type:'text/csv'}));
+}
+// 인쇄: 입력칸을 글자로 바꿔 A4 가로 한 장에 맞춰요
+function planPrint(){
+  const t=document.querySelector('.pvt');if(!t)return;const c=t.cloneNode(true);
+  c.querySelectorAll('input').forEach(i=>{const s=document.createElement('span');s.textContent=i.value!==''?(i.dataset.plan==='sales'?(+i.value).toLocaleString():i.value):(i.placeholder==='—'?'':i.placeholder);i.replaceWith(s)});
+  c.querySelectorAll('[data-act]').forEach(x=>x.removeAttribute('data-act'));c.querySelectorAll('.pvf').forEach(x=>x.remove());
+  const w=window.open('','_blank');if(!w){toast('팝업이 막혀 있어요. 팝업을 허용해 주세요');return}
+  const cy=+today().slice(0,4);
+  w.document.write(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>${cy}년 인력 현황</title><style>
+   @page{size:A4 landscape;margin:9mm}body{font-family:'Malgun Gothic',sans-serif;margin:0;color:#111;width:1040px}h1{text-align:center;font-size:19px;margin:0 0 2px}.u{text-align:right;font-size:10px;margin:0 0 4px}
+   table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:10.5px}th,td{border:1px solid #555;padding:2px 3px;text-align:center;height:17px;word-break:keep-all}
+   thead th{background:#DCE9F2;font-weight:700}th small,td small{font-size:9px;font-weight:400}col.cg{width:9%}col.cl{width:11%}col.cn{width:15%}
+   td.pvg{background:#fff}tr.pvsec td{background:#EEF3F6;font-weight:700;text-align:left}tr.pvsub td{background:#EAF2F8;font-weight:700}tr.pvtot td{background:#F7E8E8;color:#C00;font-weight:700}
+   tr.pvgrand td{background:#DCE9F2;color:#C00;font-weight:700}tr.pvsales td{background:#FAFAFA}td.neg{color:#C00}td:last-child{font-size:9px;text-align:left}
+  </style></head><body><h1>${cy}년 인력 현황</h1><p class="u">(단위 : 명, 매출 백만원)</p>${c.outerHTML}<script>
+   window.onload=()=>{const r=Math.min(1,700/(document.body.scrollHeight+10));if(r<1)document.body.style.zoom=r;setTimeout(()=>print(),200)};<\/script></body></html>`);
+  w.document.close();
 }
 
 function vPlan(){
   const tab=st.pvTab||'all',y=st.py||+today().slice(0,4);
-  return `<div class="segs ptabs">${[['all','연도별 한눈에'],['year',`연간 상세 (${y}년 · 월별)`]].map(([k,l])=>`<button class="${tab===k?'on':''}" data-act="pvTab" data-v="${k}">${l}</button>`).join('')}</div>${tab==='year'?vPlanYear():vPlanAll()}`;
+  return `<div class="segs ptabs">${[['all','인력 현황표'],['year',`연간 상세 (${y}년 · 월별)`]].map(([k,l])=>`<button class="${tab===k?'on':''}" data-act="pvTab" data-v="${k}">${l}</button>`).join('')}</div>${tab==='year'?vPlanYear():vPlanAll()}`;
 }
 function vPlanYear(){
   const y=st.py||+today().slice(0,4),pd=planDoc(y),td=today(),jan=`${y}-01-01`,dec=`${y}-12-31`,now=td<dec?td:dec;
@@ -3824,6 +3942,7 @@ function vPlanYear(){
    <p class="note" style="margin-top:10px">회색 기울임 숫자는 계획으로 계산한 예상 인원이에요.</p></section>`;
 }
 async function savePlanCell(el){
+  if(el.dataset.plan==='sales'){await st.api.put('plans','plan-'+el.dataset.y,{sales:el.value===''?null:+el.value,updatedAt:nowISO()});return}
   const y=+el.dataset.y,t=el.dataset.team,f=el.dataset.plan,doc=structuredClone(planDoc(y));doc.depts=doc.depts||{};const p=doc.depts[t]=doc.depts[t]||{};
   if(f==='hire'||f==='leave'){const a=p[f]||Array(12).fill(0);a[+el.dataset.m-1]=+el.value||0;p[f]=a}else if(f==='target'||f==='actual')p[f]=el.value===''?null:+el.value;else p[f]=el.value;
   await st.api.put('plans','plan-'+y,{depts:doc.depts,updatedAt:nowISO()});
@@ -4761,7 +4880,7 @@ const vtabs=(act,cur,list)=>`<div class="segs ptabs">${list.map(([k,l,n])=>`<but
 function vStaffList(){return vph('직원 명부','재직자 명부예요. 채용·입퇴사에서 입사·퇴사를 저장하면 자동으로 반영돼요. 엑셀에서 복사해 한 번에 넣을 수 있어요.','<button class="btn" data-act="staffPaste">붙여넣기 일괄 등록</button><button class="btn pri" data-act="newStaff">+ 직원 추가</button>')+vRoster()}
 function vOrgView(){return vph('조직도','직원 명부를 부서별로 묶어 보여 줘요. 팀장은 직원 정보에서 정해요.','<button class="btn pri" data-act="newStaff">+ 직원 추가</button>')+vOrg()}
 function vTrackView(){return vph('수습 · 계약','수습 종료(입사일 + 수습 기간)와 계약 만료를 D-day로 챙겨요. 결과를 누르면 목록에서 빠지고 기록으로 남아요.')+vTrack()}
-function vPlanView(){return vph('인원계획','연도별로 부서 인원 실적과 계획을 한 표에서 보고 바로 고쳐요. 지난 해는 직원 명부로 자동 계산되고, 엑셀에서 예전 자료·앞으로의 계획을 한 번에 붙여넣을 수 있어요.')+vPlan()}
+function vPlanView(){return vph('인원계획','인력 현황표 양식(지난 해 末 · 올해 경영목표 · 실적 · 목표대비 · 앞으로의 계획)으로 보고 바로 고쳐요. 실적은 직원 명부로 자동 계산되고, 엑셀 현황표를 그대로 붙여넣을 수 있어요.')+vPlan()}
 function vRecruit(){
   const tab=st.rct==='iv'?'iv':'req';
   return vph('채용 관리','포지션별 채용 요청과 면접 기록을 관리해요. 면접에서 요청을 연결하면 요청별 면접·합격 수가 자동으로 세져요.',tab==='iv'?'<button class="btn pri" data-act="newCand">+ 면접 등록</button>':'<button class="btn pri" data-act="newReq">+ 채용 요청</button>')
@@ -4908,7 +5027,9 @@ const ACT={
   goPeople:a=>{st.ptab=a.dataset.v;goView('people');render()},
   py:a=>{st.py=(st.py||+today().slice(0,4))+(+a.dataset.v);render()},
   pvTab:a=>{st.pvTab=a.dataset.v;render()},pvYear:a=>{st.py=+a.dataset.v;st.pvTab='year';render()},pvFold:a=>{const f=st.pvFold||(st.pvFold=new Set());const k=a.dataset.v;f.has(k)?f.delete(k):f.add(k);render()},
-  pvPaste:()=>openPlanPaste(),pvPasteGo:()=>planPasteGo(),pvCsv:()=>planCsv(),
+  pvPaste:()=>openPlanPaste(),pvPrint:()=>planPrint(),pvLayout:()=>openPlanLayout(),
+  pvLaySave:async()=>{const v=$('#pvLay').value.trim();const L=planLayoutParse(v);if(!L.secs.length){toast('행이 하나도 없어요');return}await st.api.put('settings','main',{planLayout:v});addLog('인력 현황표 구조 저장');closeLayer();toast('표 구조를 저장했어요')},
+  pvLayReset:()=>openConfirm('저장한 표 구조를 지우고 조직 구조로 만든 기본 표로 돌릴까요? 입력한 숫자는 그대로 남아요.',async()=>{await st.api.put('settings','main',{planLayout:null});toast('기본 구조로 돌렸어요')}),pvPasteGo:()=>planPasteGo(),pvCsv:()=>planCsv(),
   pteam:a=>{st.pteam=a.dataset.v;render()},
   newReq:()=>openReq(null),
   saveReq:()=>saveReqForm(),

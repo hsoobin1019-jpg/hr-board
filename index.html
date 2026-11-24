@@ -5263,8 +5263,9 @@ function toast(msg,undoable){
   const fmtBuf=(b,type)=>{const g=b;if(/\D/.test(g))return g;return type==='month'?g.slice(0,4)+(g.length>4?'-'+g.slice(4):''):g.slice(0,4)+(g.length>4?'-'+g.slice(4,6):'')+(g.length>6?'-'+g.slice(6):'')};
   function setVal(el,v){if(el.value===v)return;el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))}
   function commit(el){
-    const b=el._db;el._db='';if(!b){show(el);return true}
+    const b=el._db,lv=el._lv;el._db='';el._lv='';if(!b){show(el);return true}
     const v=el.type==='month'?parseM(b,el):parseD(b,el);
+    if(!v&&lv){show(el);return true}
     if(!v){show(el,'날짜를 확인해 주세요 · '+b,true);setTimeout(()=>{if(!el._db)show(el)},1600);return false}
     if(el.min&&v<el.min.slice(0,v.length)){show(el,el.min.slice(0,v.length)+' 이후로 넣어 주세요',true);setTimeout(()=>{if(!el._db)show(el)},1600);return false}
     show(el);setVal(el,v);return true;
@@ -5275,13 +5276,15 @@ function toast(msg,undoable){
     if(!isDT(el))return;
     const full=el.type==='date'?8:6,k=e.key;
     if(/^\d$/.test(k)||(/^[-./]$/.test(k)&&el._db)){
-      e.preventDefault();el._db=(el._db||'')+(/\d/.test(k)?k:'-');
+      e.preventDefault();const now=Date.now();if(now-(el._dbT||0)>2500){el._db='';el._lv=''}el._dbT=now;el._db=(el._db||'')+(/\d/.test(k)?k:'-');
       const b=el._db,done=/^\d+$/.test(b)?b.length>=full:(el.type==='date'?/^\d{4}-\d{1,2}-\d{2}$/.test(b):/^\d{4}-\d{2}$/.test(b));
-      if(done)commit(el);else show(el,fmtBuf(b,el.type)+'  (Enter)');return;
+      if(done){commit(el);return}
+      const lv=/^\d+$/.test(b)?([4,6].includes(b.length)?(el.type==='month'?parseM(b,el):parseD(b,el)):null):(el.type==='month'?null:/^\d{2,4}-\d{1,2}-\d{1,2}$/.test(b)?parseD(b,el):null);
+      if(lv){el._lv=lv;setVal(el,lv)}show(el,fmtBuf(b,el.type)+(lv?'  → '+lv:''));return;
     }
     if(/^[-./]$/.test(k)){e.preventDefault();return}
     if(!el._db)return;
-    if(k==='Backspace'){e.preventDefault();el._db=el._db.slice(0,-1);show(el,el._db?fmtBuf(el._db,el.type)+'  (Enter)':'');return}
+    if(k==='Backspace'){e.preventDefault();el._db=el._db.slice(0,-1);show(el,el._db?fmtBuf(el._db,el.type):'');return}
     if(k==='Escape'){e.preventDefault();e.stopPropagation();el._db='';show(el);return}
     if(k==='Enter'||k==='Tab'){if(!commit(el)&&k==='Enter'){e.preventDefault();e.stopPropagation()}}
   },true);

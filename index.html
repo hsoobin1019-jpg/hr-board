@@ -1294,6 +1294,10 @@ button.oc-who:hover{background:#E5EAF4}
 .pvt input.pin[type=number]{-moz-appearance:textfield;appearance:textfield}.pvt input.pin::-webkit-inner-spin-button,.pvt input.pin::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0;display:none}
 .pvt td.n{padding:0 4px;text-align:center;font-variant-numeric:tabular-nums}.pvt td.n .pin{padding:0;text-indent:0;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:0}
 .pvt td.gap .gp,.pvt td.gap .gz{display:inline-block;min-width:38px;text-align:center}
+.pvtabrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.pvtabrow .ptabs{margin:0}.pvedit-on{font-size:12.5px;font-weight:700;color:#174E8C;background:#EEF4FD;border:1px solid #C9DAF3;padding:5px 10px;border-radius:999px}
+.pvro .pin[readonly]{pointer-events:none;cursor:default;border-color:transparent!important;background:transparent!important;box-shadow:none!important}
+.pved .pvt td .pin{border-color:#DCE6EC;background:#fff}.pved .pvt td.auto .pin{background:#FBFCFD}.pved .rtab .pin{border-color:#C9DAE3}
+.pvch .bc.est{fill:#1F6FD1;opacity:.45;stroke:#1F6FD1;stroke-dasharray:4 3}.pvch text.estl{font-size:10.5px;fill:var(--mute);font-weight:700}.pvt small.est{font-size:10.5px;color:#7A868D;font-weight:600;margin-left:2px}
 .pvlg i.tgk{height:0;width:14px;border-radius:0;border-top:2px dashed #1B2B36;background:none}.pvlg i.pvsc{background:#1F6FD1}.pvlg i.pvss{background:#E07B2E}
 #pvTip{position:fixed;z-index:999;background:#1B2B36;color:#fff;font-size:12.5px;line-height:1.45;padding:7px 10px;border-radius:8px;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.18);max-width:340px}
 .pvhelp{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--mute);margin:-2px 0 10px}.pvhelp i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}.pvhelp .k1{background:#1B2B36}.pvhelp .k2{background:#B7C2C8}.pvhelp .k3{background:#E4E8EB;border:1px solid #C9D2D8}
@@ -2534,7 +2538,7 @@ function openEvent(id,pre={}){
     <div class="fld"><label for="eTitle">제목</label><input class="inp" id="eTitle" value="${esc(e.title)}" placeholder="예) 학교 교수 방문 (실습 면담)"></div>
     <div class="g3"><div class="fld"><label for="eStart">날짜</label><input class="inp" type="date" id="eStart" value="${e.start||''}"></div>
      <div class="fld"><label for="eEnd">끝나는 날 (여러 날일 때)</label><input class="inp" type="date" id="eEnd" value="${e.end||''}"></div>
-     <div class="fld"><label for="eTime">시간</label><input class="inp" id="eTime" value="${esc(e.time||'')}" placeholder="예) 14:00"></div></div>
+     <div class="fld"><label for="eTime">시간</label><input class="inp" id="eTime" data-tm value="${esc(e.time||'')}" placeholder="예) 14:00 · 1400"></div></div>
     <div class="fld"><label for="eMemo">메모</label><input class="inp" id="eMemo" value="${esc(e.memo||'')}"></div>
     <div class="fld"><label class="chkl"><input type="checkbox" id="eStar" ${e.star?'checked':''}> ★ 중요 일정</label></div>
    </form>
@@ -2762,7 +2766,7 @@ function openTask(id,pre={}){
      <div class="fld"><label for="tTitle">${!id&&pre.mode==='event'?'일정 제목':'업무명'}</label><input class="inp" id="tTitle" value="${esc(t.title)}" required></div>
      <div class="fld tonly"><label>상태</label><div class="stbtns" id="tStatus">${SO.map(s=>`<button type="button" class="pill s-${s} ${t.status===s?'on':''}" data-v="${s}">${SL[s]}</button>`).join('')}</div></div>
      <div class="g2"><div class="fld"><label for="tStart"><span class="tonly">시작일 (기간 업무일 때)</span><span class="eonly">시작일 (여러 날일 때)</span></label><input class="inp" type="date" id="tStart" value="${t.start||''}"></div><div class="fld"><label for="tDue"><span class="tonly">마감일</span><span class="eonly">날짜 (여러 날이면 끝나는 날)</span></label><input class="inp" type="date" id="tDue" value="${t.due||''}"></div></div>
-     <div class="fld eonly"><label for="tTime">시간 (선택)</label><input class="inp" id="tTime" placeholder="예) 14:00" style="max-width:200px"></div>
+     <div class="fld eonly"><label for="tTime">시간 (선택)</label><input class="inp" id="tTime" data-tm placeholder="예) 14:00 · 1400" style="max-width:200px"></div>
      <div class="fld"><label>빠른 기간</label><div class="hchips"><button type="button" class="chip" data-qp="today">오늘</button><button type="button" class="chip" data-qp="tomorrow">내일</button><button type="button" class="chip" data-qp="fri">이번 주 금요일</button><button type="button" class="chip" data-qp="eom">이번 달 말일</button><button type="button" class="chip" data-qp="w1">1주일 기간</button><button type="button" class="chip" data-qp="clear">기간 없음</button></div></div>
      <div class="g2 tonly"><div class="fld"><label for="tSide">구분</label><select class="inp" id="tSide"><option value="">-</option>${['인사','기타'].map(x=>`<option ${t.side===x?'selected':''}>${x}</option>`).join('')}</select></div>
      <div class="fld"><label for="tCat">분류</label><select class="inp" id="tCat"><option value="">-</option>${cats.map(c=>`<option ${t.cat===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div></div>
@@ -3272,16 +3276,6 @@ document.addEventListener('drop',async e=>{const col=e.target.closest?.('[data-d
   const ch=s==='star'?{star:true,...(['done','hold'].includes(t.status)?{status:'todo'}:{})}:['todo','doing'].includes(s)?{status:s,star:false}:{status:s};
   if(ch.status==='done'&&t.ptask&&t.chk?.length)ch.chk=t.chk.map(x=>({...x,done:true}));
   updateTasks([id],ch,`${BCOL[s]}(으)로 옮김`)});
-/* 날짜 칸에 숫자를 이어서 치면 알아서 맞춰요: 20261102 → 2026-11-02 · 261102 → 2026-11-02 · 1102 → 올해 11-02 */
-document.addEventListener('keydown',e=>{const el=e.target;if(!(el instanceof HTMLInputElement)||el.type!=='date'||e.ctrlKey||e.metaKey||e.altKey)return;
-  if(/^\d$/.test(e.key)){e.preventDefault();const now=Date.now();if(!el._dbT||now-el._dbT>1500)el._db='';el._dbT=now;el._db+=e.key;clearTimeout(el._dbTo);
-    const fin=strict=>{const b=el._db||'';let y,m,d;if(b.length===8){y=b.slice(0,4);m=b.slice(4,6);d=b.slice(6)}else if(b.length===6){y='20'+b.slice(0,2);m=b.slice(2,4);d=b.slice(4)}else if(b.length===4){y=today().slice(0,4);m=b.slice(0,2);d=b.slice(2)}else return false;
-      const dt=new Date(+y,+m-1,+d);if(+m<1||+m>12||dt.getMonth()!==+m-1||dt.getDate()!==+d){if(strict){toast('날짜를 확인해 주세요');el._db=''}return false}
-      el.value=`${y}-${m}-${d}`;el._db='';el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));return true};
-    if(el._db.length>=8)fin(true);else el._dbTo=setTimeout(()=>fin(false),900);
-  }else if(['-','.','/',' '].includes(e.key)&&el._db)e.preventDefault();
-  else if(e.key==='Backspace'||e.key==='Delete')el._db='';
-},true);
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.id==='tChk'){e.preventDefault();const b=$('[data-act="chkAdd"]');if(b)ACT.chkAdd(b);return}
   const a=document.activeElement;if(/^(INPUT|TEXTAREA|SELECT)$/.test(a?.tagName||'')||e.ctrlKey||e.metaKey||e.altKey||$('#layer').innerHTML)return;
@@ -3847,27 +3841,28 @@ function vPlanAll(){
   const part=CY.map((y,i)=>y<=cy?planAgg(CR,i).miss||[]:[]);const head=CY.map((y,i)=>{const a=planAgg(CR,i);return y===cy?a.act:a.v}),tgt=cci>=0?planAgg(CR,cci).tg:null;
   const who=[...new Set(CR.flatMap(r=>r.who))];
   const io=CY.map(y=>y>cy?null:{j:who.filter(s=>(s.joinDate||'').startsWith(y+'')).length,l:who.filter(s=>(s._status||s.status)==='퇴사'&&(s.leaveDate||'').startsWith(y+'')).length});
-  const MX=CY.map(y=>{const m=mixOf(y);return y<cy&&mixHas(m)?mixSeg(m):null});
-  CY.forEach((y,i)=>{const m=mixOf(y);if(MX[i]){head[i]=MX[i].ind+MX[i].dir+MX[i].ex;part[i]=[]}if(y<cy&&(pNum(m.join)!=null||pNum(m.leave)!=null))io[i]={j:pNum(m.join)??0,l:pNum(m.leave)??0}});
+  const MX=CY.map(y=>{const m=mixOf(y);return bk&&bk.k==='s0'&&y<cy&&mixHas(m)?mixSeg(m):null});
+  const own=CY.map((y,i)=>CR.some(r=>r.cells[i].man!=null)),src=CY.map((y,i)=>y>=cy?'':own[i]?'인력 현황표':MX[i]?'전략회의 자료':'직원 명부 계산');
+  CY.forEach((y,i)=>{const m=mixOf(y);if(MX[i]&&!own[i]){head[i]=MX[i].ind+MX[i].dir+MX[i].ex;part[i]=[]}if(MX[i]&&(pNum(m.join)!=null||pNum(m.leave)!=null))io[i]={j:pNum(m.join)??0,l:pNum(m.leave)??0}});
   const sales=CY.map(y=>({c:pvEok(pNum(planDoc(y).salesC))}));
   const allR=CG.rows,totC=CY.map((y,i)=>{const a=planAgg(allR,i);return y<=cy&&(a.miss||[]).length?null:y===cy?a.act:a.v});
   const W=620,H=300,pad={l:44,r:10,t:30,b:66};
   const mxH=pvNice(Math.max(1,...head,tgt||0)*1.12);
   const chH=pvFrame(W,H,pad,mxH,'명',CY,cy,(y,i,cx,sl,yv)=>{const bw=Math.min(30,sl*.56),v=head[i],k=y<cy?'실적':y===cy?'현재 인원':'계획';
-      const pt=part[i].length,tip=`${y}년 · ${k} ${v}명${y===cy&&tgt!=null?` · 경영목표 ${tgt}명`:''}${io[i]?` · 입사 ${io[i].j} · 퇴사 ${io[i].l}`:''}${MX[i]?` · 간접 ${MX[i].ind} · 직접 ${MX[i].dir} · 임원 ${MX[i].ex} (전략회의 자료)`:''}${pt?` · 자료 없는 줄 ${pt}개(${part[i].slice(0,4).join(', ')}${pt>4?' 등':''})라 명부 인원만 셌어요`:''}`;
-      return `<rect class="hit" x="${cx-sl/2}" y="${pad.t}" width="${sl}" height="${H-pad.t-pad.b}" data-tip="${esc(tip)}"/>${MX[i]?pvStack(cx-bw/2,bw,yv,MX[i]):`<path class="bar${pt?' part':''}" d="${pvBarPath(cx-bw/2,yv(v),bw,yv(0)-yv(v))}"/>`}${y===cy&&tgt!=null?`<line class="tg" x1="${cx-bw/2-5}" x2="${cx+bw/2+5}" y1="${yv(tgt)}" y2="${yv(tgt)}"/><text class="tgl" x="${cx}" y="${Math.min(yv(tgt),yv(v))-8}">목표 ${tgt}</text>`:''}${y===cy&&tgt!=null&&Math.abs(yv(v)-yv(tgt))<22?`<text class="v in" x="${cx}" y="${yv(v)+15}">${v}</text>`:`<text class="v" x="${cx}" y="${yv(v)-7}">${v}</text>`}`},
+      const pt=part[i].length,tip=`${y}년 · ${k} ${v}명${y===cy&&tgt!=null?` · 경영목표 ${tgt}명`:''}${io[i]?` · 입사 ${io[i].j} · 퇴사 ${io[i].l}`:''}${src[i]?` · 기준: ${src[i]}`:''}${MX[i]?` · 구성(전략회의): 간접 ${MX[i].ind} · 직접 ${MX[i].dir} · 임원 ${MX[i].ex}`:''}${pt?` · 자료 없는 줄 ${pt}개(${part[i].slice(0,4).join(', ')}${pt>4?' 등':''})라 명부 인원만 셌어요`:''}`;
+      return `<rect class="hit" x="${cx-sl/2}" y="${pad.t}" width="${sl}" height="${H-pad.t-pad.b}" data-tip="${esc(tip)}"/><path class="bar${pt?' part':''}" d="${pvBarPath(cx-bw/2,yv(v),bw,yv(0)-yv(v))}"/>${y===cy&&tgt!=null?`<line class="tg" x1="${cx-bw/2-5}" x2="${cx+bw/2+5}" y1="${yv(tgt)}" y2="${yv(tgt)}"/><text class="tgl" x="${cx}" y="${Math.min(yv(tgt),yv(v))-8}">목표 ${tgt}</text>`:''}${y===cy&&tgt!=null&&Math.abs(yv(v)-yv(tgt))<22?`<text class="v in" x="${cx}" y="${yv(v)+15}">${v}</text>`:`<text class="v" x="${cx}" y="${yv(v)-7}">${v}</text>`}`},
     (y,i,cx,yy)=>io[i]?`<text class="io" x="${cx}" y="${yy}"><tspan class="j">+${io[i].j}</tspan></text><text class="io" x="${cx}" y="${yy+15}"><tspan class="l">−${io[i].l}</tspan></text>`:'');
   const mxS=pvNice(Math.max(1,...sales.map(x=>x.c||0))*1.12);
   const chS=pvFrame(W,H,pad,mxS,'억원',CY,cy,(y,i,cx,sl,yv)=>{const bw=Math.min(30,sl*.56),x=sales[i],per=x.c&&totC[i]?x.c/totC[i]:null;
       const tip=`${y}년 · 매출(DART 연결) ${x.c!=null?pvFmt(x.c)+'억':'—'}${per?` · 인당 ${per.toFixed(2)}억(연결÷총계 ${totC[i]}명)`:''}`;
-      return `<rect class="hit" x="${cx-sl/2}" y="${pad.t}" width="${sl}" height="${H-pad.t-pad.b}" data-tip="${esc(tip)}"/>${x.c!=null?`<path class="bc" d="${pvBarPath(cx-bw/2,yv(x.c),bw,yv(0)-yv(x.c))}"/><text class="v" x="${cx}" y="${yv(x.c)-7}">${pvFmt(x.c)}</text>`:''}`},
-    (y,i,cx,yy)=>{const x=sales[i],per=x.c&&totC[i]?x.c/totC[i]:null;return per?`<text class="io" x="${cx}" y="${yy}">인당</text><text class="io b" x="${cx}" y="${yy+15}">${per.toFixed(1)}억</text>`:''});
+      return `<rect class="hit" x="${cx-sl/2}" y="${pad.t}" width="${sl}" height="${H-pad.t-pad.b}" data-tip="${esc(tip)}"/>${x.c!=null?`<path class="bc${y>=cy?' est':''}" d="${pvBarPath(cx-bw/2,yv(x.c),bw,yv(0)-yv(x.c))}"/><text class="v" x="${cx}" y="${yv(x.c)-7}">${pvFmt(x.c)}</text>${y>=cy?`<text class="estl" x="${cx}" y="${yv(x.c)-21}">추정</text>`:''}`:''}`},
+    (y,i,cx,yy)=>{const x=sales[i],per=x.c&&totC[i]?x.c/totC[i]:null;return per?`<text class="io" x="${cx}" y="${yy}">${y>=cy?'인당 추정':'인당'}</text><text class="io b" x="${cx}" y="${yy+15}">${per.toFixed(1)}억</text>`:''});
   // ── 요약 숫자
   const ca=ci>=0?planAgg(rows,ci):null,lastV=planAgg(rows,Y.length-1).v;
   const sc=pvEok(pNum(planDoc(cy).salesC)),sp=pvEok(pNum(planDoc(cy-1).salesC));
   const KP=[['현재 인원',ca?ca.act:headAt('',today()),'명','현황표 총계'],[`${cy}년 경영목표`,ca?ca.tg:'–','명',ca?`목표대비 <b class="${ca.gap<0?'neg':ca.gap>0?'pos':''}">${ca.gap>0?'+':''}${ca.gap}명</b>`:''],
-    [`${sc!=null?cy:cy-1}년 매출 (연결)`,sc??sp??'–',sc??sp?'억':'',sc!=null&&sp?`전년 대비 ${((sc/sp-1)*100).toFixed(1)}%`:sp!=null?'DART 공시 기준':'매출을 넣어 주세요'],
-    ['인당매출 (연결)',(sc??sp)&&ca?((sc??sp)/(sc!=null?ca.act:(planAgg(rows,ci-1)?.v||ca.act))).toFixed(2):'–','억','연결 매출 ÷ 총계'],[`${last}년 계획`,lastV,'명',ca?`지금보다 ${lastV-ca.act>=0?'+':''}${lastV-ca.act}명`:'']];
+    [sc!=null?`${cy}년 매출 (추정)`:`${cy-1}년 매출 (연결)`,sc??sp??'–',sc??sp?'억':'',sc!=null&&sp?`전년(DART) 대비 ${sc>=sp?'+':''}${((sc/sp-1)*100).toFixed(1)}%`:sp!=null?'DART 공시 기준':'매출을 넣어 주세요'],
+    [sc!=null?'인당매출 (추정)':'인당매출 (연결)',(sc??sp)&&ca?((sc??sp)/(sc!=null?ca.act:(planAgg(rows,ci-1)?.v||ca.act))).toFixed(2):'–','억','연결 매출 ÷ 총계'],[`${last}년 계획`,lastV,'명',ca?`지금보다 ${lastV-ca.act>=0?'+':''}${lastV-ca.act}명`:'']];
   // ── 표
   const yrOpt=(id,v,a,b)=>`<select class="fsel" id="${id}" aria-label="${id==='pvF'?'시작 연도':'끝 연도'}">${Array.from({length:b-a+1},(_,i)=>a+i).map(y=>`<option ${y===v?'selected':''}>${y}</option>`).join('')}</select>`;
   const inp=(f,r,y,val,ph,tip)=>`<input class="pin" type="number" min="0" data-plan="${f}" data-team="${esc(r.label)}" data-y="${y}" value="${val??''}" placeholder="${ph??''}" title="${esc(tip)}">`;
@@ -3894,15 +3889,15 @@ function vPlanAll(){
   const BR=rows.filter(inB),cnt=(list,i,y)=>{const a=planAgg(list,i);return y===cy?a.act:a.v};
   const sIn=(f,y)=>{const v=pNum(planDoc(y)[f]);return `<td class="n ${y<cy?'':y===cy?'cur':'fut'}" ${y===cy?'colspan="3"':''}><input class="pin" type="text" inputmode="numeric" data-plan="${f}" data-team="" data-y="${y}" value="${v==null?'':pvFmt(v)}" placeholder="" aria-label="${y}년 ${f==='salesC'?'연결':'별도'} 매출"></td>`};
   const perC=Y.map((y,i)=>{const s=pNum(planDoc(y).salesC),n=cnt(rows,i,y);return s&&n&&!(y<=cy&&(planAgg(rows,i).miss||[]).length)?s/n/100:null});
-  const refI=(()=>{for(let i=Y.length-1;i>=0;i--)if(Y[i]<=cy&&perC[i])return i;return -1})();
+  const refI=(()=>{for(let i=Y.length-1;i>=0;i--)if(Y[i]<cy&&perC[i])return i;return -1})();
   // 기준 인당매출: 표 기간 안에서 올해 이전 가장 최근 값(없으면 저장된 가장 최근 해)
   let ref=refI>=0?{y:Y[refI],v:perC[refI]}:null;
-  if(!ref){for(let y=cy;y>=cy-30;y--){const s=pNum(planDoc(y).salesC);if(s){const gi=planGrid([y]);const n=planAgg(gi.rows,0);const nn=y===cy?n.act:n.v;if(nn){ref={y,v:s/nn/100};break}}}}
+  if(!ref){for(let y=cy-1;y>=cy-30;y--){const s=pNum(planDoc(y).salesC);if(s){const gi=planGrid([y]);const n=planAgg(gi.rows,0);const nn=y===cy?n.act:n.v;if(nn){ref={y,v:s/nn/100};break}}}}
   const tdY=(y,html)=>`<td class="n ${y<cy?'':y===cy?'cur':'fut'}" ${y===cy?'colspan="3"':''}>${html}</td>`;
   const salesBlock=`<tr class="pvsec money"><td colspan="${NC}">매출 · 인력 편성<small>매출은 백만원 · DART 공시는 연결 기준</small></td></tr>
-    <tr class="pvr"><td colspan="2" class="pvl wide">매출액 · 연결 <small>DART</small></td>${Y.map(y=>sIn('salesC',y)).join('')}<td></td></tr>
+    <tr class="pvr"><td colspan="2" class="pvl wide">매출액 · 연결 <small>DART · 올해부터 추정</small></td>${Y.map(y=>sIn('salesC',y)).join('')}<td></td></tr>
     <tr class="pvr"><td colspan="2" class="pvl wide">매출액 · 별도 <small>사내</small></td>${Y.map(y=>sIn('sales',y)).join('')}<td></td></tr>
-    <tr class="pvr"><td colspan="2" class="pvl wide">인당매출 · 연결 <small>÷ 총계</small></td>${Y.map((y,i)=>tdY(y,perC[i]?perC[i].toFixed(2)+'억':'')).join('')}<td></td></tr>
+    <tr class="pvr"><td colspan="2" class="pvl wide">인당매출 · 연결 <small>÷ 총계</small></td>${Y.map((y,i)=>tdY(y,perC[i]?perC[i].toFixed(2)+'억'+(y>=cy?' <small class="est">추정</small>':''):'')).join('')}<td></td></tr>
     <tr class="pvr fit"><td colspan="2" class="pvl wide">매출 기준 적정 인원 <small>${ref?`인당 ${ref.v.toFixed(2)}억 유지 (${ref.y}년)`:'연결 매출을 넣으면 계산돼요'}</small></td>${Y.map((y,i)=>{const s=pNum(planDoc(y).salesC);if(!ref||!s||y<cy)return tdY(y,'');const fit=Math.round(s/100/ref.v),pl=y===cy?planAgg(rows,i).tg:cnt(rows,i,y),d=pl-fit;
       return tdY(y,`<b>${fit}</b>${d?`<span class="fitd ${d>0?'over':'under'}" title="계획 ${pl}명 − 적정 ${fit}명">${d>0?'+':''}${d}</span>`:''}`)}).join('')}<td class="pvn"><span class="note">계획이 적정보다 많으면 +, 적으면 −</span></td></tr>`;
   const mixIn=(k,y)=>{const v=pNum(mixOf(y)[k]);return `<td class="n ${y<cy?'':y===cy?'cur':'fut'}" ${y===cy?'colspan="3"':''}><input class="pin" type="text" inputmode="numeric" data-plan="mix.${k}" data-team="" data-y="${y}" value="${v==null?'':pvFmt(v)}" aria-label="${y}년 ${k}"></td>`};
@@ -3910,23 +3905,23 @@ function vPlanAll(){
   const KI=MIXK.filter(x=>x[1]==='간접').map(x=>x[0]),KD=MIXK.filter(x=>x[1]==='직접').map(x=>x[0]),KA=MIXK.map(x=>x[0]);
   const calcRow=(cls,label,f)=>`<tr class="${cls}"><td colspan="2">${label}</td>${Y.map(y=>tdY(y,f(mixOf(y),y)??'')).join('')}<td></td></tr>`;
   const inRows=(grp,list)=>list.map(([k,,l],j)=>`<tr class="pvr">${grp&&j===0?`<td class="pvg" rowspan="${list.length}">${grp}</td>`:''}<td class="pvl ${grp?'':'wide'}" ${grp?'':'colspan="2"'}>${l}</td>${Y.map(y=>mixIn(k,y)).join('')}<td></td></tr>`).join('');
-  const mixBlock=`<tr class="pvsec mix"><td colspan="${NC}">인력 구성 · 간접 / 직접<small>전략회의 자료 양식 · 넣은 해는 위 그래프의 지난 해 인원 · 입퇴사로 쓰여요</small></td></tr>`
+  const mixBlock=`<tr class="pvsec mix"><td colspan="${NC}">인력 구성 · ${esc(lay.secs[0]?.name||"")} · 간접 / 직접<small>전략회의 자료 양식 · 그래프 기준이 ${esc(lay.secs[0]?.name||"첫 사업본부")}일 때 현황표에 없는 해의 인원 · 입퇴사로 쓰여요</small></td></tr>`
     +inRows('간접 인력',MIXK.filter(x=>x[1]==='간접'))+calcRow('pvsub','간접 인력 소계',m=>mSum(m,KI))
     +inRows('직접 인력',MIXK.filter(x=>x[1]==='직접'))+calcRow('pvsub','직접 인력 소계',m=>mSum(m,KD))
-    +inRows('',[['exec','','등기임원']])+calcRow('pvtot','총인원',m=>mSum(m,KA))
+    +inRows('',[['exec','','등기임원']])+calcRow('pvtot','총인원',(m,y)=>mSum(m,KA)??(y===cy&&ci>=0?`${planAgg(rows.filter(r=>r.si===0),ci).act} <small class="est">현재</small>`:null))
     +inRows('',[['join','','입사'],['leave','','퇴사']])+calcRow('pvsub','퇴직률 <small>퇴사 ÷ 총인원</small>',m=>{const t=mSum(m,KA),l=pNum(m.leave);return t&&l!=null?Math.round(l/t*100)+'%':null})
     +calcRow('pvsub','입사자 대비 퇴사 <small>퇴사 ÷ 입사</small>',m=>{const j=pNum(m.join),l=pNum(m.leave);return j&&l!=null?Math.round(l/j*100)+'%':null})
     +inRows('',[['labor','','인건비 <small>백만원</small>']])+calcRow('pvsub','인당매출 <small>별도 매출 ÷ 총인원 · 백만원</small>',(m,y)=>{const t=mSum(m,KA),s=pNum(planDoc(y).sales);return t&&s?(s/t).toFixed(1):null});
   const missNote=miss.length?`<p class="pvmiss">⚠ 표 구조에 없는 재직자 <b>${miss.reduce((s,x)=>s+x[1],0)}명</b> — ${miss.map(([t,n])=>`${esc(t)} ${n}명`).join(', ')}. <button class="pvlnk" data-act="pvLayout">표 구조</button>에서 알맞은 줄에 넣으면 총계가 명부와 맞아요.</p>`:'';
   return `<div class="pvkp">${KP.map(([l,v,u,s])=>`<div class="pvkc"><span>${l}</span><b>${typeof v==='number'?v.toLocaleString():v}<i>${u}</i></b><small>${s}</small></div>`).join('')}</div>
    <div class="pvcharts">
-    <section class="card pvchc"><div class="card-h"><h2>인원 변동</h2><span class="pvsub2">${esc(bk?.l||'')} · 지난 해는 전략회의 자료 · 막대 아래 입사 / 퇴사</span><span class="sp"></span><span class="pvlg"><i class="past"></i>실적<i class="cur"></i>현재<i class="fut"></i>계획<i class="tgk"></i>목표${MX.some(Boolean)?'<i class="lind"></i>간접<i class="ldir"></i>직접<i class="lex"></i>임원':''}${part.some(x=>x.length)?'<i class="prt"></i>일부 자료':''}</span></div>${chH}</section>
+    <section class="card pvchc"><div class="card-h"><h2>인원 변동</h2><span class="pvsub2">${esc(bk?.l||'')} · 최신 자료 기준(현황표 → 전략회의 → 명부) · 막대 아래 입사 / 퇴사</span><span class="sp"></span><span class="pvlg"><i class="past"></i>실적<i class="cur"></i>현재<i class="fut"></i>계획<i class="tgk"></i>목표${part.some(x=>x.length)?'<i class="prt"></i>일부 자료':''}</span></div>${chH}</section>
     <section class="card pvchc"><div class="card-h"><h2>매출 · 인당매출</h2><span class="pvsub2">DART 공시 연결 매출 · 막대 아래는 인당매출(÷ 총계)</span></div>${chS}</section>
    </div>
    <section class="card rec pvcard"><div class="recbar"><b>기간</b>${yrOpt('pvF',Y[0],cy-30,cy)}<span>~</span>${yrOpt('pvT',last,cy,cy+30)}
      <b style="margin-left:10px">그래프 · 인당매출 기준</b><select class="fsel" id="pvBase" aria-label="그래프와 인당매출 기준">${bases.map(b=>`<option value="${b.k}" ${b===bk?'selected':''}>${esc(b.l)}</option>`).join('')}</select>
-     <span class="sp" style="flex:1"></span><button class="btn sm" data-act="pvLayout">표 구조</button><button class="btn sm" data-act="pvPaste">엑셀 붙여넣기</button><button class="btn sm" data-act="pvCsv">CSV</button><button class="btn sm pri" data-act="pvPrint">인쇄 · PDF</button></div>
-    <p class="pvhelp"><span><i class="k1"></i>진한 숫자: 직접 넣은 값</span><span><i class="k2"></i>연한 숫자: 자동 계산(명부 · 전년 이어받기)</span><span><i class="k3"></i>회색 이름: 직접 입력하는 줄</span><span>칸을 눌러 바로 고치면 저장돼요</span></p>
+     <span class="sp" style="flex:1"></span>${st.pvEdit?'<button class="btn sm" data-act="pvLayout">표 구조</button><button class="btn sm" data-act="pvPaste">엑셀 붙여넣기</button>':''}<button class="btn sm" data-act="pvCsv">CSV</button><button class="btn sm pri" data-act="pvPrint">인쇄 · PDF</button></div>
+    <p class="pvhelp"><span><i class="k1"></i>진한 숫자: 직접 넣은 값</span><span><i class="k2"></i>연한 숫자: 자동 계산(명부 · 전년 이어받기)</span><span><i class="k3"></i>회색 이름: 직접 입력하는 줄</span><span>${st.pvEdit?'칸을 눌러 고치면 바로 저장돼요':'숫자를 고치려면 위 <b>✎ 수정</b>을 눌러요'}</span></p>
     ${missNote}
     <div class="rtw"><table class="pvt"><colgroup><col class="cg"><col class="cl">${Y.map(y=>y===cy?'<col><col><col>':'<col>').join('')}<col class="cn"></colgroup>
      <thead><tr><th colspan="2" rowspan="2" class="lh">구분</th>${Y.map(y=>y<cy?`<th rowspan="2">${y}<small>연말 실적</small></th>`:y===cy?`<th colspan="3" class="cur pvhd">${y}년 <small>올해</small></th>`:`<th rowspan="2" class="fut">${y}<small>계획</small></th>`).join('')}<th rowspan="2" class="lh">비고</th></tr>
@@ -3970,16 +3965,16 @@ async function planPasteGo(){
       fc=cols.findIndex(Boolean);if(fc<1)fc=1;continue}
     if(!cols)continue;
     if(fc>1&&c[0])grp=c[0];const label=c.slice(0,fc).filter(Boolean).pop()||'';const mk=pvMixKey(label,fc>1?grp:'');
-    if(mk){cols.forEach((m,j)=>{if(!m||m.note)return;const v=String(c[j]||'').replace(/[,명\s]/g,'');if(v===''||isNaN(+v))return;const d=doc(m.y);d.mix={...(d.mix||{}),[mk]:+v};n++});continue}
+    if(mk){cols.forEach((m,j)=>{if(!m||m.note)return;const v=String(c[j]||'').replace(/[,명\s]/g,''),clr=v==='-';if(!clr&&(v===''||isNaN(+v)))return;const d=doc(m.y);d.mix={...(d.mix||{}),[mk]:clr?null:+v};n++});continue}
     if(!label||/소계|합계|총\s*계|총인원|재직|퇴직률|전체|인당|^계$|\s계$/.test(label))continue;
     const sales=/매출/.test(label);
     cols.forEach((m,j)=>{if(!m)return;const raw=String(c[j]||'');
       if(m.note){if(sales||!raw)return;const d=doc(cy);d.depts=d.depts||{};(d.depts[label]=d.depts[label]||{}).note=raw;n++;return}
-      const v=raw.replace(/[,명\s]/g,'').replace(/^△/,'-');if(v===''||isNaN(+v))return;
-      const d=doc(m.y);if(sales){d[/연결|DART/i.test(label)?'salesC':'sales']=+v;n++;return}d.depts=d.depts||{};(d.depts[label]=d.depts[label]||{})[m.f]=+v;n++})}
+      const v=raw.replace(/[,명\s]/g,'').replace(/^△/,'-'),clr=v==='-';if(!clr&&(v===''||isNaN(+v)))return;const nv=clr?null:+v;
+      const d=doc(m.y);if(sales){d[/연결|DART/i.test(label)?'salesC':'sales']=nv;n++;return}d.depts=d.depts||{};(d.depts[label]=d.depts[label]||{})[m.f]=nv;n++})}
   if(!cols){toast('머리줄(예: 2024년 末 · 2026년 경영목표)을 찾지 못했어요');return}
   if(!n){toast('넣을 숫자를 찾지 못했어요');return}
-  await st.api.batch(Object.entries(docs).map(([y,d])=>({c:'plans',id:'plan-'+y,d:{depts:d.depts||{},...(d.sales!=null?{sales:d.sales}:{}),...(d.salesC!=null?{salesC:d.salesC}:{}),...(d.mix?{mix:d.mix}:{}),updatedAt:nowISO()}})));
+  await st.api.batch(Object.entries(docs).map(([y,d])=>({c:'plans',id:'plan-'+y,d:{depts:d.depts||{},...('sales' in d?{sales:d.sales??null}:{}),...('salesC' in d?{salesC:d.salesC??null}:{}),...(d.mix?{mix:d.mix}:{}),updatedAt:nowISO()}})));
   addLog(`인원계획 붙여넣기 · ${n}칸`);closeLayer();toast(`${n}칸을 넣었어요 (${Object.keys(docs).sort().join(', ')}년)`);
 }
 function planCsv(){
@@ -4013,7 +4008,8 @@ function planPrint(){
 
 function vPlan(){
   const tab=st.pvTab||'all',y=st.py||+today().slice(0,4);
-  return `<div class="segs ptabs">${[['all','인력 현황표'],['year',`연간 상세 (${y}년 · 월별)`]].map(([k,l])=>`<button class="${tab===k?'on':''}" data-act="pvTab" data-v="${k}">${l}</button>`).join('')}</div>${tab==='year'?vPlanYear():vPlanAll()}`;
+  const body=tab==='year'?vPlanYear():vPlanAll(),ro=h=>st.pvEdit?h:h.replace(/<input class="pin/g,'<input readonly tabindex="-1" class="pin');
+  return `<div class="pvtabrow"><div class="segs ptabs">${[['all','인력 현황표'],['year',`연간 상세 (${y}년 · 월별)`]].map(([k,l])=>`<button class="${tab===k?'on':''}" data-act="pvTab" data-v="${k}">${l}</button>`).join('')}</div><span class="sp" style="flex:1"></span>${st.pvEdit?'<span class="pvedit-on">수정 중 · 칸을 고치면 바로 저장돼요</span>':''}<button class="btn ${st.pvEdit?'pri':''}" data-act="pvEdit">${st.pvEdit?'✓ 수정 완료':'✎ 수정'}</button></div><div class="${st.pvEdit?'pved':'pvro'}">${ro(body)}</div>`;
 }
 function vPlanYear(){
   const y=st.py||+today().slice(0,4),pd=planDoc(y),td=today(),jan=`${y}-01-01`,dec=`${y}-12-31`,now=td<dec?td:dec;
@@ -5138,7 +5134,7 @@ const ACT={
   goPeople:a=>{st.ptab=a.dataset.v;goView('people');render()},
   py:a=>{st.py=(st.py||+today().slice(0,4))+(+a.dataset.v);render()},
   pvTab:a=>{st.pvTab=a.dataset.v;render()},pvYear:a=>{st.py=+a.dataset.v;st.pvTab='year';render()},pvFold:a=>{const f=st.pvFold||(st.pvFold=new Set());const k=a.dataset.v;f.has(k)?f.delete(k):f.add(k);render()},
-  pvPaste:()=>openPlanPaste(),pvPrint:()=>planPrint(),pvLayout:()=>openPlanLayout(),
+  pvPaste:()=>openPlanPaste(),pvPrint:()=>planPrint(),pvEdit:()=>{st.pvEdit=!st.pvEdit;render()},pvLayout:()=>openPlanLayout(),
   pvLaySave:async()=>{const v=$('#pvLay').value.trim();const L=planLayoutParse(v);if(!L.secs.length){toast('행이 하나도 없어요');return}await st.api.put('settings','main',{planLayout:v});addLog('인력 현황표 구조 저장');closeLayer();toast('표 구조를 저장했어요')},
   pvLayReset:()=>openConfirm('저장한 표 구조를 지우고 조직 구조로 만든 기본 표로 돌릴까요? 입력한 숫자는 그대로 남아요.',async()=>{await st.api.put('settings','main',{planLayout:null});toast('기본 구조로 돌렸어요')}),pvPasteGo:()=>planPasteGo(),pvCsv:()=>planCsv(),
   pteam:a=>{st.pteam=a.dataset.v;render()},
@@ -5220,6 +5216,90 @@ function toast(msg,undoable){
   $('#undoBtn')?.addEventListener('click',()=>{$('#toastRoot').innerHTML='';doUndo()});
   tTimer=setTimeout(()=>$('#toastRoot').innerHTML='',undoable?6000:2600);
 }
+
+/* ---------------- 날짜·시간: 숫자만 쳐도 자동 인식 (20261203 → 2026-12-03, 1800 → 18:00) */
+(()=>{
+  const pad=n=>String(n).padStart(2,'0');
+  const okD=(y,m,d)=>{const t=new Date(y,m-1,d);return y>=1900&&y<=2999&&t.getMonth()===m-1&&t.getDate()===d};
+  const mkD=(y,m,d)=>okD(y,m,d)?`${y}-${pad(m)}-${pad(d)}`:null;
+  const yy=v=>v<100?2000+v:v;
+  function parseD(s,el){
+    s=String(s||'').trim();if(!s)return null;
+    let m=s.match(/^(\d{2}|\d{4})\s*[-./년]\s*(\d{1,2})\s*[-./월]\s*(\d{1,2})\s*일?\.?$/);if(m)return mkD(yy(+m[1]),+m[2],+m[3]);
+    const b=((el&&el.value)||today()).split('-').map(Number);
+    m=s.match(/^(\d{1,2})\s*[-./월]\s*(\d{1,2})\s*일?\.?$/);if(m)return mkD(b[0],+m[1],+m[2]);
+    const g=s.replace(/\D/g,'');if(g.length!==s.replace(/\s/g,'').length)return null;
+    if(g.length===8)return mkD(+g.slice(0,4),+g.slice(4,6),+g.slice(6));
+    if(g.length===6)return mkD(2000+ +g.slice(0,2),+g.slice(2,4),+g.slice(4));
+    if(g.length===4)return mkD(b[0],+g.slice(0,2),+g.slice(2));
+    if(g.length===3)return mkD(b[0],+g.slice(0,1),+g.slice(1));
+    if(g.length>=1&&g.length<=2)return mkD(b[0],b[1],+g);
+    return null;
+  }
+  function parseM(s,el){
+    s=String(s||'').trim();if(!s)return null;const ok=(y,m)=>y>=1900&&y<=2999&&m>=1&&m<=12?`${y}-${pad(m)}`:null;
+    let m=s.match(/^(\d{2}|\d{4})\s*[-./년]\s*(\d{1,2})\s*월?\.?$/);if(m)return ok(yy(+m[1]),+m[2]);
+    const g=s.replace(/\D/g,''),by=+(((el&&el.value)||today()).slice(0,4));if(g.length!==s.length)return null;
+    if(g.length===6)return ok(+g.slice(0,4),+g.slice(4));
+    if(g.length===4)return ok(2000+ +g.slice(0,2),+g.slice(2));
+    if(g.length>=1&&g.length<=2)return ok(by,+g);
+    return null;
+  }
+  function parseT(s){
+    s=String(s||'').trim();if(!s)return null;
+    let m=s.match(/^(오전|오후)?\s*(\d{1,2})\s*(?:[:시.]\s*(\d{1,2})?\s*분?)?$/);
+    if(!m){const g=s.replace(/\D/g,'');if(g.length!==s.length||g.length<3||g.length>4)return null;m=[0,'',g.slice(0,-2),g.slice(-2)]}
+    let h=+m[2],mi=+(m[3]||0);if(m[1]==='오후'&&h<12)h+=12;if(m[1]==='오전'&&h===12)h=0;
+    return h<24&&mi<60?`${pad(h)}:${pad(mi)}`:null;
+  }
+  const isDT=el=>el instanceof HTMLInputElement&&(el.type==='date'||el.type==='month');
+  const isTM=el=>el instanceof HTMLInputElement&&el.hasAttribute('data-tm');
+  const tip=document.createElement('div');tip.className='dtip';
+  function show(el,msg,bad){
+    if(!msg){tip.remove();return}
+    const r=el.getBoundingClientRect();tip.textContent=msg;tip.classList.toggle('bad',!!bad);
+    tip.style.left=Math.max(8,r.left)+'px';tip.style.top=(r.bottom+4)+'px';if(!tip.isConnected)document.body.append(tip);
+  }
+  const fmtBuf=(b,type)=>{const g=b;if(/\D/.test(g))return g;return type==='month'?g.slice(0,4)+(g.length>4?'-'+g.slice(4):''):g.slice(0,4)+(g.length>4?'-'+g.slice(4,6):'')+(g.length>6?'-'+g.slice(6):'')};
+  function setVal(el,v){if(el.value===v)return;el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))}
+  function commit(el){
+    const b=el._db;el._db='';if(!b){show(el);return true}
+    const v=el.type==='month'?parseM(b,el):parseD(b,el);
+    if(!v){show(el,'날짜를 확인해 주세요 · '+b,true);setTimeout(()=>{if(!el._db)show(el)},1600);return false}
+    if(el.min&&v<el.min.slice(0,v.length)){show(el,el.min.slice(0,v.length)+' 이후로 넣어 주세요',true);setTimeout(()=>{if(!el._db)show(el)},1600);return false}
+    show(el);setVal(el,v);return true;
+  }
+  document.addEventListener('keydown',e=>{
+    const el=e.target;if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
+    if(isTM(el)){if(e.key==='Enter'){const v=parseT(el.value);if(v)el.value=v}return}
+    if(!isDT(el))return;
+    const full=el.type==='date'?8:6,k=e.key;
+    if(/^\d$/.test(k)||(/^[-./]$/.test(k)&&el._db)){
+      e.preventDefault();el._db=(el._db||'')+(/\d/.test(k)?k:'-');
+      const b=el._db,done=/^\d+$/.test(b)?b.length>=full:(el.type==='date'?/^\d{4}-\d{1,2}-\d{2}$/.test(b):/^\d{4}-\d{2}$/.test(b));
+      if(done)commit(el);else show(el,fmtBuf(b,el.type)+'  (Enter)');return;
+    }
+    if(/^[-./]$/.test(k)){e.preventDefault();return}
+    if(!el._db)return;
+    if(k==='Backspace'){e.preventDefault();el._db=el._db.slice(0,-1);show(el,el._db?fmtBuf(el._db,el.type)+'  (Enter)':'');return}
+    if(k==='Escape'){e.preventDefault();e.stopPropagation();el._db='';show(el);return}
+    if(k==='Enter'||k==='Tab'){if(!commit(el)&&k==='Enter'){e.preventDefault();e.stopPropagation()}}
+  },true);
+  document.addEventListener('focusout',e=>{const el=e.target;
+    if(isDT(el)&&el._db)commit(el);
+    else if(isTM(el)){const v=parseT(el.value);if(v&&v!==el.value)setVal(el,v)}
+  },true);
+  document.addEventListener('input',e=>{const el=e.target;if(!isTM(el)||e.isComposing)return;
+    const s=el.value.trim();if(/^\d{4}$/.test(s)){const v=parseT(s);if(v)el.value=v}
+  },true);
+  document.addEventListener('paste',e=>{const el=e.target;if(!isDT(el)&&!isTM(el))return;
+    const t=(e.clipboardData||window.clipboardData)?.getData('text')||'';const v=isTM(el)?parseT(t):el.type==='month'?parseM(t,el):parseD(t,el);
+    if(v){e.preventDefault();el._db='';show(el);setVal(el,v)}
+  },true);
+  addEventListener('scroll',()=>tip.isConnected&&tip.remove(),true);
+  const css=document.createElement('style');css.textContent='.dtip{position:fixed;z-index:9999;background:#1F2A30;color:#fff;font-size:13px;font-weight:700;padding:5px 9px;border-radius:6px;pointer-events:none;font-variant-numeric:tabular-nums;box-shadow:0 2px 8px rgba(0,0,0,.18)}.dtip.bad{background:#B3261E}';
+  document.head.append(css);
+})();
 </script>
 </body>
 </html>

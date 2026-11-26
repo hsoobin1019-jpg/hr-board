@@ -1182,6 +1182,18 @@ body{color:var(--ink)}
 .kev:hover{border-color:#CFC6FF;border-left-color:#7B61FF}
 .kevd{flex:none;width:36px;text-align:center;line-height:1.1}.kevd b{display:block;font-size:16px}.kevd small{font-size:11px;color:var(--mute)}
 .kevd.now b,.kevd.now small{color:#5B47D6;font-weight:700}
+/* ===== 왼쪽 색 줄 없애기 (보드·캘린더·주간·표 전체): 색은 작은 점으로만 ===== */
+.ce{border-left:0!important;padding-left:6px;--dc:var(--c,#B7C0C4)}
+.ce::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--dc);margin-right:5px;vertical-align:1px}
+.ce.in{--dc:#4FBFCF}.ce.out{--dc:#A3AEB4}.ce.iv{--dc:#8DB8F2}.ce.ev{--dc:#A496F2}.ce.tk{--dc:#F4BE72}.ce.tl{--dc:#B7C0C4}.ce.late{--dc:#F29489}
+.wkc2{border-left:0!important}
+.kc.late,.pc.late{box-shadow:0 1px 2px rgba(22,35,42,.06)!important}
+.kev{border-left-width:1px!important}
+.kmini.evnow,.kev.evnow{box-shadow:none!important}
+.lg-ev{border-left:0!important}
+.rtab.ros tr.rg-t td{border-left:0!important}
+.legend.lgdot i{width:8px;height:8px;border-radius:50%;background:var(--dc)!important;vertical-align:0}
+
 /* ===== 업무 보드 v2: 파스텔 · 정기 칸 · ★ 중요 글자표 ===== */
 .kb{--pa:#4FBFCF;--pa-ink:#1E93A5;--pa-soft:#E4F6F8;--pa-line:#BDE6EC;--pd:#7CCB9E;--pd-ink:#3E9F6A;--pl:#F29489;--pl-ink:#D9574C;--pl-soft:#FDEDEB;--ps:#F4BE72;--ps-ink:#C2841F;--pst:#F2C14E;--pst-ink:#B5850F;--pst-soft:#FFF6DC;--pst-line:#F5E2A8;--pv:#A496F2}
 .kb .kdot{width:8px;height:8px}
@@ -1205,10 +1217,10 @@ body{color:var(--ink)}
 .rtl{display:flex;flex-direction:column;gap:5px}
 .rtr{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:11px;background:#fff;border:1px solid #EEF2F3;cursor:pointer;transition:border-color .15s,background .15s}
 .rtr:hover{border-color:#D3DCDF;background:#FBFCFC}
-.rtr.dg{background:var(--pa-soft);border-color:var(--pa-line)}
-.rtr.rl{border-color:#F7D3CE}
-.rtr.pl{background:#FBFCFC;border-style:dashed}
-.rtr.dn .rtt b{color:var(--mute);text-decoration:line-through;font-weight:500}
+.rtr.rt-dg{background:var(--pa-soft);border-color:var(--pa-line)}
+.rtr.rt-rl{border-color:#F7D3CE}
+.rtr.rt-pl{background:#FBFCFC;border-style:dashed}
+.rtr.rt-dn .rtt b{color:var(--mute);text-decoration:line-through;font-weight:500}
 .rtck{all:unset;cursor:pointer;width:19px;height:19px;flex:none;display:grid;place-items:center;border-radius:50%}
 .rtck svg{width:19px;height:19px}
 button.rtck:hover svg circle{stroke:var(--pa)}
@@ -1220,7 +1232,7 @@ button.rtck:focus-visible{outline:2px solid var(--pa);outline-offset:2px}
 .rtx small{display:block;font-size:11.5px;color:var(--mute);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rtd{flex:none;text-align:right;font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums;line-height:1.35}
 .rtd b{display:block;font-size:11px;font-weight:700}
-.rtr.dg .rtd b{color:var(--pa-ink)}.rtr.rl .rtd b{color:var(--pl-ink)}.rtr.sn .rtd b{color:var(--ps-ink)}.rtr.dn .rtd b{color:var(--pd-ink)}.rtr.pl .rtd b{color:#A3AEB4;font-weight:600}
+.rtr.rt-dg .rtd b{color:var(--pa-ink)}.rtr.rt-rl .rtd b{color:var(--pl-ink)}.rtr.rt-sn .rtd b{color:var(--ps-ink)}.rtr.rt-dn .rtd b{color:var(--pd-ink)}.rtr.rt-pl .rtd b{color:#A3AEB4;font-weight:600}
 .rtdone{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:6px;width:100%;margin-top:8px;padding:8px 10px;border-radius:10px;font-size:12.5px;font-weight:700;color:#5F6E75}
 .rtdone:hover{background:#F5F8F9}.rtdone .c{color:var(--pd-ink)}.rtdone .nm{font-weight:500;color:var(--mute);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rtdone i{margin-left:auto;font-style:normal;color:#A3AEB4}
 .rtdone+.rtl{margin-top:4px}
@@ -1646,7 +1658,7 @@ input[type=checkbox]{accent-color:var(--pri);width:16px;height:16px;vertical-ali
   <div class="shell">
     <aside class="side">
       <nav class="nav navtop" id="navHome"></nav>
-      <a class="nav-q" href="#tasks" data-quick="me"><span class="hi hi-sug nqi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4.5" width="15" height="15" rx="3.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><span class="nqt"><b>남은 업무</b><small id="nqMe">&nbsp;</small></span><span class="nqa">›</span></a>
+      <a class="nav-q" href="#tasks" data-quick="me"><span class="hi hi-sug nqi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4.5" width="15" height="15" rx="3.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><span class="nqt"><b>업무 종합</b><small id="nqMe">&nbsp;</small></span><span class="nqa">›</span></a>
       <a class="nav-q" href="#calendar"><span class="hi hi-stat nqi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="14.5" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg></span><span class="nqt"><b>캘린더</b><small id="nqRt">&nbsp;</small></span><span class="nqa">›</span></a>
       <a class="nav-q" href="#routines"><span class="hi hi-rt nqi" id="nqRtnIc"></span><span class="nqt"><b id="nqRtnB">정기업무</b><small id="nqRtn">&nbsp;</small></span><span class="nqa">›</span></a>
       <nav class="nav" id="nav"></nav>
@@ -2525,8 +2537,8 @@ function boardHtml(L){
   // 정기 칸: 정기업무는 여기에만 (진행중이어도 여기서 '진행중'으로 보여요)
   const rtRow=t=>{const td=today(),n=t.due?diffD(t.due,td):null,c=t.chk||[],done=t.status==='done',late=!done&&isLate(t),dg=t.status==='doing';
     const [k,lb]=done?['dn','완료']:late?['rl',(-n)+'일 지남']:dg?['dg','진행중']:n===0?['sn','오늘']:n!=null&&n<=(t.remind??3)?['sn','D-'+n]:['n',''];
-    return `<div class="rtr ${k}" draggable="true" data-drag="${t.id}" data-open="${t.id}"><button class="rtck" data-act="rtStep" data-id="${t.id}" draggable="false" title="${done?'완료 취소':dg?'완료로 바꾸기':'진행중으로 바꾸기'}" aria-label="${done?'완료 취소':dg?'완료':'진행중으로'}">${RTRING[k==='sn'?'n':k]}</button><span class="rtx"><span class="rtt"><b>${t.star&&!done?'<span class="rts">★</span>':''}${esc(t.title)}</b></span><small>${[c.length?`단계 ${c.filter(x=>x.done).length}/${c.length}`:'',t.cat||''].filter(Boolean).map(esc).join(' · ')||'&nbsp;'}</small></span><span class="rtd">${t.due?md(t.due):''}${lb?`<b>${lb}</b>`:''}</span></div>`};
-  const rtPlan=x=>`<div class="rtr pl" data-rt="${x.r.id}"><span class="rtck">${RTRING.pl}</span><span class="rtx"><span class="rtt"><b>${esc(x.r.title)}</b></span><small>아직 업무로 안 만들어졌어요</small></span><span class="rtd">${md(x.o.due)}<b>예정</b></span></div>`;
+    return `<div class="rtr rt-${k}" draggable="true" data-drag="${t.id}" data-open="${t.id}"><button class="rtck" data-act="rtStep" data-id="${t.id}" draggable="false" title="${done?'완료 취소':dg?'완료로 바꾸기':'진행중으로 바꾸기'}" aria-label="${done?'완료 취소':dg?'완료':'진행중으로'}">${RTRING[k==='sn'?'n':k]}</button><span class="rtx"><span class="rtt"><b>${t.star&&!done?'<span class="rts">★</span>':''}${esc(t.title)}</b></span><small>${[c.length?`단계 ${c.filter(x=>x.done).length}/${c.length}`:'',t.cat||''].filter(Boolean).map(esc).join(' · ')||'&nbsp;'}</small></span><span class="rtd">${t.due?md(t.due):''}${lb?`<b>${lb}</b>`:''}</span></div>`};
+  const rtPlan=x=>`<div class="rtr rt-pl" data-rt="${x.r.id}"><span class="rtck">${RTRING.pl}</span><span class="rtx"><span class="rtt"><b>${esc(x.r.title)}</b></span><small>아직 업무로 안 만들어졌어요</small></span><span class="rtd">${md(x.o.due)}<b>예정</b></span></div>`;
   const rtCol=()=>{const td=today(),cy=+td.slice(0,4),cm=+td.slice(5,7),A=monthOcc(cy,cm),tot=A.length;
     const nD=A.filter(x=>x.t?.status==='done').length,nG=A.filter(x=>x.t?.status==='doing').length,nL=A.filter(x=>occState(x)[0]==='late').length;
     if(ksh.has('rt'))return shutCol('rt',`정기 · ${cm}월`,`${nD}/${tot}`);
@@ -2650,7 +2662,7 @@ function vCal(){
       <label class="chkl cfd"><input type="checkbox" id="calDone" ${F.done?'checked':''}> 완료한 업무도 보기</label>
       ${dirty?'<button class="btn sm" data-act="calReset">거르기 초기화</button>':''}</div>
     <div class="cal">${['일','월','화','수','목','금','토'].map((w,i)=>`<div class="wd ${i===0?'sun':i===6?'sat':''}">${w}</div>`).join('')}${cells}</div>
-    <div class="legend"><span><i class="lg-ev"></i>일정</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('인사')}"></i>업무 · 인사</span><span><i style="background:#f1f2f5;border-left:3px solid ${sideCol('기타')}"></i>업무 · 기타</span><span><i style="background:var(--red-soft)"></i>기한 지남</span><span><i style="background:var(--pri-soft);border-left:3px solid var(--cyan)"></i>입사</span><span><i style="background:#E6F0FF;border-left:3px solid #3D5BD9"></i>면접</span><span><i style="background:#FFF8E6;border-left:3px solid #F59E0B"></i>수습·계약</span><span>▸ 기간 업무 시작</span></div>
+    <div class="legend lgdot"><span><i style="--dc:#A496F2"></i>일정</span><span><i style="--dc:${sideCol('인사')}"></i>업무 · 인사</span><span><i style="--dc:${sideCol('기타')}"></i>업무 · 기타</span><span><i style="--dc:#F29489"></i>기한 지남</span><span><i style="--dc:#4FBFCF"></i>입사</span><span><i style="--dc:#8DB8F2"></i>면접</span><span><i style="--dc:#F4BE72"></i>수습·계약</span><span>▸ 기간 업무 시작</span></div>
   </section>
   <aside class="card calday"><div class="cdh"><div><b>${+c.sel.slice(5,7)}월 ${+c.sel.slice(8)}일 (${dow(c.sel)})</b>${holidays()[c.sel]?`<small class="hn2">${esc(holidays()[c.sel])}</small>`:''}${c.sel===t?'<small class="tdy">오늘</small>':''}</div><span class="note">${sel.length}건</span></div>
     <div class="cdq"><button class="btn sm" data-act="newTask" data-due="${c.sel}" data-mode="event">+ 이날에 추가 (일정 · 업무)</button></div>

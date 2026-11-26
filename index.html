@@ -130,7 +130,7 @@ select.inp{padding-right:30px}
 .tile .v{font-size:34px;font-weight:700;color:var(--blue);line-height:1.1}
 .tile .l{font-weight:700;margin-top:10px;font-size:15px}
 .tile.hot .v{color:var(--red)}
-.tile.warm .v{color:var(--orange)}
+.tile.warm .v{color:#C2841F}
 
 /* ---------- list rows ---------- */
 .rows{display:flex;flex-direction:column}
@@ -251,7 +251,7 @@ select.inp{padding-right:30px}
 .ce.done{opacity:.5;text-decoration:line-through}
 .ce.late{background:var(--red-soft);color:#b42318}
 .ce.in{background:#e8f0ff;border-left-color:var(--blue)}
-.ce.out{background:var(--orange-soft);border-left-color:var(--orange)}
+.ce.out{background:var(--orange-soft);border-left-color:#C2841F}
 .ce.mid{opacity:.7}
 .more{font-size:11px;color:var(--mute);margin-top:3px;padding-left:4px}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink2);margin-top:14px}
@@ -1195,7 +1195,7 @@ body{color:var(--ink)}
 .legend.lgdot i{width:8px;height:8px;border-radius:50%;background:var(--dc)!important;vertical-align:0}
 
 /* ===== 업무 보드 v2: 파스텔 · 정기 칸 · ★ 중요 글자표 ===== */
-.kb{--pa:#4FBFCF;--pa-ink:#1E93A5;--pa-soft:#E4F6F8;--pa-line:#BDE6EC;--pd:#7CCB9E;--pd-ink:#3E9F6A;--pl:#F29489;--pl-ink:#D9574C;--pl-soft:#FDEDEB;--ps:#F4BE72;--ps-ink:#C2841F;--pst:#F2C14E;--pst-ink:#B5850F;--pst-soft:#FFF6DC;--pst-line:#F5E2A8;--pv:#A496F2}
+.kb{--pa:#4FBFCF;--pa-ink:#1E93A5;--pa-soft:#E4F6F8;--pa-line:#BDE6EC;--pd:#7CCB9E;--pd-ink:#3E9F6A;--pl:#F29489;--pl-ink:#D9574C;--pl-soft:#FDEDEB;--ps:#F4BE72;--ps-ink:#A8700F;--pst:#F2C14E;--pst-ink:#B5850F;--pst-soft:#FFF6DC;--pst-line:#F5E2A8;--pv:#A496F2}
 .kb .kdot{width:8px;height:8px}
 .kb .kdot.s-todo{background:#B7C0C4}.kb .kdot.s-doing,.kb .kdot.s-rt{background:var(--pa)}.kb .kdot.s-done{background:var(--pd)}.kb .kdot.s-hold{background:var(--ps)}.kb .kdot.s-ev{background:var(--pv)}
 .kb .kc.late{box-shadow:0 1px 2px rgba(22,35,42,.06)}
@@ -1205,7 +1205,7 @@ body{color:var(--ink)}
 .kc .kmeta .cc{background:none!important;border:0!important;padding:0;color:#5F6E75;font-weight:600;display:inline-flex;align-items:center;gap:5px}
 .kc .kmeta .cc::before{content:'';width:7px;height:7px;border-radius:2px;background:var(--tone,#B7C0C4)}
 .kc .cc.t-a{--tone:#F4BE72}.kc .cc.t-b{--tone:#8DB8F2}.kc .cc.t-c{--tone:#4FBFCF}.kc .cc.t-g{--tone:#7CCB9E}.kc .cc.t-s{--tone:#B7C0C4}.kc .cc.t-r{--tone:#F29489}
-.kc .kdue.late{color:var(--pl-ink)}.kc .kdue.soon{color:var(--ps-ink)}
+.kc .kdue.late{background:var(--pl-soft);color:var(--pl-ink);font-weight:700}.kc .kdue.soon{background:#FEF4E4;color:var(--ps-ink);font-weight:700}.kc .kchk.all{background:#E9F7EF;color:var(--pd-ink)}
 /* 정기 칸 */
 .k-rt{background:#fff;border:1px solid var(--pa-line);box-shadow:0 1px 3px rgba(30,147,165,.06)}
 .k-rt .kh{padding-bottom:4px}
@@ -1228,7 +1228,7 @@ button.rtck:focus-visible{outline:2px solid var(--pa);outline-offset:2px}
 .rtx{flex:1;min-width:0}
 .rtt{display:flex;align-items:center;gap:6px;min-width:0}
 .rtt b{font-size:13.5px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.rts{color:#F2C14E;margin-right:5px;font-size:12px}
+.rts{color:#E2A93B;margin-right:5px;font-size:12px}
 .rtx small{display:block;font-size:11.5px;color:var(--mute);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rtd{flex:none;text-align:right;font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums;line-height:1.35}
 .rtd b{display:block;font-size:11px;font-weight:700}
@@ -1581,10 +1581,10 @@ button.oc-who:hover{background:#E5EAF4}
 .nav a.on .nsub{color:var(--mint-700)}
 .nav a .cnt{min-width:20px;height:20px;font-size:11px}
 .nav-grp{margin-top:4px}.nav-grp.nav-top{margin-top:2px}
-.nav-gh{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:6px;width:100%;margin:8px 0 3px;padding:4px 8px;border-radius:8px;font-size:12px;font-weight:700;color:#8C989E;letter-spacing:.3px;cursor:pointer}
+.nav-gh{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:6px;width:100%;margin:8px 0 3px;padding:4px 8px;border-radius:8px;font-size:12px;font-weight:700;color:#6B787F;letter-spacing:.3px;cursor:pointer}
 .nav-gh:hover{background:var(--field);color:#4A565C}
 .nav-gh:focus-visible{outline:2px solid var(--cyan)}
-.nav-gh .nchv{margin-left:auto;font-size:10px;color:#A3AEB4}
+.nav-gh .nchv{margin-left:auto;font-size:10px;color:#8C989E}
 .nav-gh .cnt{min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 5px}
 .nav-grp.shut .nav-items{display:none}
 .nav-util{margin-top:auto;padding-top:12px;border-top:1px solid var(--line2,#EEF1F3);display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
@@ -2429,7 +2429,7 @@ function dueLabel(t){
   if(t.status==='done')return `<span class="dd">${md(t.due)}</span>`;
   if(n<0)return `<span class="dd late">${-n}일 지남</span>`;
   if(n===0)return `<span class="dd late">오늘</span>`;
-  return `<span class="dd">${n<=(t.remind??3)?'<b style="color:var(--orange)">D-'+n+'</b> · ':''}${t.start&&t.start!==t.due?md(t.start)+'~':''}${md(t.due)}(${dow(t.due)})</span>`;
+  return `<span class="dd">${n<=(t.remind??3)?'<b style="color:#C2841F">D-'+n+'</b> · ':''}${t.start&&t.start!==t.due?md(t.start)+'~':''}${md(t.due)}(${dow(t.due)})</span>`;
 }
 function rowHtml(t){return `<div class="row" data-open="${t.id}"><div class="tt"><b>${t.star?'<span style="color:#f5b301">★</span> ':''}${esc(t.title)}</b><small>${esc(t.cat||'')}${t.rid?' · 정기':''}${t.memo?` · ${esc(t.memo.slice(0,60))}`:''}</small></div>${dueLabel(t)}<span class="pill s-${t.status}">${SL[t.status]}</span></div>`}
 

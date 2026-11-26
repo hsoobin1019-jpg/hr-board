@@ -2232,9 +2232,8 @@ function renderNav(){
   // 홈은 맨 위 · 캘린더 카드에는 오늘·이번 주 마감 건수
   if($('#navHome'))$('#navHome').innerHTML=`<a href="#home" class="${st.view==='home'?'on':''}"><span class="ni">${ic('home',19)}</span><span class="nl">홈</span></a>`;
   const wsd=weekStart(td),opn=live().filter(x=>x.status!=='done'&&x.due),dT=opn.filter(x=>x.due===td).length,dW=opn.filter(x=>x.due>=wsd&&x.due<=addD(wsd,6)).length;
-  {const EVs=[...(st.events?.values()||[])],tm=e=>e.time?e.time+' ':'',evT=EVs.filter(e=>evOn(e,td)).sort((a,b)=>(a.time||'').localeCompare(b.time||'')),nx=EVs.filter(e=>e.start>td&&e.start<=addD(td,14)).sort((a,b)=>(a.start+(a.time||'')).localeCompare(b.start+(b.time||'')))[0];
-   const t=evT.length?`오늘 ${tm(evT[0])}${evT[0].title}${evT.length>1?` 외 ${evT.length-1}`:''}`:nx?`${md(nx.start)}(${dow(nx.start)}) ${tm(nx)}${nx.title}`:'2주 안 일정 없음';
-   if($('#nqRt')){$('#nqRt').textContent=t;$('#nqRt').classList.toggle('today',!!evT.length);$('#nqRt').title=t}}
+  {const EVs=[...(st.events?.values()||[])],tmr=addD(td,1),nT=EVs.filter(e=>evOn(e,td)).length,nM=EVs.filter(e=>evOn(e,tmr)).length,t=`오늘 일정 ${nT}건 · 내일 ${nM}건`;
+   if($('#nqRt')){$('#nqRt').textContent=t;$('#nqRt').classList.toggle('today',nT>0)}}
   {const rd=rt.filter(x=>x.status==='done').length;if($('#nqRtn'))$('#nqRtn').textContent=rt.length?(rd===rt.length?`이번 달 ${rt.length}건 모두 끝`:`이번 달 ${rd}/${rt.length} 완료`):'이번 달 정기업무 없음';if($('#nqRtnIc')&&!$('#nqRtnIc').innerHTML)$('#nqRtnIc').innerHTML=ic('routines',18)}
   document.querySelectorAll('.nav-q').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+st.view));
   const mob=[['home','홈'],['tasks','업무'],['calendar','캘린더'],['routines','정기업무'],['more','더보기']];
